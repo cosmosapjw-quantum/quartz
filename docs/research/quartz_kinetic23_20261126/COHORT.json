@@ -1,0 +1,3805 @@
+{
+  "NN": 157906,
+  "counts": {
+    "CAL": 56,
+    "TEST": 71,
+    "TRAIN": 127
+  },
+  "plan": "f34dc6577f1cdc99e80d5cbf342ff5531a34796d48b9c34d04b5a0589e200ee4",
+  "plies": 9659,
+  "queries": 5350,
+  "roots": [
+    {
+      "depth": 26,
+      "family": "37571317",
+      "group": "TRAIN",
+      "history": "37571317741143443727155546",
+      "id": 2,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "12126567",
+      "group": "TRAIN",
+      "history": "767623214412442114313717",
+      "id": 3,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "42445672",
+      "group": "TRAIN",
+      "history": "4644321643323331412112466656",
+      "id": 5,
+      "legal": [
+        0,
+        1,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "12361355",
+      "group": "TRAIN",
+      "history": "765275333235232622536656561111",
+      "id": 13,
+      "legal": [
+        0,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "43135432",
+      "group": "TRAIN",
+      "history": "43135432452452325133277666",
+      "id": 15,
+      "legal": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "34526345",
+      "group": "TRAIN",
+      "history": "3452634545355624733665464161",
+      "id": 17,
+      "legal": [
+        0,
+        1,
+        2,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "31447135",
+      "group": "TRAIN",
+      "history": "574417535574336122421342233475",
+      "id": 21,
+      "legal": [
+        0,
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "36126662",
+      "group": "TRAIN",
+      "history": "361266624441332254532334",
+      "id": 23,
+      "legal": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "16567666",
+      "group": "TRAIN",
+      "history": "165676663542454453434337265723",
+      "id": 26,
+      "legal": [
+        0,
+        1,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "22345277",
+      "group": "TRAIN",
+      "history": "665436115335444322221665232341",
+      "id": 31,
+      "legal": [
+        0,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "34321313",
+      "group": "TRAIN",
+      "history": "545675757746455424466763232227",
+      "id": 35,
+      "legal": [
+        0,
+        1,
+        2,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "36367366",
+      "group": "TRAIN",
+      "history": "363673663454344575547772722252",
+      "id": 36,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "14764371",
+      "group": "TRAIN",
+      "history": "147643715343364424222736657626",
+      "id": 38,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "42755612",
+      "group": "TRAIN",
+      "history": "427556125445221423771174",
+      "id": 40,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "43156435",
+      "group": "TRAIN",
+      "history": "431564354552532223464413366611",
+      "id": 50,
+      "legal": [
+        0,
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "21213764",
+      "group": "TRAIN",
+      "history": "212137642242143334144711277755",
+      "id": 51,
+      "legal": [
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "42655222",
+      "group": "TRAIN",
+      "history": "4265522251233346553444323471",
+      "id": 52,
+      "legal": [
+        0,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "15615124",
+      "group": "TRAIN",
+      "history": "1561512452124644214127475576",
+      "id": 53,
+      "legal": [
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "26674653",
+      "group": "TRAIN",
+      "history": "622142354441353345553222346665",
+      "id": 54,
+      "legal": [
+        0,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "13721661",
+      "group": "TRAIN",
+      "history": "751672274441461244663533261311",
+      "id": 56,
+      "legal": [
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "25757742",
+      "group": "TRAIN",
+      "history": "6313114631444346575556631456",
+      "id": 60,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "36625611",
+      "group": "TRAIN",
+      "history": "36625611433644242234432325",
+      "id": 63,
+      "legal": [
+        0,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "27642214",
+      "group": "TRAIN",
+      "history": "276422144427377773433626266361",
+      "id": 65,
+      "legal": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "33321325",
+      "group": "TRAIN",
+      "history": "33321325555212667664474437",
+      "id": 66,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "37244336",
+      "group": "TRAIN",
+      "history": "51644552344467665177557332",
+      "id": 69,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "24277177",
+      "group": "TRAIN",
+      "history": "646117114446174776173755556323",
+      "id": 71,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "32765324",
+      "group": "TRAIN",
+      "history": "561235645366563355212223367271",
+      "id": 74,
+      "legal": [
+        0,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "43731716",
+      "group": "TRAIN",
+      "history": "451571725442447773322335",
+      "id": 76,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "24354424",
+      "group": "TRAIN",
+      "history": "243544242253613365566265623443",
+      "id": 79,
+      "legal": [
+        0,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "32573611",
+      "group": "TRAIN",
+      "history": "563152775544743445336431766257",
+      "id": 80,
+      "legal": [
+        0,
+        1,
+        2,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "15175623",
+      "group": "TRAIN",
+      "history": "737132654334455427322141112155",
+      "id": 81,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "34643574",
+      "group": "TRAIN",
+      "history": "54245314475526223336366622",
+      "id": 93,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "34317441",
+      "group": "TRAIN",
+      "history": "54571447554512441132366223",
+      "id": 95,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "27175251",
+      "group": "TRAIN",
+      "history": "6171363745331453454415667774",
+      "id": 98,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "25761215",
+      "group": "TRAIN",
+      "history": "631276734532444535515111",
+      "id": 99,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "21742173",
+      "group": "TRAIN",
+      "history": "67146715477441665233655473",
+      "id": 109,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "32117424",
+      "group": "TRAIN",
+      "history": "3211742444221727141125755577",
+      "id": 110,
+      "legal": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "24435123",
+      "group": "TRAIN",
+      "history": "244351234335752235534446212667",
+      "id": 113,
+      "legal": [
+        0,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "15322326",
+      "group": "TRAIN",
+      "history": "735665625144443326565564772322",
+      "id": 114,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "36133414",
+      "group": "TRAIN",
+      "history": "52755474431454123355316221",
+      "id": 117,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "32636575",
+      "group": "TRAIN",
+      "history": "326365756653223216535562217177",
+      "id": 118,
+      "legal": [
+        0,
+        2,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "15337653",
+      "group": "TRAIN",
+      "history": "73551235355324743544463647",
+      "id": 120,
+      "legal": [
+        0,
+        1,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "22713166",
+      "group": "TRAIN",
+      "history": "661757224342443335555222436771",
+      "id": 121,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "35545417",
+      "group": "TRAIN",
+      "history": "533434712714453352242522771115",
+      "id": 123,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "12316162",
+      "group": "TRAIN",
+      "history": "765727264347734433226623241467",
+      "id": 127,
+      "legal": [
+        0,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "33643356",
+      "group": "TRAIN",
+      "history": "3364335635445522472222453117",
+      "id": 133,
+      "legal": [
+        0,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "22465773",
+      "group": "TRAIN",
+      "history": "22465773444624266622333717",
+      "id": 135,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "31565335",
+      "group": "TRAIN",
+      "history": "573235533546666442145747775226",
+      "id": 136,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "42551617",
+      "group": "TRAIN",
+      "history": "4633727134421223464477612671",
+      "id": 139,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "27532115",
+      "group": "TRAIN",
+      "history": "275321155244744533123636226645",
+      "id": 141,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "33337257",
+      "group": "TRAIN",
+      "history": "555516314264423362276654342211",
+      "id": 145,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "24526424",
+      "group": "TRAIN",
+      "history": "6436246445334555321222325566",
+      "id": 146,
+      "legal": [
+        0,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "24263372",
+      "group": "TRAIN",
+      "history": "24263372273345446525577766",
+      "id": 147,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "13511645",
+      "group": "TRAIN",
+      "history": "1351164555334436664424222126",
+      "id": 148,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "34475375",
+      "group": "TRAIN",
+      "history": "544135134572534421312223432711",
+      "id": 158,
+      "legal": [
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "14514671",
+      "group": "TRAIN",
+      "history": "145146714734637545542323321163",
+      "id": 159,
+      "legal": [
+        0,
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "36311344",
+      "group": "TRAIN",
+      "history": "525775444456641326672722277653",
+      "id": 161,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "41614735",
+      "group": "TRAIN",
+      "history": "4727415324447531533215214322",
+      "id": 164,
+      "legal": [
+        0,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "14175165",
+      "group": "TRAIN",
+      "history": "7471372334451525566226776425",
+      "id": 165,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "37676231",
+      "group": "TRAIN",
+      "history": "3767623145454457732152554111",
+      "id": 171,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "14472743",
+      "group": "TRAIN",
+      "history": "14472743147723356261126666",
+      "id": 175,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "26263274",
+      "group": "TRAIN",
+      "history": "262632742336644555234144",
+      "id": 176,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "26677311",
+      "group": "TRAIN",
+      "history": "622115774442424412231175655335",
+      "id": 180,
+      "legal": [
+        0,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "35777772",
+      "group": "TRAIN",
+      "history": "3577777255544445746362666325",
+      "id": 182,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "17471773",
+      "group": "TRAIN",
+      "history": "174717734441143557375533",
+      "id": 187,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "16371754",
+      "group": "TRAIN",
+      "history": "7251713443431557233544222213",
+      "id": 191,
+      "legal": [
+        0,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "11112333",
+      "group": "TRAIN",
+      "history": "777765555212622433664343364412",
+      "id": 192,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "42766321",
+      "group": "TRAIN",
+      "history": "42766321444333731422141126",
+      "id": 201,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "31221514",
+      "group": "TRAIN",
+      "history": "576673744445553336776676124145",
+      "id": 202,
+      "legal": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "35211216",
+      "group": "TRAIN",
+      "history": "3521121611547442447577717435",
+      "id": 209,
+      "legal": [
+        1,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "44364535",
+      "group": "TRAIN",
+      "history": "445243534336553644266525",
+      "id": 211,
+      "legal": [
+        0,
+        1,
+        2,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "11342424",
+      "group": "TRAIN",
+      "history": "7754646443555333721212211174",
+      "id": 213,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "12461574",
+      "group": "TRAIN",
+      "history": "764273144426171111266757753322",
+      "id": 214,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "11776452",
+      "group": "TRAIN",
+      "history": "11776452446466752522744551",
+      "id": 217,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "43351612",
+      "group": "TRAIN",
+      "history": "433516123633111412422244663476",
+      "id": 218,
+      "legal": [
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "43673226",
+      "group": "TRAIN",
+      "history": "452156624564457766774554122161",
+      "id": 223,
+      "legal": [
+        0,
+        1,
+        2,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "14633135",
+      "group": "TRAIN",
+      "history": "146331352666334442752552",
+      "id": 228,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "25237745",
+      "group": "TRAIN",
+      "history": "636511433444355665334165411157",
+      "id": 233,
+      "legal": [
+        1,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "34536472",
+      "group": "TRAIN",
+      "history": "5435241645242253613136762667",
+      "id": 235,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "24357623",
+      "group": "TRAIN",
+      "history": "243576236355224743325366515662",
+      "id": 242,
+      "legal": [
+        0,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "34432171",
+      "group": "TRAIN",
+      "history": "544567174774575766635543133263",
+      "id": 247,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "34232722",
+      "group": "TRAIN",
+      "history": "546561665127511671444455717774",
+      "id": 254,
+      "legal": [
+        1,
+        2,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "43476637",
+      "group": "TRAIN",
+      "history": "454122514451115533323622332144",
+      "id": 262,
+      "legal": [
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "23633361",
+      "group": "TRAIN",
+      "history": "23633361112212414441235757",
+      "id": 266,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "27634231",
+      "group": "TRAIN",
+      "history": "276342314364435553356654512646",
+      "id": 267,
+      "legal": [
+        0,
+        1,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "36365513",
+      "group": "TRAIN",
+      "history": "363655135135424244536614212322",
+      "id": 268,
+      "legal": [
+        0,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "25355232",
+      "group": "TRAIN",
+      "history": "253552323353622541636652444747",
+      "id": 269,
+      "legal": [
+        0,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "33567261",
+      "group": "TRAIN",
+      "history": "33567261335552665221511311",
+      "id": 273,
+      "legal": [
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "31256427",
+      "group": "TRAIN",
+      "history": "576324614441353111334175",
+      "id": 274,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "15646146",
+      "group": "TRAIN",
+      "history": "7324274242443363722334767766",
+      "id": 276,
+      "legal": [
+        0,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "32752113",
+      "group": "TRAIN",
+      "history": "561367755335437446643745646577",
+      "id": 279,
+      "legal": [
+        0,
+        1,
+        2
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "35244274",
+      "group": "TRAIN",
+      "history": "5364461445336565537336542641",
+      "id": 280,
+      "legal": [
+        0,
+        1,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "15143176",
+      "group": "TRAIN",
+      "history": "151431764545564477232322133212",
+      "id": 281,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "22112226",
+      "group": "TRAIN",
+      "history": "221122264344433123155516345667",
+      "id": 284,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "36425671",
+      "group": "TRAIN",
+      "history": "524632175655334422345447662325",
+      "id": 289,
+      "legal": [
+        0,
+        2,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "25617556",
+      "group": "TRAIN",
+      "history": "25617556447244676571411177",
+      "id": 291,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "43544741",
+      "group": "TRAIN",
+      "history": "43544741443333565512562222",
+      "id": 292,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "22577554",
+      "group": "TRAIN",
+      "history": "663113343644466155525547674777",
+      "id": 293,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "32434613",
+      "group": "TRAIN",
+      "history": "32434613443364665554525522",
+      "id": 294,
+      "legal": [
+        0,
+        1,
+        2,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "24274466",
+      "group": "TRAIN",
+      "history": "242744662247342777331132111716",
+      "id": 296,
+      "legal": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "32213113",
+      "group": "TRAIN",
+      "history": "32213113544545255234232345",
+      "id": 302,
+      "legal": [
+        0,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "26234265",
+      "group": "TRAIN",
+      "history": "62654623133444534752554162",
+      "id": 303,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "13532326",
+      "group": "TRAIN",
+      "history": "753565625327663262537224",
+      "id": 305,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "23311772",
+      "group": "TRAIN",
+      "history": "233117723242213341445511556766",
+      "id": 309,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "37411743",
+      "group": "TRAIN",
+      "history": "3741174365445775666457576452",
+      "id": 314,
+      "legal": [
+        0,
+        1,
+        2,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "36713763",
+      "group": "TRAIN",
+      "history": "52175125272244244375333346",
+      "id": 315,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "26156361",
+      "group": "TRAIN",
+      "history": "627325274442456552724416671776",
+      "id": 316,
+      "legal": [
+        0,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "42654675",
+      "group": "TRAIN",
+      "history": "462342134453332552646556232456",
+      "id": 317,
+      "legal": [
+        0,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "15223421",
+      "group": "TRAIN",
+      "history": "736654676544453553661544113331",
+      "id": 318,
+      "legal": [
+        0,
+        1,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "11114767",
+      "group": "TRAIN",
+      "history": "777741212441147414651262667663",
+      "id": 319,
+      "legal": [
+        1,
+        2,
+        4
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "11212215",
+      "group": "TRAIN",
+      "history": "112122154323354144234556352435",
+      "id": 320,
+      "legal": [
+        0,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "22724552",
+      "group": "TRAIN",
+      "history": "227245522547136344335717776324",
+      "id": 323,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "23325275",
+      "group": "TRAIN",
+      "history": "655636134236655443421223564472",
+      "id": 325,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "42772474",
+      "group": "TRAIN",
+      "history": "42772474455375527742554221",
+      "id": 327,
+      "legal": [
+        0,
+        2,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "16642751",
+      "group": "TRAIN",
+      "history": "166427512464427277767541555646",
+      "id": 329,
+      "legal": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "16145177",
+      "group": "TRAIN",
+      "history": "16145177414447277555274115",
+      "id": 330,
+      "legal": [
+        1,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "25133633",
+      "group": "TRAIN",
+      "history": "251336334414551124453676655777",
+      "id": 334,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "16237641",
+      "group": "TRAIN",
+      "history": "162376414344676334145557",
+      "id": 335,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "26643171",
+      "group": "TRAIN",
+      "history": "622457175455477427726646325665",
+      "id": 340,
+      "legal": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "36324274",
+      "group": "TRAIN",
+      "history": "525646145547566727772447222356",
+      "id": 347,
+      "legal": [
+        0,
+        2,
+        3,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "25476354",
+      "group": "TRAIN",
+      "history": "634125344347355536766344655717",
+      "id": 349,
+      "legal": [
+        0,
+        1,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "23752631",
+      "group": "TRAIN",
+      "history": "651362574445566446565727713747",
+      "id": 350,
+      "legal": [
+        0,
+        1,
+        2
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "26235157",
+      "group": "TRAIN",
+      "history": "626537313355526644462423",
+      "id": 351,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "41244242",
+      "group": "TRAIN",
+      "history": "4124424221445331113376767772",
+      "id": 352,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "37542455",
+      "group": "TRAIN",
+      "history": "513464334114355566674357477717",
+      "id": 353,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "32714555",
+      "group": "TRAIN",
+      "history": "327145556414425644767762217165",
+      "id": 354,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "14462146",
+      "group": "TRAIN",
+      "history": "744267423441733362255566517111",
+      "id": 356,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "14123754",
+      "group": "CAL",
+      "history": "74765134644333557715262553",
+      "id": 360,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "43541747",
+      "group": "CAL",
+      "history": "435417476774556667264753",
+      "id": 362,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "42266154",
+      "group": "CAL",
+      "history": "466227343433413471221113155555",
+      "id": 364,
+      "legal": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "15347214",
+      "group": "CAL",
+      "history": "153472144455562723223134616466",
+      "id": 370,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "13142544",
+      "group": "CAL",
+      "history": "1314254465323553423222454636",
+      "id": 373,
+      "legal": [
+        0,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "36667417",
+      "group": "CAL",
+      "history": "5222147125544471777113336341",
+      "id": 377,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "31371771",
+      "group": "CAL",
+      "history": "3137177133754442525222556266",
+      "id": 378,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "17731121",
+      "group": "CAL",
+      "history": "177311214334443112332422667462",
+      "id": 380,
+      "legal": [
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "22477626",
+      "group": "CAL",
+      "history": "224776261324473667342233",
+      "id": 381,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "43117632",
+      "group": "CAL",
+      "history": "457712564445561112122423657774",
+      "id": 383,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "24364246",
+      "group": "CAL",
+      "history": "243642461427572233377767642413",
+      "id": 384,
+      "legal": [
+        0,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "11734327",
+      "group": "CAL",
+      "history": "771545615541446117667747542362",
+      "id": 390,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "32731642",
+      "group": "CAL",
+      "history": "327316423416114224342423",
+      "id": 394,
+      "legal": [
+        0,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "23233534",
+      "group": "CAL",
+      "history": "232335346622245441335255",
+      "id": 396,
+      "legal": [
+        0,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "11615424",
+      "group": "CAL",
+      "history": "1161542424411315224633343252",
+      "id": 400,
+      "legal": [
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "32412623",
+      "group": "CAL",
+      "history": "3241262343372244646166511311",
+      "id": 402,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "14551624",
+      "group": "CAL",
+      "history": "1455162434451112355425233322",
+      "id": 405,
+      "legal": [
+        0,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "13126362",
+      "group": "CAL",
+      "history": "131263623454544311255512147324",
+      "id": 406,
+      "legal": [
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "13136227",
+      "group": "CAL",
+      "history": "75752661543543534423322142",
+      "id": 410,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "21312312",
+      "group": "CAL",
+      "history": "675765766475447754144561622221",
+      "id": 413,
+      "legal": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "32515655",
+      "group": "CAL",
+      "history": "325156553332442442365666",
+      "id": 416,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "11447272",
+      "group": "CAL",
+      "history": "114472724456533377555366633144",
+      "id": 418,
+      "legal": [
+        0,
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "31621464",
+      "group": "CAL",
+      "history": "316214641442322331666251617434",
+      "id": 419,
+      "legal": [
+        1,
+        2,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "37713373",
+      "group": "CAL",
+      "history": "5117551527433342212443142234",
+      "id": 420,
+      "legal": [
+        0,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "33566624",
+      "group": "CAL",
+      "history": "335666243635335667572774",
+      "id": 424,
+      "legal": [
+        0,
+        1,
+        3,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "14244474",
+      "group": "CAL",
+      "history": "746444141466331161135335",
+      "id": 429,
+      "legal": [
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "35176463",
+      "group": "CAL",
+      "history": "351764633344455357663455667471",
+      "id": 431,
+      "legal": [
+        0,
+        1,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "11652517",
+      "group": "CAL",
+      "history": "772363714534412114535242556667",
+      "id": 432,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "21515412",
+      "group": "CAL",
+      "history": "215154125522454434242567",
+      "id": 433,
+      "legal": [
+        0,
+        2,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "14534427",
+      "group": "CAL",
+      "history": "743544613233425622535566",
+      "id": 435,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "44413256",
+      "group": "CAL",
+      "history": "444756324144555636663325171211",
+      "id": 439,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "41555773",
+      "group": "CAL",
+      "history": "41555773664244214111324331",
+      "id": 442,
+      "legal": [
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "36366546",
+      "group": "CAL",
+      "history": "3636654642442553352522253434",
+      "id": 445,
+      "legal": [
+        0,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "36146335",
+      "group": "CAL",
+      "history": "3614633575533656725522226263",
+      "id": 448,
+      "legal": [
+        0,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "26523374",
+      "group": "CAL",
+      "history": "2652337434544575772325542246",
+      "id": 452,
+      "legal": [
+        0,
+        2,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "24716711",
+      "group": "CAL",
+      "history": "247167114447377247636663233251",
+      "id": 461,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "23134327",
+      "group": "CAL",
+      "history": "231343273442325646522544366556",
+      "id": 462,
+      "legal": [
+        0,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "32717614",
+      "group": "CAL",
+      "history": "5617127426444565111556242226",
+      "id": 474,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "16113556",
+      "group": "CAL",
+      "history": "727753321346444535255666242216",
+      "id": 475,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "35612754",
+      "group": "CAL",
+      "history": "5327613463454155443331116621",
+      "id": 476,
+      "legal": [
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "11631545",
+      "group": "CAL",
+      "history": "116315454445533322423225346662",
+      "id": 479,
+      "legal": [
+        0,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "24622611",
+      "group": "CAL",
+      "history": "6426627764444777372332364633",
+      "id": 488,
+      "legal": [
+        0,
+        1,
+        4
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "15515612",
+      "group": "CAL",
+      "history": "7337327644425352255464766624",
+      "id": 491,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "41654377",
+      "group": "CAL",
+      "history": "416543774455363335455667224777",
+      "id": 492,
+      "legal": [
+        0,
+        1,
+        2,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "31655144",
+      "group": "CAL",
+      "history": "572337444555366633222326",
+      "id": 493,
+      "legal": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "37546775",
+      "group": "CAL",
+      "history": "513421134431441315657665522223",
+      "id": 495,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "31655755",
+      "group": "CAL",
+      "history": "3165575567277646434447566754",
+      "id": 505,
+      "legal": [
+        0,
+        1,
+        2
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "35366576",
+      "group": "CAL",
+      "history": "5352231237555231543321112166",
+      "id": 511,
+      "legal": [
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "17124322",
+      "group": "CAL",
+      "history": "7176456664455457272776554122",
+      "id": 512,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "21166337",
+      "group": "CAL",
+      "history": "211663372344314141122244323777",
+      "id": 523,
+      "legal": [
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "11371475",
+      "group": "CAL",
+      "history": "775174132455442522632552",
+      "id": 524,
+      "legal": [
+        0,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "12644334",
+      "group": "CAL",
+      "history": "762445543255464777756675426223",
+      "id": 525,
+      "legal": [
+        0,
+        1,
+        2,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "24465512",
+      "group": "CAL",
+      "history": "244655124565542524132274666171",
+      "id": 526,
+      "legal": [
+        0,
+        2,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "41225336",
+      "group": "CAL",
+      "history": "412253364436643364432266212555",
+      "id": 531,
+      "legal": [
+        0,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "16422343",
+      "group": "CAL",
+      "history": "1642234344233214671115125752",
+      "id": 533,
+      "legal": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "27565234",
+      "group": "CAL",
+      "history": "613236543344525566452272624364",
+      "id": 536,
+      "legal": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "31351323",
+      "group": "TEST",
+      "history": "575375653366636335522262",
+      "id": 540,
+      "legal": [
+        0,
+        1,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "24355462",
+      "group": "TEST",
+      "history": "24355462424544353323637556",
+      "id": 542,
+      "legal": [
+        0,
+        1,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "15511651",
+      "group": "TEST",
+      "history": "155116514523244622466717441777",
+      "id": 543,
+      "legal": [
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "37617667",
+      "group": "TEST",
+      "history": "376176675472244461311553",
+      "id": 546,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "25442117",
+      "group": "TEST",
+      "history": "634467714141117177724422565655",
+      "id": 548,
+      "legal": [
+        1,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "25344351",
+      "group": "TEST",
+      "history": "635445374354421531615113666163",
+      "id": 549,
+      "legal": [
+        1,
+        3,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "34431134",
+      "group": "TEST",
+      "history": "344311345345652253462226366147",
+      "id": 552,
+      "legal": [
+        0,
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "21362554",
+      "group": "TEST",
+      "history": "6752633417336645543453554621",
+      "id": 554,
+      "legal": [
+        0,
+        1,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "11347412",
+      "group": "TEST",
+      "history": "113474124413231153352224",
+      "id": 562,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "31716377",
+      "group": "TEST",
+      "history": "31716377243114244122464122",
+      "id": 565,
+      "legal": [
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "24165762",
+      "group": "TEST",
+      "history": "647231264774433362526147711166",
+      "id": 568,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "34631177",
+      "group": "TEST",
+      "history": "542577115444252216664777763541",
+      "id": 571,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "13277727",
+      "group": "TEST",
+      "history": "1327772743433445757252522346",
+      "id": 575,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "36751663",
+      "group": "TEST",
+      "history": "367516633642555442173433",
+      "id": 576,
+      "legal": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "11512221",
+      "group": "TEST",
+      "history": "773766677555544447524266622145",
+      "id": 583,
+      "legal": [
+        0,
+        1,
+        2
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "34163541",
+      "group": "TEST",
+      "history": "341635417433562251556614244227",
+      "id": 587,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "12336212",
+      "group": "TEST",
+      "history": "1233621223453655656551663232",
+      "id": 588,
+      "legal": [
+        0,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "34132667",
+      "group": "TEST",
+      "history": "341326675324433742443272266155",
+      "id": 589,
+      "legal": [
+        0,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "21327564",
+      "group": "TEST",
+      "history": "6756132444334556654237477721",
+      "id": 590,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "41267617",
+      "group": "TEST",
+      "history": "476212714441711177264476535663",
+      "id": 597,
+      "legal": [
+        1,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "11635547",
+      "group": "TEST",
+      "history": "77253341344525522436664157",
+      "id": 599,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "16645367",
+      "group": "TEST",
+      "history": "166453675634554332246564231511",
+      "id": 600,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "25747451",
+      "group": "TEST",
+      "history": "63141437433255451115567662",
+      "id": 602,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "13673173",
+      "group": "TEST",
+      "history": "136731733426464664555561211771",
+      "id": 604,
+      "legal": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "13377752",
+      "group": "TEST",
+      "history": "1337775235334554453446666647",
+      "id": 605,
+      "legal": [
+        0,
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "42677713",
+      "group": "TEST",
+      "history": "426777134644332131411755577665",
+      "id": 606,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "41125416",
+      "group": "TEST",
+      "history": "411254164242214471335332",
+      "id": 609,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "21175322",
+      "group": "TEST",
+      "history": "211753224445452557443376666312",
+      "id": 610,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "34155713",
+      "group": "TEST",
+      "history": "5473317527354645547321463666",
+      "id": 611,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "11744344",
+      "group": "TEST",
+      "history": "77144544616766454552335362",
+      "id": 613,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "27652573",
+      "group": "TEST",
+      "history": "276525735336566722363355212677",
+      "id": 615,
+      "legal": [
+        0,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "13212656",
+      "group": "TEST",
+      "history": "13212656221414244662115545",
+      "id": 617,
+      "legal": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "23546733",
+      "group": "TEST",
+      "history": "235467335655424344226623312565",
+      "id": 622,
+      "legal": [
+        0,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "43531732",
+      "group": "TEST",
+      "history": "45357156332644357344121534",
+      "id": 625,
+      "legal": [
+        0,
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "13621361",
+      "group": "TEST",
+      "history": "752675275544466333641536654377",
+      "id": 626,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "25215347",
+      "group": "TEST",
+      "history": "2521534743223466565535236441",
+      "id": 627,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "36135652",
+      "group": "TEST",
+      "history": "52753236335344422423667457",
+      "id": 630,
+      "legal": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "13152574",
+      "group": "TEST",
+      "history": "131525746552444252233334566276",
+      "id": 633,
+      "legal": [
+        0,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "13265753",
+      "group": "TEST",
+      "history": "756231353351636651125542226261",
+      "id": 634,
+      "legal": [
+        0,
+        2,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "23637664",
+      "group": "TEST",
+      "history": "236376643617441542556525523411",
+      "id": 635,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "36522757",
+      "group": "TEST",
+      "history": "523661311334454525542227342361",
+      "id": 637,
+      "legal": [
+        0,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "36167753",
+      "group": "TEST",
+      "history": "527211354654344676633522477247",
+      "id": 639,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "24723476",
+      "group": "TEST",
+      "history": "247234765444777534566563367535",
+      "id": 640,
+      "legal": [
+        0,
+        1,
+        2,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "43276651",
+      "group": "TEST",
+      "history": "456122374446336231114141322632",
+      "id": 642,
+      "legal": [
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "31143372",
+      "group": "TEST",
+      "history": "577455162444651425532233323432",
+      "id": 648,
+      "legal": [
+        0,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "43333214",
+      "group": "TEST",
+      "history": "455556744264674632233223",
+      "id": 651,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "41264627",
+      "group": "TEST",
+      "history": "476242612441353533535224556623",
+      "id": 654,
+      "legal": [
+        0,
+        3,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "12414471",
+      "group": "TEST",
+      "history": "7647441746166775111714646323",
+      "id": 658,
+      "legal": [
+        1,
+        2,
+        4
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "36131177",
+      "group": "TEST",
+      "history": "527577115546572666444423333656",
+      "id": 662,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "41224445",
+      "group": "TEST",
+      "history": "412244454211315115522333354257",
+      "id": 668,
+      "legal": [
+        2,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "25241132",
+      "group": "TEST",
+      "history": "636477566343351645544567774751",
+      "id": 669,
+      "legal": [
+        0,
+        1,
+        2
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "13412754",
+      "group": "TEST",
+      "history": "134127544323346565225132324667",
+      "id": 673,
+      "legal": [
+        0,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "31257331",
+      "group": "TEST",
+      "history": "31257331411424223441335451",
+      "id": 674,
+      "legal": [
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "42147476",
+      "group": "TEST",
+      "history": "46741412115447642717771566",
+      "id": 675,
+      "legal": [
+        1,
+        2,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "12361733",
+      "group": "TEST",
+      "history": "76527155777434454353633644",
+      "id": 676,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "21122776",
+      "group": "TEST",
+      "history": "211227764724535244552574666767",
+      "id": 677,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "41714623",
+      "group": "TEST",
+      "history": "471742654467755766715655463133",
+      "id": 679,
+      "legal": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "33423144",
+      "group": "TEST",
+      "history": "5546574447577544763257322222",
+      "id": 683,
+      "legal": [
+        0,
+        2,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "21342732",
+      "group": "TEST",
+      "history": "6754615615474467773357646452",
+      "id": 685,
+      "legal": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 26,
+      "family": "13144474",
+      "group": "TEST",
+      "history": "75744414623356655447636657",
+      "id": 687,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "37447146",
+      "group": "TEST",
+      "history": "374471464636635244751252236577",
+      "id": 694,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "44322756",
+      "group": "TEST",
+      "history": "4432275665645445333566645237",
+      "id": 699,
+      "legal": [
+        0,
+        1,
+        2,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "32476551",
+      "group": "TEST",
+      "history": "5641233754553433244612276426",
+      "id": 701,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 24,
+      "family": "27623721",
+      "group": "TEST",
+      "history": "276237214533542445535242",
+      "id": 702,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "34542462",
+      "group": "TEST",
+      "history": "345424624533152315522711133414",
+      "id": 704,
+      "legal": [
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "21136167",
+      "group": "TEST",
+      "history": "211361674544423535513351146654",
+      "id": 705,
+      "legal": [
+        1,
+        2,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "43266142",
+      "group": "TEST",
+      "history": "4562274644341327377322111134",
+      "id": 707,
+      "legal": [
+        0,
+        1,
+        2,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "16536711",
+      "group": "TEST",
+      "history": "165367114444333557677766523755",
+      "id": 708,
+      "legal": [
+        0,
+        1,
+        2,
+        3,
+        5
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 28,
+      "family": "15315753",
+      "group": "TEST",
+      "history": "1531575334654422434622432357",
+      "id": 710,
+      "legal": [
+        0,
+        1,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "15655554",
+      "group": "TEST",
+      "history": "732333344564424535524225256661",
+      "id": 711,
+      "legal": [
+        0,
+        5,
+        6
+      ],
+      "tactical": false
+    },
+    {
+      "depth": 30,
+      "family": "13242265",
+      "group": "TEST",
+      "history": "132422654475255463372366214111",
+      "id": 714,
+      "legal": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "tactical": false
+    }
+  ],
+  "source": "7718005a94ed90c34caf28e409405f20b7fcb3d738239b9fc071f15efa331077"
+}
