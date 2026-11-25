@@ -85,6 +85,17 @@ static SESSION:OnceLock<Mutex<Option<Arc<SharedEval>>>>=OnceLock::new();
 fn session()->&'static Mutex<Option<Arc<SharedEval>>>{SESSION.get_or_init(||Mutex::new(None))}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
+struct KModel{kind:String,first_gain:Vec<Vec<f64>>,first_cost:Vec<Vec<f64>>,second_gain:Vec<Vec<f64>>,second_cost:Vec<Vec<f64>>}
+impl KModel{
+    fn valid(&self,arm:&str)->bool{
+        let kind=match arm{"KRAW"=>"RAW","KGIBBS"=>"GIBBS","KFLUX"=>"FLUX",_=>return false};
+        if self.kind!=kind{return false;}
+        [&self.first_gain,&self.first_cost,&self.second_gain,&self.second_cost].iter().all(|x|
+            x.len()==5&&x[0].iter().all(|v|*v==0.)&&x.iter().all(|r|r.len()==crate::mcts::kinetic_response::DIM&&r.iter().all(|v|v.is_finite()&&v.abs()<=1e6)))
+    }
+}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
 struct Request{
     cmd:String,
     #[serde(default)]rule:Option<String>,
@@ -94,11 +105,12 @@ struct Request{
     #[serde(default)]seed:Option<u64>,
     #[serde(default)]prefix:Option<u32>,
     #[serde(default)]schedule:Option<Vec<u8>>,
+    #[serde(default)]model:Option<KModel>,
 }
 fn inner(line:&str)->Result<Value,String>{
     let q:Request=serde_json::from_str(line).map_err(|e|e.to_string())?;
     if q.cmd=="research_rapfi_shared_open"||q.cmd=="research_rapfi_shared_close"{
-        if q.rule.is_some()||q.history.is_some()||q.arm.is_some()||q.visits.is_some()||q.seed.is_some()||q.prefix.is_some()||q.schedule.is_some(){return Err("open/close do not accept search options".into());}
+        if q.rule.is_some()||q.history.is_some()||q.arm.is_some()||q.visits.is_some()||q.seed.is_some()||q.prefix.is_some()||q.schedule.is_some()||q.model.is_some(){return Err("open/close do not accept search options".into());}
         let mut s=session().lock().unwrap();
         if q.cmd=="research_rapfi_shared_open"{
             if s.is_some(){return Err("session already open".into());}
@@ -111,12 +123,14 @@ fn inner(line:&str)->Result<Value,String>{
     if q.cmd!="research_rapfi_shared_search"||q.rule.as_deref()!=Some("freestyle"){return Err("freestyle search only".into());}
     let h=q.history.ok_or("history required")?;let arm=q.arm.ok_or("arm required")?;
     let cap=q.visits.ok_or("visits required")?;let seed=q.seed.ok_or("seed required")?;
+    let kinetic=matches!(arm.as_str(),"KINETIC"|"KRAW"|"KGIBBS"|"KFLUX");
+    if kinetic&&(cap!=96||q.prefix.is_some())||arm=="KINETIC"&&(!q.schedule.as_ref().is_some_and(|v|v.len()==2&&v.iter().all(|&x|x<5))||q.model.is_some())||matches!(arm.as_str(),"KRAW"|"KGIBBS"|"KFLUX")&&(q.schedule.is_some()||!q.model.as_ref().is_some_and(|v|v.valid(&arm)))||!kinetic&&q.model.is_some(){return Err("bad kinetic cap/schedule/model".into());}
     let meta=matches!(arm.as_str(),"META"|"OPEN"|"YOKE"|"MBASE");
-    if meta&&(cap!=256||q.prefix.is_some())||arm=="YOKE"&&!q.schedule.as_ref().is_some_and(|v|v.len()==15&&v.iter().all(|&x|x<5))||arm!="YOKE"&&q.schedule.is_some(){return Err("bad meta cap/prefix/schedule".into());}
+    if meta&&(cap!=256||q.prefix.is_some())||arm=="YOKE"&&!q.schedule.as_ref().is_some_and(|v|v.len()==15&&v.iter().all(|&x|x<5))||arm!="YOKE"&&arm!="KINETIC"&&q.schedule.is_some(){return Err("bad meta cap/prefix/schedule".into());}
     let p5=matches!(arm.as_str(),"P5PW"|"P5FULL"|"P5Q"|"P5ALLOC");
     if p5&&(![32,48,64,96,128,160,192,256].contains(&cap)||q.prefix.is_some()){return Err("bad P5 budget or prefix".into());}
     let axis=match arm.as_str(){"AX0"=>Some((0,0,0)),"AXS"=>Some((1,0,0)),"AXX"=>Some((2,0,0)),"AXV"=>Some((0,3,0)),"AXB"=>Some((0,0,3)),"AXALL"=>Some((3,3,3)),_=>None};
-    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none()&&!p5&&!meta&&!matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP"))||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
+    if (!matches!(arm.as_str(),"STANDARD_PW"|"STANDARD_FULL"|"QUARTZ")&&axis.is_none()&&!p5&&!meta&&!kinetic&&!matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP"))||!(1..=1024).contains(&cap)||h.len()>224||axis.is_some()&&cap!=96{return Err("bad arm/budget/history".into());}
     let ds=matches!(arm.as_str(),"DS0"|"DSF"|"DSX"|"DSL"|"DSV"|"DSB"|"DSSTOP");
     if ds&&(cap!=32||!matches!(q.prefix,Some(8|16)))||!ds&&q.prefix.is_some(){return Err("decision arms require cap32 and prefix8/16 only".into());}
     let start=Instant::now();
@@ -138,7 +152,7 @@ fn inner(line:&str)->Result<Value,String>{
     let mut out=json!({"schema":"quartz_rapfi_shared_v1","status":"OK","arm":arm,"rule":"freestyle","history":h,"player":side,"legal":legal,"board":board,"seed":seed,"cap":cap,"proof":proof_json(&p),"evaluator":"rapfi_250615_mix9svq","threads":1});
     // Shared, game-rule-only guard; no advantage attributed to Quartz.
     if let Some(m)=proof::guard(&p){
-        out["meta"]=Value::Null;out["resource"]=Value::Null;out["decision"]=Value::Null;out["axis"]=Value::Null;out["cause"]=json!("GUARDED");out["best"]=json!(m);out["visits"]=json!(0);out["NN_calls"]=json!(0);out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["result"]=Value::Null;out["quartz"]=Value::Null;out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(start.elapsed().as_micros());return Ok(out);
+        out["kinetic"]=Value::Null;out["meta"]=Value::Null;out["resource"]=Value::Null;out["decision"]=Value::Null;out["axis"]=Value::Null;out["cause"]=json!("GUARDED");out["best"]=json!(m);out["visits"]=json!(0);out["NN_calls"]=json!(0);out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["result"]=Value::Null;out["quartz"]=Value::Null;out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(start.elapsed().as_micros());return Ok(out);
     }
     eval.0.lock().unwrap().reset()?;
     let mut cfg=gomoku15_quartz(variant).with_seed(seed);
@@ -152,8 +166,52 @@ fn inner(line:&str)->Result<Value,String>{
     let engine=MctsEngine::new(s,eval.clone(),cfg);
     let init=engine.four_axis_snapshot();
     let t=Instant::now();
-    let mut axis_output=Value::Null;let mut decision_output=Value::Null;let mut resource_output=Value::Null;let mut meta_output=Value::Null;
-    let (visits,cause,telemetry)=if meta{
+    let mut axis_output=Value::Null;let mut decision_output=Value::Null;let mut resource_output=Value::Null;let mut meta_output=Value::Null;let mut kinetic_output=Value::Null;
+    let (visits,cause,telemetry)=if kinetic{
+        use crate::mcts::{four_axis::Hooks,kinetic_response as kr,meta_feedback as mf};
+        let v0={let b=eval.0.lock().unwrap();let a=b.first.as_ref().ok_or("missing initial evaluator output")?;(a.w-a.l) as f64};
+        let mut hook=Hooks::new_modes(0,0,5,false).with_gomoku_exact_merge();
+        let t0=Instant::now();engine.four_axis_block(16,1,&hook);
+        let pre_us=t0.elapsed().as_micros();
+        let mut prev=engine.four_axis_snapshot();let cc=hook.snapshot();
+        let mut mon=meta_monitor(&prev,&cc,v0);
+        let prior:Vec<_>=prev["candidates"].as_array().unwrap().iter().map(|x|x[1].as_f64().unwrap()).collect();
+        let make_features=|r:&Value,m:&mf::Monitor,first:Option<usize>,f:&[f64;6],dp:f64,da:f64|{
+            let g=[m.phi,4.*m.uncertainty,m.js/std::f64::consts::LN_2,m.hidden,m.kl_prior,m.entropy,dp,4.*da];
+            std::array::from_fn::<_,3,_>(|k|kr::features(&prior,&m.n,r["edges"].as_array().unwrap().len(),m.shared,v0,first,&g,f,k))
+        };
+        let mut feats=make_features(&prev,&mon,None,&[0.;6],0.,0.);
+        let prefix=json!({"result":prev,"counters":cc,"monitor":meta_mon_json(&mon),"features":feats,"step_us":pre_us});
+        let mut steps=Vec::new();let mut first=None;
+        for (i,quantum) in [32u32,32,16].into_iter().enumerate(){
+            let t0=Instant::now();
+            let (ch,decision)=if i==2{(0,Value::Null)}
+                else if arm=="KINETIC"{(q.schedule.as_ref().unwrap()[i] as usize,Value::Null)}
+                else{
+                    let model=q.model.as_ref().unwrap();let kind=match arm.as_str(){"KRAW"=>0,"KGIBBS"=>1,_=>2};
+                    let (g,c)=if i==0{(&model.first_gain,&model.first_cost)}else{(&model.second_gain,&model.second_cost)};
+                    let (ch,gg,cc,ss)=kr::choose(&feats[kind],g,c);
+                    (ch,json!({"gain":gg,"cost_ms":cc,"net":ss,"kind":kind}))
+                };
+            if i==0{first=Some(ch);}
+            hook.mask=match ch{1=>1,2=>2,_=>0};
+            hook.configure_local(0,if ch==3{3}else{0},if ch==4{3}else{5},true);
+            let plan_us=t0.elapsed().as_micros();let t0=Instant::now();
+            engine.four_axis_block(quantum,1,&hook);
+            let block_us=t0.elapsed().as_micros();let t0=Instant::now();
+            let next=engine.four_axis_snapshot();let next_c=hook.snapshot();
+            let nxt=meta_monitor(&next,&next_c,v0);
+            let f=kr::flux(&mon.n,&nxt.n,&prior);
+            let nn=next["evaluator_calls"].as_u64().unwrap()-prev["evaluator_calls"].as_u64().unwrap();
+            let res=mf::response(&mon,&nxt,nn as u32);
+            feats=make_features(&next,&nxt,first,&f,res.delta_phi,res.delta_a);
+            let read_us=t0.elapsed().as_micros();
+            steps.push(json!({"channel":ch,"quantum":quantum,"decision":decision,"result":next,"counters":next_c,"monitor":meta_mon_json(&nxt),"features":feats,"flux":f,"nn":nn,"delta_phi":res.delta_phi,"delta_a":res.delta_a,"plan_us":plan_us,"block_us":block_us,"read_us":read_us}));
+            prev=next;mon=nxt;
+        }
+        kinetic_output=json!({"prefix":prefix,"steps":steps,"b_trace":hook.gomoku_backup_trace(),"price":kr::PRICE});
+        (96u32,"KINETIC_FIXED".to_string(),Value::Null)
+    }else if meta{
         use crate::mcts::four_axis::Hooks;
         use crate::mcts::meta_feedback as mf;
         let v0={let b=eval.0.lock().unwrap();let a=b.first.as_ref().ok_or("missing initial evaluator output")?;(a.w-a.l) as f64};
@@ -277,7 +335,7 @@ fn inner(line:&str)->Result<Value,String>{
     let (calls,ipc,first)={let b=eval.0.lock().unwrap();(b.calls,b.elapsed_ns,b.first.as_ref().ok_or("missing root NN eval")?.json())};
     assert_eq!(calls,native_calls as u64);
     drop(engine);drop(eval);
-    out["cause"]=json!(cause);out["best"]=json!(best);out["visits"]=json!(visits);out["axis"]=axis_output;out["decision"]=decision_output;out["resource"]=resource_output;out["meta"]=meta_output;out["NN_calls"]=json!(calls);out["root_eval"]=first;out["initial"]=init;out["result"]=result;out["quartz"]=telemetry;out["search_us"]=json!(search_us);out["eval_ipc_ns"]=json!(ipc);out["whole_us"]=json!(start.elapsed().as_micros());Ok(out)
+    out["cause"]=json!(cause);out["best"]=json!(best);out["visits"]=json!(visits);out["axis"]=axis_output;out["decision"]=decision_output;out["resource"]=resource_output;out["meta"]=meta_output;out["kinetic"]=kinetic_output;out["NN_calls"]=json!(calls);out["root_eval"]=first;out["initial"]=init;out["result"]=result;out["quartz"]=telemetry;out["search_us"]=json!(search_us);out["eval_ipc_ns"]=json!(ipc);out["whole_us"]=json!(start.elapsed().as_micros());Ok(out)
 }
 fn meta_monitor(r:&Value,c:&Value,v0:f64)->crate::mcts::meta_feedback::Monitor{
     let ca=r["candidates"].as_array().unwrap();let es=r["edges"].as_array().unwrap();

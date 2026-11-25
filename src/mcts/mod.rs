@@ -4,6 +4,7 @@ pub mod backup;
 pub mod four_axis;
 pub mod four_axis_math;
 pub mod meta_feedback;
+pub mod kinetic_response;
 pub mod proof_graph;
 pub mod cog02;
 pub mod dynamic10;

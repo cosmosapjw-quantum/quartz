@@ -43,10 +43,11 @@ class Server:
         a=json.loads(line)
         a['transport_ns']=time.perf_counter_ns()-start
         return a
-    def search(self,h,arm,cap=256,seed=17,prefix=None,schedule=None):
+    def search(self,h,arm,cap=256,seed=17,prefix=None,schedule=None,model=None):
         q=dict(cmd='research_rapfi_shared_search',rule='freestyle',history=h,arm=arm,visits=cap,seed=seed)
         if prefix is not None:q['prefix']=prefix
         if schedule is not None:q['schedule']=schedule
+        if model is not None:q['model']=model
         a=self.request(q)
         assert 'error' not in a,a
         check(a,h,arm,cap,seed)
