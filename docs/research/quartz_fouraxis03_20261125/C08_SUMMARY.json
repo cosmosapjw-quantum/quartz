@@ -1,0 +1,4028 @@
+{
+  "certificates_valid": 580,
+  "checked_root_action_intervals": 7408,
+  "groups": {
+    "HARD": {
+      "TIME": {
+        "arms": {
+          "ACTIVE": {
+            "caps": 6,
+            "certificates": 10,
+            "evals": 65.58333333333333,
+            "graph_changes": 3208,
+            "graph_shared_notices": 352,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2736,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 26118,
+              "graph_plans": 21212,
+              "graph_register": 4203,
+              "graph_rule_checks": 24078,
+              "graph_solved_skips": 4320,
+              "graph_width_extra": 185,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 15616,
+              "proof_scans": 2736,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 18348,
+              "select_deep": 11293,
+              "select_nodes": 18349,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 11293,
+              "width_limited": 11023,
+              "width_mass_added": 1143,
+              "width_nodes": 18349
+            },
+            "mean_best_bound": 0.7916666666666666,
+            "mean_bound": 0.7916666666666666,
+            "regret": 0.020833333333333332,
+            "root_override": 2,
+            "root_solved": 6,
+            "stops": 0,
+            "transport_us": 3556.602083333333,
+            "visits": 155,
+            "whole_us": 3393.2916666666665,
+            "workers_two": 48
+          },
+          "ACTIVE_FULL": {
+            "caps": 6,
+            "certificates": 6,
+            "evals": 78.52083333333333,
+            "graph_changes": 1502,
+            "graph_shared_notices": 108,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1216,
+              "eval_changed": 376,
+              "exact_child_evals": 0,
+              "extra_evals": 2141,
+              "graph_filtered": 16943,
+              "graph_plans": 11639,
+              "graph_register": 2032,
+              "graph_rule_checks": 11794,
+              "graph_solved_skips": 3584,
+              "graph_width_extra": 75,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 6966,
+              "proof_scans": 1216,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 376,
+              "select_changed": 8715,
+              "select_deep": 3915,
+              "select_nodes": 8715,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 3915,
+              "width_limited": 3939,
+              "width_mass_added": 574,
+              "width_nodes": 8715
+            },
+            "mean_best_bound": 0.875,
+            "mean_bound": 0.875,
+            "regret": 0.0,
+            "root_override": 0,
+            "root_solved": 6,
+            "stops": 0,
+            "transport_us": 3664.9313333333334,
+            "visits": 108,
+            "whole_us": 3512.5625,
+            "workers_two": 48
+          },
+          "ACTIVE_STOP": {
+            "caps": 0,
+            "certificates": 9,
+            "evals": 61.520833333333336,
+            "graph_changes": 3016,
+            "graph_shared_notices": 321,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2541,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 12366,
+              "graph_plans": 14175,
+              "graph_register": 3922,
+              "graph_rule_checks": 22420,
+              "graph_solved_skips": 1403,
+              "graph_width_extra": 185,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 14461,
+              "proof_scans": 2541,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 14115,
+              "select_deep": 10171,
+              "select_nodes": 14115,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 10171,
+              "width_limited": 9936,
+              "width_mass_added": 1064,
+              "width_nodes": 14115
+            },
+            "mean_best_bound": 0.8125,
+            "mean_bound": 0.8125,
+            "regret": 0.010416666666666666,
+            "root_override": 4,
+            "root_solved": 6,
+            "stops": 9,
+            "transport_us": 3353.113895833333,
+            "visits": 90.16666666666667,
+            "whole_us": 3205.7916666666665,
+            "workers_two": 48
+          },
+          "BASE": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 91.625,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 3980,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 0,
+              "select_deep": 0,
+              "select_nodes": 0,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 2036,
+              "width_deep": 0,
+              "width_limited": 0,
+              "width_mass_added": 0,
+              "width_nodes": 0
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.020833333333333332,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3581.8420833333334,
+            "visits": 133.33333333333334,
+            "whole_us": 3428.7083333333335,
+            "workers_two": 48
+          },
+          "FULL": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 93.70833333333333,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1898,
+              "eval_changed": 385,
+              "exact_child_evals": 0,
+              "extra_evals": 2188,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 10970,
+              "proof_scans": 1898,
+              "proof_win": 679,
+              "proofs": 679,
+              "refinements": 385,
+              "select_changed": 8311,
+              "select_deep": 5574,
+              "select_nodes": 8366,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 894,
+              "width_deep": 5574,
+              "width_limited": 5672,
+              "width_mass_added": 777,
+              "width_nodes": 8366
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.010416666666666666,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3731.3393541666665,
+            "visits": 66.16666666666667,
+            "whole_us": 3572.5,
+            "workers_two": 48
+          },
+          "ROOT": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 79.60416666666667,
+            "graph_changes": 2550,
+            "graph_shared_notices": 508,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 3409,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 3459,
+              "graph_rule_checks": 20123,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 19817,
+              "proof_scans": 3409,
+              "proof_win": 1250,
+              "proofs": 1250,
+              "refinements": 0,
+              "select_changed": 16913,
+              "select_deep": 11755,
+              "select_nodes": 16971,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 1807,
+              "width_deep": 11755,
+              "width_limited": 11852,
+              "width_mass_added": 1245,
+              "width_nodes": 16971
+            },
+            "mean_best_bound": 1.0,
+            "mean_bound": 1.0,
+            "regret": 0.052083333333333336,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3618.365979166667,
+            "visits": 116.66666666666667,
+            "whole_us": 3469.9583333333335,
+            "workers_two": 48
+          },
+          "SAMPLE": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 92.10416666666667,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 4009,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 23084,
+              "proof_scans": 4009,
+              "proof_win": 1457,
+              "proofs": 1457,
+              "refinements": 0,
+              "select_changed": 20829,
+              "select_deep": 14729,
+              "select_nodes": 20969,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 2231,
+              "width_deep": 14729,
+              "width_limited": 14822,
+              "width_mass_added": 1570,
+              "width_nodes": 20969
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.0625,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3546.5045833333334,
+            "visits": 138,
+            "whole_us": 3412.5416666666665,
+            "workers_two": 48
+          },
+          "SX": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 90.58333333333333,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 3936,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 21484,
+              "select_deep": 15205,
+              "select_nodes": 21621,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 2480,
+              "width_deep": 15205,
+              "width_limited": 15291,
+              "width_mass_added": 1649,
+              "width_nodes": 21621
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.09375,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3505.5903958333333,
+            "visits": 141.66666666666666,
+            "whole_us": 3374.6458333333335,
+            "workers_two": 48
+          }
+        },
+        "n": 24,
+        "paired": {
+          "ACTIVE/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.28422010004547527,
+            "time_mismatch": 0.010329448650488016
+          },
+          "ACTIVE/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.125
+            ],
+            "delta": 0.041666666666666664,
+            "nn_mismatch": 0.2879439040940964,
+            "time_mismatch": 0.005640956764874638
+          },
+          "ACTIVE/SX": {
+            "ci95": [
+              -0.010416666666666666,
+              0.1875
+            ],
+            "delta": 0.07291666666666667,
+            "nn_mismatch": 0.2759889604415824,
+            "time_mismatch": 0.005525271170431445
+          },
+          "ACTIVE_FULL/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.19726810673443462,
+            "time_mismatch": 0.035149007232407214
+          },
+          "ACTIVE_FULL/BASE": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.14301955434288316,
+            "time_mismatch": 0.024456488716596336
+          },
+          "ACTIVE_FULL/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.16666666666666666
+            ],
+            "delta": 0.0625,
+            "nn_mismatch": 0.14747794616602583,
+            "time_mismatch": 0.029309776437406176
+          },
+          "ACTIVE_FULL/SX": {
+            "ci95": [
+              0.020833333333333332,
+              0.19791666666666666
+            ],
+            "delta": 0.09375,
+            "nn_mismatch": 0.13316467341306348,
+            "time_mismatch": 0.04086848619916905
+          },
+          "ACTIVE_STOP/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.06194409148665814,
+            "time_mismatch": 0.0552560812387185
+          },
+          "ACTIVE_STOP/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.32855843565256937,
+            "time_mismatch": 0.06501476503542403
+          },
+          "ACTIVE_STOP/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.14583333333333334
+            ],
+            "delta": 0.052083333333333336,
+            "nn_mismatch": 0.33205157204252433,
+            "time_mismatch": 0.06058534083832923
+          },
+          "ACTIVE_STOP/SX": {
+            "ci95": [
+              0.0,
+              0.1875
+            ],
+            "delta": 0.08333333333333333,
+            "nn_mismatch": 0.3208371665133394,
+            "time_mismatch": 0.050036114900946504
+          },
+          "BASE/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.39707750952986043,
+            "time_mismatch": 0.010437259789535913
+          },
+          "BASE/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.125
+            ],
+            "delta": 0.041666666666666664,
+            "nn_mismatch": 0.005202442886224845,
+            "time_mismatch": 0.004737426893444585
+          },
+          "BASE/SX": {
+            "ci95": [
+              -0.010416666666666666,
+              0.1875
+            ],
+            "delta": 0.07291666666666667,
+            "nn_mismatch": 0.011499540018399257,
+            "time_mismatch": 0.016020199650580658
+          },
+          "FULL/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.4288437102922491,
+            "time_mismatch": 0.05281253453505075
+          },
+          "FULL/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.022737608003637888,
+            "time_mismatch": 0.04193756152098094
+          },
+          "FULL/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.14583333333333334
+            ],
+            "delta": 0.052083333333333336,
+            "nn_mismatch": 0.017416874010404815,
+            "time_mismatch": 0.04687366454622044
+          },
+          "FULL/SX": {
+            "ci95": [
+              0.0,
+              0.1875
+            ],
+            "delta": 0.08333333333333333,
+            "nn_mismatch": 0.03449862005519777,
+            "time_mismatch": 0.05862960927998606
+          },
+          "ROOT/ACTIVE": {
+            "ci95": [
+              -0.125,
+              0.03125
+            ],
+            "delta": -0.03125,
+            "nn_mismatch": 0.21378653113087687,
+            "time_mismatch": 0.022593597662053932
+          },
+          "ROOT/BASE": {
+            "ci95": [
+              -0.125,
+              0.03125
+            ],
+            "delta": -0.03125,
+            "nn_mismatch": 0.13119599818099126,
+            "time_mismatch": 0.012030769604685965
+          },
+          "ROOT/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.1357159013797783,
+            "time_mismatch": 0.0168251913896047
+          },
+          "ROOT/SX": {
+            "ci95": [
+              0.0,
+              0.10416666666666667
+            ],
+            "delta": 0.041666666666666664,
+            "nn_mismatch": 0.1212051517939281,
+            "time_mismatch": 0.02824370458628378
+          },
+          "SAMPLE/ACTIVE": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.4043837357052098,
+            "time_mismatch": 0.005672957673841683
+          },
+          "SAMPLE/BASE": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.0052296498408368475,
+            "time_mismatch": 0.004715089501634573
+          },
+          "SAMPLE/SX": {
+            "ci95": [
+              -0.020833333333333332,
+              0.09375
+            ],
+            "delta": 0.03125,
+            "nn_mismatch": 0.01678932842686298,
+            "time_mismatch": 0.011229573473759524
+          },
+          "SX/ACTIVE": {
+            "ci95": [
+              -0.1875,
+              0.010416666666666666
+            ],
+            "delta": -0.07291666666666667,
+            "nn_mismatch": 0.38119440914866587,
+            "time_mismatch": 0.0054949103009613864
+          },
+          "SX/BASE": {
+            "ci95": [
+              -0.1875,
+              0.010416666666666666
+            ],
+            "delta": -0.07291666666666667,
+            "nn_mismatch": 0.011368804001819055,
+            "time_mismatch": 0.015767599557656498
+          },
+          "SX/SAMPLE": {
+            "ci95": [
+              -0.10416666666666667,
+              0.020833333333333332
+            ],
+            "delta": -0.03125,
+            "nn_mismatch": 0.01651210133453984,
+            "time_mismatch": 0.011104870514401455
+          }
+        }
+      },
+      "VISITS": {
+        "arms": {
+          "ACTIVE": {
+            "caps": 0,
+            "certificates": 13,
+            "evals": 79.16666666666667,
+            "graph_changes": 3942,
+            "graph_shared_notices": 511,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 3388,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 21268,
+              "graph_plans": 21340,
+              "graph_register": 5125,
+              "graph_rule_checks": 29293,
+              "graph_solved_skips": 2372,
+              "graph_width_extra": 248,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 19286,
+              "proof_scans": 3388,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 20770,
+              "select_deep": 15011,
+              "select_nodes": 20771,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 15011,
+              "width_limited": 14670,
+              "width_mass_added": 1445,
+              "width_nodes": 20771
+            },
+            "mean_best_bound": 0.7291666666666666,
+            "mean_bound": 0.7291666666666666,
+            "regret": 0.010416666666666666,
+            "root_override": 1,
+            "root_solved": 7,
+            "stops": 0,
+            "transport_us": 4012.260333333333,
+            "visits": 128,
+            "whole_us": 3855.9791666666665,
+            "workers_two": 48
+          },
+          "ACTIVE_FULL": {
+            "caps": 0,
+            "certificates": 8,
+            "evals": 205.625,
+            "graph_changes": 4156,
+            "graph_shared_notices": 580,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 3243,
+              "eval_changed": 1104,
+              "exact_child_evals": 0,
+              "extra_evals": 6215,
+              "graph_filtered": 22121,
+              "graph_plans": 21744,
+              "graph_register": 5219,
+              "graph_rule_checks": 29663,
+              "graph_solved_skips": 2517,
+              "graph_width_extra": 229,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 18350,
+              "proof_scans": 3243,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 1104,
+              "select_changed": 21113,
+              "select_deep": 15355,
+              "select_nodes": 21115,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 15355,
+              "width_limited": 15071,
+              "width_mass_added": 1725,
+              "width_nodes": 21115
+            },
+            "mean_best_bound": 0.8333333333333334,
+            "mean_bound": 0.8333333333333334,
+            "regret": 0.0,
+            "root_override": 0,
+            "root_solved": 6,
+            "stops": 0,
+            "transport_us": 8280.582541666667,
+            "visits": 128,
+            "whole_us": 8098.166666666667,
+            "workers_two": 48
+          },
+          "ACTIVE_STOP": {
+            "caps": 0,
+            "certificates": 11,
+            "evals": 76.85416666666667,
+            "graph_changes": 3810,
+            "graph_shared_notices": 450,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 3277,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 17565,
+              "graph_plans": 19575,
+              "graph_register": 4997,
+              "graph_rule_checks": 28486,
+              "graph_solved_skips": 1787,
+              "graph_width_extra": 228,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 18611,
+              "proof_scans": 3277,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 19520,
+              "select_deep": 14458,
+              "select_nodes": 19522,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 14458,
+              "width_limited": 14132,
+              "width_mass_added": 1383,
+              "width_nodes": 19522
+            },
+            "mean_best_bound": 0.7708333333333334,
+            "mean_bound": 0.7708333333333334,
+            "regret": 0.0,
+            "root_override": 7,
+            "root_solved": 6,
+            "stops": 11,
+            "transport_us": 4145.348,
+            "visits": 113.5,
+            "whole_us": 3991.6458333333335,
+            "workers_two": 48
+          },
+          "BASE": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 98.72916666666667,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 4321,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 0,
+              "select_deep": 0,
+              "select_nodes": 0,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 1439,
+              "width_deep": 0,
+              "width_limited": 0,
+              "width_mass_added": 0,
+              "width_nodes": 0
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.020833333333333332,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3835.740125,
+            "visits": 128,
+            "whole_us": 3689.9375,
+            "workers_two": 48
+          },
+          "FULL": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 210.66666666666666,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 4342,
+              "eval_changed": 947,
+              "exact_child_evals": 0,
+              "extra_evals": 5358,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 24972,
+              "proof_scans": 4342,
+              "proof_win": 1702,
+              "proofs": 1702,
+              "refinements": 947,
+              "select_changed": 20101,
+              "select_deep": 14470,
+              "select_nodes": 20230,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 1418,
+              "width_deep": 14470,
+              "width_limited": 14557,
+              "width_mass_added": 1914,
+              "width_nodes": 20230
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.010416666666666666,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 7255.797625,
+            "visits": 128,
+            "whole_us": 7101.5,
+            "workers_two": 48
+          },
+          "ROOT": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 99.08333333333333,
+            "graph_changes": 3104,
+            "graph_shared_notices": 647,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 4344,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 4341,
+              "graph_rule_checks": 25054,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 25037,
+              "proof_scans": 4344,
+              "proof_win": 1536,
+              "proofs": 1536,
+              "refinements": 0,
+              "select_changed": 19970,
+              "select_deep": 14272,
+              "select_nodes": 20032,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 1416,
+              "width_deep": 14272,
+              "width_limited": 14366,
+              "width_mass_added": 1618,
+              "width_nodes": 20032
+            },
+            "mean_best_bound": 1.0,
+            "mean_bound": 1.0,
+            "regret": 0.0625,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 4325.15575,
+            "visits": 128,
+            "whole_us": 4171.041666666667,
+            "workers_two": 48
+          },
+          "SAMPLE": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 98.375,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 4310,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 24859,
+              "proof_scans": 4310,
+              "proof_win": 1536,
+              "proofs": 1536,
+              "refinements": 0,
+              "select_changed": 19901,
+              "select_deep": 14280,
+              "select_nodes": 20040,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 1450,
+              "width_deep": 14280,
+              "width_limited": 14373,
+              "width_mass_added": 1667,
+              "width_nodes": 20040
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.07291666666666667,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3762.8468958333333,
+            "visits": 128,
+            "whole_us": 3593.9583333333335,
+            "workers_two": 48
+          },
+          "SX": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 96.5625,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 4223,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 19710,
+              "select_deep": 14088,
+              "select_nodes": 19848,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 1537,
+              "width_deep": 14088,
+              "width_limited": 14165,
+              "width_mass_added": 1710,
+              "width_nodes": 19848
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.020833333333333332,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3732.254375,
+            "visits": 128,
+            "whole_us": 3571.2708333333335,
+            "workers_two": 48
+          }
+        },
+        "n": 24,
+        "paired": {
+          "ACTIVE/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.19814306815783922,
+            "time_mismatch": 0.04499850381386317
+          },
+          "ACTIVE/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.14583333333333334
+            ],
+            "delta": 0.0625,
+            "nn_mismatch": 0.19525624735281655,
+            "time_mismatch": 0.0729059184974783
+          },
+          "ACTIVE/SX": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.18015102481121892,
+            "time_mismatch": 0.07972185438190182
+          },
+          "ACTIVE_FULL/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 1.5973684210526313,
+            "time_mismatch": 1.1001583039327452
+          },
+          "ACTIVE_FULL/BASE": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 1.0827178729689808,
+            "time_mismatch": 1.194662285381979
+          },
+          "ACTIVE_FULL/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.17708333333333334
+            ],
+            "delta": 0.07291666666666667,
+            "nn_mismatch": 1.090216010165184,
+            "time_mismatch": 1.2532722740710684
+          },
+          "ACTIVE_FULL/SX": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 1.129449838187702,
+            "time_mismatch": 1.2675868184178136
+          },
+          "ACTIVE_STOP/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.029210526315789465,
+            "time_mismatch": 0.03518345426745273
+          },
+          "ACTIVE_STOP/BASE": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.2215657311669128,
+            "time_mismatch": 0.08176516088235464
+          },
+          "ACTIVE_STOP/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.17708333333333334
+            ],
+            "delta": 0.07291666666666667,
+            "nn_mismatch": 0.21876323591698432,
+            "time_mismatch": 0.11065445481421365
+          },
+          "ACTIVE_STOP/SX": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.20409924487594389,
+            "time_mismatch": 0.11771019886711653
+          },
+          "BASE/ACTIVE": {
+            "ci95": [
+              -0.03125,
+              0.0
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.24710526315789472,
+            "time_mismatch": 0.043060830852517995
+          },
+          "BASE/SAMPLE": {
+            "ci95": [
+              -0.020833333333333332,
+              0.15625
+            ],
+            "delta": 0.052083333333333336,
+            "nn_mismatch": 0.003600169419737398,
+            "time_mismatch": 0.026705698220393037
+          },
+          "BASE/SX": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.022437971952535163,
+            "time_mismatch": 0.03322813424259574
+          },
+          "FULL/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 1.6610526315789471,
+            "time_mismatch": 0.8416852615256609
+          },
+          "FULL/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 1.1337834986284023,
+            "time_mismatch": 0.924558342790359
+          },
+          "FULL/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.16666666666666666
+            ],
+            "delta": 0.0625,
+            "nn_mismatch": 1.1414654807285047,
+            "time_mismatch": 0.9759550171004578
+          },
+          "FULL/SX": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 1.1816612729234088,
+            "time_mismatch": 0.9885078257623043
+          },
+          "ROOT/ACTIVE": {
+            "ci95": [
+              -0.14583333333333334,
+              0.0
+            ],
+            "delta": -0.052083333333333336,
+            "nn_mismatch": 0.2515789473684209,
+            "time_mismatch": 0.08170752132780823
+          },
+          "ROOT/BASE": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.003587254695083253,
+            "time_mismatch": 0.13038274135176198
+          },
+          "ROOT/SAMPLE": {
+            "ci95": [
+              -0.03125,
+              0.0625
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.007200338839474796,
+            "time_mismatch": 0.1605704017158427
+          },
+          "ROOT/SX": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.026105717367853165,
+            "time_mismatch": 0.16794325082691164
+          },
+          "SAMPLE/ACTIVE": {
+            "ci95": [
+              -0.16666666666666666,
+              0.0
+            ],
+            "delta": -0.0625,
+            "nn_mismatch": 0.2426315789473683,
+            "time_mismatch": 0.06795182805923694
+          },
+          "SAMPLE/BASE": {
+            "ci95": [
+              -0.16666666666666666,
+              0.020833333333333332
+            ],
+            "delta": -0.052083333333333336,
+            "nn_mismatch": 0.003587254695083364,
+            "time_mismatch": 0.026011054839456316
+          },
+          "SAMPLE/SX": {
+            "ci95": [
+              -0.14583333333333334,
+              0.020833333333333332
+            ],
+            "delta": -0.052083333333333336,
+            "nn_mismatch": 0.01877022653721694,
+            "time_mismatch": 0.006352780581142303
+          },
+          "SX/ACTIVE": {
+            "ci95": [
+              -0.03125,
+              0.0
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.219736842105263,
+            "time_mismatch": 0.07383554760734135
+          },
+          "SX/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.02194555813462762,
+            "time_mismatch": 0.0321595329640858
+          },
+          "SX/SAMPLE": {
+            "ci95": [
+              -0.020833333333333332,
+              0.14583333333333334
+            ],
+            "delta": 0.052083333333333336,
+            "nn_mismatch": 0.01842439644218552,
+            "time_mismatch": 0.006312677525940558
+          }
+        }
+      }
+    },
+    "SELFPLAY": {
+      "TIME": {
+        "arms": {
+          "ACTIVE": {
+            "caps": 25,
+            "certificates": 32,
+            "evals": 34.958333333333336,
+            "graph_changes": 1591,
+            "graph_shared_notices": 152,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1328,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 84970,
+              "graph_plans": 23005,
+              "graph_register": 2137,
+              "graph_rule_checks": 14711,
+              "graph_solved_skips": 5160,
+              "graph_width_extra": 89,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 9089,
+              "proof_scans": 1328,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 19460,
+              "select_deep": 4908,
+              "select_nodes": 19460,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 8064,
+              "width_deep": 4908,
+              "width_limited": 5053,
+              "width_mass_added": 499,
+              "width_nodes": 19460
+            },
+            "mean_best_bound": 0.3333333333333333,
+            "mean_bound": 0.3333333333333333,
+            "regret": 0.10416666666666667,
+            "root_override": 0,
+            "root_solved": 26,
+            "stops": 0,
+            "transport_us": 2719.167375,
+            "visits": 311.1666666666667,
+            "whole_us": 2334.4583333333335,
+            "workers_two": 48
+          },
+          "ACTIVE_FULL": {
+            "caps": 22,
+            "certificates": 32,
+            "evals": 45.520833333333336,
+            "graph_changes": 837,
+            "graph_shared_notices": 28,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 504,
+              "eval_changed": 192,
+              "exact_child_evals": 0,
+              "extra_evals": 1331,
+              "graph_filtered": 69791,
+              "graph_plans": 16422,
+              "graph_register": 977,
+              "graph_rule_checks": 6776,
+              "graph_solved_skips": 3344,
+              "graph_width_extra": 34,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 3477,
+              "proof_scans": 504,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 192,
+              "select_changed": 13375,
+              "select_deep": 1463,
+              "select_nodes": 13375,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 8064,
+              "width_deep": 1463,
+              "width_limited": 1698,
+              "width_mass_added": 222,
+              "width_nodes": 13375
+            },
+            "mean_best_bound": 0.3333333333333333,
+            "mean_bound": 0.3333333333333333,
+            "regret": 0.10416666666666667,
+            "root_override": 1,
+            "root_solved": 23,
+            "stops": 0,
+            "transport_us": 2566.626375,
+            "visits": 256.1666666666667,
+            "whole_us": 2412.3958333333335,
+            "workers_two": 48
+          },
+          "ACTIVE_STOP": {
+            "caps": 0,
+            "certificates": 32,
+            "evals": 29.125,
+            "graph_changes": 1077,
+            "graph_shared_notices": 132,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1048,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 4038,
+              "graph_plans": 4705,
+              "graph_register": 1638,
+              "graph_rule_checks": 11220,
+              "graph_solved_skips": 520,
+              "graph_width_extra": 46,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 7137,
+              "proof_scans": 1048,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 4617,
+              "select_deep": 3049,
+              "select_nodes": 4617,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 3049,
+              "width_limited": 3188,
+              "width_mass_added": 372,
+              "width_nodes": 4617
+            },
+            "mean_best_bound": 0.3333333333333333,
+            "mean_bound": 0.3333333333333333,
+            "regret": 0.10416666666666667,
+            "root_override": 15,
+            "root_solved": 23,
+            "stops": 32,
+            "transport_us": 1848.7241875,
+            "visits": 40.666666666666664,
+            "whole_us": 1693.375,
+            "workers_two": 32
+          },
+          "BASE": {
+            "caps": 7,
+            "certificates": 0,
+            "evals": 70.58333333333333,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 3028,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 0,
+              "select_deep": 0,
+              "select_nodes": 0,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 6428,
+              "width_deep": 0,
+              "width_limited": 0,
+              "width_mass_added": 0,
+              "width_nodes": 0
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.0625,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 2925.8378333333335,
+            "visits": 205,
+            "whole_us": 2795.5625,
+            "workers_two": 48
+          },
+          "FULL": {
+            "caps": 2,
+            "certificates": 0,
+            "evals": 70.04166666666667,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1203,
+              "eval_changed": 260,
+              "exact_child_evals": 0,
+              "extra_evals": 1809,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 8348,
+              "proof_scans": 1203,
+              "proof_win": 604,
+              "proofs": 604,
+              "refinements": 260,
+              "select_changed": 8215,
+              "select_deep": 3450,
+              "select_nodes": 8234,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 3581,
+              "width_deep": 3450,
+              "width_limited": 3720,
+              "width_mass_added": 531,
+              "width_nodes": 8234
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.10416666666666667,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3238.322,
+            "visits": 107.66666666666667,
+            "whole_us": 3106.7916666666665,
+            "workers_two": 48
+          },
+          "ROOT": {
+            "caps": 6,
+            "certificates": 30,
+            "evals": 60.979166666666664,
+            "graph_changes": 2998,
+            "graph_shared_notices": 376,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2577,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 2769,
+              "graph_rule_checks": 19153,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 17791,
+              "proof_scans": 2577,
+              "proof_win": 1231,
+              "proofs": 1231,
+              "refinements": 0,
+              "select_changed": 17628,
+              "select_deep": 9348,
+              "select_nodes": 17660,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 5735,
+              "width_deep": 9348,
+              "width_limited": 9628,
+              "width_mass_added": 1062,
+              "width_nodes": 17660
+            },
+            "mean_best_bound": 0.375,
+            "mean_bound": 0.375,
+            "regret": 0.10416666666666667,
+            "root_override": 10,
+            "root_solved": 20,
+            "stops": 0,
+            "transport_us": 3074.570041666667,
+            "visits": 181.16666666666666,
+            "whole_us": 2929.6875,
+            "workers_two": 48
+          },
+          "SAMPLE": {
+            "caps": 6,
+            "certificates": 0,
+            "evals": 67.02083333333333,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2867,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 19792,
+              "proof_scans": 2867,
+              "proof_win": 1378,
+              "proofs": 1378,
+              "refinements": 0,
+              "select_changed": 21514,
+              "select_deep": 11577,
+              "select_nodes": 21593,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 7149,
+              "width_deep": 11577,
+              "width_limited": 11857,
+              "width_mass_added": 1208,
+              "width_nodes": 21593
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.10416666666666667,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3020.244979166667,
+            "visits": 216.66666666666666,
+            "whole_us": 2860.625,
+            "workers_two": 48
+          },
+          "SX": {
+            "caps": 8,
+            "certificates": 0,
+            "evals": 66.3125,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2833,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 21864,
+              "select_deep": 11522,
+              "select_nodes": 21922,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 7567,
+              "width_deep": 11522,
+              "width_limited": 11802,
+              "width_mass_added": 1267,
+              "width_nodes": 21922
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.0625,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 2939.265604166667,
+            "visits": 224.66666666666666,
+            "whole_us": 2817.0625,
+            "workers_two": 48
+          }
+        },
+        "n": 24,
+        "paired": {
+          "ACTIVE/BASE": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.5047225501770956,
+            "time_mismatch": 0.1649414622877029
+          },
+          "ACTIVE/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.47839602113770585,
+            "time_mismatch": 0.1839341635714805
+          },
+          "ACTIVE/SX": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.4728243795161796,
+            "time_mismatch": 0.1713146821082836
+          },
+          "ACTIVE_FULL/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.302145411203814,
+            "time_mismatch": 0.03338568904278305
+          },
+          "ACTIVE_FULL/BASE": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.3550767414403777,
+            "time_mismatch": 0.13706245761511915
+          },
+          "ACTIVE_FULL/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.3207957724588125,
+            "time_mismatch": 0.15668924331803946
+          },
+          "ACTIVE_FULL/SX": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.31354068488847,
+            "time_mismatch": 0.14364845177083096
+          },
+          "ACTIVE_STOP/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.1668653158522051,
+            "time_mismatch": 0.2746175950880826
+          },
+          "ACTIVE_STOP/BASE": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.5873671782762692,
+            "time_mismatch": 0.3942632296720249
+          },
+          "ACTIVE_STOP/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.5654336338203294,
+            "time_mismatch": 0.40804020100502514
+          },
+          "ACTIVE_STOP/SX": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.5607917059377945,
+            "time_mismatch": 0.39888625119251
+          },
+          "BASE/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.125
+            ],
+            "delta": 0.041666666666666664,
+            "nn_mismatch": 1.0190703218116801,
+            "time_mismatch": 0.19752083816731214
+          },
+          "BASE/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.125
+            ],
+            "delta": 0.041666666666666664,
+            "nn_mismatch": 0.05315511345974522,
+            "time_mismatch": 0.02274415556041076
+          },
+          "BASE/SX": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.06440464970153936,
+            "time_mismatch": 0.007632063541366252
+          },
+          "FULL/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 1.00357568533969,
+            "time_mismatch": 0.3308404876220392
+          },
+          "FULL/BASE": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.007674144037780217,
+            "time_mismatch": 0.11132971152198046
+          },
+          "FULL/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.04507304942493029,
+            "time_mismatch": 0.08605345568421807
+          },
+          "FULL/SX": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.05623625510524666,
+            "time_mismatch": 0.10284797254823652
+          },
+          "ROOT/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.7443384982121573,
+            "time_mismatch": 0.25497527977582224
+          },
+          "ROOT/BASE": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.13606847697756785,
+            "time_mismatch": 0.04797782199467915
+          },
+          "ROOT/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.09014609884986013,
+            "time_mismatch": 0.02414245138737159
+          },
+          "ROOT/SX": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.08042726987119075,
+            "time_mismatch": 0.039979588667273136
+          },
+          "SAMPLE/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.9171632896305122,
+            "time_mismatch": 0.22539132918057359
+          },
+          "SAMPLE/BASE": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.05047225501770958,
+            "time_mismatch": 0.023273491470857888
+          },
+          "SAMPLE/SX": {
+            "ci95": [
+              -0.125,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.01068174677976752,
+            "time_mismatch": 0.015463803163756618
+          },
+          "SX/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.125
+            ],
+            "delta": 0.041666666666666664,
+            "nn_mismatch": 0.8969010727056017,
+            "time_mismatch": 0.2067306834204936
+          },
+          "SX/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.06050767414403768,
+            "time_mismatch": 0.007690759909678269
+          },
+          "SX/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.125
+            ],
+            "delta": 0.041666666666666664,
+            "nn_mismatch": 0.010568852968604214,
+            "time_mismatch": 0.01522831549049597
+          }
+        }
+      },
+      "VISITS": {
+        "arms": {
+          "ACTIVE": {
+            "caps": 0,
+            "certificates": 33,
+            "evals": 46.770833333333336,
+            "graph_changes": 2154,
+            "graph_shared_notices": 253,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1895,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 31621,
+              "graph_plans": 14142,
+              "graph_register": 2925,
+              "graph_rule_checks": 20089,
+              "graph_solved_skips": 1945,
+              "graph_width_extra": 129,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 12964,
+              "proof_scans": 1895,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 13314,
+              "select_deep": 7554,
+              "select_nodes": 13314,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 1920,
+              "width_deep": 7554,
+              "width_limited": 7575,
+              "width_mass_added": 742,
+              "width_nodes": 13314
+            },
+            "mean_best_bound": 0.3125,
+            "mean_bound": 0.3125,
+            "regret": 0.10416666666666667,
+            "root_override": 0,
+            "root_solved": 27,
+            "stops": 0,
+            "transport_us": 2627.5677291666666,
+            "visits": 128,
+            "whole_us": 2486.6041666666665,
+            "workers_two": 48
+          },
+          "ACTIVE_FULL": {
+            "caps": 0,
+            "certificates": 34,
+            "evals": 136.52083333333334,
+            "graph_changes": 2344,
+            "graph_shared_notices": 321,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1708,
+              "eval_changed": 656,
+              "exact_child_evals": 0,
+              "extra_evals": 4495,
+              "graph_filtered": 32641,
+              "graph_plans": 14490,
+              "graph_register": 2873,
+              "graph_rule_checks": 19691,
+              "graph_solved_skips": 2132,
+              "graph_width_extra": 127,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 11652,
+              "proof_scans": 1708,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 656,
+              "select_changed": 13503,
+              "select_deep": 7743,
+              "select_nodes": 13503,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 1920,
+              "width_deep": 7743,
+              "width_limited": 7768,
+              "width_mass_added": 914,
+              "width_nodes": 13503
+            },
+            "mean_best_bound": 0.2916666666666667,
+            "mean_bound": 0.2916666666666667,
+            "regret": 0.10416666666666667,
+            "root_override": 0,
+            "root_solved": 28,
+            "stops": 0,
+            "transport_us": 5503.296625,
+            "visits": 128,
+            "whole_us": 5355.541666666667,
+            "workers_two": 48
+          },
+          "ACTIVE_STOP": {
+            "caps": 0,
+            "certificates": 34,
+            "evals": 38.395833333333336,
+            "graph_changes": 1467,
+            "graph_shared_notices": 213,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1493,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 6876,
+              "graph_plans": 7374,
+              "graph_register": 2247,
+              "graph_rule_checks": 15399,
+              "graph_solved_skips": 715,
+              "graph_width_extra": 76,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 10190,
+              "proof_scans": 1493,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 7276,
+              "select_deep": 5068,
+              "select_nodes": 7276,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 5068,
+              "width_limited": 5113,
+              "width_mass_added": 538,
+              "width_nodes": 7276
+            },
+            "mean_best_bound": 0.2916666666666667,
+            "mean_bound": 0.2916666666666667,
+            "regret": 0.10416666666666667,
+            "root_override": 16,
+            "root_solved": 22,
+            "stops": 34,
+            "transport_us": 2355.709208333333,
+            "visits": 54,
+            "whole_us": 2225.1666666666665,
+            "workers_two": 32
+          },
+          "BASE": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 72.1875,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 3105,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 0,
+              "select_deep": 0,
+              "select_nodes": 0,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 2655,
+              "width_deep": 0,
+              "width_limited": 0,
+              "width_mass_added": 0,
+              "width_nodes": 0
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.10416666666666667,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 2978.038875,
+            "visits": 128,
+            "whole_us": 2840.5,
+            "workers_two": 48
+          },
+          "FULL": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 163.9375,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2895,
+              "eval_changed": 670,
+              "exact_child_evals": 0,
+              "extra_evals": 4624,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 19967,
+              "proof_scans": 2895,
+              "proof_win": 1343,
+              "proofs": 1343,
+              "refinements": 670,
+              "select_changed": 15347,
+              "select_deep": 9660,
+              "select_nodes": 15420,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 2865,
+              "width_deep": 9660,
+              "width_limited": 9932,
+              "width_mass_added": 1388,
+              "width_nodes": 15420
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.10416666666666667,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 6197.901520833333,
+            "visits": 128,
+            "whole_us": 6061.645833333333,
+            "workers_two": 48
+          },
+          "ROOT": {
+            "caps": 0,
+            "certificates": 30,
+            "evals": 67.375,
+            "graph_changes": 2971,
+            "graph_shared_notices": 416,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2884,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 3064,
+              "graph_rule_checks": 21126,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 19839,
+              "proof_scans": 2884,
+              "proof_win": 1209,
+              "proofs": 1209,
+              "refinements": 0,
+              "select_changed": 15029,
+              "select_deep": 9310,
+              "select_nodes": 15070,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 2876,
+              "width_deep": 9310,
+              "width_limited": 9590,
+              "width_mass_added": 1162,
+              "width_nodes": 15070
+            },
+            "mean_best_bound": 0.375,
+            "mean_bound": 0.375,
+            "regret": 0.10416666666666667,
+            "root_override": 12,
+            "root_solved": 20,
+            "stops": 0,
+            "transport_us": 3484.0201666666667,
+            "visits": 128,
+            "whole_us": 3322.5833333333335,
+            "workers_two": 48
+          },
+          "SAMPLE": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 67.5625,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2893,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 19931,
+              "proof_scans": 2893,
+              "proof_win": 1228,
+              "proofs": 1228,
+              "refinements": 0,
+              "select_changed": 15014,
+              "select_deep": 9328,
+              "select_nodes": 15088,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 2867,
+              "width_deep": 9328,
+              "width_limited": 9607,
+              "width_mass_added": 1198,
+              "width_nodes": 15088
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.10416666666666667,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 2888.7887291666666,
+            "visits": 128,
+            "whole_us": 2737.2291666666665,
+            "workers_two": 48
+          },
+          "SX": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 65.45833333333333,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2792,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 14913,
+              "select_deep": 9229,
+              "select_nodes": 14989,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 2968,
+              "width_deep": 9229,
+              "width_limited": 9508,
+              "width_mass_added": 1245,
+              "width_nodes": 14989
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.10416666666666667,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 2770.7353958333333,
+            "visits": 128,
+            "whole_us": 2638.3541666666665,
+            "workers_two": 48
+          }
+        },
+        "n": 24,
+        "paired": {
+          "ACTIVE/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.352092352092352,
+            "time_mismatch": 0.1245892741888166
+          },
+          "ACTIVE/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.3077397471477027,
+            "time_mismatch": 0.09156157001834275
+          },
+          "ACTIVE/SX": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.2854869509866327,
+            "time_mismatch": 0.05751691790178537
+          },
+          "ACTIVE_FULL/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 1.9189309576837417,
+            "time_mismatch": 1.153757215747715
+          },
+          "ACTIVE_FULL/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.8911976911976913,
+            "time_mismatch": 0.8854221674587808
+          },
+          "ACTIVE_FULL/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 1.0206598828245452,
+            "time_mismatch": 0.9565558236355196
+          },
+          "ACTIVE_FULL/SX": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 1.0856142584341186,
+            "time_mismatch": 1.0298797387891758
+          },
+          "ACTIVE_STOP/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.17906458797327396,
+            "time_mismatch": 0.10513836641336494
+          },
+          "ACTIVE_STOP/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.46810966810966803,
+            "time_mismatch": 0.21662852784134257
+          },
+          "ACTIVE_STOP/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.4316990440949737,
+            "time_mismatch": 0.18707330253373622
+          },
+          "ACTIVE_STOP/SX": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.413430935709739,
+            "time_mismatch": 0.15660804952582497
+          },
+          "BASE/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.5434298440979954,
+            "time_mismatch": 0.14232093635061216
+          },
+          "BASE/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.0684551341350601,
+            "time_mismatch": 0.037728237953526644
+          },
+          "BASE/SX": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.10280076384468506,
+            "time_mismatch": 0.07661815683704343
+          },
+          "FULL/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 2.505122494432071,
+            "time_mismatch": 1.4377204520891107
+          },
+          "FULL/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 1.2709956709956711,
+            "time_mismatch": 1.134006630288095
+          },
+          "FULL/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 1.4264569842738206,
+            "time_mismatch": 1.2145189402300076
+          },
+          "FULL/SX": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 1.5044557606619988,
+            "time_mismatch": 1.2975102849787983
+          },
+          "ROOT/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.4405345211581291,
+            "time_mismatch": 0.3361931013681645
+          },
+          "ROOT/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.06666666666666665,
+            "time_mismatch": 0.16971777269260113
+          },
+          "ROOT/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.0027752081406104967,
+            "time_mismatch": 0.21384916315921676
+          },
+          "ROOT/SX": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.029280712921706087,
+            "time_mismatch": 0.2593393924558398
+          },
+          "SAMPLE/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.444543429844098,
+            "time_mismatch": 0.10079006677446656
+          },
+          "SAMPLE/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.06406926406926405,
+            "time_mismatch": 0.03635656867922321
+          },
+          "SAMPLE/SX": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.03214513049013368,
+            "time_mismatch": 0.037476014876698605
+          },
+          "SX/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.3995545657015589,
+            "time_mismatch": 0.061027003024539894
+          },
+          "SX/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.09321789321789331,
+            "time_mismatch": 0.07116558117702287
+          },
+          "SX/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.031144002466851783,
+            "time_mismatch": 0.036122295204243926
+          }
+        }
+      }
+    },
+    "TACTICAL": {
+      "TIME": {
+        "arms": {
+          "ACTIVE": {
+            "caps": 28,
+            "certificates": 34,
+            "evals": 36.375,
+            "graph_changes": 2260,
+            "graph_shared_notices": 170,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1376,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 87742,
+              "graph_plans": 33436,
+              "graph_register": 2282,
+              "graph_rule_checks": 13745,
+              "graph_solved_skips": 14776,
+              "graph_width_extra": 181,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 8199,
+              "proof_scans": 1376,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 23409,
+              "select_deep": 7299,
+              "select_nodes": 23451,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 7299,
+              "width_limited": 7016,
+              "width_mass_added": 521,
+              "width_nodes": 23451
+            },
+            "mean_best_bound": 0.2916666666666667,
+            "mean_bound": 0.2916666666666667,
+            "regret": 0.010416666666666666,
+            "root_override": 0,
+            "root_solved": 28,
+            "stops": 0,
+            "transport_us": 2557.5802708333335,
+            "visits": 344.5,
+            "whole_us": 2426.2916666666665,
+            "workers_two": 48
+          },
+          "ACTIVE_FULL": {
+            "caps": 26,
+            "certificates": 32,
+            "evals": 41.833333333333336,
+            "graph_changes": 1347,
+            "graph_shared_notices": 56,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 553,
+              "eval_changed": 174,
+              "exact_child_evals": 0,
+              "extra_evals": 1085,
+              "graph_filtered": 72741,
+              "graph_plans": 25379,
+              "graph_register": 1174,
+              "graph_rule_checks": 7172,
+              "graph_solved_skips": 13479,
+              "graph_width_extra": 51,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 3346,
+              "proof_scans": 553,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 174,
+              "select_changed": 16280,
+              "select_deep": 2248,
+              "select_nodes": 16280,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 2248,
+              "width_limited": 2236,
+              "width_mass_added": 268,
+              "width_nodes": 16280
+            },
+            "mean_best_bound": 0.3333333333333333,
+            "mean_bound": 0.3333333333333333,
+            "regret": 0.020833333333333332,
+            "root_override": 0,
+            "root_solved": 26,
+            "stops": 0,
+            "transport_us": 2580.353020833333,
+            "visits": 300.3333333333333,
+            "whole_us": 2446.5416666666665,
+            "workers_two": 48
+          },
+          "ACTIVE_STOP": {
+            "caps": 0,
+            "certificates": 34,
+            "evals": 29.0625,
+            "graph_changes": 1580,
+            "graph_shared_notices": 86,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1025,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 7612,
+              "graph_plans": 6415,
+              "graph_register": 1702,
+              "graph_rule_checks": 10216,
+              "graph_solved_skips": 751,
+              "graph_width_extra": 102,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 6057,
+              "proof_scans": 1025,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 6169,
+              "select_deep": 4424,
+              "select_nodes": 6200,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 4424,
+              "width_limited": 4264,
+              "width_mass_added": 372,
+              "width_nodes": 6200
+            },
+            "mean_best_bound": 0.2916666666666667,
+            "mean_bound": 0.2916666666666667,
+            "regret": 0.0,
+            "root_override": 15,
+            "root_solved": 26,
+            "stops": 34,
+            "transport_us": 1852.15475,
+            "visits": 45,
+            "whole_us": 1724.2708333333333,
+            "workers_two": 48
+          },
+          "BASE": {
+            "caps": 12,
+            "certificates": 0,
+            "evals": 67.41666666666667,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2842,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 0,
+              "select_deep": 0,
+              "select_nodes": 0,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 10790,
+              "width_deep": 0,
+              "width_limited": 0,
+              "width_mass_added": 0,
+              "width_nodes": 0
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.010416666666666666,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3240.8448541666667,
+            "visits": 292,
+            "whole_us": 3113.5625,
+            "workers_two": 47
+          },
+          "FULL": {
+            "caps": 3,
+            "certificates": 0,
+            "evals": 81.27083333333333,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1519,
+              "eval_changed": 330,
+              "exact_child_evals": 0,
+              "extra_evals": 2012,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 9230,
+              "proof_scans": 1519,
+              "proof_win": 777,
+              "proofs": 777,
+              "refinements": 330,
+              "select_changed": 16501,
+              "select_deep": 9763,
+              "select_nodes": 16555,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 5273,
+              "width_deep": 9763,
+              "width_limited": 9906,
+              "width_mass_added": 686,
+              "width_nodes": 16555
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.0625,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3492.3390208333335,
+            "visits": 149.5,
+            "whole_us": 3367.3333333333335,
+            "workers_two": 48
+          },
+          "ROOT": {
+            "caps": 5,
+            "certificates": 32,
+            "evals": 65.52083333333333,
+            "graph_changes": 3161,
+            "graph_shared_notices": 516,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2775,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 2918,
+              "graph_rule_checks": 17885,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 16947,
+              "proof_scans": 2775,
+              "proof_win": 1280,
+              "proofs": 1280,
+              "refinements": 0,
+              "select_changed": 34122,
+              "select_deep": 21504,
+              "select_nodes": 34192,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 9913,
+              "width_deep": 21504,
+              "width_limited": 21624,
+              "width_mass_added": 1206,
+              "width_nodes": 34192
+            },
+            "mean_best_bound": 0.3333333333333333,
+            "mean_bound": 0.3333333333333333,
+            "regret": 0.020833333333333332,
+            "root_override": 18,
+            "root_solved": 18,
+            "stops": 0,
+            "transport_us": 3374.7369375,
+            "visits": 272.3333333333333,
+            "whole_us": 3238.7083333333335,
+            "workers_two": 48
+          },
+          "SAMPLE": {
+            "caps": 9,
+            "certificates": 0,
+            "evals": 72.9375,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 3131,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 19137,
+              "proof_scans": 3131,
+              "proof_win": 1430,
+              "proofs": 1430,
+              "refinements": 0,
+              "select_changed": 40184,
+              "select_deep": 25766,
+              "select_nodes": 40334,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 11437,
+              "width_deep": 25766,
+              "width_limited": 25878,
+              "width_mass_added": 1453,
+              "width_nodes": 40334
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.020833333333333332,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3291.579979166667,
+            "visits": 311.5,
+            "whole_us": 3167.2291666666665,
+            "workers_two": 48
+          },
+          "SX": {
+            "caps": 12,
+            "certificates": 0,
+            "evals": 71.02083333333333,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 3039,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 38091,
+              "select_deep": 24008,
+              "select_nodes": 38232,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 11185,
+              "width_deep": 24008,
+              "width_limited": 24124,
+              "width_mass_added": 1429,
+              "width_nodes": 38232
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.03125,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 3255.3623541666666,
+            "visits": 304.3333333333333,
+            "whole_us": 3132.1666666666665,
+            "workers_two": 48
+          }
+        },
+        "n": 24,
+        "paired": {
+          "ACTIVE/BASE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.4604449938195303,
+            "time_mismatch": 0.2207345551384735
+          },
+          "ACTIVE/SAMPLE": {
+            "ci95": [
+              -0.03125,
+              0.0625
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.5012853470437018,
+            "time_mismatch": 0.23393870825577034
+          },
+          "ACTIVE/SX": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.48782634203578756,
+            "time_mismatch": 0.2253631671366998
+          },
+          "ACTIVE_FULL/ACTIVE": {
+            "ci95": [
+              -0.03125,
+              0.0
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.1500572737686141,
+            "time_mismatch": 0.008346069962734681
+          },
+          "ACTIVE_FULL/BASE": {
+            "ci95": [
+              -0.03125,
+              0.0
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.3794808405438813,
+            "time_mismatch": 0.21423075121611768
+          },
+          "ACTIVE_FULL/SAMPLE": {
+            "ci95": [
+              -0.0625,
+              0.0625
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.42644958583261927,
+            "time_mismatch": 0.22754510711913012
+          },
+          "ACTIVE_FULL/SX": {
+            "ci95": [
+              -0.03125,
+              0.0625
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.41097095922557925,
+            "time_mismatch": 0.21889799393391163
+          },
+          "ACTIVE_STOP/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.2010309278350515,
+            "time_mismatch": 0.28933901186653155
+          },
+          "ACTIVE_STOP/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.568912237330037,
+            "time_mismatch": 0.4462064489364407
+          },
+          "ACTIVE_STOP/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.6015424164524421,
+            "time_mismatch": 0.4555901254382445
+          },
+          "ACTIVE_STOP/SX": {
+            "ci95": [
+              0.0,
+              0.08333333333333333
+            ],
+            "delta": 0.03125,
+            "nn_mismatch": 0.5907890877090056,
+            "time_mismatch": 0.44949582291278667
+          },
+          "BASE/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.8533791523482246,
+            "time_mismatch": 0.28325977572083616
+          },
+          "BASE/SAMPLE": {
+            "ci95": [
+              -0.03125,
+              0.0625
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.07569265924021706,
+            "time_mismatch": 0.016944358567885898
+          },
+          "BASE/SX": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.050748019947198464,
+            "time_mismatch": 0.005939711594742714
+          },
+          "FULL/ACTIVE": {
+            "ci95": [
+              -0.14583333333333334,
+              0.0
+            ],
+            "delta": -0.052083333333333336,
+            "nn_mismatch": 1.234249713631157,
+            "time_mismatch": 0.3878518314986865
+          },
+          "FULL/BASE": {
+            "ci95": [
+              -0.14583333333333334,
+              0.0
+            ],
+            "delta": -0.052083333333333336,
+            "nn_mismatch": 0.2055006180469714,
+            "time_mismatch": 0.08150497487470809
+          },
+          "FULL/SAMPLE": {
+            "ci95": [
+              -0.10416666666666667,
+              0.0
+            ],
+            "delta": -0.041666666666666664,
+            "nn_mismatch": 0.11425307055127099,
+            "time_mismatch": 0.0631795667874786
+          },
+          "FULL/SX": {
+            "ci95": [
+              -0.08333333333333333,
+              0.0
+            ],
+            "delta": -0.03125,
+            "nn_mismatch": 0.1443238486359637,
+            "time_mismatch": 0.07508114723567294
+          },
+          "ROOT/ACTIVE": {
+            "ci95": [
+              -0.0625,
+              0.03125
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.8012600229095073,
+            "time_mismatch": 0.33483883155020533
+          },
+          "ROOT/BASE": {
+            "ci95": [
+              -0.0625,
+              0.03125
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.028121137206427838,
+            "time_mismatch": 0.04019377588641104
+          },
+          "ROOT/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.10168523279063135,
+            "time_mismatch": 0.022568359567708418
+          },
+          "ROOT/SX": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.07744206512173657,
+            "time_mismatch": 0.03401532485499925
+          },
+          "SAMPLE/ACTIVE": {
+            "ci95": [
+              -0.0625,
+              0.03125
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 1.0051546391752577,
+            "time_mismatch": 0.30537857842042904
+          },
+          "SAMPLE/BASE": {
+            "ci95": [
+              -0.0625,
+              0.03125
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.08189122373300362,
+            "time_mismatch": 0.017236418625502514
+          },
+          "SAMPLE/SX": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.026987386330302288,
+            "time_mismatch": 0.011194327675198235
+          },
+          "SX/ACTIVE": {
+            "ci95": [
+              -0.0625,
+              0.0
+            ],
+            "delta": -0.020833333333333332,
+            "nn_mismatch": 0.9524627720504009,
+            "time_mismatch": 0.2909275128368052
+          },
+          "SX/BASE": {
+            "ci95": [
+              -0.0625,
+              0.0
+            ],
+            "delta": -0.020833333333333332,
+            "nn_mismatch": 0.05346106304079101,
+            "time_mismatch": 0.0059752025747568105
+          },
+          "SX/SAMPLE": {
+            "ci95": [
+              -0.03125,
+              0.0
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.026278206226792444,
+            "time_mismatch": 0.011070401968071408
+          }
+        }
+      },
+      "VISITS": {
+        "arms": {
+          "ACTIVE": {
+            "caps": 0,
+            "certificates": 34,
+            "evals": 41.5,
+            "graph_changes": 2542,
+            "graph_shared_notices": 246,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1622,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 32086,
+              "graph_plans": 16416,
+              "graph_register": 2638,
+              "graph_rule_checks": 15881,
+              "graph_solved_skips": 4138,
+              "graph_width_extra": 207,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 9698,
+              "proof_scans": 1622,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 14095,
+              "select_deep": 8362,
+              "select_nodes": 14122,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 8362,
+              "width_limited": 8128,
+              "width_mass_added": 644,
+              "width_nodes": 14122
+            },
+            "mean_best_bound": 0.2916666666666667,
+            "mean_bound": 0.2916666666666667,
+            "regret": 0.0,
+            "root_override": 0,
+            "root_solved": 28,
+            "stops": 0,
+            "transport_us": 2451.8365208333335,
+            "visits": 128,
+            "whole_us": 2320.3333333333335,
+            "workers_two": 48
+          },
+          "ACTIVE_FULL": {
+            "caps": 0,
+            "certificates": 34,
+            "evals": 105.35416666666667,
+            "graph_changes": 2662,
+            "graph_shared_notices": 328,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1556,
+              "eval_changed": 516,
+              "exact_child_evals": 0,
+              "extra_evals": 3131,
+              "graph_filtered": 32497,
+              "graph_plans": 16429,
+              "graph_register": 2724,
+              "graph_rule_checks": 16479,
+              "graph_solved_skips": 4204,
+              "graph_width_extra": 161,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 9348,
+              "proof_scans": 1556,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 516,
+              "select_changed": 14112,
+              "select_deep": 8362,
+              "select_nodes": 14122,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 8362,
+              "width_limited": 8217,
+              "width_mass_added": 781,
+              "width_nodes": 14122
+            },
+            "mean_best_bound": 0.2916666666666667,
+            "mean_bound": 0.2916666666666667,
+            "regret": 0.0,
+            "root_override": 0,
+            "root_solved": 28,
+            "stops": 0,
+            "transport_us": 4681.5820625,
+            "visits": 128,
+            "whole_us": 4539.1875,
+            "workers_two": 48
+          },
+          "ACTIVE_STOP": {
+            "caps": 0,
+            "certificates": 34,
+            "evals": 35.770833333333336,
+            "graph_changes": 1889,
+            "graph_shared_notices": 124,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 1347,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 9468,
+              "graph_plans": 8502,
+              "graph_register": 2140,
+              "graph_rule_checks": 12806,
+              "graph_solved_skips": 901,
+              "graph_width_extra": 122,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 7998,
+              "proof_scans": 1347,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 8265,
+              "select_deep": 6046,
+              "select_nodes": 8294,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 0,
+              "width_deep": 6046,
+              "width_limited": 5822,
+              "width_mass_added": 509,
+              "width_nodes": 8294
+            },
+            "mean_best_bound": 0.2916666666666667,
+            "mean_bound": 0.2916666666666667,
+            "regret": 0.0,
+            "root_override": 12,
+            "root_solved": 24,
+            "stops": 34,
+            "transport_us": 2180.9925625,
+            "visits": 54.833333333333336,
+            "whole_us": 2053.3125,
+            "workers_two": 48
+          },
+          "BASE": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 58.375,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2408,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 0,
+              "select_deep": 0,
+              "select_nodes": 0,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 3352,
+              "width_deep": 0,
+              "width_limited": 0,
+              "width_mass_added": 0,
+              "width_nodes": 0
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.010416666666666666,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 2670.028604166667,
+            "visits": 128,
+            "whole_us": 2538.1875,
+            "workers_two": 48
+          },
+          "FULL": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 127.625,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2397,
+              "eval_changed": 544,
+              "exact_child_evals": 0,
+              "extra_evals": 3359,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 14802,
+              "proof_scans": 2397,
+              "proof_win": 1092,
+              "proofs": 1092,
+              "refinements": 544,
+              "select_changed": 16812,
+              "select_deep": 11127,
+              "select_nodes": 16887,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 3363,
+              "width_deep": 11127,
+              "width_limited": 11278,
+              "width_mass_added": 1119,
+              "width_nodes": 16887
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.0,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 4899.370416666667,
+            "visits": 128,
+            "whole_us": 4768.020833333333,
+            "workers_two": 48
+          },
+          "ROOT": {
+            "caps": 0,
+            "certificates": 32,
+            "evals": 57.020833333333336,
+            "graph_changes": 2342,
+            "graph_shared_notices": 267,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2367,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 2502,
+              "graph_rule_checks": 15506,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 14638,
+              "proof_scans": 2367,
+              "proof_win": 949,
+              "proofs": 949,
+              "refinements": 0,
+              "select_changed": 16686,
+              "select_deep": 10979,
+              "select_nodes": 16739,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 3393,
+              "width_deep": 10979,
+              "width_limited": 11142,
+              "width_mass_added": 957,
+              "width_nodes": 16739
+            },
+            "mean_best_bound": 0.3333333333333333,
+            "mean_bound": 0.3333333333333333,
+            "regret": 0.0,
+            "root_override": 19,
+            "root_solved": 18,
+            "stops": 0,
+            "transport_us": 2742.6533958333334,
+            "visits": 128,
+            "whole_us": 2605.0208333333335,
+            "workers_two": 48
+          },
+          "SAMPLE": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 55.770833333333336,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2307,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 14250,
+              "proof_scans": 2307,
+              "proof_win": 951,
+              "proofs": 951,
+              "refinements": 0,
+              "select_changed": 16728,
+              "select_deep": 11074,
+              "select_nodes": 16834,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 3453,
+              "width_deep": 11074,
+              "width_limited": 11232,
+              "width_mass_added": 988,
+              "width_nodes": 16834
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.0,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 2497.3704583333333,
+            "visits": 128,
+            "whole_us": 2378.0625,
+            "workers_two": 48
+          },
+          "SX": {
+            "caps": 0,
+            "certificates": 0,
+            "evals": 56.208333333333336,
+            "graph_changes": 0,
+            "graph_shared_notices": 0,
+            "hooks": {
+              "backup_changed": 0,
+              "backup_edges": 0,
+              "base_evals": 2328,
+              "eval_changed": 0,
+              "exact_child_evals": 0,
+              "extra_evals": 0,
+              "graph_filtered": 0,
+              "graph_plans": 0,
+              "graph_register": 0,
+              "graph_rule_checks": 0,
+              "graph_solved_skips": 0,
+              "graph_width_extra": 0,
+              "ledger_contexts": 0,
+              "ledger_nodes": 0,
+              "ledger_observations": 0,
+              "ledger_shared_children": 0,
+              "merge_blends": 0,
+              "proof_checks": 0,
+              "proof_scans": 0,
+              "proof_win": 0,
+              "proofs": 0,
+              "refinements": 0,
+              "select_changed": 16800,
+              "select_deep": 11142,
+              "select_nodes": 16902,
+              "temporal_blends": 0,
+              "terminal_edges": 0,
+              "terminal_leaves": 3432,
+              "width_deep": 11142,
+              "width_limited": 11299,
+              "width_mass_added": 1052,
+              "width_nodes": 16902
+            },
+            "mean_best_bound": null,
+            "mean_bound": null,
+            "regret": 0.020833333333333332,
+            "root_override": 0,
+            "root_solved": 0,
+            "stops": 0,
+            "transport_us": 2552.820125,
+            "visits": 128,
+            "whole_us": 2398.5208333333335,
+            "workers_two": 48
+          }
+        },
+        "n": 24,
+        "paired": {
+          "ACTIVE/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.28907922912205564,
+            "time_mismatch": 0.0858306041876995
+          },
+          "ACTIVE/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.2558834516249533,
+            "time_mismatch": 0.024275714648654745
+          },
+          "ACTIVE/SX": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.26167531504818387,
+            "time_mismatch": 0.032598215914322215
+          },
+          "ACTIVE_FULL/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 1.5386546184738958,
+            "time_mismatch": 0.9562652636115498
+          },
+          "ACTIVE_FULL/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.8047822983583155,
+            "time_mismatch": 0.7883578340843613
+          },
+          "ACTIVE_FULL/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.8890549122151663,
+            "time_mismatch": 0.9087755262950405
+          },
+          "ACTIVE_FULL/SX": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.8743513713862121,
+            "time_mismatch": 0.8924945061626521
+          },
+          "ACTIVE_STOP/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.1380522088353413,
+            "time_mismatch": 0.11507865249245808
+          },
+          "ACTIVE_STOP/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.3872234118486795,
+            "time_mismatch": 0.19103198640762353
+          },
+          "ACTIVE_STOP/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.3586103847590586,
+            "time_mismatch": 0.13656075061105422
+          },
+          "ACTIVE_STOP/SX": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.3636026686434396,
+            "time_mismatch": 0.14392550964570183
+          },
+          "BASE/ACTIVE": {
+            "ci95": [
+              -0.03125,
+              0.0
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.40662650602409633,
+            "time_mismatch": 0.09388916822295634
+          },
+          "BASE/SAMPLE": {
+            "ci95": [
+              -0.03125,
+              0.0
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.0466940605155024,
+            "time_mismatch": 0.06733422691792157
+          },
+          "BASE/SX": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.03854707190511486,
+            "time_mismatch": 0.0582303329308862
+          },
+          "FULL/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 2.075301204819277,
+            "time_mismatch": 1.0548861514150265
+          },
+          "FULL/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 1.1862955032119915,
+            "time_mismatch": 0.878514031502138
+          },
+          "FULL/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 1.288382517743743,
+            "time_mismatch": 1.0050023215678028
+          },
+          "FULL/SX": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 1.2705707931801333,
+            "time_mismatch": 0.9879005289718488
+          },
+          "ROOT/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.37399598393574296,
+            "time_mismatch": 0.12269250107743135
+          },
+          "ROOT/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.02319771591720199,
+            "time_mismatch": 0.0263311253929559
+          },
+          "ROOT/SAMPLE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.022413149047441072,
+            "time_mismatch": 0.09543833828309123
+          },
+          "ROOT/SX": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.014455151964418045,
+            "time_mismatch": 0.0860947285219189
+          },
+          "SAMPLE/ACTIVE": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "delta": 0.0,
+            "nn_mismatch": 0.3438755020080322,
+            "time_mismatch": 0.02487968682660524
+          },
+          "SAMPLE/BASE": {
+            "ci95": [
+              0.0,
+              0.03125
+            ],
+            "delta": 0.010416666666666666,
+            "nn_mismatch": 0.04461099214846531,
+            "time_mismatch": 0.06308635591342249
+          },
+          "SAMPLE/SX": {
+            "ci95": [
+              0.0,
+              0.0625
+            ],
+            "delta": 0.020833333333333332,
+            "nn_mismatch": 0.007783543365455947,
+            "time_mismatch": 0.008529562490771303
+          },
+          "SX/ACTIVE": {
+            "ci95": [
+              -0.0625,
+              0.0
+            ],
+            "delta": -0.020833333333333332,
+            "nn_mismatch": 0.3544176706827309,
+            "time_mismatch": 0.033696667145524994
+          },
+          "SX/BASE": {
+            "ci95": [
+              -0.03125,
+              0.0
+            ],
+            "delta": -0.010416666666666666,
+            "nn_mismatch": 0.03711634546752318,
+            "time_mismatch": 0.055026142342386675
+          },
+          "SX/SAMPLE": {
+            "ci95": [
+              -0.0625,
+              0.0
+            ],
+            "delta": -0.020833333333333332,
+            "nn_mismatch": 0.00784460216660432,
+            "time_mismatch": 0.008602941820634813
+          }
+        }
+      }
+    }
+  },
+  "host_interval": {
+    "max_endpoint_load": 3.66015625,
+    "ok": false,
+    "seconds": 8.310204803012311,
+    "swap_pages_s": 2725.0832604981288
+  },
+  "host_ok": false,
+  "labels": {
+    "EXACT": 72
+  },
+  "max_load1": 3.66015625,
+  "raw_sha": "3aaba7982a2bb16310cb7d75a41dcf725a95be21fff2e462465d972f8d3120a2",
+  "runs": 2304,
+  "scientific_promotion": false
+}
