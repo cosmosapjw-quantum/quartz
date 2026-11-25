@@ -1,0 +1,39 @@
+{
+  "concurrent_model_workers": true,
+  "end": {
+    "load": [
+      6.8212890625,
+      4.8486328125,
+      3.5654296875
+    ],
+    "mono": 448966.426088562,
+    "swap": {
+      "pswpin": 74429010,
+      "pswpout": 76291942
+    }
+  },
+  "group": "TEST",
+  "max_load": 7.7421875,
+  "model": "F2",
+  "raw_sha256": "21b5d200d19a2b46cf106fd2b9e445f145bbe2636a0eee88108890f9e47566d3",
+  "requests": 16,
+  "seconds": 74.8343611350283,
+  "start": {
+    "load": [
+      5.564453125,
+      3.97265625,
+      3.1865234375
+    ],
+    "mono": 448891.591727427,
+    "swap": {
+      "pswpin": 74428169,
+      "pswpout": 76291942
+    }
+  },
+  "swap_delta": {
+    "pswpin": 841,
+    "pswpout": 0
+  },
+  "swap_pages_s": 11.23815299876124,
+  "timing_gate": true
+}
