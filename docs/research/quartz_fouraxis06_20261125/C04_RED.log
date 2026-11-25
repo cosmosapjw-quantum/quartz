@@ -1,0 +1,37 @@
+
+running 3 tests
+test tests::immediate_and_two_ply_loss ... FAILED
+test tests::overline_and_distinct_identity ... FAILED
+test tests::unknown_and_draw ... FAILED
+
+failures:
+
+---- tests::immediate_and_two_ply_loss stdout ----
+
+thread 'tests::immediate_and_two_ply_loss' (1003197) panicked at src/mcts_server/gomoku_long_proof.rs:28:32:
+assertion `left == right` failed
+  left: []
+ right: [99, 104]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- tests::overline_and_distinct_identity stdout ----
+
+thread 'tests::overline_and_distinct_identity' (1003198) panicked at src/mcts_server/gomoku_long_proof.rs:22:9:
+assertion failed: wins(&b, 1, 109, false)
+
+---- tests::unknown_and_draw stdout ----
+
+thread 'tests::unknown_and_draw' (1003199) panicked at src/mcts_server/gomoku_long_proof.rs:36:9:
+assertion `left == right` failed
+  left: 0
+ right: 225
+
+
+failures:
+    tests::immediate_and_two_ply_loss
+    tests::overline_and_distinct_identity
+    tests::unknown_and_draw
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=101
