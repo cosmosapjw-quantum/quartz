@@ -1,0 +1,157 @@
+{
+  "actual_axis_exposure": {
+    "SELFPLAY/backup_changed": 22106,
+    "SELFPLAY/extra_evals": 11092,
+    "SELFPLAY/ledger_shared_children": 294,
+    "SELFPLAY/merge_blends": 288,
+    "SELFPLAY/refinements": 6032,
+    "SELFPLAY/select_changed": 63175,
+    "SELFPLAY/select_deep": 30449,
+    "SELFPLAY/temporal_blends": 22263,
+    "SELFPLAY/width_limited": 38985,
+    "SELFPLAY/width_mass_added": 6713,
+    "TACTICAL/backup_changed": 34124,
+    "TACTICAL/extra_evals": 10866,
+    "TACTICAL/ledger_shared_children": 490,
+    "TACTICAL/merge_blends": 544,
+    "TACTICAL/refinements": 6291,
+    "TACTICAL/select_changed": 85367,
+    "TACTICAL/select_deep": 52691,
+    "TACTICAL/temporal_blends": 34802,
+    "TACTICAL/width_limited": 58862,
+    "TACTICAL/width_mass_added": 8247
+  },
+  "all_root_visits": 64,
+  "attempt_strata": {
+    "SELFPLAY": 104,
+    "TACTICAL": 61
+  },
+  "attempts": 165,
+  "cohort": {
+    "SELFPLAY/-1": 16,
+    "SELFPLAY/1": 16,
+    "TACTICAL/-1": 16,
+    "TACTICAL/1": 16
+  },
+  "deep_merge_blends": 389,
+  "exact_labels": 64,
+  "exact_utility_attribution": {
+    "SELFPLAY": {
+      "full_delta": "-1/64",
+      "mobius_exact": [
+        "35/64",
+        "0",
+        "0",
+        "0",
+        "-1/64",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "shapley_exact": [
+        "0",
+        "0",
+        "-1/64",
+        "0"
+      ]
+    },
+    "TACTICAL": {
+      "full_delta": "-3/128",
+      "mobius_exact": [
+        "55/128",
+        "-1/64",
+        "-1/32",
+        "1/64",
+        "-3/128",
+        "0",
+        "1/64",
+        "1/64",
+        "-1/128",
+        "1/32",
+        "1/128",
+        "1/128",
+        "1/128",
+        "-1/64",
+        "1/128",
+        "-5/128"
+      ],
+      "shapley_exact": [
+        "1/1536",
+        "-17/1536",
+        "-29/1536",
+        "3/512"
+      ]
+    }
+  },
+  "factorial_checks": 6,
+  "full_mask_hooks": {
+    "SELFPLAY": {
+      "backup_changed": 2955,
+      "extra_evals": 1483,
+      "ledger_shared_children": 45,
+      "merge_blends": 33,
+      "refinements": 811,
+      "select_changed": 8201,
+      "select_deep": 4110,
+      "temporal_blends": 2974,
+      "width_limited": 4990,
+      "width_mass_added": 934
+    },
+    "TACTICAL": {
+      "backup_changed": 4322,
+      "extra_evals": 1423,
+      "ledger_shared_children": 69,
+      "merge_blends": 70,
+      "refinements": 828,
+      "select_changed": 10904,
+      "select_deep": 6820,
+      "temporal_blends": 4422,
+      "width_limited": 7360,
+      "width_mass_added": 1096
+    }
+  },
+  "host_ok": true,
+  "known_transposition": {
+    "histories": [
+      "1234",
+      "3214"
+    ],
+    "root_hash": "41ebbe23001eca8a"
+  },
+  "mirror_vectors": 6,
+  "native_runs": 2048,
+  "parity": 4,
+  "roots": 64,
+  "runs_with_axis_events": {
+    "SELFPLAY/backup_changed": 428,
+    "SELFPLAY/extra_evals": 435,
+    "SELFPLAY/ledger_shared_children": 149,
+    "SELFPLAY/merge_blends": 133,
+    "SELFPLAY/refinements": 435,
+    "SELFPLAY/select_changed": 512,
+    "SELFPLAY/select_deep": 487,
+    "SELFPLAY/temporal_blends": 429,
+    "SELFPLAY/width_limited": 512,
+    "SELFPLAY/width_mass_added": 512,
+    "TACTICAL/backup_changed": 511,
+    "TACTICAL/extra_evals": 508,
+    "TACTICAL/ledger_shared_children": 212,
+    "TACTICAL/merge_blends": 168,
+    "TACTICAL/refinements": 508,
+    "TACTICAL/select_changed": 512,
+    "TACTICAL/select_deep": 512,
+    "TACTICAL/temporal_blends": 512,
+    "TACTICAL/width_limited": 512,
+    "TACTICAL/width_mass_added": 512
+  },
+  "scientific_promotion": false,
+  "selfplay_events": 966
+}
