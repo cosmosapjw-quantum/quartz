@@ -1,0 +1,202 @@
+{
+  "identity": {
+    "native": {
+      "native": "90171712d9d473e67899867863664835895fb237271c8cdec8ef4728cd11f677",
+      "previous": {
+        "binary": "c238b84ca99695e8415974d122b17d576f6b8a30d135d8a5ff92fa88a18bf64b",
+        "book": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+        "model": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+        "oracle": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+        "parent_binary": "dbd544df9b7288f5c54364a6e4818b0484d3c3be22aab072982a9ec7c4955ea7",
+        "source": "ef677ba8d1438dc36b030a1dfc925d876a6e58f1"
+      },
+      "source": "bc13c32ff400d8cfae0709f3cc8f8046a7275573"
+    },
+    "parent": {
+      "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+      "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+      "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+      "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+      "rust_binary": "dbd544df9b7288f5c54364a6e4818b0484d3c3be22aab072982a9ec7c4955ea7",
+      "rust_source": "6ad49bf73eabbb3a9f7e8e2d4d9f25687a5756ce"
+    }
+  },
+  "jobs": [
+    {
+      "family": "12d7ecfde520cb0e8fad62a49f621933aa4ef0abee377ada085e883c959db196",
+      "id": 0,
+      "opening": [
+        129,
+        154,
+        160,
+        114,
+        109,
+        96
+      ]
+    },
+    {
+      "family": "db777e1f7c83491c8f5d5091a197b534b82b6c636717db02db2a4f0a5e6c137d",
+      "id": 1,
+      "opening": [
+        65,
+        125,
+        139,
+        160,
+        142,
+        84
+      ]
+    },
+    {
+      "family": "2a0860e47043f408d3795b633af86e7a5f3dc84c575fcf4e9a7b3de63fcf0f32",
+      "id": 2,
+      "opening": [
+        115,
+        145,
+        144,
+        126,
+        100,
+        139
+      ]
+    },
+    {
+      "family": "f35c177c483b4c35372466d001d891fc987f16cc4d096e2852a8cbbd6b657ab0",
+      "id": 3,
+      "opening": [
+        158,
+        143,
+        110,
+        83,
+        142,
+        64
+      ]
+    },
+    {
+      "family": "8607ef878182ec76a6e5fe1ad629203fcf84bc4c0d74784b75f1df17eb0e591f",
+      "id": 4,
+      "opening": [
+        154,
+        85,
+        80,
+        110,
+        115,
+        109
+      ]
+    },
+    {
+      "family": "b1d0ddc5f76cd0a2a9288cafa5693b8a3fc32e4fc943fac68fc427e473ffe6f1",
+      "id": 5,
+      "opening": [
+        82,
+        156,
+        145,
+        154,
+        125,
+        159
+      ]
+    },
+    {
+      "family": "5f533d9a477c1eb2e0db7fd7665b4a0606160fb09f3a692f341dd87ee007c448",
+      "id": 6,
+      "opening": [
+        97,
+        130,
+        144,
+        142,
+        154,
+        157
+      ]
+    },
+    {
+      "family": "c8ad41874396eea3cd249a169cff1fbe8d300a5fc838ba959b31430f6e560d42",
+      "id": 7,
+      "opening": [
+        67,
+        140,
+        84,
+        114,
+        96,
+        158
+      ]
+    },
+    {
+      "family": "8fbf9b0f44c5926750c8ebc9304b424718adb4b75d803c72d9c124e124a24575",
+      "id": 8,
+      "opening": [
+        140,
+        145,
+        114,
+        95,
+        69,
+        85
+      ]
+    },
+    {
+      "family": "3544e19b3c152d251e04561e99ceb1ff31e6805e385e513e3ed62b47be4f4137",
+      "id": 9,
+      "opening": [
+        112,
+        125,
+        115,
+        124,
+        114,
+        140
+      ]
+    },
+    {
+      "family": "421dd4381a183b4eb4d8afce70c801ca7721f4146b0f889f07fd3185ed31af3e",
+      "id": 10,
+      "opening": [
+        100,
+        84,
+        111,
+        69,
+        85,
+        130
+      ]
+    },
+    {
+      "family": "15517a89ae444ce191d78f92498f72fbebdf7e1173806632706ed844624e33e9",
+      "id": 11,
+      "opening": [
+        141,
+        111,
+        144,
+        70,
+        124,
+        83
+      ]
+    }
+  ],
+  "old_boards": 10755,
+  "old_families": 211,
+  "seed": 202611262001,
+  "source_locks": [
+    {
+      "path": "docs/research/quartz_kinetic16_20261126/C06_GOMOKU_SOURCE.jsonl.gz",
+      "sha256": "2e50ac5db893b7d25f06fda1d794765d1b9379eff9b954ab8bb6799ea58f66dc"
+    },
+    {
+      "path": "docs/research/quartz_kinetic16_20261126/C08_TRAIN_LABELS.jsonl.gz",
+      "sha256": "f073a75048d115375a51ea942a37f9a818ce16e5ffd34174c252ebe5e0eea4d4"
+    },
+    {
+      "path": "docs/research/quartz_kinetic16_20261126/C08_HELDOUT_LABELS.jsonl.gz",
+      "sha256": "46f21b282fde5f227d1d0a1ff3231c668bf2d0545fef4ef505ed10c5eb00970c"
+    },
+    {
+      "commit": "b0979f88611b5bf71ba1c06851b1bc1e1be25723",
+      "path": "docs/research/quartz_kinetic19_20261126/G_PLAN.json",
+      "sha256": "ec1c84d3f7973bb6a0d6432b3e23b9a54a38f33eb19b1583ad3368fa5458d201"
+    },
+    {
+      "commit": "b0979f88611b5bf71ba1c06851b1bc1e1be25723",
+      "path": "docs/research/quartz_kinetic19_20261126/G_SOURCE.jsonl.gz",
+      "sha256": "84c49ac412249709729830b57533883e91cbfa5eea5603abb5c4be3197924db0"
+    },
+    {
+      "commit": "b0979f88611b5bf71ba1c06851b1bc1e1be25723",
+      "path": "docs/research/quartz_kinetic19_20261126/G_LABELS.jsonl.gz",
+      "sha256": "09b23da575b1ffd8401e5f47fe49ba9190d7a86434375360eb71c1d0ebcc871e"
+    }
+  ]
+}
