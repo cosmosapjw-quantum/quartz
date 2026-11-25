@@ -1,0 +1,638 @@
+{
+  "availability_ok": true,
+  "fit_host_ok": true,
+  "groups": {
+    "SELFPLAY": {
+      "arms": {
+        "DP": {
+          "continuation_step_us": 16387.5,
+          "drop_us": 15833.333333333334,
+          "evals": 470.6666666666667,
+          "gain": 0.07552083333333333,
+          "max_overrun_us": 428,
+          "optional_us": 16482.333333333332,
+          "overrun_pools": 4,
+          "overrun_us": 127.33333333333333,
+          "plan_us": 36.833333333333336,
+          "planned": {
+            "8": 42,
+            "16": 54,
+            "32": 72
+          },
+          "prefix_step_us": 17209.666666666668,
+          "regret": 0.11197916666666667,
+          "requests": 48,
+          "selected": {
+            "8": 40,
+            "16": 47,
+            "32": 61
+          },
+          "setup_total_us": 20908.666666666668,
+          "transport_us": 73127.09966666666,
+          "visits": 10.333333333333334,
+          "whole_us": 70902.5
+        },
+        "ENTROPY16": {
+          "continuation_step_us": 19084.5,
+          "drop_us": 15522.666666666666,
+          "evals": 477.8333333333333,
+          "gain": 0.03125,
+          "max_overrun_us": 46,
+          "optional_us": 19156.166666666668,
+          "overrun_pools": 3,
+          "overrun_us": 13.666666666666666,
+          "plan_us": 8,
+          "planned": {
+            "16": 384
+          },
+          "prefix_step_us": 17278.333333333332,
+          "regret": 0.15625,
+          "requests": 48,
+          "selected": {
+            "16": 173
+          },
+          "setup_total_us": 21223.5,
+          "transport_us": 75530.69,
+          "visits": 9.40625,
+          "whole_us": 73664.66666666667
+        },
+        "FIXED8": {
+          "continuation_step_us": 19611.333333333332,
+          "drop_us": 14645.166666666666,
+          "evals": 407.8333333333333,
+          "gain": 0.078125,
+          "max_overrun_us": 0,
+          "optional_us": 19692.5,
+          "overrun_pools": 0,
+          "overrun_us": 0,
+          "plan_us": 8,
+          "planned": {
+            "8": 384
+          },
+          "prefix_step_us": 17511.333333333332,
+          "regret": 0.109375,
+          "requests": 48,
+          "selected": {
+            "8": 337
+          },
+          "setup_total_us": 22026.833333333332,
+          "transport_us": 77843.1275,
+          "visits": 7.510416666666667,
+          "whole_us": 74348.83333333333
+        },
+        "PREFIX": {
+          "continuation_step_us": 0,
+          "drop_us": 16873,
+          "evals": 256,
+          "gain": 0.0,
+          "max_overrun_us": 0,
+          "optional_us": 8,
+          "overrun_pools": 0,
+          "overrun_us": 0,
+          "plan_us": 8,
+          "planned": {},
+          "prefix_step_us": 17130,
+          "regret": 0.1875,
+          "requests": 48,
+          "selected": {},
+          "setup_total_us": 21192,
+          "transport_us": 57308.567833333334,
+          "visits": 4,
+          "whole_us": 55667.666666666664
+        },
+        "RANDOM16": {
+          "continuation_step_us": 19292.333333333332,
+          "drop_us": 15826,
+          "evals": 484,
+          "gain": 0.059895833333333336,
+          "max_overrun_us": 202,
+          "optional_us": 19377,
+          "overrun_pools": 4,
+          "overrun_us": 77.16666666666667,
+          "plan_us": 15.333333333333334,
+          "planned": {
+            "16": 384
+          },
+          "prefix_step_us": 17852.333333333332,
+          "regret": 0.12760416666666666,
+          "requests": 48,
+          "selected": {
+            "16": 192
+          },
+          "setup_total_us": 21406.166666666668,
+          "transport_us": 77063.42166666666,
+          "visits": 10,
+          "whole_us": 74952.16666666667
+        },
+        "RATIO": {
+          "continuation_step_us": 15752.333333333334,
+          "drop_us": 17079.166666666668,
+          "evals": 458.8333333333333,
+          "gain": 0.07552083333333333,
+          "max_overrun_us": 27,
+          "optional_us": 15845.5,
+          "overrun_pools": 1,
+          "overrun_us": 4.5,
+          "plan_us": 36.166666666666664,
+          "planned": {
+            "8": 90,
+            "16": 18,
+            "32": 66
+          },
+          "prefix_step_us": 17180,
+          "regret": 0.11197916666666667,
+          "requests": 48,
+          "selected": {
+            "8": 89,
+            "16": 17,
+            "32": 62
+          },
+          "setup_total_us": 21592.5,
+          "transport_us": 74308.10583333333,
+          "visits": 9.979166666666666,
+          "whole_us": 72166.33333333333
+        },
+        "ROBUST_DP": {
+          "continuation_step_us": 6913.833333333333,
+          "drop_us": 15588.666666666666,
+          "evals": 344,
+          "gain": 0.046875,
+          "max_overrun_us": 0,
+          "optional_us": 6971.333333333333,
+          "overrun_pools": 0,
+          "overrun_us": 0,
+          "plan_us": 31,
+          "planned": {
+            "8": 42,
+            "16": 6,
+            "32": 30
+          },
+          "prefix_step_us": 17129.666666666668,
+          "regret": 0.140625,
+          "requests": 48,
+          "selected": {
+            "8": 42,
+            "16": 6,
+            "32": 30
+          },
+          "selected_coordinate_coverage": 1.0,
+          "selected_coordinates": 144,
+          "setup_total_us": 20258.666666666668,
+          "transport_us": 62423.639500000005,
+          "visits": 6.8125,
+          "whole_us": 60410.333333333336
+        }
+      },
+      "best_eligible": "FIXED8",
+      "decision_time_pass": false,
+      "eligible": [
+        "FIXED8",
+        "RANDOM16",
+        "ENTROPY16"
+      ],
+      "n": 64,
+      "paired": {
+        "DP/ENTROPY16": {
+          "ci95": [
+            -0.015625,
+            0.109375
+          ],
+          "improvement": 0.044270833333333336,
+          "n": 64,
+          "time_mismatch": 0.03749649311746028,
+          "transport_mismatch": 0.031822697943489464
+        },
+        "DP/FIXED8": {
+          "ci95": [
+            -0.0625,
+            0.05729166666666667
+          ],
+          "improvement": -0.002604166666666666,
+          "n": 64,
+          "time_mismatch": 0.046353563046270585,
+          "transport_mismatch": 0.060583740463579616
+        },
+        "DP/PREFIX": {
+          "ci95": [
+            0.015625,
+            0.1484375
+          ],
+          "improvement": 0.07552083333333333,
+          "n": 64,
+          "time_mismatch": 0.2736747244061484,
+          "transport_mismatch": 0.2760238552695524
+        },
+        "DP/RANDOM16": {
+          "ci95": [
+            -0.031249999999999997,
+            0.06510416666666667
+          ],
+          "improvement": 0.015625,
+          "n": 64,
+          "time_mismatch": 0.054030014698263185,
+          "transport_mismatch": 0.05107899331314836
+        },
+        "DP/RATIO": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "improvement": 0.0,
+          "n": 64,
+          "time_mismatch": 0.017512782968974405,
+          "transport_mismatch": 0.015893369282155678
+        },
+        "DP/ROBUST_DP": {
+          "ci95": [
+            0.0,
+            0.07291666666666667
+          ],
+          "improvement": 0.028645833333333336,
+          "n": 64,
+          "time_mismatch": 0.17368165490451415,
+          "transport_mismatch": 0.17146485293710967
+        },
+        "ROBUST_DP/DP": {
+          "ci95": [
+            -0.07291666666666667,
+            0.0
+          ],
+          "improvement": -0.028645833333333336,
+          "n": 64,
+          "time_mismatch": 0.14798020756202768,
+          "transport_mismatch": 0.1463679021246017
+        },
+        "ROBUST_DP/ENTROPY16": {
+          "ci95": [
+            -0.03125,
+            0.0625
+          ],
+          "improvement": 0.015625,
+          "n": 64,
+          "time_mismatch": 0.17992796184511795,
+          "transport_mismatch": 0.1735327785301577
+        },
+        "ROBUST_DP/FIXED8": {
+          "ci95": [
+            -0.078125,
+            0.0
+          ],
+          "improvement": -0.03125,
+          "n": 64,
+          "time_mismatch": 0.1874743607274716,
+          "transport_mismatch": 0.19808412759366578
+        },
+        "ROBUST_DP/PREFIX": {
+          "ci95": [
+            0.0,
+            0.109375
+          ],
+          "improvement": 0.046875,
+          "n": 64,
+          "time_mismatch": 0.08519607432201837,
+          "transport_mismatch": 0.0892549205128017
+        },
+        "ROBUST_DP/RANDOM16": {
+          "ci95": [
+            -0.06770833333333333,
+            0.04166666666666667
+          ],
+          "improvement": -0.013020833333333332,
+          "n": 64,
+          "time_mismatch": 0.1940148494706624,
+          "transport_mismatch": 0.189970570343868
+        },
+        "ROBUST_DP/RATIO": {
+          "ci95": [
+            -0.07291666666666667,
+            0.0
+          ],
+          "improvement": -0.028645833333333336,
+          "n": 64,
+          "time_mismatch": 0.16290144527226447,
+          "transport_mismatch": 0.15993499228723662
+        }
+      }
+    },
+    "TACTICAL": {
+      "arms": {
+        "DP": {
+          "continuation_step_us": 17691.833333333332,
+          "drop_us": 15481.833333333334,
+          "evals": 511.5,
+          "gain": 0.0234375,
+          "max_overrun_us": 0,
+          "optional_us": 17803.5,
+          "overrun_pools": 0,
+          "overrun_us": 0,
+          "plan_us": 42.5,
+          "planned": {
+            "8": 186,
+            "16": 18,
+            "32": 36
+          },
+          "prefix_step_us": 20151.666666666668,
+          "regret": 0.1796875,
+          "requests": 48,
+          "selected": {
+            "8": 186,
+            "16": 18,
+            "32": 36
+          },
+          "setup_total_us": 21367.666666666668,
+          "transport_us": 77571.44133333334,
+          "visits": 9.125,
+          "whole_us": 75271.5
+        },
+        "ENTROPY16": {
+          "continuation_step_us": 26646.833333333332,
+          "drop_us": 15745.666666666666,
+          "evals": 587.6666666666666,
+          "gain": 0.078125,
+          "max_overrun_us": 60,
+          "optional_us": 26742,
+          "overrun_pools": 1,
+          "overrun_us": 10,
+          "plan_us": 8,
+          "planned": {
+            "16": 384
+          },
+          "prefix_step_us": 19720.333333333332,
+          "regret": 0.125,
+          "requests": 48,
+          "selected": {
+            "16": 220
+          },
+          "setup_total_us": 23683.166666666668,
+          "transport_us": 88617.82466666667,
+          "visits": 10.875,
+          "whole_us": 86389.33333333333
+        },
+        "FIXED8": {
+          "continuation_step_us": 24192.5,
+          "drop_us": 15335.333333333334,
+          "evals": 533.6666666666666,
+          "gain": 0.0546875,
+          "max_overrun_us": 0,
+          "optional_us": 24288.333333333332,
+          "overrun_pools": 0,
+          "overrun_us": 0,
+          "plan_us": 8,
+          "planned": {
+            "8": 384
+          },
+          "prefix_step_us": 19987.166666666668,
+          "regret": 0.1484375,
+          "requests": 48,
+          "selected": {
+            "8": 378
+          },
+          "setup_total_us": 22938.333333333332,
+          "transport_us": 84906.418,
+          "visits": 7.9375,
+          "whole_us": 83032.66666666667
+        },
+        "PREFIX": {
+          "continuation_step_us": 0,
+          "drop_us": 17550,
+          "evals": 317,
+          "gain": 0.0,
+          "max_overrun_us": 0,
+          "optional_us": 8,
+          "overrun_pools": 0,
+          "overrun_us": 0,
+          "plan_us": 8,
+          "planned": {},
+          "prefix_step_us": 20499,
+          "regret": 0.203125,
+          "requests": 48,
+          "selected": {},
+          "setup_total_us": 24303.5,
+          "transport_us": 64376.114499999996,
+          "visits": 4,
+          "whole_us": 62851.833333333336
+        },
+        "RANDOM16": {
+          "continuation_step_us": 26990.666666666668,
+          "drop_us": 15436.666666666666,
+          "evals": 643.8333333333334,
+          "gain": 0.07291666666666667,
+          "max_overrun_us": 197,
+          "optional_us": 27096.666666666668,
+          "overrun_pools": 2,
+          "overrun_us": 42.833333333333336,
+          "plan_us": 14.833333333333334,
+          "planned": {
+            "16": 384
+          },
+          "prefix_step_us": 20481.166666666668,
+          "regret": 0.13020833333333334,
+          "requests": 48,
+          "selected": {
+            "16": 241
+          },
+          "setup_total_us": 22299.833333333332,
+          "transport_us": 87952.9785,
+          "visits": 11.53125,
+          "whole_us": 85807
+        },
+        "RATIO": {
+          "continuation_step_us": 18615,
+          "drop_us": 14822.666666666666,
+          "evals": 518.6666666666666,
+          "gain": 0.0390625,
+          "max_overrun_us": 0,
+          "optional_us": 18723,
+          "overrun_pools": 0,
+          "overrun_us": 0,
+          "plan_us": 37,
+          "planned": {
+            "8": 204,
+            "16": 30,
+            "32": 18
+          },
+          "prefix_step_us": 19418.333333333332,
+          "regret": 0.1640625,
+          "requests": 48,
+          "selected": {
+            "8": 204,
+            "16": 30,
+            "32": 18
+          },
+          "setup_total_us": 20903.166666666668,
+          "transport_us": 76555.0765,
+          "visits": 8.375,
+          "whole_us": 74333
+        },
+        "ROBUST_DP": {
+          "continuation_step_us": 10749,
+          "drop_us": 16319.833333333334,
+          "evals": 422.6666666666667,
+          "gain": -0.0078125,
+          "max_overrun_us": 0,
+          "optional_us": 10830,
+          "overrun_pools": 0,
+          "overrun_us": 0,
+          "plan_us": 37.166666666666664,
+          "planned": {
+            "8": 144,
+            "16": 12,
+            "32": 12
+          },
+          "prefix_step_us": 19943.5,
+          "regret": 0.2109375,
+          "requests": 48,
+          "selected": {
+            "8": 144,
+            "16": 12,
+            "32": 12
+          },
+          "selected_coordinate_coverage": 1.0,
+          "selected_coordinates": 204,
+          "setup_total_us": 20904.166666666668,
+          "transport_us": 70631.44233333334,
+          "visits": 6.75,
+          "whole_us": 68468.83333333333
+        }
+      },
+      "best_eligible": "FIXED8",
+      "decision_time_pass": false,
+      "eligible": [
+        "FIXED8"
+      ],
+      "n": 64,
+      "paired": {
+        "DP/ENTROPY16": {
+          "ci95": [
+            -0.125,
+            0.0078125
+          ],
+          "improvement": -0.0546875,
+          "n": 64,
+          "time_mismatch": 0.128694514754908,
+          "transport_mismatch": 0.12465193514830653
+        },
+        "DP/FIXED8": {
+          "ci95": [
+            -0.0703125,
+            0.0
+          ],
+          "improvement": -0.03125,
+          "n": 64,
+          "time_mismatch": 0.09347124424925135,
+          "transport_mismatch": 0.08638895432694693
+        },
+        "DP/PREFIX": {
+          "ci95": [
+            -0.0390625,
+            0.09375
+          ],
+          "improvement": 0.0234375,
+          "n": 64,
+          "time_mismatch": 0.19760229746679348,
+          "transport_mismatch": 0.2049724021994732
+        },
+        "DP/RANDOM16": {
+          "ci95": [
+            -0.10807291666666667,
+            0.005208333333333332
+          ],
+          "improvement": -0.049479166666666664,
+          "n": 64,
+          "time_mismatch": 0.12278135816425229,
+          "transport_mismatch": 0.1180350835607763
+        },
+        "DP/RATIO": {
+          "ci95": [
+            -0.046875,
+            0.0
+          ],
+          "improvement": -0.015625,
+          "n": 64,
+          "time_mismatch": 0.012625617155233915,
+          "transport_mismatch": 0.013276256517532614
+        },
+        "DP/ROBUST_DP": {
+          "ci95": [
+            0.0,
+            0.078125
+          ],
+          "improvement": 0.03125,
+          "n": 64,
+          "time_mismatch": 0.09935420738876344,
+          "transport_mismatch": 0.09825650971769528
+        },
+        "ROBUST_DP/DP": {
+          "ci95": [
+            -0.078125,
+            0.0
+          ],
+          "improvement": -0.03125,
+          "n": 64,
+          "time_mismatch": 0.09037506448877297,
+          "transport_mismatch": 0.08946590240831065
+        },
+        "ROBUST_DP/ENTROPY16": {
+          "ci95": [
+            -0.15364583333333334,
+            -0.03125
+          ],
+          "improvement": -0.0859375,
+          "n": 64,
+          "time_mismatch": 0.2074388041733547,
+          "transport_mismatch": 0.20296573969163167
+        },
+        "ROBUST_DP/FIXED8": {
+          "ci95": [
+            -0.125,
+            -0.015625
+          ],
+          "improvement": -0.0625,
+          "n": 64,
+          "time_mismatch": 0.17539883901115239,
+          "transport_mismatch": 0.16812599097828695
+        },
+        "ROBUST_DP/PREFIX": {
+          "ci95": [
+            -0.0546875,
+            0.0390625
+          ],
+          "improvement": -0.0078125,
+          "n": 64,
+          "time_mismatch": 0.08936891260132951,
+          "transport_mismatch": 0.09716845885958758
+        },
+        "ROBUST_DP/RANDOM16": {
+          "ci95": [
+            -0.13802083333333334,
+            -0.03125
+          ],
+          "improvement": -0.08072916666666667,
+          "n": 64,
+          "time_mismatch": 0.20206004949091183,
+          "transport_mismatch": 0.19694087070248179
+        },
+        "ROBUST_DP/RATIO": {
+          "ci95": [
+            -0.09375,
+            0.0
+          ],
+          "improvement": -0.046875,
+          "n": 64,
+          "time_mismatch": 0.07889048829815382,
+          "transport_mismatch": 0.07737741816072319
+        }
+      }
+    }
+  },
+  "host_max_load1": 3.5029296875,
+  "host_ok": false,
+  "labels": {
+    "EXACT": 128
+  },
+  "profile_ok": true,
+  "promotion": false,
+  "raw_sha": "debc47be98d1a00107162be050426e0b5a92e655e864b946fab1ac96b3b5b184",
+  "requests": 672,
+  "root_traces": 5376
+}
