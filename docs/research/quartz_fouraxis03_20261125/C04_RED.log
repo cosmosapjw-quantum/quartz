@@ -1,0 +1,30 @@
+
+running 2 tests
+test tests::graph_propagates_all_parents ... FAILED
+test tests::unknown_and_dominance ... FAILED
+
+failures:
+
+---- tests::graph_propagates_all_parents stdout ----
+
+thread 'tests::graph_propagates_all_parents' (153829) panicked at src/mcts/proof_graph.rs:34:5:
+assertion `left == right` failed
+  left: (-1, 1)
+ right: (1, 1)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- tests::unknown_and_dominance stdout ----
+
+thread 'tests::unknown_and_dominance' (153830) panicked at src/mcts/proof_graph.rs:27:5:
+assertion `left == right` failed
+  left: (-1, 1)
+ right: (0, 0)
+
+
+failures:
+    tests::graph_propagates_all_parents
+    tests::unknown_and_dominance
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=101
