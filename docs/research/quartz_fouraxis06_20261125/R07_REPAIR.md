@@ -1,0 +1,1 @@
+First R07 attempt: generated theory_check.py line58 unterminated string, syntax error before computation. Corrected escaping in generator and generated file; no change to mathematical contract or inputs.

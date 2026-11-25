@@ -73,7 +73,7 @@ for group in ('TRAIN','CAL'):
         for v,r in rows:assert v[:2]==r[:2]
         d=[v[2] for v,r in rows];x=[v[3] for v,r in rows];delta=[v[3]-r[3] for v,r in rows]
         out[group][arm]=dict(families=len(rows),risk_drop_count=sum(y>0 for y in d),mean_risk_drop=float(S.mean(d)),p_risk=float(F(sum(y>0 for y in d),len(d))),conditional_risk_drop=float(S.mean([y for y in d if y>0])) if any(d) else None,signed_gain=float(S.mean(x)),paired_vs_safe=float(S.mean(delta)),positive=sum(y>0 for y in x),negative=sum(y<0 for y in x),mean_plan_search_us=S.mean(v[4] for v,r in rows))
-(D/'R07_LOCAL_EVIDENCE.json').write_text(json.dumps(dict(assertions=n,sources={name:sha(p/name) for name in ('C07_DIAG_RAW.jsonl.gz','C07_DIAG_LABELS.json')},groups=out,scope='previous exact TRAIN/CAL first block, unresolved common prefix only; descriptive, no new label or generation'),indent=2,sort_keys=True)+'\n')
+(D/'R07_LOCAL_EVIDENCE.json').write_text(json.dumps(dict(assertions=n,sources={name:sha(p/name) for name in ('C07_DIAG_RAW.jsonl.gz','C07_DIAG_LABELS.json')},groups=out,scope='previous exact TRAIN/CAL first block, unresolved common prefix only; descriptive, no new label or generation'),indent=2,sort_keys=True)+'\\n')
 print('Exact line and terminal-label checks',n)
 print(json.dumps(out,sort_keys=True))
 """)

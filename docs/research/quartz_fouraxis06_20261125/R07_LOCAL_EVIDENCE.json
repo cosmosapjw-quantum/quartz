@@ -1,0 +1,206 @@
+{
+  "assertions": 69990,
+  "groups": {
+    "CAL": {
+      "ACTIVE": {
+        "conditional_risk_drop": 1.0,
+        "families": 16,
+        "mean_plan_search_us": 258.0625,
+        "mean_risk_drop": 0.25,
+        "negative": 0,
+        "p_risk": 0.25,
+        "paired_vs_safe": 0.0,
+        "positive": 0,
+        "risk_drop_count": 4,
+        "signed_gain": 0.0
+      },
+      "EVAL": {
+        "conditional_risk_drop": 1.0,
+        "families": 16,
+        "mean_plan_search_us": 389.0625,
+        "mean_risk_drop": 0.0625,
+        "negative": 0,
+        "p_risk": 0.0625,
+        "paired_vs_safe": 0.0,
+        "positive": 0,
+        "risk_drop_count": 1,
+        "signed_gain": 0.0
+      },
+      "EXPAND": {
+        "conditional_risk_drop": 1.0,
+        "families": 16,
+        "mean_plan_search_us": 192.125,
+        "mean_risk_drop": 0.1875,
+        "negative": 0,
+        "p_risk": 0.1875,
+        "paired_vs_safe": 0.0,
+        "positive": 0,
+        "risk_drop_count": 3,
+        "signed_gain": 0.0
+      },
+      "FOCUS": {
+        "conditional_risk_drop": 1.0,
+        "families": 16,
+        "mean_plan_search_us": 161.4375,
+        "mean_risk_drop": 0.0625,
+        "negative": 0,
+        "p_risk": 0.0625,
+        "paired_vs_safe": 0.0,
+        "positive": 0,
+        "risk_drop_count": 1,
+        "signed_gain": 0.0
+      },
+      "FRONTIER": {
+        "conditional_risk_drop": 1.0,
+        "families": 16,
+        "mean_plan_search_us": 377.125,
+        "mean_risk_drop": 0.125,
+        "negative": 0,
+        "p_risk": 0.125,
+        "paired_vs_safe": 0.0,
+        "positive": 0,
+        "risk_drop_count": 2,
+        "signed_gain": 0.0
+      },
+      "MERGE": {
+        "conditional_risk_drop": 1.0,
+        "families": 16,
+        "mean_plan_search_us": 161.625,
+        "mean_risk_drop": 0.0625,
+        "negative": 0,
+        "p_risk": 0.0625,
+        "paired_vs_safe": 0.0,
+        "positive": 0,
+        "risk_drop_count": 1,
+        "signed_gain": 0.0
+      },
+      "SAFE": {
+        "conditional_risk_drop": 1.0,
+        "families": 16,
+        "mean_plan_search_us": 165.8125,
+        "mean_risk_drop": 0.0625,
+        "negative": 0,
+        "p_risk": 0.0625,
+        "paired_vs_safe": 0.0,
+        "positive": 0,
+        "risk_drop_count": 1,
+        "signed_gain": 0.0
+      },
+      "WRITER": {
+        "conditional_risk_drop": 1.0,
+        "families": 16,
+        "mean_plan_search_us": 160,
+        "mean_risk_drop": 0.0625,
+        "negative": 0,
+        "p_risk": 0.0625,
+        "paired_vs_safe": 0.0,
+        "positive": 0,
+        "risk_drop_count": 1,
+        "signed_gain": 0.0
+      }
+    },
+    "TRAIN": {
+      "ACTIVE": {
+        "conditional_risk_drop": 1.0,
+        "families": 19,
+        "mean_plan_search_us": 198.78947368421052,
+        "mean_risk_drop": 0.10526315789473684,
+        "negative": 0,
+        "p_risk": 0.10526315789473684,
+        "paired_vs_safe": 0.0,
+        "positive": 1,
+        "risk_drop_count": 2,
+        "signed_gain": 0.05263157894736842
+      },
+      "EVAL": {
+        "conditional_risk_drop": null,
+        "families": 19,
+        "mean_plan_search_us": 252.8421052631579,
+        "mean_risk_drop": 0.0,
+        "negative": 0,
+        "p_risk": 0.0,
+        "paired_vs_safe": 0.0,
+        "positive": 1,
+        "risk_drop_count": 0,
+        "signed_gain": 0.05263157894736842
+      },
+      "EXPAND": {
+        "conditional_risk_drop": 1.0,
+        "families": 19,
+        "mean_plan_search_us": 165.26315789473685,
+        "mean_risk_drop": 0.05263157894736842,
+        "negative": 0,
+        "p_risk": 0.05263157894736842,
+        "paired_vs_safe": 0.0,
+        "positive": 1,
+        "risk_drop_count": 1,
+        "signed_gain": 0.05263157894736842
+      },
+      "FOCUS": {
+        "conditional_risk_drop": null,
+        "families": 19,
+        "mean_plan_search_us": 156.1578947368421,
+        "mean_risk_drop": 0.0,
+        "negative": 0,
+        "p_risk": 0.0,
+        "paired_vs_safe": 0.0,
+        "positive": 1,
+        "risk_drop_count": 0,
+        "signed_gain": 0.05263157894736842
+      },
+      "FRONTIER": {
+        "conditional_risk_drop": null,
+        "families": 19,
+        "mean_plan_search_us": 357.4736842105263,
+        "mean_risk_drop": 0.0,
+        "negative": 0,
+        "p_risk": 0.0,
+        "paired_vs_safe": 0.0,
+        "positive": 1,
+        "risk_drop_count": 0,
+        "signed_gain": 0.05263157894736842
+      },
+      "MERGE": {
+        "conditional_risk_drop": null,
+        "families": 19,
+        "mean_plan_search_us": 142.8421052631579,
+        "mean_risk_drop": 0.0,
+        "negative": 0,
+        "p_risk": 0.0,
+        "paired_vs_safe": 0.0,
+        "positive": 1,
+        "risk_drop_count": 0,
+        "signed_gain": 0.05263157894736842
+      },
+      "SAFE": {
+        "conditional_risk_drop": null,
+        "families": 19,
+        "mean_plan_search_us": 148.94736842105263,
+        "mean_risk_drop": 0.0,
+        "negative": 0,
+        "p_risk": 0.0,
+        "paired_vs_safe": 0.0,
+        "positive": 1,
+        "risk_drop_count": 0,
+        "signed_gain": 0.05263157894736842
+      },
+      "WRITER": {
+        "conditional_risk_drop": null,
+        "families": 19,
+        "mean_plan_search_us": 131.8421052631579,
+        "mean_risk_drop": 0.0,
+        "negative": 0,
+        "p_risk": 0.0,
+        "paired_vs_safe": 0.0,
+        "positive": 1,
+        "risk_drop_count": 0,
+        "signed_gain": 0.05263157894736842
+      }
+    }
+  },
+  "scope": "previous exact TRAIN/CAL first block, unresolved common prefix only; descriptive, no new label or generation",
+  "sources": {
+    "C07_DIAG_LABELS.json": "b733b3fdceaa0a26726f18ad0adbd25cdb4957166be70d8d45d8f0b2e98af734",
+    "C07_DIAG_RAW.jsonl.gz": "b653a862bd658d1114c83513a5b6dea7790addb29ba58633496ff75b2af56c42"
+  }
+}
