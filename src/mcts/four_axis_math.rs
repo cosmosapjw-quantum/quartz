@@ -106,3 +106,21 @@ mod mechanism_tests {
         assert_eq!(l.counts(),(1,2,1,4));
     }
 }
+
+// Exact board and side identity for unrestricted fixed-rule Rapfi Gomoku.
+pub fn placement_key(_board:&[u8;225],_side:i8)->[u64;8]{[0;8]}
+#[cfg(test)]
+mod placement_key_tests{
+    use super::*;
+    #[test]fn rapfi_exact_identity(){
+        let b=[0;225];let k=placement_key(&b,1);
+        assert_ne!(k,placement_key(&b,-1));
+        let mut a=b;
+        for i in 0..225{
+            a[i]=1;assert_ne!(k,placement_key(&a,1));a[i]=2;
+            let z=placement_key(&a,-1);
+            assert_eq!((z[(2*i)/64]>>((2*i)%64))&3,2);
+            a[i]=0;
+        }
+    }
+}

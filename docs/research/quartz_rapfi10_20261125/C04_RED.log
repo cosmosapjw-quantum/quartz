@@ -1,0 +1,25 @@
+
+running 5 tests
+test mechanism_tests::certificate_bounds ... ok
+test mechanism_tests::separate_contexts ... ok
+test tests::actual_incoming_provenance ... ok
+test tests::surprise_and_width ... ok
+test placement_key_tests::rapfi_exact_identity ... FAILED
+
+failures:
+
+---- placement_key_tests::rapfi_exact_identity stdout ----
+
+thread 'placement_key_tests::rapfi_exact_identity' (1229211) panicked at src/mcts/four_axis_math.rs:117:9:
+assertion `left != right` failed
+  left: [0, 0, 0, 0, 0, 0, 0, 0]
+ right: [0, 0, 0, 0, 0, 0, 0, 0]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    placement_key_tests::rapfi_exact_identity
+
+test result: FAILED. 4 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+exit=101
