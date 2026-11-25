@@ -12,8 +12,10 @@ def sha(p):
     return hashlib.file_digest(p.open('rb'),'sha256').hexdigest()
 def publish(stage,body,paths=()):
     B.mkdir(exist_ok=True)
-    p=D/'stages'/f'{stage}.md'; p.parent.mkdir(exist_ok=True); assert not p.exists()
-    p.write_text(f'# {stage}\n\n'+body.strip()+'\n')
+    p=D/'stages'/f'{stage}.md'; p.parent.mkdir(exist_ok=True)
+    content=f'# {stage}\n\n'+body.strip()+'\n'
+    if p.exists(): assert p.read_text()==content
+    else: p.write_text(content)
     files=[str(p.relative_to(ROOT)),*paths]
     run('git','add','-f','--',*files)
     run('git','diff','--cached','--check')
