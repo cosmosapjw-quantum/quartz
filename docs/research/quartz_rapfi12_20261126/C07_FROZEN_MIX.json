@@ -1,0 +1,80 @@
+{
+  "fit": {
+    "P5ALLOC": {
+      "bracket": true,
+      "den": 116757665,
+      "high": 128,
+      "low": 96,
+      "num": 69513567,
+      "train_high_sum": 602105544,
+      "train_low_sum": 485347879
+    },
+    "P5FULL": {
+      "bracket": true,
+      "den": 71948765,
+      "high": 64,
+      "low": 48,
+      "num": 18871518,
+      "train_high_sum": 607938693,
+      "train_low_sum": 535989928
+    },
+    "P5PW": {
+      "bracket": true,
+      "den": 1,
+      "high": 128,
+      "low": 128,
+      "num": 0,
+      "train_high_sum": 554861446,
+      "train_low_sum": 554861446
+    },
+    "P5Q": {
+      "bracket": true,
+      "den": 83506723,
+      "high": 160,
+      "low": 128,
+      "num": 3076410,
+      "train_high_sum": 635291759,
+      "train_low_sum": 551785036
+    }
+  },
+  "grid_sha256": "f24dc3aaf76491243e25ae267f366f31291c9e83fc35ccba130b30e39b494535",
+  "grid_sum_ns": {
+    "P5ALLOC/128": 602105544,
+    "P5ALLOC/160": 719855136,
+    "P5ALLOC/192": 814387225,
+    "P5ALLOC/256": 1020676206,
+    "P5ALLOC/32": 254424211,
+    "P5ALLOC/48": 304265637,
+    "P5ALLOC/64": 379440667,
+    "P5ALLOC/96": 485347879,
+    "P5FULL/128": 1018216758,
+    "P5FULL/160": 1205877020,
+    "P5FULL/192": 1414945787,
+    "P5FULL/256": 1852618083,
+    "P5FULL/32": 415216722,
+    "P5FULL/48": 535989928,
+    "P5FULL/64": 607938693,
+    "P5FULL/96": 838930516,
+    "P5PW/128": 554861446,
+    "P5Q/128": 551785036,
+    "P5Q/160": 635291759,
+    "P5Q/192": 731030780,
+    "P5Q/256": 891517619,
+    "P5Q/32": 241127387,
+    "P5Q/48": 280626995,
+    "P5Q/64": 339887851,
+    "P5Q/96": 445155255
+  },
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "f2becea4f6c7703cce9f5098e40a01bc9c550e4732566f7cf141e5ef843519f1",
+    "rust_source": "54f5828b7f032b6c38cb88f6844adfcc1354d473"
+  },
+  "mix_seed": "P5-20261126-v1",
+  "n": 59,
+  "selection": "wall-only measured bracket, no wins used",
+  "target_wall_ns": 9404431.288135594
+}

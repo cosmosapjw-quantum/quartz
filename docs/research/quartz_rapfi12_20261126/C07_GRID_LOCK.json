@@ -1,0 +1,43 @@
+{
+  "host": {
+    "end": {
+      "load": [
+        3.130859375,
+        3.37158203125,
+        3.59716796875
+      ],
+      "mono": 451814.896040763,
+      "swap": {
+        "pswpin": 74732824,
+        "pswpout": 76294397
+      }
+    },
+    "max_load": 3.16455078125,
+    "seconds": 20.097750018001534,
+    "start": {
+      "load": [
+        3.16455078125,
+        3.3974609375,
+        3.6103515625
+      ],
+      "mono": 451794.798290745,
+      "swap": {
+        "pswpin": 74732788,
+        "pswpout": 76294397
+      }
+    },
+    "swap_pages_s": 1.7912452870472981,
+    "timing_gate": true
+  },
+  "identity": {
+    "rapfi_bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "rapfi_config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "rapfi_source": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "rapfi_weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62",
+    "rust_binary": "f2becea4f6c7703cce9f5098e40a01bc9c550e4732566f7cf141e5ef843519f1",
+    "rust_source": "54f5828b7f032b6c38cb88f6844adfcc1354d473"
+  },
+  "raw_sha256": "f24dc3aaf76491243e25ae267f366f31291c9e83fc35ccba130b30e39b494535",
+  "requests": 1475,
+  "roots": 59
+}
