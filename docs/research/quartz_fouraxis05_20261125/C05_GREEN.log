@@ -1,0 +1,24 @@
+
+running 4 tests
+test frontier_tests::overlay_shared_child_and_action_width ... ok
+test tests::graph_propagates_all_parents ... ok
+test frontier_tests::unchanged_root_value_and_certified_abstention ... ok
+test tests::unknown_and_dominance ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test mechanism_tests::certificate_bounds ... ok
+test mechanism_tests::separate_contexts ... ok
+test tests::actual_incoming_provenance ... ok
+test tests::surprise_and_width ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 2 tests
+test tests::real_reuse_and_fixed_quota ... ok
+test tests::time_and_caps ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

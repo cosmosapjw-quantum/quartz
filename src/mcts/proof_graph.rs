@@ -81,8 +81,47 @@ pub fn risk_width(a:&[(usize,I)]) -> (u8,u32) {
     (d,a.iter().map(|(_, (l,u))|(*u-*l) as u32).sum())
 }
 impl Graph {
-    pub fn hypothetical(&self,_root:Key,_s:Key,_v:i8)->(u8,u32){(0,0)}
-    pub fn frontier(&self,_root:Key,_cap:usize)->(Option<Frontier>,usize){(None,0)}
+    pub fn hypothetical(&self,root:Key,s:Key,v:i8)->(u8,u32){
+        assert!(!self.registered(s));let iv=self.interval(s);assert!(iv.0<=v&&v<=iv.1);
+        let mut ov=BTreeMap::new();ov.insert(s,(v,v));
+        let mut todo=std::collections::VecDeque::new();todo.extend(self.nodes[&s].parents.iter().copied());
+        while let Some(k)=todo.pop_front(){
+            let old=ov.get(&k).copied().unwrap_or_else(||self.interval(k));
+            let a=self.nodes[&k].actions.as_ref().unwrap();
+            let new=(a.iter().map(|x|-ov.get(&x.1).copied().unwrap_or_else(||self.interval(x.1)).1).max().unwrap(),
+                     a.iter().map(|x|-ov.get(&x.1).copied().unwrap_or_else(||self.interval(x.1)).0).max().unwrap());
+            assert!(old.0<=new.0&&new.0<=new.1&&new.1<=old.1);
+            if new!=old{ov.insert(k,new);todo.extend(self.nodes[&k].parents.iter().copied());}
+        }
+        let aa:Vec<_>=self.nodes[&root].actions.as_ref().unwrap().iter().map(|&(m,c)|{let(l,u)=ov.get(&c).copied().unwrap_or_else(||self.interval(c));(m,(-u,-l))}).collect();
+        risk_width(&aa)
+    }
+    pub fn frontier(&self,root:Key,cap:usize)->(Option<Frontier>,usize){
+        if self.witness(root).is_some()||cap==0||!self.registered(root){return(None,0);}
+        let (d,w)=risk_width(&self.actions(root));let mut best:Option<Frontier>=None;let mut n=0;
+        let mut seen=BTreeSet::from([root]);let mut todo=std::collections::VecDeque::from([(root,Vec::new())]);
+        while let Some((k,path))=todo.pop_front(){
+            let (l,u)=self.interval(k);if l==u{continue;}
+            if !self.registered(k){
+                n+=1;let gains:Vec<_>=(l..=u).map(|v|{let (dd,ww)=self.hypothetical(root,k,v);assert!(dd<=d&&ww<=w);(v,d-dd,w-ww)}).collect();
+                let score=gains.iter().map(|&(_,x,y)|(x,y)).max().unwrap();
+                if score>(0,0)&&best.as_ref().is_none_or(|f|score>f.score||(score==f.score&&path.len()<f.path.len())){
+                    best=Some(Frontier{key:k,path,gains,score});
+                }
+                if n>=cap{break;}continue;
+            }
+            let allowed=self.allowed(k);
+            if let Some(ref aa)=self.nodes[&k].actions{
+                for &(m,c) in aa{
+                    let iv=self.interval(c);
+                    if allowed.contains(&m)&&iv.0<iv.1&&seen.insert(c){
+                        let mut p=path.clone();p.push((k,m,c));todo.push_back((c,p));
+                    }
+                }
+            }
+        }
+        (best,n)
+    }
 }
 #[cfg(test)]
 mod frontier_tests{

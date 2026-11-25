@@ -1013,6 +1013,8 @@ where
     let mut cur_node = *root;
     let mut depth = 0usize;
     let mut root_selection_trace_record = None;
+    let local_claim=axes.map_or(0,|h|h.claim_local());
+    let mut expanded_local=false;
     let vvalue_without_vvisit =
         reserve_virtual_loss && par_ctrl.can_publish_vvalue_without_vvisit();
 
@@ -1024,7 +1026,7 @@ where
             break;
         }
 
-        let proof_plan=axes.and_then(|h|h.proof_plan(cur_state,depth));
+        let mut proof_plan=axes.and_then(|h|h.proof_plan(cur_state,depth));
         if proof_plan.as_ref().is_some_and(|p|p.stop){break;}
         let n_candidates = cur_node.candidate_count();
         if n_candidates == 0 {
@@ -1055,6 +1057,14 @@ where
             if first>=n_visible{n_visible=first+1;axes.unwrap().proof_width_extra();}
         }
 
+        let mut locally_forced=false;
+        if local_claim!=0 {
+            if let Some(ref mut plan)=proof_plan {
+                if let Some((rank,m))=axes.unwrap().local_override(local_claim,cur_state,&cur_node,&plan.allowed,n_visible,depth,expanded_local){
+                    n_visible=n_visible.max(rank+1);plan.allowed=vec![m];locally_forced=true;
+                }
+            }
+        }
         let n_mat = cur_node.materialized_count();
         if n_mat < n_visible {
             if reserve_virtual_loss && proof_plan.is_none() {
@@ -1206,6 +1216,10 @@ where
             super::parallel::VlSplit::ZERO
         };
 
+        if locally_forced{
+            axes.unwrap().local_applied(local_claim,depth);
+            if local_claim==2{expanded_local=true;}
+        }
         let best_mv = edges[best_idx].mv;
         let next_node = edges[best_idx].child;
         // Phase 7 C: no guard to drop — slab read is lock-free.

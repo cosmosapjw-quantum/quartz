@@ -5,7 +5,7 @@ use super::four_axis_math::{self as math, Ledger};
 use super::node::{PathEdge,atomic_f64_load,atomic_f64_add};
 use serde_json::{json,Value};
 use std::sync::Mutex;
-use super::proof_graph::{Graph,Key,I};
+use super::proof_graph::{Graph,Key,I,Frontier};
 use crate::games::connect4::Connect4;
 fn exact_key<G:GameState>(s:&G)->Key{
     let c=(s as &dyn std::any::Any).downcast_ref::<Connect4>().expect("proof research is unrestricted Connect4 only");
@@ -18,12 +18,13 @@ fn keyhex(k:Key)->String{format!("{k:022x}")}
 pub struct ProofPlan{pub stop:bool,pub allowed:Vec<usize>}
 
 pub const S:u8=1;pub const X:u8=2;pub const V:u8=4;pub const B:u8=8;
-const NAMES:[&str;29]=["select_nodes","select_changed","select_deep","width_nodes","width_limited","width_mass_added","width_deep","base_evals","extra_evals","exact_child_evals","refinements","eval_changed","terminal_leaves","backup_edges","temporal_blends","merge_blends","backup_changed","terminal_edges","proofs","proof_win","proof_scans","proof_checks","graph_register","graph_rule_checks","graph_solved_skips","graph_filtered","graph_width_extra","graph_plans","graph_b_skip"];
+const NAMES:[&str;36]=["select_nodes","select_changed","select_deep","width_nodes","width_limited","width_mass_added","width_deep","base_evals","extra_evals","exact_child_evals","refinements","eval_changed","terminal_leaves","backup_edges","temporal_blends","merge_blends","backup_changed","terminal_edges","proofs","proof_win","proof_scans","proof_checks","graph_register","graph_rule_checks","graph_solved_skips","graph_filtered","graph_width_extra","graph_plans","graph_b_skip","local_claims","local_focus_edges","local_expand_edges","local_frontier_edges","local_frontier_hits","local_forced_deep","local_scored"];
 pub struct Hooks{
     pub mask:u8,
-    counts:[AtomicU64;29],
+    counts:[AtomicU64;36],
     graph:Mutex<Graph>,pub proof_mode:u8,proof_priority:bool,trace_b:bool,b_events:Mutex<Vec<Value>>,
     vmode:u8,bmode:u8,trace:bool,
+    local_mode:u8,local_remaining:AtomicU64,local_focus:Option<usize>,local_frontier:Option<Frontier>,
     leaf_paths:Mutex<Vec<Vec<usize>>>,workers:AtomicU64,
     ledger:Mutex<Ledger>,
 }
@@ -31,11 +32,45 @@ impl Hooks{
     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}else{0},if mask&B!=0{4}else{0},false)}
     pub fn new_modes(mask:u8,vmode:u8,bmode:u8,trace:bool)->Self{
         assert!(mask<=3&&vmode<=4&&bmode<=4);
-        Self{mask,vmode,bmode,trace,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
+        Self{mask,vmode,bmode,trace,local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
     }
     pub fn with_graph(mut self,mode:u8)->Self{assert!(mode<=2);self.proof_mode=mode;self}
     pub fn with_b_trace(mut self)->Self{self.trace_b=true;self}
     pub fn with_safe_priority(mut self)->Self{self.proof_priority=false;self}
+    /// Only mutate between completed blocks, never while workers are active.
+    pub fn configure_local(&mut self,mode:u8,v:u8,b:u8,priority:bool){
+        assert!(mode<=3&&v<=4&&b<=4);self.local_mode=mode;self.vmode=v;self.bmode=b;self.proof_priority=priority;
+    }
+    pub fn claim_local(&self)->u8{
+        if self.local_mode==0{return 0;}
+        if self.local_remaining.fetch_update(Ordering::AcqRel,Ordering::Relaxed,|n|if n>0{Some(n-1)}else{None}).is_ok(){
+            self.add(29,1);self.local_mode
+        }else{0}
+    }
+    /// Apply only a currently safe unresolved action. Candidate rank is the
+    /// actual materialization prefix index, not a new artificial move.
+    pub fn local_override<G:GameState>(&self,mode:u8,s:&G,node:&MctsNode<G::Move>,allowed:&[usize],visible:usize,depth:usize,expanded:bool)->Option<(usize,usize)>{
+        if mode==0||self.proof_mode!=2{return None;}
+        if mode==1&&depth!=0||mode==2&&expanded{return None;}
+        let k=exact_key(s);let g=self.graph.lock().unwrap();
+        if g.witness(k).is_some()&&depth==0{return None;}
+        let wanted=match mode{
+            1=>self.local_focus?,
+            2=>usize::MAX,
+            3=>self.local_frontier.as_ref()?.path.iter().find(|x|x.0==k)?.1,
+            _=>return None
+        };
+        let aa=g.actions(k);let safe=g.allowed(k);
+        let c=node.candidates.get()?;
+        c.iter().enumerate().find_map(|(i,(mv,_))|{
+            let m=s.move_to_idx(*mv);
+            if (if mode==2{i>=visible}else{m==wanted})&&allowed.contains(&m)&&safe.contains(&m)&&aa.iter().any(|&(j,(l,u))|j==m&&l<u){Some((i,m))}else{None}
+        })
+    }
+    pub fn local_applied(&self,mode:u8,depth:usize){
+        assert!((1..=3).contains(&mode));self.add(29+mode as usize,1);self.add(34,(depth>0) as u64);
+    }
+
     /// Read exact root facts without constructing a full diagnostic JSON snapshot.
     pub fn root_control<G:GameState>(&self,s:&G)->(Option<usize>,u8,u8){
         if self.proof_mode==0{return (None,2,0);}
@@ -191,12 +226,37 @@ impl Hooks{
     }
 }
 impl<G:GameState> MctsEngine<G>{
+    pub fn prepare_local(&self,h:&mut Hooks)->Value{
+        h.local_focus=None;h.local_frontier=None;
+        h.local_remaining.store(if h.local_mode>0{2}else{0},Ordering::Release);
+        if h.local_mode==0{return Value::Null;}
+        if h.local_mode==2{return json!({"mode":"EXPAND","claims":2});}
+        let k=exact_key(&self.root_state);let g=h.graph.lock().unwrap();
+        if h.local_mode==1{
+            let aa=g.actions(k);let allowed=g.allowed(k);
+            let mut edges:Vec<_>=self.root.read_edges().iter().enumerate().filter_map(|(i,e)|{
+                let m=self.root_state.move_to_idx(e.mv);let n=e.n.load(Ordering::Acquire);
+                if n==0||!allowed.contains(&m){return None;}
+                Some((i,m,n,atomic_f64_load(&e.w)/n as f64))
+            }).collect();
+            edges.sort_by_key(|x|(std::cmp::Reverse(x.2),x.0));
+            let mut gap=None;
+            if edges.len()>=2{
+                let a=edges[0];let b=edges[1];let d=(a.3-b.3).abs();gap=Some(d);
+                if g.witness(k).is_none()&&d<=0.25&&aa.iter().any(|&(m,(l,u))|m==b.1&&l<u){h.local_focus=Some(b.1);}
+            }
+            return json!({"mode":"FOCUS","claims":2,"target":h.local_focus,"gap":gap,"leaders":edges.into_iter().take(2).map(|(_,m,n,q)|(m,n,q)).collect::<Vec<_>>()});
+        }
+        let (f,n)=g.frontier(k,64);h.add(35,n as u64);h.local_frontier=f;
+        json!({"mode":"FRONTIER","claims":2,"scored":n,"target":h.local_frontier.as_ref().map(|f|json!({"key":keyhex(f.key),"path":f.path.iter().map(|&(a,m,b)|(keyhex(a),m,keyhex(b))).collect::<Vec<_>>(),"gains":f.gains,"score":f.score}))})
+    }
     fn four_iterate(&self,h:&Hooks){
         let sel=super::select::select_axes(&self.root,&self.root_state,self.config.c_puct,
             self.root_noise.as_deref(),self.config.pw.as_ref(),self.resident_root_mask_words_snapshot(),
             self.config.max_depth,&self.tt,self.config.exact_terminal_value,self.config.fpu_reduction,
             self.par_ctrl.should_reserve_virtual_loss(),&self.par_ctrl,h);
         if let Some(t)=rayon::current_thread_index(){if t<64{h.workers.fetch_or(1u64<<t,Ordering::Relaxed);}}
+        if let Some(ref f)=h.local_frontier{if exact_key(&sel.leaf_state)==f.key{h.add(33,1);}}
         let terminal=sel.leaf_state.is_terminal();
         let mut proved=terminal;
         let known_interval=h.proof_register(&sel.leaf_state);

@@ -51,6 +51,8 @@ use prior15_cpu_server::handle_research_gomoku15_prior_cpu;
 mod four_axis_cpu_server;
 #[path = "mcts_server/four_axis_pool_cpu_server.rs"]
 mod four_axis_pool_cpu_server;
+#[path = "mcts_server/four_axis_local_cpu_server.rs"]
+mod four_axis_local_cpu_server;
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
@@ -2738,6 +2740,12 @@ pub fn serve() {
         if cmd == "research_connect4_reopen_cpu" {
             emit_stdout_json_value(&handle_research_connect4_reopen_cpu(&line));
             if let Some(ring)=global_ring_buffer() {ring.set_cmd_done(true);}
+            continue;
+        }
+
+        if cmd == "research_connect4_fouraxis_local_cpu" {
+            emit_stdout_json_value(&four_axis_local_cpu_server::handle(&line));
+            if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
             continue;
         }
 
