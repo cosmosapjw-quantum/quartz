@@ -18,12 +18,13 @@ fn keyhex(k:Key)->String{format!("{k:022x}")}
 pub struct ProofPlan{pub stop:bool,pub allowed:Vec<usize>}
 
 pub const S:u8=1;pub const X:u8=2;pub const V:u8=4;pub const B:u8=8;
-const NAMES:[&str;36]=["select_nodes","select_changed","select_deep","width_nodes","width_limited","width_mass_added","width_deep","base_evals","extra_evals","exact_child_evals","refinements","eval_changed","terminal_leaves","backup_edges","temporal_blends","merge_blends","backup_changed","terminal_edges","proofs","proof_win","proof_scans","proof_checks","graph_register","graph_rule_checks","graph_solved_skips","graph_filtered","graph_width_extra","graph_plans","graph_b_skip","local_claims","local_focus_edges","local_expand_edges","local_frontier_edges","local_frontier_hits","local_forced_deep","local_scored"];
+const NAMES:[&str;37]=["select_nodes","select_changed","select_deep","width_nodes","width_limited","width_mass_added","width_deep","base_evals","extra_evals","exact_child_evals","refinements","eval_changed","terminal_leaves","backup_edges","temporal_blends","merge_blends","backup_changed","terminal_edges","proofs","proof_win","proof_scans","proof_checks","graph_register","graph_rule_checks","graph_solved_skips","graph_filtered","graph_width_extra","graph_plans","graph_b_skip","local_claims","local_focus_edges","local_expand_edges","local_frontier_edges","local_frontier_hits","local_forced_deep","local_scored","graph_repeat_skips"];
 pub struct Hooks{
     pub mask:u8,
-    counts:[AtomicU64;36],
+    counts:[AtomicU64;37],
     graph:Mutex<Graph>,pub proof_mode:u8,proof_priority:bool,trace_b:bool,b_events:Mutex<Vec<Value>>,
     vmode:u8,bmode:u8,trace:bool,
+    record_repeats:bool,solved_returns:Mutex<std::collections::BTreeSet<Key>>,
     local_mode:u8,local_remaining:AtomicU64,local_focus:Option<usize>,local_frontier:Option<Frontier>,
     leaf_paths:Mutex<Vec<Vec<usize>>>,workers:AtomicU64,
     ledger:Mutex<Ledger>,
@@ -32,11 +33,12 @@ impl Hooks{
     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}else{0},if mask&B!=0{4}else{0},false)}
     pub fn new_modes(mask:u8,vmode:u8,bmode:u8,trace:bool)->Self{
         assert!(mask<=3&&vmode<=4&&bmode<=4);
-        Self{mask,vmode,bmode,trace,local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
+        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
     }
     pub fn with_graph(mut self,mode:u8)->Self{assert!(mode<=2);self.proof_mode=mode;self}
     pub fn with_b_trace(mut self)->Self{self.trace_b=true;self}
     pub fn with_safe_priority(mut self)->Self{self.proof_priority=false;self}
+    pub fn with_repeat_trace(mut self)->Self{self.record_repeats=true;self}
     /// Only mutate between completed blocks, never while workers are active.
     pub fn configure_local(&mut self,mode:u8,v:u8,b:u8,priority:bool){
         assert!(mode<=3&&v<=4&&b<=4);self.local_mode=mode;self.vmode=v;self.bmode=b;self.proof_priority=priority;
@@ -263,7 +265,9 @@ impl<G:GameState> MctsEngine<G>{
         let value=if terminal{
             h.add(12,1);sel.leaf_state.outcome()
         }else if h.proof_mode==2&&known_interval.is_some_and(|x|x.0==x.1){
-            h.add(24,1);proved=true;known_interval.unwrap().0 as f32
+            h.add(24,1);
+            if h.record_repeats&&!h.solved_returns.lock().unwrap().insert(exact_key(&sel.leaf_state)){h.add(36,1);}
+            proved=true;known_interval.unwrap().0 as f32
         }else{
             if h.trace{
                 let path:Vec<_>=sel.path.iter().map(|pe|self.root_state.move_to_idx(pe.parent.read_edges()[pe.edge_idx].mv)).collect();

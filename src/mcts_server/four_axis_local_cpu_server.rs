@@ -39,7 +39,7 @@ fn inner(line:&str)->Result<Value,String>{
     let mut cfg=MctsConfig::evaluation(2.).with_seed(q.seed);cfg.root_forced_win=false;cfg.dirichlet=None;cfg.temperature=0.;cfg.quartz=None;
     if sx&X!=0{cfg.pw=Some(crate::mcts::PwConfig::new(2.,0.5));}
     let t=Instant::now();let engine=MctsEngine::new(state.clone(),ev,cfg);let setup_us=us(t);
-    let mut h=Hooks::new_modes(sx,if gm==0{0}else{2},0,false).with_graph(gm).with_safe_priority();
+    let mut h=Hooks::new_modes(sx,if gm==0{0}else{2},0,false).with_graph(gm).with_safe_priority().with_repeat_trace();
     h.proof_register(&state);
     let t=Instant::now();engine.four_axis_block(32,1,&h);let prefix_us=us(t);
     let prefix=snap(&engine,&state,&h,q.mode=="DIAG");
