@@ -1,0 +1,14 @@
+F
+======================================================================
+FAIL: test_informative_vs_independent (__main__.TestTransition.test_informative_vs_independent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic19_20261126/docs/research/quartz_kinetic19_20261126/test_transition.py", line 9, in test_informative_vs_independent
+    self.assertGreater(q['channels'][CHANNELS[0]]['delta'],.3)
+AssertionError: 0.0 not greater than 0.3
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (failures=1)
+exit=1
