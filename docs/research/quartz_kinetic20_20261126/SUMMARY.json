@@ -1,0 +1,179 @@
+{
+  "actual_gain": 0.05078125,
+  "all_roots": 128,
+  "anchor_regret": 0.1484375,
+  "arms": {
+    "live": {
+      "NN": 37.6640625,
+      "cpu_ms": 3.425213578125,
+      "regret": 0.09765625,
+      "tail_us": 2187.6328125,
+      "u": 0.546875,
+      "visits": 51.125,
+      "wall_ms": 3.6352660078125,
+      "whole_us": 3383.2421875
+    },
+    "match": {
+      "NN": 34.859375,
+      "cpu_ms": 2.7755428984375,
+      "regret": 0.11328125,
+      "tail_us": 1708.765625,
+      "u": 0.53125,
+      "visits": 49.5703125,
+      "wall_ms": 2.7459060625,
+      "whole_us": 2622.25
+    },
+    "normal": {
+      "NN": 43.421875,
+      "cpu_ms": 3.34994765625,
+      "regret": 0.078125,
+      "tail_us": 2238.421875,
+      "u": 0.56640625,
+      "visits": 64,
+      "wall_ms": 3.4088405390625,
+      "whole_us": 3184.3125
+    },
+    "time": {
+      "NN": 45.203125,
+      "cpu_ms": 3.4402049453125,
+      "regret": 0.10546875,
+      "tail_us": 2229.90625,
+      "u": 0.5390625,
+      "visits": 73.109375,
+      "wall_ms": 3.30134621875,
+      "whole_us": 3174.9765625
+    }
+  },
+  "channels": {
+    "K16BAL:32": 27,
+    "K16BAL:64": 87,
+    "STOP": 14
+  },
+  "compare": {
+    "match": {
+      "NN_equal": 83,
+      "ci": [
+        -0.02734375,
+        0.0625
+      ],
+      "gain": 0.015625,
+      "mean_abs_tail_us": 559.1640625,
+      "negative": 5,
+      "positive": 6
+    },
+    "normal": {
+      "NN_equal": 9,
+      "ci": [
+        -0.0625,
+        0.02734375
+      ],
+      "gain": -0.01953125,
+      "mean_abs_tail_us": 755.1640625,
+      "negative": 8,
+      "positive": 4
+    },
+    "time": {
+      "NN_equal": 3,
+      "ci": [
+        -0.0390625,
+        0.0546875
+      ],
+      "gain": 0.0078125,
+      "mean_abs_tail_us": 317.7890625,
+      "negative": 6,
+      "positive": 6
+    }
+  },
+  "exact_actions": 639,
+  "fixed": {
+    "K16BAL:32": {
+      "NN": 26.234375,
+      "gain": 0.046875,
+      "native_regret": 0.125,
+      "negative": 6,
+      "positive": 12,
+      "pred_gain": 0.05827330221861472,
+      "regret": 0.1015625
+    },
+    "K16BAL:64": {
+      "NN": 44.4140625,
+      "gain": 0.0703125,
+      "native_regret": 0.1328125,
+      "negative": 6,
+      "positive": 15,
+      "pred_gain": 0.12105739312770561,
+      "regret": 0.078125
+    },
+    "K16N:32": {
+      "NN": 24.8828125,
+      "gain": 0.046875,
+      "native_regret": 0.1015625,
+      "negative": 2,
+      "positive": 9,
+      "pred_gain": 0.01867263595779221,
+      "regret": 0.1015625
+    },
+    "K16N:64": {
+      "NN": 43.421875,
+      "gain": 0.0703125,
+      "native_regret": 0.078125,
+      "negative": 3,
+      "positive": 14,
+      "pred_gain": 0.09192074201839827,
+      "regret": 0.078125
+    },
+    "K17EXP:32": {
+      "NN": 25.8046875,
+      "gain": 0.0390625,
+      "native_regret": 0.11328125,
+      "negative": 3,
+      "positive": 8,
+      "pred_gain": 0.01867263595779221,
+      "regret": 0.109375
+    },
+    "K17EXP:64": {
+      "NN": 43.3359375,
+      "gain": 0.06640625,
+      "native_regret": 0.125,
+      "negative": 2,
+      "positive": 11,
+      "pred_gain": 0.08145672686688313,
+      "regret": 0.08203125
+    }
+  },
+  "n": 128,
+  "negative": 6,
+  "nodes": 587520,
+  "positive": 12,
+  "pred_gain": 0.11075909767316017,
+  "scored": "eadeeedfcf78056543b212cd90e4893d26c7272ebce2ab3a6e6f330e020817bb",
+  "sensitivity": {
+    "0.0": {
+      "counts": {
+        "K16BAL:64": 128
+      },
+      "regret": 0.078125
+    },
+    "0.001": {
+      "counts": {
+        "K16BAL:64": 128
+      },
+      "regret": 0.078125
+    },
+    "0.002": {
+      "counts": {
+        "K16BAL:32": 27,
+        "K16BAL:64": 87,
+        "STOP": 14
+      },
+      "regret": 0.09765625
+    },
+    "0.004": {
+      "counts": {
+        "K16BAL:32": 27,
+        "STOP": 101
+      },
+      "regret": 0.09375
+    }
+  }
+}
