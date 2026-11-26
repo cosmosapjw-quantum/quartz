@@ -1,0 +1,120 @@
+{
+  "admitted": false,
+  "budget": "1275/2",
+  "cal": {
+    "NN_CI": [
+      0.3949169110459433,
+      0.43271423916585205
+    ],
+    "counts": {
+      "base": 3069,
+      "delta4_26": -4,
+      "delta4_32": -8,
+      "disagreements": 14,
+      "h20": 93,
+      "low": 1797,
+      "negative32": 4,
+      "positive32": 2,
+      "realized_delta4": 0.0,
+      "realized_extra": 0,
+      "roots": 93
+    },
+    "expected_NN_reduction": 0.4144672531769306,
+    "expected_cost": 1797.0,
+    "families": 31,
+    "flip32": 0.15053763440860216,
+    "gain_CI": [
+      0.0,
+      0.0
+    ],
+    "gain_lower": 0.0,
+    "mean26": -0.010752688172043012,
+    "mean32": -0.021505376344086023,
+    "mean_extra": 0.0,
+    "mean_gain": 0.0,
+    "realized_NN_reduction": 0.4144672531769306,
+    "realized_gain": 0.0,
+    "roots": 93
+  },
+  "dual_gain4": "0",
+  "dual_score_per_row": "0",
+  "extra": "0",
+  "feasible": true,
+  "fit_lock": "143d74fae04985834e6d16a650594a18c5ded2450b7531f189e18d4869d44f92",
+  "frame_lock": "c7f55d0a66c66b8aabf53e3b4533fb4a21056c937f6b1fa57c1a1d7745c0c7e9",
+  "gain4": "0",
+  "note": "Frozen before TEST/heldout102 labels and arena; unseen bins fallback L20, no refit.",
+  "policy": {
+    "1": {
+      "20": "1"
+    },
+    "3": {
+      "20": "1"
+    }
+  },
+  "train": {
+    "NN_CI": [
+      0.40293847566574836,
+      0.4310376492194674
+    ],
+    "counts": {
+      "base": 5445,
+      "delta4_26": 0,
+      "delta4_32": 0,
+      "disagreements": 16,
+      "h20": 165,
+      "low": 3174,
+      "negative32": 0,
+      "positive32": 0,
+      "realized_delta4": 0.0,
+      "realized_extra": 0,
+      "roots": 165
+    },
+    "expected_NN_reduction": 0.41707988980716254,
+    "expected_cost": 3174.0,
+    "families": 55,
+    "flip32": 0.09696969696969697,
+    "gain_CI": [
+      0.0,
+      0.0
+    ],
+    "gain_lower": 0.0,
+    "mean26": 0.0,
+    "mean32": 0.0,
+    "mean_extra": 0.0,
+    "mean_gain": 0.0,
+    "realized_NN_reduction": 0.41707988980716254,
+    "realized_gain": 0.0,
+    "roots": 165
+  },
+  "train_points": {
+    "1": {
+      "20": [
+        0,
+        0
+      ],
+      "26": [
+        252,
+        0
+      ],
+      "32": [
+        504,
+        0
+      ]
+    },
+    "3": {
+      "20": [
+        0,
+        0
+      ],
+      "26": [
+        654,
+        0
+      ],
+      "32": [
+        1308,
+        0
+      ]
+    }
+  }
+}
