@@ -432,3 +432,6 @@ pub(super) fn handle_k34(line:&str)->Value{k34::handle(line)}
 
 #[path="rapfi_k35.rs"] mod k35;
 pub(super) fn handle_k35(line:&str)->Value{k35::handle(line)}
+
+#[path="rapfi_k36.rs"] mod k36;
+pub(super) fn handle_k36(line:&str)->Value{k36::handle(line)}
