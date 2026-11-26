@@ -1,0 +1,379 @@
+{
+  "arena": {
+    "NN_ARENA": {
+      "baseline_cpu_ns": 173890562613,
+      "baseline_moves": 3392,
+      "baseline_nn": 58377,
+      "baseline_wall_ns": 174125964581,
+      "candidate_cpu_ns": 138850425480,
+      "candidate_moves": 3622,
+      "candidate_nn": 45193,
+      "candidate_wall_ns": 139079884990,
+      "common": 3163,
+      "draws": 0,
+      "games": 768,
+      "identical_pairs": 64,
+      "moves": 7014,
+      "nn": 103570,
+      "partial_attempts": 2082,
+      "partial_cert": 634,
+      "queries": 389632,
+      "replacement": 334,
+      "score2": 1228,
+      "wins": 614
+    },
+    "R_ARENA": {
+      "baseline_cpu_ns": 26660527580,
+      "baseline_moves": 1395,
+      "baseline_nn": 123017,
+      "baseline_wall_ns": 26508866446,
+      "candidate_cpu_ns": 32686959355,
+      "candidate_moves": 1395,
+      "candidate_nn": 97072,
+      "candidate_wall_ns": 32572458995,
+      "common": 579,
+      "draws": 0,
+      "games": 128,
+      "identical_pairs": 0,
+      "moves": 2790,
+      "nn": 220089,
+      "partial_attempts": 1128,
+      "partial_cert": 170,
+      "queries": 1238212,
+      "replacement": 85,
+      "score2": 128,
+      "wins": 64
+    }
+  },
+  "corrected_source": {
+    "NN_SOURCE": {
+      "corrected_atlas_histories": 1130,
+      "ply": {
+        "12": {
+          "cert": 128,
+          "replacement": 35,
+          "roots": 193
+        },
+        "16": {
+          "cert": 34,
+          "replacement": 3,
+          "roots": 37
+        },
+        "20": {
+          "cert": 2,
+          "replacement": 0,
+          "roots": 2
+        },
+        "4": {
+          "cert": 41,
+          "replacement": 89,
+          "roots": 581
+        },
+        "8": {
+          "cert": 104,
+          "replacement": 41,
+          "roots": 317
+        }
+      }
+    },
+    "R_SOURCE": {
+      "corrected_atlas_histories": 648,
+      "ply": {
+        "100": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "104": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "108": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "112": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "116": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "12": {
+          "cert": 10,
+          "replacement": 5,
+          "roots": 90
+        },
+        "120": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "124": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "128": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "132": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "136": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "140": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "144": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "148": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "152": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "156": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "16": {
+          "cert": 9,
+          "replacement": 5,
+          "roots": 65
+        },
+        "160": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "164": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "168": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "172": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "176": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "180": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "184": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "188": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "192": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "196": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "20": {
+          "cert": 8,
+          "replacement": 2,
+          "roots": 38
+        },
+        "200": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "204": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "208": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "212": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "216": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "220": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "24": {
+          "cert": 7,
+          "replacement": 1,
+          "roots": 28
+        },
+        "28": {
+          "cert": 4,
+          "replacement": 0,
+          "roots": 17
+        },
+        "32": {
+          "cert": 1,
+          "replacement": 0,
+          "roots": 13
+        },
+        "36": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 10
+        },
+        "4": {
+          "cert": 3,
+          "replacement": 0,
+          "roots": 61
+        },
+        "40": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 10
+        },
+        "44": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 13
+        },
+        "48": {
+          "cert": 2,
+          "replacement": 0,
+          "roots": 10
+        },
+        "52": {
+          "cert": 2,
+          "replacement": 0,
+          "roots": 9
+        },
+        "56": {
+          "cert": 2,
+          "replacement": 0,
+          "roots": 8
+        },
+        "60": {
+          "cert": 0,
+          "replacement": 1,
+          "roots": 6
+        },
+        "64": {
+          "cert": 1,
+          "replacement": 0,
+          "roots": 4
+        },
+        "68": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "72": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "76": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "8": {
+          "cert": 4,
+          "replacement": 4,
+          "roots": 110
+        },
+        "80": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "84": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "88": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "92": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        },
+        "96": {
+          "cert": 0,
+          "replacement": 0,
+          "roots": 4
+        }
+      }
+    }
+  },
+  "counts": {
+    "bound_cells": 796406,
+    "common": 4730,
+    "legal_edges": 878329,
+    "new_loss_facts": 182407,
+    "new_win_facts": 977,
+    "partial_cert": 1397,
+    "partial_receipts": 8544,
+    "queries": 3288168,
+    "vote_rows": 8814
+  },
+  "proof_cache": {
+    "currsize": 150000,
+    "hits": 39733,
+    "maxsize": 150000,
+    "misses": 885810
+  },
+  "raw_NN": 537128,
+  "scope": "independent coordinate replay, Python integer completion sets and sufficient forcing proof verification of all new W/L facts, interval certificate and weak replacement checks, same-horizon vote parity and actual cost aggregates; independent bootstrap not repeated"
+}

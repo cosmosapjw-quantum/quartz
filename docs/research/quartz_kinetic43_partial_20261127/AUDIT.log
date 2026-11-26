@@ -1,0 +1,383 @@
+AUDITED NN_SOURCE {'unresolved': 1130, 'B_nn': 37290, 'L_nn': 35469, 'B_cpu_ns': 134868908380, 'L_cpu_ns': 130017060304, 'corrected_atlas_histories': 1130, 'common': 859, 'moves': 1989, 'nn': 36366, 'games': 256, 'score2': 262, 'wins': 131, 'draws': 0}
+AUDITED R_SOURCE {'unresolved': 648, 'B_nn': 75261, 'L_nn': 65449, 'B_cpu_ns': 20434780572, 'L_cpu_ns': 18189670378, 'corrected_atlas_histories': 648, 'common': 129, 'moves': 777, 'nn': 70387, 'games': 32, 'score2': 25, 'wins': 12, 'draws': 1}
+AUDITED NN_ARENA {'candidate_nn': 45193, 'candidate_cpu_ns': 138850425480, 'candidate_wall_ns': 139079884990, 'candidate_moves': 3622, 'common': 3163, 'moves': 7014, 'baseline_nn': 58377, 'baseline_cpu_ns': 173890562613, 'baseline_wall_ns': 174125964581, 'baseline_moves': 3392, 'nn': 103570, 'games': 768, 'score2': 1228, 'wins': 614, 'draws': 0, 'partial_attempts': 2082, 'queries': 389632, 'replacement': 334, 'partial_cert': 634}
+AUDITED R_ARENA {'partial_attempts': 1128, 'queries': 1238212, 'replacement': 85, 'candidate_nn': 97072, 'candidate_cpu_ns': 32686959355, 'candidate_wall_ns': 32572458995, 'candidate_moves': 1395, 'common': 579, 'moves': 2790, 'baseline_nn': 123017, 'baseline_cpu_ns': 26660527580, 'baseline_wall_ns': 26508866446, 'baseline_moves': 1395, 'nn': 220089, 'games': 128, 'score2': 128, 'wins': 64, 'draws': 0, 'partial_cert': 170}
+{
+  "counts": {
+    "vote_rows": 8814,
+    "legal_edges": 878329,
+    "partial_receipts": 8544,
+    "bound_cells": 796406,
+    "queries": 3288168,
+    "partial_cert": 1397,
+    "new_loss_facts": 182407,
+    "new_win_facts": 977,
+    "common": 4730
+  },
+  "raw_NN": 537128,
+  "corrected_source": {
+    "NN_SOURCE": {
+      "corrected_atlas_histories": 1130,
+      "ply": {
+        "4": {
+          "roots": 581,
+          "cert": 41,
+          "replacement": 89
+        },
+        "8": {
+          "roots": 317,
+          "cert": 104,
+          "replacement": 41
+        },
+        "12": {
+          "roots": 193,
+          "cert": 128,
+          "replacement": 35
+        },
+        "16": {
+          "roots": 37,
+          "cert": 34,
+          "replacement": 3
+        },
+        "20": {
+          "roots": 2,
+          "cert": 2,
+          "replacement": 0
+        }
+      }
+    },
+    "R_SOURCE": {
+      "corrected_atlas_histories": 648,
+      "ply": {
+        "4": {
+          "roots": 61,
+          "cert": 3,
+          "replacement": 0
+        },
+        "8": {
+          "roots": 110,
+          "cert": 4,
+          "replacement": 4
+        },
+        "12": {
+          "roots": 90,
+          "cert": 10,
+          "replacement": 5
+        },
+        "16": {
+          "roots": 65,
+          "cert": 9,
+          "replacement": 5
+        },
+        "20": {
+          "roots": 38,
+          "cert": 8,
+          "replacement": 2
+        },
+        "24": {
+          "roots": 28,
+          "cert": 7,
+          "replacement": 1
+        },
+        "28": {
+          "roots": 17,
+          "cert": 4,
+          "replacement": 0
+        },
+        "32": {
+          "roots": 13,
+          "cert": 1,
+          "replacement": 0
+        },
+        "36": {
+          "roots": 10,
+          "cert": 0,
+          "replacement": 0
+        },
+        "40": {
+          "roots": 10,
+          "cert": 0,
+          "replacement": 0
+        },
+        "44": {
+          "roots": 13,
+          "cert": 0,
+          "replacement": 0
+        },
+        "48": {
+          "roots": 10,
+          "cert": 2,
+          "replacement": 0
+        },
+        "52": {
+          "roots": 9,
+          "cert": 2,
+          "replacement": 0
+        },
+        "56": {
+          "roots": 8,
+          "cert": 2,
+          "replacement": 0
+        },
+        "60": {
+          "roots": 6,
+          "cert": 0,
+          "replacement": 1
+        },
+        "64": {
+          "roots": 4,
+          "cert": 1,
+          "replacement": 0
+        },
+        "68": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "72": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "76": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "80": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "84": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "88": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "92": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "96": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "100": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "104": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "108": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "112": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "116": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "120": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "124": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "128": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "132": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "136": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "140": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "144": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "148": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "152": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "156": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "160": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "164": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "168": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "172": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "176": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "180": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "184": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "188": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "192": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "196": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "200": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "204": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "208": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "212": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "216": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        },
+        "220": {
+          "roots": 4,
+          "cert": 0,
+          "replacement": 0
+        }
+      }
+    }
+  },
+  "arena": {
+    "NN_ARENA": {
+      "candidate_nn": 45193,
+      "candidate_cpu_ns": 138850425480,
+      "candidate_wall_ns": 139079884990,
+      "candidate_moves": 3622,
+      "common": 3163,
+      "moves": 7014,
+      "baseline_nn": 58377,
+      "baseline_cpu_ns": 173890562613,
+      "baseline_wall_ns": 174125964581,
+      "baseline_moves": 3392,
+      "nn": 103570,
+      "games": 768,
+      "score2": 1228,
+      "wins": 614,
+      "draws": 0,
+      "partial_attempts": 2082,
+      "queries": 389632,
+      "replacement": 334,
+      "partial_cert": 634,
+      "identical_pairs": 64
+    },
+    "R_ARENA": {
+      "partial_attempts": 1128,
+      "queries": 1238212,
+      "replacement": 85,
+      "candidate_nn": 97072,
+      "candidate_cpu_ns": 32686959355,
+      "candidate_wall_ns": 32572458995,
+      "candidate_moves": 1395,
+      "common": 579,
+      "moves": 2790,
+      "baseline_nn": 123017,
+      "baseline_cpu_ns": 26660527580,
+      "baseline_wall_ns": 26508866446,
+      "baseline_moves": 1395,
+      "nn": 220089,
+      "games": 128,
+      "score2": 128,
+      "wins": 64,
+      "draws": 0,
+      "partial_cert": 170,
+      "identical_pairs": 0
+    }
+  },
+  "proof_cache": {
+    "hits": 39733,
+    "misses": 885810,
+    "maxsize": 150000,
+    "currsize": 150000
+  },
+  "scope": "independent coordinate replay, Python integer completion sets and sufficient forcing proof verification of all new W/L facts, interval certificate and weak replacement checks, same-horizon vote parity and actual cost aggregates; independent bootstrap not repeated"
+}
