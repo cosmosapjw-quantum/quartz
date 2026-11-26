@@ -1,0 +1,71 @@
+{
+  "counts": {
+    "rule_checks": 9883,
+    "legal_edges": 108547,
+    "certificates": 4586,
+    "proof_attempts": 1415,
+    "proof_complete": 1406,
+    "locks": 357,
+    "fallback": 9
+  },
+  "unique_rule_states": 5288,
+  "bench_rows": 384,
+  "arena_games": 1280,
+  "arena_proof_unique": 879,
+  "independent": {
+    "queries": 1025,
+    "nodes": 84136593,
+    "complete": 1016,
+    "fresh_full_match": 137,
+    "bench_certificate_match": 134,
+    "arena_certificate_match": 878
+  },
+  "coverage": {
+    "fresh": {
+      "queries": 144,
+      "complete": 137
+    },
+    "arena_first": {
+      "queries": 96,
+      "complete": 94
+    },
+    "arena_small": {
+      "queries": 753,
+      "complete": 753
+    },
+    "arena_deep_sample": {
+      "queries": 62,
+      "complete": 62
+    }
+  },
+  "independent_elapsed_s": 11.307960113044828,
+  "independent_artifact_sha256": "b42b50e17754570889d70de85e7c5c9625a392c7320fb66e78593c4586d286df",
+  "independent_binary_sha256": "a1e943f250eae145e10a12482fc575d11af08960dfd7ddf804c1f0c0ff14c7af",
+  "first_action": {
+    "LATE": {
+      "pairs": 192,
+      "independent_pairs": 192,
+      "improved": 72,
+      "worse": 0,
+      "same": 120,
+      "q_regret2": 0,
+      "b_regret2": 77,
+      "q_bad": 0,
+      "b_bad": 72
+    },
+    "MID": {
+      "pairs": 192,
+      "independent_pairs": 184,
+      "improved": 107,
+      "worse": 0,
+      "same": 77,
+      "q_regret2": 0,
+      "b_regret2": 148,
+      "q_bad": 0,
+      "b_bad": 107
+    }
+  },
+  "native_rapfi_identity": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+  "native_execution": "NOT_RUN_K42",
+  "scope": "all raw rule/vote/bound and cost checks; independent exact truth for specified query subset with explicit censoring; CI not independently recomputed"
+}

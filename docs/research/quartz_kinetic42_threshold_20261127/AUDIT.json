@@ -1,0 +1,71 @@
+{
+  "arena_games": 1280,
+  "arena_proof_unique": 879,
+  "bench_rows": 384,
+  "counts": {
+    "certificates": 4586,
+    "fallback": 9,
+    "legal_edges": 108547,
+    "locks": 357,
+    "proof_attempts": 1415,
+    "proof_complete": 1406,
+    "rule_checks": 9883
+  },
+  "coverage": {
+    "arena_deep_sample": {
+      "complete": 62,
+      "queries": 62
+    },
+    "arena_first": {
+      "complete": 94,
+      "queries": 96
+    },
+    "arena_small": {
+      "complete": 753,
+      "queries": 753
+    },
+    "fresh": {
+      "complete": 137,
+      "queries": 144
+    }
+  },
+  "first_action": {
+    "LATE": {
+      "b_bad": 72,
+      "b_regret2": 77,
+      "improved": 72,
+      "independent_pairs": 192,
+      "pairs": 192,
+      "q_bad": 0,
+      "q_regret2": 0,
+      "same": 120,
+      "worse": 0
+    },
+    "MID": {
+      "b_bad": 107,
+      "b_regret2": 148,
+      "improved": 107,
+      "independent_pairs": 184,
+      "pairs": 192,
+      "q_bad": 0,
+      "q_regret2": 0,
+      "same": 77,
+      "worse": 0
+    }
+  },
+  "independent": {
+    "arena_certificate_match": 878,
+    "bench_certificate_match": 134,
+    "complete": 1016,
+    "fresh_full_match": 137,
+    "nodes": 84136593,
+    "queries": 1025
+  },
+  "independent_artifact_sha256": "b42b50e17754570889d70de85e7c5c9625a392c7320fb66e78593c4586d286df",
+  "independent_binary_sha256": "a1e943f250eae145e10a12482fc575d11af08960dfd7ddf804c1f0c0ff14c7af",
+  "independent_elapsed_s": 11.307960113044828,
+  "native_execution": "NOT_RUN_K42",
+  "native_rapfi_identity": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+  "scope": "all raw rule/vote/bound and cost checks; independent exact truth for specified query subset with explicit censoring; CI not independently recomputed",
+  "unique_rule_states": 5288
+}
