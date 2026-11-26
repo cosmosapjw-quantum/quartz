@@ -1,0 +1,476 @@
+{
+  "admission": {
+    "admitted": true,
+    "cal": {
+      "counts": {
+        "B_cpu_ns": 73844646640,
+        "B_nn": 25905,
+        "roots": 785
+      },
+      "options": {
+        "20": {
+          "cert": 229,
+          "changes": 434,
+          "cost_cpu_ns": 32438188511,
+          "exact_gain": 357,
+          "gain2_hi": 868,
+          "gain2_lo": -162,
+          "nn": 11041,
+          "replacement": 140,
+          "strict_negative": 0,
+          "strict_positive": 6
+        },
+        "26": {
+          "cert": 229,
+          "changes": 403,
+          "cost_cpu_ns": 41635532598,
+          "exact_gain": 388,
+          "gain2_hi": 806,
+          "gain2_lo": -100,
+          "nn": 14233,
+          "replacement": 138,
+          "strict_negative": 0,
+          "strict_positive": 6
+        },
+        "32": {
+          "cert": 229,
+          "changes": 347,
+          "cost_cpu_ns": 51011471743,
+          "exact_gain": 444,
+          "gain2_hi": 694,
+          "gain2_lo": 12,
+          "nn": 17425,
+          "replacement": 130,
+          "strict_negative": 0,
+          "strict_positive": 6
+        }
+      }
+    },
+    "cap": 32,
+    "frozen_sha256": "29ec2f6c862f13c8dcdada473ac39e38d0bf5afec7d468337ddec87d2c6e66ba",
+    "selected": 32
+  },
+  "arena": {
+    "NN_FIXED": {
+      "CPU_reduction": 0.2877261985051295,
+      "NI_lower": 0.7604166666666666,
+      "NN_CI": [
+        0.28452169373669123,
+        0.3441509920034459
+      ],
+      "NN_reduction": 0.31317639501226,
+      "attempts": 954,
+      "baseline_moves": 1608,
+      "baseline_nn": 27555,
+      "by_seed": {
+        "101": {
+          "CPU_reduction": 0.5215200101682659,
+          "NN_reduction": 0.5539981588670728,
+          "attempts": 166,
+          "baseline_moves": 329,
+          "baseline_nn": 5346,
+          "candidate_moves": 356,
+          "candidate_nn": 2580,
+          "cert": 61,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "games": 96,
+          "hits": 1254,
+          "losses": 21,
+          "queries": 40517,
+          "replacement": 34,
+          "score": 0.78125,
+          "wall_reduction": 0.5214396365191861,
+          "wins": 75
+        },
+        "102": {
+          "CPU_reduction": 0.284363085214387,
+          "NN_reduction": 0.30724056012158596,
+          "attempts": 232,
+          "baseline_moves": 399,
+          "baseline_nn": 6666,
+          "candidate_moves": 427,
+          "candidate_nn": 4942,
+          "cert": 79,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "games": 96,
+          "hits": 4162,
+          "losses": 20,
+          "queries": 68026,
+          "replacement": 37,
+          "score": 0.7916666666666666,
+          "wall_reduction": 0.28462507314674135,
+          "wins": 76
+        },
+        "103": {
+          "CPU_reduction": 0.17481310851997944,
+          "NN_reduction": 0.20231213872832365,
+          "attempts": 321,
+          "baseline_moves": 483,
+          "baseline_nn": 9240,
+          "candidate_moves": 519,
+          "candidate_nn": 7920,
+          "cert": 81,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "games": 96,
+          "hits": 6709,
+          "losses": 12,
+          "queries": 93170,
+          "replacement": 41,
+          "score": 0.875,
+          "wall_reduction": 0.17489008084024726,
+          "wins": 84
+        },
+        "105": {
+          "CPU_reduction": 0.24955151862862013,
+          "NN_reduction": 0.276181090237142,
+          "attempts": 235,
+          "baseline_moves": 397,
+          "baseline_nn": 6303,
+          "candidate_moves": 425,
+          "candidate_nn": 4884,
+          "cert": 84,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "games": 96,
+          "hits": 7492,
+          "losses": 20,
+          "queries": 80356,
+          "replacement": 36,
+          "score": 0.7916666666666666,
+          "wall_reduction": 0.24969398490939287,
+          "wins": 76
+        }
+      },
+      "candidate_moves": 1727,
+      "candidate_nn": 20326,
+      "cert": 305,
+      "draws": 0,
+      "exact_attempt": 0,
+      "exact_complete": 0,
+      "games": 384,
+      "hits": 19617,
+      "losses": 73,
+      "queries": 282069,
+      "replacement": 148,
+      "score": 0.8098958333333334,
+      "score_CI": [
+        0.75,
+        0.8645833333333334
+      ],
+      "wall_reduction": 0.28782403340478535,
+      "wins": 311
+    },
+    "R_ARENA": {
+      "CPU_reduction": 0.08561328951230662,
+      "NI_lower": 0.5,
+      "NN_CI": [
+        0.15651278098417531,
+        0.22395234811154185
+      ],
+      "NN_reduction": 0.18799102333200501,
+      "attempts": 972,
+      "baseline_moves": 1165,
+      "baseline_nn": 110751,
+      "by_seed": {
+        "0": {
+          "CPU_reduction": 0.08561328951230662,
+          "NN_reduction": 0.18799102333200501,
+          "attempts": 972,
+          "baseline_moves": 1165,
+          "baseline_nn": 110751,
+          "candidate_moves": 1166,
+          "candidate_nn": 90008,
+          "cert": 106,
+          "draws": 1,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "games": 96,
+          "hits": 234508,
+          "losses": 46,
+          "queries": 1257503,
+          "replacement": 62,
+          "score": 0.515625,
+          "wall_reduction": 0.08449814662355704,
+          "wins": 49
+        }
+      },
+      "candidate_moves": 1166,
+      "candidate_nn": 90008,
+      "cert": 106,
+      "draws": 1,
+      "exact_attempt": 0,
+      "exact_complete": 0,
+      "games": 96,
+      "hits": 234508,
+      "losses": 46,
+      "queries": 1257503,
+      "replacement": 62,
+      "score": 0.515625,
+      "score_CI": [
+        0.5,
+        0.5416666666666666
+      ],
+      "wall_reduction": 0.08449814662355704,
+      "wins": 49
+    }
+  },
+  "benchmark": {
+    "NN": {
+      "cold_cert": 493,
+      "cold_checks": 229521,
+      "cold_cpu_ns": 172856982,
+      "cold_entries": 0,
+      "cold_exhausted": 0,
+      "cold_hits": 0,
+      "cold_negative": 0,
+      "cold_only_cert": 0,
+      "cold_positive": 0,
+      "cold_queries": 279715,
+      "cold_scans": 7835404,
+      "cold_skipped": 21766,
+      "cold_wall_ns": 174704629,
+      "different_bounds": 148,
+      "different_cert": 115,
+      "roots": 1709,
+      "seq_cert": 493,
+      "seq_checks": 311857,
+      "seq_cpu_ns": 304659125,
+      "seq_entries": 249991,
+      "seq_exhausted": 0,
+      "seq_hits": 29612,
+      "seq_negative": 345971,
+      "seq_only_cert": 0,
+      "seq_positive": 23926,
+      "seq_queries": 481056,
+      "seq_scans": 11744762,
+      "seq_skipped": 22397,
+      "seq_wall_ns": 306950825,
+      "stages": 4122
+    },
+    "R": {
+      "cold_cert": 90,
+      "cold_checks": 485240,
+      "cold_cpu_ns": 545733058,
+      "cold_entries": 0,
+      "cold_exhausted": 21,
+      "cold_hits": 0,
+      "cold_negative": 0,
+      "cold_only_cert": 0,
+      "cold_positive": 0,
+      "cold_queries": 599220,
+      "cold_scans": 30172174,
+      "cold_skipped": 62120,
+      "cold_wall_ns": 546781693,
+      "different_bounds": 21,
+      "different_cert": 9,
+      "roots": 772,
+      "seq_cert": 90,
+      "seq_checks": 500207,
+      "seq_cpu_ns": 708437019,
+      "seq_entries": 379516,
+      "seq_exhausted": 21,
+      "seq_hits": 75858,
+      "seq_negative": 487314,
+      "seq_only_cert": 0,
+      "seq_positive": 55624,
+      "seq_queries": 713924,
+      "seq_scans": 33429466,
+      "seq_skipped": 47904,
+      "seq_wall_ns": 709681132,
+      "stages": 1769
+    }
+  },
+  "counts": {
+    "NN_CAL": {
+      "atlas_extra_nn": 37872,
+      "atlas_roots": 785,
+      "common": 552,
+      "games": 160,
+      "moves": 1337,
+      "nn": 25399
+    },
+    "NN_FIXED": {
+      "common": 1546,
+      "games": 384,
+      "moves": 3335,
+      "nn": 47881
+    },
+    "NN_TEST": {
+      "atlas_extra_nn": 35731,
+      "atlas_roots": 748,
+      "common": 547,
+      "games": 160,
+      "moves": 1295,
+      "nn": 24129
+    },
+    "R_ARENA": {
+      "common": 397,
+      "games": 96,
+      "moves": 2331,
+      "nn": 200759
+    },
+    "TRAIN": {
+      "nn": 53732,
+      "roots": 1709
+    }
+  },
+  "late": {
+    "exact_attempt": 267,
+    "exact_complete": 260,
+    "exact_nodes": 707336,
+    "hybrid": 377,
+    "partial": 117,
+    "roots": 384,
+    "truth": 377,
+    "verified_hybrid": 374
+  },
+  "source": {
+    "NN_CAL": {
+      "counts": {
+        "B_cpu_ns": 73844646640,
+        "B_nn": 25905,
+        "roots": 785
+      },
+      "options": {
+        "20": {
+          "cert": 229,
+          "changes": 434,
+          "cost_cpu_ns": 32438188511,
+          "exact_gain": 357,
+          "gain2_hi": 868,
+          "gain2_lo": -162,
+          "nn": 11041,
+          "replacement": 140,
+          "strict_negative": 0,
+          "strict_positive": 6
+        },
+        "26": {
+          "cert": 229,
+          "changes": 403,
+          "cost_cpu_ns": 41635532598,
+          "exact_gain": 388,
+          "gain2_hi": 806,
+          "gain2_lo": -100,
+          "nn": 14233,
+          "replacement": 138,
+          "strict_negative": 0,
+          "strict_positive": 6
+        },
+        "32": {
+          "cert": 229,
+          "changes": 347,
+          "cost_cpu_ns": 51011471743,
+          "exact_gain": 444,
+          "gain2_hi": 694,
+          "gain2_lo": 12,
+          "nn": 17425,
+          "replacement": 130,
+          "strict_negative": 0,
+          "strict_positive": 6
+        }
+      }
+    },
+    "NN_TEST": {
+      "counts": {
+        "B_cpu_ns": 70733023172,
+        "B_nn": 24684,
+        "roots": 748
+      },
+      "options": {
+        "20": {
+          "cert": 171,
+          "changes": 388,
+          "cost_cpu_ns": 33338129364,
+          "exact_gain": 369,
+          "gain2_hi": 776,
+          "gain2_lo": -172,
+          "nn": 11393,
+          "replacement": 134,
+          "strict_negative": 0,
+          "strict_positive": 9
+        },
+        "26": {
+          "cert": 171,
+          "changes": 351,
+          "cost_cpu_ns": 42797792734,
+          "exact_gain": 406,
+          "gain2_hi": 702,
+          "gain2_lo": -98,
+          "nn": 14681,
+          "replacement": 136,
+          "strict_negative": 0,
+          "strict_positive": 9
+        },
+        "32": {
+          "cert": 171,
+          "changes": 293,
+          "cost_cpu_ns": 52431735755,
+          "exact_gain": 464,
+          "gain2_hi": 586,
+          "gain2_lo": 18,
+          "nn": 17969,
+          "replacement": 126,
+          "strict_negative": 0,
+          "strict_positive": 9
+        }
+      }
+    }
+  },
+  "train": {
+    "cap": 32,
+    "scope": "earliest fixed cap with nonnegative aggregate certified lower gain and NN<=Q32; empirical finite sample, not posterior VOC",
+    "train": {
+      "counts": {
+        "B_cpu_ns": 209313493574,
+        "B_nn": 56397,
+        "roots": 1709
+      },
+      "options": {
+        "20": {
+          "cert": 493,
+          "changes": 964,
+          "cost_cpu_ns": 69854754668,
+          "exact_gain": 767,
+          "gain2_hi": 1928,
+          "gain2_lo": -352,
+          "nn": 24062,
+          "replacement": 309,
+          "strict_negative": 0,
+          "strict_positive": 22
+        },
+        "26": {
+          "cert": 493,
+          "changes": 895,
+          "cost_cpu_ns": 89707894328,
+          "exact_gain": 836,
+          "gain2_hi": 1790,
+          "gain2_lo": -214,
+          "nn": 31016,
+          "replacement": 304,
+          "strict_negative": 0,
+          "strict_positive": 22
+        },
+        "32": {
+          "cert": 493,
+          "changes": 766,
+          "cost_cpu_ns": 109602209985,
+          "exact_gain": 965,
+          "gain2_hi": 1532,
+          "gain2_lo": 44,
+          "nn": 37970,
+          "replacement": 288,
+          "strict_negative": 0,
+          "strict_positive": 22
+        }
+      }
+    },
+    "train_sha256": "7cd316ed02a8a734b6fd1c5dffcf11a1fc8fdcc8526414db3b12c488bb99a981"
+  }
+}
