@@ -1,0 +1,21 @@
+{
+  "command": [
+    "nice",
+    "-n",
+    "5",
+    "cargo",
+    "build",
+    "--offline",
+    "--locked",
+    "--release",
+    "--bin",
+    "mcts_demo",
+    "--target-dir",
+    "/home/cosmosapjw/quantum/research/quartz_kinetic35_target_20261126/cargo"
+  ],
+  "source_head": "4a9b31f62c99cf7159e716391cd201ff3e4938e6",
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+  "cargo_lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+  "binary_sha256": "22aa5ff310e8b7fff2dc9b565cba31a61cb766fd6c7a38bc95fe23ddc946e855",
+  "bytes": 7217480
+}
