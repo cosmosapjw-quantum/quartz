@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic36_20261126/docs/research/quartz_kinetic36_20261126/native_test.py", line 9, in <module>
+    assert len(a)==5 and a[1].get('schema')=='quartz_rapfi_k36_v1',('K36 horizon/probe endpoint unavailable',len(a),p.returncode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('K36 horizon/probe endpoint unavailable', 5, 0)
+exit=1
