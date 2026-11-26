@@ -163,3 +163,60 @@ mod allocation_cap_tests{
         assert_eq!(allocation_cap(32,None),16);
     }
 }
+
+// K39 research primitive: coherent committed-visit snapshot with explicit tie
+// priority. Lower rank wins a tie. All legal candidates (even hidden) included.
+// An outstanding reservation is a future unit backup, not a committed visit.
+pub fn vote_certificate(counts: &[u32], priority: &[u32], reserved: u32, cap: u32) -> Result<Option<usize>, &'static str> {
+    if counts.is_empty() || counts.len() != priority.len() { return Err("shape"); }
+    let mut order = priority.to_vec();
+    order.sort_unstable();
+    if order.windows(2).any(|w| w[0] == w[1]) { return Err("tie priority"); }
+    let t: u64 = counts.iter().map(|&n| u64::from(n)).sum();
+    if t + u64::from(reserved) > u64::from(cap) { return Err("overreserved"); }
+    let r = u64::from(cap) - t;
+    let leader = (0..counts.len()).max_by_key(|&i| (counts[i], std::cmp::Reverse(priority[i]))).unwrap();
+    let stable = (0..counts.len()).filter(|&i| i != leader).all(|i| {
+        u64::from(counts[leader] - counts[i]) + u64::from(priority[i] > priority[leader]) > r
+    });
+    Ok(stable.then_some(leader))
+}
+#[cfg(test)]
+mod k39_vote_certificate_tests {
+    use super::vote_certificate;
+    #[test]
+    fn explicit_ties_and_pending() {
+        assert_eq!(vote_certificate(&[3,3], &[1,0], 0,6), Ok(Some(1)));
+        assert_eq!(vote_certificate(&[3,3], &[0,1], 0,6), Ok(Some(0)));
+        assert_eq!(vote_certificate(&[5,2], &[0,1], 3,10), Ok(Some(0)));
+        assert_eq!(vote_certificate(&[5,2], &[1,0], 3,10), Ok(None));
+        assert_eq!(vote_certificate(&[5,2], &[1,0], 4,10), Err("overreserved"));
+        assert_eq!(vote_certificate(&[5,2], &[0,0], 0,10), Err("tie priority"));
+        assert_eq!(vote_certificate(&[0], &[0], 4,8), Ok(Some(0)));
+        let mut n = [0;49]; n[48]=18;
+        let p: Vec<u32>=(0..49).collect();
+        assert_eq!(vote_certificate(&n,&p,7,32),Ok(Some(48)));
+        n[0]=4; n[48]=14;
+        assert_eq!(vote_certificate(&n,&p,7,32),Ok(None));
+    }
+    #[test]
+    fn exhaustive_prefix_nesting() {
+        for code in 0u32..3u32.pow(8) {
+            let mut c=code; let mut n=[0u32;3];
+            let (mut lo,mut hi)=(None,None);
+            let mut at4=None;
+            for t in 0..=8u32 {
+                let winner=(0..3).max_by_key(|&i| (n[i],std::cmp::Reverse(i))).unwrap();
+                if t<=4 && lo.is_none() && vote_certificate(&n,&[0,1,2],0,4).unwrap().is_some(){lo=Some((t,winner));}
+                if hi.is_none() && vote_certificate(&n,&[0,1,2],0,8).unwrap().is_some(){hi=Some((t,winner));}
+                if t==4{at4=Some(winner);}
+                if t==8 {
+                    assert_eq!(lo.unwrap().1,at4.unwrap());
+                    assert_eq!(hi.unwrap().1,winner);
+                    assert!(lo.unwrap().0<=hi.unwrap().0); break;
+                }
+                n[(c%3) as usize]+=1;c/=3;
+            }
+        }
+    }
+}

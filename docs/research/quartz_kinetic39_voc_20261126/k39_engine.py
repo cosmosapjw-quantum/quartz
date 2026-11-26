@@ -69,28 +69,57 @@ class Node:
             else:b|=1<<m
             self.child[i]=Node(a,b,-self.p)
         return self.child[i]
-class Puct:
-    def __init__(self,ev):self.ev=ev
-    def search(self,h,cap,lock):
-        assert cap>0
-        t=time.perf_counter_ns();c=time.process_time_ns();initial=self.ev.rows
-        a,b=from_history(h);p=1-2*(len(h)%2);pr=proof(a,b) if p==1 else proof(b,a)
-        rule_ns=time.perf_counter_ns()-t
-        if pr['move'] is not None:
-            return dict(move=pr['move'],kind='CERTIFICATE',proof=pr['kind'],cap=cap,lock=lock,nn=0,visits=0,terminal_leaves=0,votes=[],distance=None,wall_ns=time.perf_counter_ns()-t,cpu_ns=time.process_time_ns()-c,rule_ns=rule_ns)
-        root=Node(a,b,p);_,term=root.expand(self.ev);assert not term
-        visits=terminal=0
-        while visits<cap:
-            d=lock_distance(root.legal,root.n)
-            if lock and d>cap-visits:break
+
+class Session:
+    def __init__(self,ev,h):
+        self.ev=ev;self.t=time.perf_counter_ns();self.c=time.process_time_ns()
+        self.initial=ev.rows;self.visits=self.terminal=0
+        a,b=from_history(h);p=1-2*(len(h)%2)
+        self.pr=proof(a,b) if p==1 else proof(b,a)
+        self.rule_ns=time.perf_counter_ns()-self.t
+        self.root=None
+        if self.pr['move'] is None:
+            self.root=Node(a,b,p);_,term=self.root.expand(ev);assert not term
+    def advance(self,cap,lock):
+        assert cap>0 and self.visits<=cap
+        if self.root is None:
+            assert self.ev.rows==self.initial
+            return dict(move=self.pr['move'],kind='CERTIFICATE',proof=self.pr['kind'],cap=cap,lock=lock,nn=0,visits=0,terminal_leaves=0,votes=[],distance=None,prior_best=None,wall_ns=time.perf_counter_ns()-self.t,cpu_ns=time.process_time_ns()-self.c,rule_ns=self.rule_ns)
+        root=self.root
+        while self.visits<cap:
+            if lock and lock_distance(root.legal,root.n)>cap-self.visits:break
             node=root;path=[]
             while node.legal is not None:
                 i=node.select();path.append((node,i));node=node.descend(i)
-            v,term=node.expand(self.ev);terminal+=int(term)
+            v,term=node.expand(self.ev);self.terminal+=int(term)
             for parent,i in reversed(path):
                 v=-v;parent.n[i]+=1;parent.w[i]+=v
-            visits+=1
-        assert int(root.n.sum())==visits
+            self.visits+=1
+        assert int(root.n.sum())==self.visits
         d=lock_distance(root.legal,root.n);leader=int(root.legal[np.argmax(root.n)])
-        nn=self.ev.rows-initial;assert nn==1+visits-terminal
-        return dict(move=leader,kind='VOTE_LOCK' if visits<cap else 'CAP',proof='UNRESOLVED',cap=cap,lock=lock,nn=nn,visits=visits,terminal_leaves=terminal,votes=[[int(i),int(n)] for i,n in zip(root.legal,root.n)],distance=d,wall_ns=time.perf_counter_ns()-t,cpu_ns=time.process_time_ns()-c,rule_ns=rule_ns)
+        nn=self.ev.rows-self.initial;assert nn==1+self.visits-self.terminal
+        return dict(move=leader,kind='VOTE_LOCK' if self.visits<cap else 'CAP',proof='UNRESOLVED',cap=cap,lock=lock,nn=nn,visits=self.visits,terminal_leaves=self.terminal,votes=[[int(i),int(n)] for i,n in zip(root.legal,root.n)],distance=d,prior_best=int(root.legal[np.argmax(root.prior)]),wall_ns=time.perf_counter_ns()-self.t,cpu_ns=time.process_time_ns()-self.c,rule_ns=self.rule_ns)
+def bin_of(low):
+    assert low['kind']!='CERTIFICATE'
+    return int(low['distance']<=3)+2*int(low['move']!=low['prior_best'])
+class Puct:
+    def __init__(self,ev):self.ev=ev
+    def search(self,h,cap,lock):
+        return Session(self.ev,h).advance(cap,lock)
+    def atlas(self,h):
+        before=self.ev.rows
+        b20=self.search(h,20,False);b32=self.search(h,32,False)
+        ss=Session(self.ev,h);lo=ss.advance(20,True);hi=ss.advance(32,True)
+        assert b20['move']==lo['move'] and b32['move']==hi['move']
+        assert lo['nn']<=hi['nn']<=b32['nn'] and lo['nn']<=b20['nn']
+        assert self.ev.rows-before==b20['nn']+b32['nn']+hi['nn']
+        return dict(B20=b20,B32=b32,L20=lo,L32=hi,bin=None if lo['kind']=='CERTIFICATE' else bin_of(lo),actual_nn=self.ev.rows-before)
+    def adaptive(self,h,mask):
+        assert type(mask) is int and 0<=mask<16
+        ss=Session(self.ev,h);lo=ss.advance(20,True)
+        z=None if lo['kind']=='CERTIFICATE' else bin_of(lo)
+        extend=z is not None and bool(mask>>z&1)
+        out=ss.advance(32,True) if extend else lo.copy()
+        out.update(bin=z,extended=extend,mask=mask,low_nn=lo['nn'],low_visits=lo['visits'],low_move=lo['move'],low_distance=lo['distance'],low_prior=lo['prior_best'])
+        out['wall_ns']=time.perf_counter_ns()-ss.t;out['cpu_ns']=time.process_time_ns()-ss.c
+        return out
