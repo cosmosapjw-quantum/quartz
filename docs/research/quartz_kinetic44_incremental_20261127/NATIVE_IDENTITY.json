@@ -1,0 +1,11 @@
+{
+  "binary_sha256": "e3f92bb23e5ff2f1ae5642bd3b528ba6a296d255d4abcfa1b64af93d16e1aabc",
+  "bytes": 29520,
+  "source_sha256": "763b5b788dafd13b1e7b4bc49e73c0933e116de241f1e0da84a496a2cf37fa3c",
+  "source_commit": "62b0edd27acc93e427940a0a202477f141e25416",
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "build": "g++ -std=c++17 -O3 -Wall -Wextra -fPIC -shared inc44.cpp -o inc44.so",
+  "rapfi_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+  "old_partial_library_sha256": "3d0b093d4ae5cffde0e6ae6e8f34cfec1a16cdf312faaa3cddbeefe355d205b1",
+  "scope": "native C++ incremental proof in Python reference PUCT and unchanged native K40 Rapfi server wrapper"
+}
