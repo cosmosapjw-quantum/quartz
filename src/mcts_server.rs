@@ -55,6 +55,8 @@ mod k25_cpu_server;
 mod k26_cpu_server;
 #[path = "mcts_server/k27_cpu_server.rs"]
 mod k27_cpu_server;
+#[path = "mcts_server/k28_cpu_server.rs"]
+mod k28_cpu_server;
 #[path = "mcts_server/four_axis_cpu_server.rs"]
 mod four_axis_cpu_server;
 #[path = "mcts_server/four_axis_pool_cpu_server.rs"]
@@ -2768,6 +2770,11 @@ pub fn serve() {
         if cmd == "research_gomoku15_long_inspect" || cmd == "research_gomoku15_long_search" {
             emit_stdout_json_value(&gomoku_long_cpu_server::handle(&line));
             if let Some(ring) = global_ring_buffer() { ring.set_cmd_done(true); }
+            continue;
+        }
+        if cmd == "research_connect4_k28_cpu" {
+            emit_stdout_json_value(&k28_cpu_server::handle(&line));
+            if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
             continue;
         }
         if cmd == "research_connect4_k27_cpu" {
