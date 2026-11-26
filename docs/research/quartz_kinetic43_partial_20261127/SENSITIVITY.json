@@ -1,0 +1,177 @@
+{
+  "arena": {
+    "NN_ARENA": {
+      "counts": {
+        "attempts": 2082,
+        "both_Q_lose": 0,
+        "both_Q_win": 230,
+        "cert": 634,
+        "cert_draw": 0,
+        "cert_loss": 0,
+        "cert_unknown": 145,
+        "cert_win": 489,
+        "checks": 275441,
+        "complementary_pairs": 154,
+        "exhausted": 0,
+        "proof_cpu_ns": 628796875,
+        "queries": 389632,
+        "replaced": 334,
+        "scans": 28478032
+      },
+      "strata": {
+        "101": {
+          "attempts": 363,
+          "cert": 104,
+          "cert_draw": 0,
+          "cert_loss": 0,
+          "cert_unknown": 45,
+          "cert_win": 59,
+          "checks": 46592,
+          "exhausted": 0,
+          "proof_cpu_ns": 105081688,
+          "queries": 67028,
+          "replaced": 88,
+          "scans": 4775056
+        },
+        "102": {
+          "attempts": 468,
+          "cert": 143,
+          "cert_draw": 0,
+          "cert_loss": 0,
+          "cert_unknown": 41,
+          "cert_win": 102,
+          "checks": 59322,
+          "exhausted": 0,
+          "proof_cpu_ns": 138002704,
+          "queries": 84678,
+          "replaced": 92,
+          "scans": 6110896
+        },
+        "103": {
+          "attempts": 678,
+          "cert": 204,
+          "cert_draw": 0,
+          "cert_loss": 0,
+          "cert_unknown": 17,
+          "cert_win": 187,
+          "checks": 91157,
+          "exhausted": 0,
+          "proof_cpu_ns": 209478368,
+          "queries": 128323,
+          "replaced": 79,
+          "scans": 9514032
+        },
+        "105": {
+          "attempts": 573,
+          "cert": 183,
+          "cert_draw": 0,
+          "cert_loss": 0,
+          "cert_unknown": 42,
+          "cert_win": 141,
+          "checks": 78370,
+          "exhausted": 0,
+          "proof_cpu_ns": 176234115,
+          "queries": 109603,
+          "replaced": 75,
+          "scans": 8078048
+        }
+      }
+    },
+    "R_ARENA": {
+      "counts": {
+        "attempts": 1128,
+        "both_Q_lose": 0,
+        "both_Q_win": 0,
+        "cert": 170,
+        "cert_draw": 0,
+        "cert_loss": 64,
+        "cert_unknown": 50,
+        "cert_win": 56,
+        "checks": 913632,
+        "complementary_pairs": 64,
+        "exhausted": 53,
+        "proof_cpu_ns": 10855558172,
+        "queries": 1238212,
+        "replaced": 85,
+        "scans": 590728996
+      },
+      "strata": {
+        "0": {
+          "attempts": 1128,
+          "cert": 170,
+          "cert_draw": 0,
+          "cert_loss": 64,
+          "cert_unknown": 50,
+          "cert_win": 56,
+          "checks": 913632,
+          "exhausted": 53,
+          "proof_cpu_ns": 10855558172,
+          "queries": 1238212,
+          "replaced": 85,
+          "scans": 590728996
+        }
+      }
+    }
+  },
+  "scope": "post-outcome descriptive source cost decomposition vs same-horizon lock and actual certificate types; no retuning or new performance gate; NN source cost estimate excludes separate Python common-gate cost on bypass",
+  "source": {
+    "NN_SOURCE": {
+      "3": {
+        "additional_CPU_saved_beyond_lock_ns": -172302592,
+        "additional_NN_saved_beyond_lock": 0,
+        "avoided_L_cpu_ns": 0,
+        "conditional_CPU_saving_vs_L": -0.001325230639710906,
+        "conditional_NN_saving_vs_L": 0.0,
+        "proof_cost_over_avoided_L_cpu": null,
+        "proof_cpu_ns": 172302592
+      },
+      "5": {
+        "additional_CPU_saved_beyond_lock_ns": 17843483215,
+        "additional_NN_saved_beyond_lock": 4876,
+        "avoided_L_cpu_ns": 18075266619,
+        "conditional_CPU_saving_vs_L": 0.1372395528192929,
+        "conditional_NN_saving_vs_L": 0.13747215878654595,
+        "proof_cost_over_avoided_L_cpu": 0.012823235689168674,
+        "proof_cpu_ns": 231783404
+      },
+      "7": {
+        "additional_CPU_saved_beyond_lock_ns": 36104719107,
+        "additional_NN_saved_beyond_lock": 9829,
+        "avoided_L_cpu_ns": 36424148990,
+        "conditional_CPU_saving_vs_L": 0.27769216610944425,
+        "conditional_NN_saving_vs_L": 0.27711522738165717,
+        "proof_cost_over_avoided_L_cpu": 0.008769728102300957,
+        "proof_cpu_ns": 319429883
+      }
+    },
+    "R_SOURCE": {
+      "3": {
+        "additional_CPU_saved_beyond_lock_ns": -534538047,
+        "additional_NN_saved_beyond_lock": 700,
+        "avoided_L_cpu_ns": 297015539,
+        "conditional_CPU_saving_vs_L": -0.0293869012407455,
+        "conditional_NN_saving_vs_L": 0.010695350578312834,
+        "proof_cost_over_avoided_L_cpu": 2.799697244122975,
+        "proof_cpu_ns": 831553586
+      },
+      "5": {
+        "additional_CPU_saved_beyond_lock_ns": -2449606145,
+        "additional_NN_saved_beyond_lock": 1403,
+        "avoided_L_cpu_ns": 531189024,
+        "conditional_CPU_saving_vs_L": -0.13467017785889857,
+        "conditional_NN_saving_vs_L": 0.02143653837338999,
+        "proof_cost_over_avoided_L_cpu": 5.611552638181018,
+        "proof_cpu_ns": 2980795169
+      },
+      "7": {
+        "additional_CPU_saved_beyond_lock_ns": -5540936987,
+        "additional_NN_saved_beyond_lock": 1953,
+        "avoided_L_cpu_ns": 676070474,
+        "conditional_CPU_saving_vs_L": -0.30461997781453154,
+        "conditional_NN_saving_vs_L": 0.029840028113492956,
+        "proof_cost_over_avoided_L_cpu": 9.195797923575642,
+        "proof_cpu_ns": 6217007461
+      }
+    }
+  }
+}
