@@ -1,0 +1,118 @@
+{
+  "replicates": 8000,
+  "seed": 2026117336,
+  "identical_histories": 290,
+  "paired_score2_difference": {
+    "-2": 6,
+    "-1": 1,
+    "0": 370,
+    "2": 7
+  },
+  "estimates": {
+    "NN_FIXED": {
+      "score": 0.8098958333333334,
+      "NN_reduction": 0.3131763950122601,
+      "CPU_reduction": 0.2877261985051294,
+      "wall_reduction": 0.2878240334047853
+    },
+    "NN_LOW": {
+      "score": 0.8111979166666666,
+      "NN_reduction": 0.5663655204926661,
+      "CPU_reduction": 0.5511168359742371,
+      "wall_reduction": 0.5513678484854565
+    },
+    "R_ARENA": {
+      "score": 0.515625,
+      "NN_reduction": 0.18799102333200496,
+      "CPU_reduction": 0.08561328951230648,
+      "wall_reduction": 0.08449814662355713
+    }
+  },
+  "independent_CI": {
+    "NN_FIXED": {
+      "score": [
+        0.7526041666666666,
+        0.8645833333333334
+      ],
+      "NN_reduction": [
+        0.2854108306111433,
+        0.344658729546267
+      ],
+      "CPU_reduction": [
+        0.25623512705877033,
+        0.3213003061311382
+      ],
+      "wall_reduction": [
+        0.25640940738099366,
+        0.3213869107887174
+      ]
+    },
+    "NN_LOW": {
+      "score": [
+        0.7565104166666666,
+        0.86328125
+      ],
+      "NN_reduction": [
+        0.5454354626108919,
+        0.5870909461148691
+      ],
+      "CPU_reduction": [
+        0.5265883276931304,
+        0.5737296689473634
+      ],
+      "wall_reduction": [
+        0.5268892452222972,
+        0.5738850935289723
+      ]
+    },
+    "R_ARENA": {
+      "score": [
+        0.5,
+        0.5416666666666666
+      ],
+      "NN_reduction": [
+        0.1562067739280822,
+        0.2239390660234976
+      ],
+      "CPU_reduction": [
+        0.04076366294195465,
+        0.1435819276995906
+      ],
+      "wall_reduction": [
+        0.039307753494776956,
+        0.14351267565610804
+      ]
+    }
+  },
+  "paired_difference": {
+    "score": {
+      "point": 0.0013020833333332593,
+      "CI": [
+        -0.01822916666666674,
+        0.02213541666666674
+      ]
+    },
+    "NN_reduction": {
+      "point": 0.253189125480406,
+      "CI": [
+        0.22967828016384043,
+        0.2766498053552854
+      ]
+    },
+    "CPU_reduction": {
+      "point": 0.2633906374691077,
+      "CI": [
+        0.23647302450328422,
+        0.2893205286211052
+      ]
+    },
+    "wall_reduction": {
+      "point": 0.2635438150806712,
+      "CI": [
+        0.23671154801404165,
+        0.28938775898674307
+      ]
+    }
+  },
+  "scope": "separate Q vs identical B games matched by opening family/model/color; independent Python random family bootstrap, not direct Q-v-Q match or proof of equivalence; CPU times from separate actual runs"
+}
