@@ -1,0 +1,8 @@
+Using Python 3.12.13 environment at: /home/cosmosapjw/quantum/research/quartz_kinetic33_env_20261126
+Resolved 11 packages in 19ms
+  × Failed to download `filelock==4.2.12`
+  ╰─▶ Network connectivity is disabled, but the
+      requested data wasn't found in the cache for:
+      `https://files.pythonhosted.org/packages/8a/c9/eb6b6528c7edb958d4c24ac47a8b94113d9de36e4cfc6eecd599b1a4f349/filelock-4.2.12-py3-none-any.whl`
+
+hint: `filelock` (v4.2.12) was included because `torch` (v2.15.0+cpu) depends on `filelock`
