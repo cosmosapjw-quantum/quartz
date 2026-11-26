@@ -1,0 +1,134 @@
+{
+  "cert": {
+    "NN_calls": 0,
+    "best": 112,
+    "bin": null,
+    "bridge_wait_ns": 0,
+    "cap": 80,
+    "cause": "WIN3",
+    "cpu_ns": [
+      178665,
+      0
+    ],
+    "eval_ipc_ns": 0,
+    "history": [
+      110,
+      0,
+      111,
+      2,
+      113,
+      4
+    ],
+    "locked": true,
+    "player": 1,
+    "proof_us": 53,
+    "request_mask": 15,
+    "seed": 17,
+    "selected_mask": null,
+    "table": null,
+    "threads": 1,
+    "transport_ns": 270690,
+    "visits": 0
+  },
+  "mask0": {
+    "NN_calls": 78,
+    "best": 99,
+    "bin": 3,
+    "bridge_wait_ns": 2192,
+    "cap": 80,
+    "cause": "VISIT_CAP",
+    "cpu_ns": [
+      6714579,
+      8412285
+    ],
+    "eval_ipc_ns": 10047381,
+    "history": [
+      112,
+      113,
+      97,
+      127,
+      98,
+      126,
+      82,
+      143
+    ],
+    "locked": false,
+    "player": 1,
+    "proof_us": 162,
+    "request_mask": 0,
+    "seed": 17,
+    "selected_mask": 0,
+    "table": null,
+    "threads": 1,
+    "transport_ns": 15981395,
+    "visits": 80
+  },
+  "mask15": {
+    "NN_calls": 80,
+    "best": 99,
+    "bin": 3,
+    "bridge_wait_ns": 2081,
+    "cap": 80,
+    "cause": "NN_TARGET",
+    "cpu_ns": [
+      3799656,
+      7474383
+    ],
+    "eval_ipc_ns": 8663309,
+    "history": [
+      112,
+      113,
+      97,
+      127,
+      98,
+      126,
+      82,
+      143
+    ],
+    "locked": false,
+    "player": 1,
+    "proof_us": 44,
+    "request_mask": 15,
+    "seed": 17,
+    "selected_mask": 15,
+    "table": null,
+    "threads": 1,
+    "transport_ns": 11721613,
+    "visits": 73
+  },
+  "parallel": {
+    "NN_calls": 68,
+    "best": 99,
+    "bin": 3,
+    "bridge_wait_ns": 11489066,
+    "cap": 80,
+    "cause": "VOTE_LOCK",
+    "cpu_ns": [
+      5852926,
+      5932617
+    ],
+    "eval_ipc_ns": 7235990,
+    "history": [
+      112,
+      113,
+      97,
+      127,
+      98,
+      126,
+      82,
+      143
+    ],
+    "locked": true,
+    "player": 1,
+    "proof_us": 46,
+    "request_mask": 15,
+    "seed": 17,
+    "selected_mask": 15,
+    "table": null,
+    "threads": 4,
+    "transport_ns": 10754983,
+    "visits": 63
+  },
+  "rejected": 2,
+  "rows": 19
+}
