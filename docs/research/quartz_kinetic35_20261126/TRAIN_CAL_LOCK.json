@@ -1,0 +1,89 @@
+{
+  "code": "70aab0bdacee335b88a841d0b14c3ec6f49957b1a8da5cf5c1eb53d85fcba67f",
+  "cohort": "f464967b93036f33104cd962107a900f0de30ff6020fd4302076ef2ecf66692b",
+  "counts": {
+    "NN": 530711,
+    "label_NN": 142411,
+    "label_requests": 1873,
+    "label_visits": 171320,
+    "labels": 143,
+    "requests": 6784,
+    "roots": 106,
+    "visits": 506281
+  },
+  "files": [
+    {
+      "NN": 91565,
+      "file": "TRAIN_CAL_0.jsonl.gz",
+      "label_NN": 27988,
+      "label_requests": 387,
+      "label_visits": 34336,
+      "labels": 30,
+      "requests": 1152,
+      "roots": 18,
+      "sha256": "8f9fd27c1abd365960d87d73853b9256e3661db5e121132544019bcc9e61539f",
+      "visits": 88830
+    },
+    {
+      "NN": 90547,
+      "file": "TRAIN_CAL_1.jsonl.gz",
+      "label_NN": 36830,
+      "label_requests": 436,
+      "label_visits": 41830,
+      "labels": 25,
+      "requests": 1152,
+      "roots": 18,
+      "sha256": "97f5da432f7551e8d49f1d7bc43542052bcf5754895584d91e91a8d460f57eff",
+      "visits": 83754
+    },
+    {
+      "NN": 87033,
+      "file": "TRAIN_CAL_2.jsonl.gz",
+      "label_NN": 15751,
+      "label_requests": 230,
+      "label_visits": 20054,
+      "labels": 24,
+      "requests": 1152,
+      "roots": 18,
+      "sha256": "4c2f7c19db5a56bf4da55a60c6ef160504f9ff9d9ea1a8406302573f3a948ebe",
+      "visits": 87841
+    },
+    {
+      "NN": 89220,
+      "file": "TRAIN_CAL_3.jsonl.gz",
+      "label_NN": 21939,
+      "label_requests": 289,
+      "label_visits": 26705,
+      "labels": 22,
+      "requests": 1152,
+      "roots": 18,
+      "sha256": "585db2563de7d5de114f8b369d2aeaaab9e3be53c95c16b0ebd5c587249bcc1f",
+      "visits": 83535
+    },
+    {
+      "NN": 86133,
+      "file": "TRAIN_CAL_4.jsonl.gz",
+      "label_NN": 20361,
+      "label_requests": 275,
+      "label_visits": 24639,
+      "labels": 21,
+      "requests": 1088,
+      "roots": 17,
+      "sha256": "170ec9ee4be00b64c97df575b046186241adb45c77f63f1d3d331205efa8230b",
+      "visits": 80327
+    },
+    {
+      "NN": 86213,
+      "file": "TRAIN_CAL_5.jsonl.gz",
+      "label_NN": 19542,
+      "label_requests": 256,
+      "label_visits": 23756,
+      "labels": 21,
+      "requests": 1088,
+      "roots": 17,
+      "sha256": "d338a3361b19e90c09fe6552902077721e82a2f6d0f0e74b65301cd0e8acd4ad",
+      "visits": 81994
+    }
+  ],
+  "freeze": null
+}
