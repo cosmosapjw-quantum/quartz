@@ -1,0 +1,75 @@
+{
+  "collector": "51027c937f9d9e32135a08405939d3e4dceedd5ed6496e4e7e11cb3298d398cc",
+  "counts": {
+    "atlas_extra_nn": 70323,
+    "atlas_roots": 648,
+    "cert": 129,
+    "games": 32,
+    "items": 32,
+    "moves": 777,
+    "nn": 70387
+  },
+  "elapsed_s": 26.43106298800558,
+  "engine": "944cffb1f6d98f705655ac3ecc607d5a79b1706e7b832dcbcc5864e5d1db36fe",
+  "files": [
+    {
+      "counts": {
+        "atlas_extra_nn": 9340,
+        "atlas_roots": 93,
+        "cert": 19,
+        "games": 8,
+        "items": 8,
+        "moves": 112,
+        "nn": 8868
+      },
+      "elapsed_s": 6.221984663978219,
+      "file": "R_SOURCE_0_3.jsonl.gz",
+      "sha256": "76d31743c0a6788ef91d1284f50e58e65c1ddfa5686aa144e090a11813521788"
+    },
+    {
+      "counts": {
+        "atlas_extra_nn": 16179,
+        "atlas_roots": 152,
+        "cert": 43,
+        "games": 8,
+        "items": 8,
+        "moves": 195,
+        "nn": 16168
+      },
+      "elapsed_s": 11.880801895982586,
+      "file": "R_SOURCE_0_1.jsonl.gz",
+      "sha256": "84dd32d9283361e2691405ae87ed637fc35650449c2d44b680cae16d0a1f1614"
+    },
+    {
+      "counts": {
+        "atlas_extra_nn": 35570,
+        "atlas_roots": 308,
+        "cert": 39,
+        "games": 8,
+        "items": 8,
+        "moves": 347,
+        "nn": 35667
+      },
+      "elapsed_s": 26.32233861403074,
+      "file": "R_SOURCE_0_2.jsonl.gz",
+      "sha256": "13f00aa2150f3b46286e43673e39eccffedf22ed5e9569d0b7da44e1af56b559"
+    },
+    {
+      "counts": {
+        "atlas_extra_nn": 9234,
+        "atlas_roots": 95,
+        "cert": 28,
+        "games": 8,
+        "items": 8,
+        "moves": 123,
+        "nn": 9684
+      },
+      "elapsed_s": 7.0012457250850275,
+      "file": "R_SOURCE_0_0.jsonl.gz",
+      "sha256": "cc5edbc4557e34eb420f3805b903e3b2629b4cf1f22a5a8fb627afb4058bcd27"
+    }
+  ],
+  "lib": "3d0b093d4ae5cffde0e6ae6e8f34cfec1a16cdf312faaa3cddbeefe355d205b1",
+  "plan": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80",
+  "source": "9af9a758bd073bfa861c0ab7aa05b62387309fb022d20ec358b2a92cca3289e3"
+}
