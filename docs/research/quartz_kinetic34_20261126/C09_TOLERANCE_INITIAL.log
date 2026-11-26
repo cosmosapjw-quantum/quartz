@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic34_20261126/docs/research/quartz_kinetic34_20261126/audit_k34.py", line 233, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic34_20261126/docs/research/quartz_kinetic34_20261126/audit_k34.py", line 189, in main
+    audit_native(r,h,local);cost[tag+'_NN']+=r['NN_calls'];cost[tag+'_visits']+=r['visits']
+    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic34_20261126/docs/research/quartz_kinetic34_20261126/audit_k34.py", line 90, in audit_native
+    near(ev['win']+ev['draw']+ev['loss'],1);near(ev['win']-ev['loss'],ev['value']);near(sum(ev['policy']),1)
+                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic34_20261126/docs/research/quartz_kinetic34_20261126/audit_k34.py", line 16, in near
+    def near(a,b):assert math.isclose(a,b,abs_tol=1e-7,rel_tol=1e-9),(a,b)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (0.9999998047642293, 1)
