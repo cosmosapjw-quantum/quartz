@@ -1,0 +1,49 @@
+{
+  "source_commit": "9fa732ca5e630023e1c205f7fcb0d55110df8bc9",
+  "binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+  "binary_bytes": 7239360,
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+  "cargo": "cargo 1.99.0 (5f94df478 2026-08-27)",
+  "build": [
+    "cargo",
+    "build",
+    "--offline",
+    "--locked",
+    "--release",
+    "--bin",
+    "mcts_demo"
+  ],
+  "test": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "--release",
+    "--bin",
+    "mcts_demo"
+  ],
+  "env": {
+    "CARGO_BUILD_JOBS": "4",
+    "CARGO_PROFILE_RELEASE_CODEGEN_UNITS": "4",
+    "CARGO_PROFILE_RELEASE_LTO": "false"
+  },
+  "raw_sha256": {
+    "NATIVE_PARITY.json": "73910ba5d373d9fef7bb4e3fe1afab9ffbbfa04ee440bf93819207dddce3eb1f",
+    "NATIVE_BUILD.log": "e75841346b746b8399ad6bf13895f1b55d8f219a9a4373265148ff2334503304",
+    "CARGO_TEST.log": "7e0f286cbbbb3413ac5c8351564de54720cb77715748cb3dc486714624f0507b"
+  },
+  "parity": {
+    "requests": 384,
+    "roots": 48,
+    "quiescent_checks": 2026,
+    "actual_NN": 31406,
+    "new_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+    "old_binary_sha256": "e12746f178f59fcfeac97740848ecf5ddeb28dd00cafef39e506ed91eea817f2"
+  },
+  "cargo_tests": {
+    "passed": 652,
+    "failed": 0,
+    "ignored": 89
+  },
+  "scope": "actual compiled native research endpoint; no generic async integration"
+}

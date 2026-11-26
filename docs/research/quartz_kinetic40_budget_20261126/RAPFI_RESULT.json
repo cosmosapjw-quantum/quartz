@@ -1,0 +1,80 @@
+{
+  "CPU_reduction": 0.12777435943214888,
+  "NN_CI": [
+    0.12965243125310522,
+    0.16227322447451142
+  ],
+  "NN_reduction": 0.14696958484422418,
+  "counts": {
+    "certificate_checks": 23178,
+    "games": 128,
+    "matched_moves": 1093,
+    "moves": 2186,
+    "nn": 175280,
+    "visits": 202131
+  },
+  "files": [
+    {
+      "counts": {
+        "certificate_checks": 5441,
+        "games": 32,
+        "matched_moves": 247,
+        "moves": 494,
+        "nn": 40831,
+        "visits": 47347
+      },
+      "file": "RAPFI_GAMES_0.jsonl.gz",
+      "sha256": "2348506378385d3ed05513fcafad2b85397b65648c9f0fccbb5260c0a5e6f07c"
+    },
+    {
+      "counts": {
+        "certificate_checks": 6231,
+        "games": 32,
+        "matched_moves": 294,
+        "moves": 588,
+        "nn": 48184,
+        "visits": 54661
+      },
+      "file": "RAPFI_GAMES_1.jsonl.gz",
+      "sha256": "bcdaecf79f2a200cc006fd3da92f5848e9d42be58fa863f6a0c1bf7d555c7e71"
+    },
+    {
+      "counts": {
+        "certificate_checks": 5840,
+        "games": 32,
+        "matched_moves": 284,
+        "moves": 568,
+        "nn": 43036,
+        "visits": 50616
+      },
+      "file": "RAPFI_GAMES_2.jsonl.gz",
+      "sha256": "e29dfbe2ad45be5b09891ee59eba9c0c34d3332d0fcf9c0d33679a6990fc25fd"
+    },
+    {
+      "counts": {
+        "certificate_checks": 5666,
+        "games": 32,
+        "matched_moves": 268,
+        "moves": 536,
+        "nn": 43229,
+        "visits": 49507
+      },
+      "file": "RAPFI_GAMES_3.jsonl.gz",
+      "sha256": "2a5ae6a00b55e4e2184ce20c9a1e63d46636f0e4882030d59868246259200c33"
+    }
+  ],
+  "pair_counts": {
+    "Bcpu": 19327239111,
+    "Bmoves": 1093,
+    "Bnn": 94591,
+    "Bwall": 20397545607,
+    "Lcpu": 16857713514,
+    "Lmoves": 1093,
+    "Lnn": 80689,
+    "Lwall": 17919256401
+  },
+  "plan_sha256": "6325809e81426a1ed6d0d6a356730996ddbb2d43d751e3430e2bba4d815fc9f5",
+  "scope": "same-cap exact path replication only; cost goal .30 separate; fixed 64 independent opening families",
+  "score": 0.5,
+  "wall_reduction": 0.1214993830017227
+}
