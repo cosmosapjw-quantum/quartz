@@ -1,0 +1,7 @@
+{'schema': None, 'chosen': None, 'visits': None, 'NN_calls': None, 'best': None}
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic27_20261126/docs/research/quartz_kinetic27_20261126/native_test.py", line 6, in <module>
+    assert a.get('schema')=='quartz_k27_c4_v1',a
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'move': 6, 'move_str': '(0,6)', 'hbar_eff': 0.0, 'p_flip': 0.5, 'iters': 200, 'cpu_ns': 5244294, 'wall_ns': 5300895}
+exit=1
