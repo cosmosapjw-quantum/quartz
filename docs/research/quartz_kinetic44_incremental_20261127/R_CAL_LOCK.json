@@ -1,0 +1,75 @@
+{
+  "collector": "4eaa4e19835aae063218db3f31c4f0dc1997c69a847bcf623546658d1146ab26",
+  "counts": {
+    "atlas_extra_nn": 34600,
+    "atlas_roots": 344,
+    "cert": 83,
+    "games": 24,
+    "items": 24,
+    "moves": 427,
+    "nn": 34883
+  },
+  "elapsed_s": 5.796807034988888,
+  "engine": "17db73e75606112650d94c98d731753bc8e48cb12b7bbf20559cc77a6c0bc9d2",
+  "files": [
+    {
+      "counts": {
+        "atlas_extra_nn": 9695,
+        "atlas_roots": 97,
+        "cert": 24,
+        "games": 6,
+        "items": 6,
+        "moves": 121,
+        "nn": 9900
+      },
+      "elapsed_s": 5.188850229023956,
+      "file": "R_CAL_0_3.jsonl.gz",
+      "sha256": "f854a68b703a851fb92cd37cfe725015a6966e0182e39ab6b11ad597802b295d"
+    },
+    {
+      "counts": {
+        "atlas_extra_nn": 8085,
+        "atlas_roots": 79,
+        "cert": 15,
+        "games": 6,
+        "items": 6,
+        "moves": 94,
+        "nn": 8070
+      },
+      "elapsed_s": 4.170208876021206,
+      "file": "R_CAL_0_0.jsonl.gz",
+      "sha256": "febb6784bc00f61b2c9299f999f322ac9f5d4cd416bb67183816b8cd1e26d36b"
+    },
+    {
+      "counts": {
+        "atlas_extra_nn": 8962,
+        "atlas_roots": 87,
+        "cert": 18,
+        "games": 6,
+        "items": 6,
+        "moves": 105,
+        "nn": 9242
+      },
+      "elapsed_s": 4.8595244670286775,
+      "file": "R_CAL_0_1.jsonl.gz",
+      "sha256": "d8def9cbe41962020a78e1754684a1d3beabc74ac8a7de384ef4619f740ebcb0"
+    },
+    {
+      "counts": {
+        "atlas_extra_nn": 7858,
+        "atlas_roots": 81,
+        "cert": 26,
+        "games": 6,
+        "items": 6,
+        "moves": 107,
+        "nn": 7671
+      },
+      "elapsed_s": 4.170729834004305,
+      "file": "R_CAL_0_2.jsonl.gz",
+      "sha256": "3512a359f2c6a5fed5e2c1a23f2416449cfa89c16a992f1174997c7435aecee7"
+    }
+  ],
+  "lib": "e3f92bb23e5ff2f1ae5642bd3b528ba6a296d255d4abcfa1b64af93d16e1aabc",
+  "plan": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e",
+  "source": "763b5b788dafd13b1e7b4bc49e73c0933e116de241f1e0da84a496a2cf37fa3c"
+}

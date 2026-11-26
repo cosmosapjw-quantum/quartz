@@ -1,0 +1,143 @@
+{
+  "R": true,
+  "cal": {
+    "NN_CAL": {
+      "bins": {
+        "0": 187,
+        "1": 90,
+        "2": 243,
+        "3": 323
+      },
+      "counts": {
+        "B_cpu": 93436497903,
+        "B_nn": 27819,
+        "L_cpu": 88816904253,
+        "L_nn": 26487
+      },
+      "matched_fixed_mixture": null,
+      "options": {
+        "0": {
+          "cert": 0,
+          "changed": 0,
+          "cost": 88836248294,
+          "net": -19344041,
+          "nn": 26487,
+          "proof_cpu": 19344041,
+          "replacement": 0
+        },
+        "3": {
+          "cert": 0,
+          "changed": 0,
+          "cost": 88913594335,
+          "net": -96690082,
+          "nn": 26487,
+          "proof_cpu": 96690082,
+          "replacement": 0
+        },
+        "5": {
+          "cert": 129,
+          "changed": 233,
+          "cost": 75529764834,
+          "net": 13287139419,
+          "nn": 22419,
+          "proof_cpu": 88282167,
+          "replacement": 111
+        },
+        "7": {
+          "cert": 230,
+          "changed": 363,
+          "cost": 64339913956,
+          "net": 24476990297,
+          "nn": 19124,
+          "proof_cpu": 111753671,
+          "replacement": 151
+        },
+        "policy": {
+          "cert": 230,
+          "changed": 363,
+          "cost": 64335476406,
+          "net": 24481427847,
+          "nn": 19124,
+          "proof_cpu": 107316121,
+          "replacement": 151
+        }
+      },
+      "roots": 843,
+      "scope": "unresolved same-root estimates; all policy/fixed options pay feature; unconditional L no feature; NN certified estimates omit duplicate Python gate; fixed mixture descriptive upper envelope by cert count, not deployed"
+    },
+    "R_CAL": {
+      "bins": {
+        "0": 95,
+        "1": 33,
+        "2": 85,
+        "3": 131
+      },
+      "counts": {
+        "B_cpu": 7797523080,
+        "B_nn": 38010,
+        "L_cpu": 6700510085,
+        "L_nn": 31473
+      },
+      "matched_fixed_mixture": {
+        "cert": 33.24892731454194,
+        "changed": 32.87897022196026,
+        "cost": 6565861023,
+        "high": 3,
+        "low": 7,
+        "nn": 30446.506423255094,
+        "p_high": 0.6300429074183225
+      },
+      "options": {
+        "0": {
+          "cert": 0,
+          "changed": 0,
+          "cost": 6760496357,
+          "net": -59986272,
+          "nn": 31473,
+          "proof_cpu": 59986272,
+          "replacement": 0
+        },
+        "3": {
+          "cert": 24,
+          "changed": 24,
+          "cost": 6623724121,
+          "net": 76785964,
+          "nn": 30933,
+          "proof_cpu": 110772765,
+          "replacement": 0
+        },
+        "5": {
+          "cert": 39,
+          "changed": 37,
+          "cost": 6524540802,
+          "net": 175969283,
+          "nn": 30275,
+          "proof_cpu": 187687943,
+          "replacement": 9
+        },
+        "7": {
+          "cert": 49,
+          "changed": 48,
+          "cost": 6467319232,
+          "net": 233190853,
+          "nn": 29618,
+          "proof_cpu": 304167949,
+          "replacement": 11
+        },
+        "policy": {
+          "cert": 39,
+          "changed": 38,
+          "cost": 6565861023,
+          "net": 134649062,
+          "nn": 30275,
+          "proof_cpu": 229008164,
+          "replacement": 10
+        }
+      },
+      "roots": 344,
+      "scope": "unresolved same-root estimates; all policy/fixed options pay feature; unconditional L no feature; NN certified estimates omit duplicate Python gate; fixed mixture descriptive upper envelope by cert count, not deployed"
+    }
+  },
+  "frozen_sha256": "498eb1c3af3e865b1e6a42c8556cfcf1a9b989f50934085b1cb5f5ff9b500b43",
+  "scope": "strict positive aggregate net vs L128 CAL, no policy change; if failed live R_ADAPT is L128 without proof"
+}
