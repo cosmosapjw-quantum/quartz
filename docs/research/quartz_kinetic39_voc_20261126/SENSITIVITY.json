@@ -1,0 +1,30 @@
+{
+  "TEST_fixed_root_cost": {
+    "B20": 2457,
+    "B32": 3861,
+    "L20": 2312,
+    "L32": 3650,
+    "blind_cap_cut": 1404,
+    "cap_reduction_after_lock": 1338,
+    "lock20_share": 0.09360877985797289,
+    "lock_at20": 145,
+    "lock_at32": 211,
+    "total_saved": 1549
+  },
+  "break_even_lambda_diagnostic": {
+    "CAL": -0.0024752475247524753,
+    "TEST": 0.0007473841554559044,
+    "TRAIN": 0.0007062146892655367
+  },
+  "same_K38_panel": {
+    "NI_lower": 0.4583333333333333,
+    "NN_CI": [
+      0.3915534558124699,
+      0.4355956617522454
+    ],
+    "NN_reduction": 0.41297189630589504,
+    "games": 288,
+    "score": 0.4861111111111111
+  },
+  "scope": "Post-outcome sensitivity only: no revised price or mask, no additional performance admission, fixed checkpoint panel. Root cost decomposition valid only on matched root set."
+}
