@@ -1,0 +1,18 @@
+{
+  "binary": "4fb4ccfd0e63f9a3eb3a7df82a61ffaaf1a9568115178e4e06ee141423b0b5c4",
+  "counts": {
+    "FRESH": 144,
+    "K41": 240,
+    "action_complete": 377,
+    "action_nodes": 945620,
+    "census_complete": 366,
+    "census_nodes": 1640561,
+    "python_complete": 74,
+    "python_nodes": 520863
+  },
+  "file": "BENCHMARK.jsonl.gz",
+  "plan": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d",
+  "scope": "single process serial cold calls; actual process CPU and elapsed wall; Python 80 fresh 8..12 only, separate node counters",
+  "sha256": "2e019e1a5f3ef782b62bb9fcddde88eed77010014f1d1de35de78c955f96ab21",
+  "source": "33001794de76b652ab5b3fdd12c68d7f4aa7e42f933029d3bcc06968d8d9ba20"
+}
