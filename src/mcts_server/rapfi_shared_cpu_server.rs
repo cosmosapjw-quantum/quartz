@@ -22,7 +22,7 @@ fn parse(line:&str,id:u64,board:&str,side:i8)->Result<Output,String>{
 }
 struct Bridge{
     child:Child,stdin:ChildStdin,stdout:BufReader<ChildStdout>,
-    seq:u64,calls:u64,elapsed_ns:u128,first:Option<Output>,
+    seq:u64,calls:u64,elapsed_ns:u128,wait_ns:u128,first:Option<Output>,
 }
 impl Bridge{
     fn read(&mut self)->Result<String,String>{
@@ -46,14 +46,14 @@ impl Bridge{
         let mut child=Command::new(exe).arg("--quartz-eval").arg(&weight).current_dir(cwd).stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::inherit()).spawn().map_err(|e|e.to_string())?;
         let stdin=child.stdin.take().ok_or("missing stdin")?;
         let stdout=BufReader::new(child.stdout.take().ok_or("missing stdout")?);
-        let mut b=Self{child,stdin,stdout,seq:0,calls:0,elapsed_ns:0,first:None};
+        let mut b=Self{child,stdin,stdout,seq:0,calls:0,elapsed_ns:0,wait_ns:0,first:None};
         if b.read()? != "QZ_READY 250615 mix9svq freestyle15"{return Err("wrong Rapfi evaluator handshake".into());}
         Ok(b)
     }
     fn reset(&mut self)->Result<(),String>{
         self.send("RESET")?;
         if self.read()?!="QZ_RESET"{return Err("reset not acknowledged".into());}
-        self.calls=0;self.elapsed_ns=0;self.first=None;Ok(())
+        self.calls=0;self.elapsed_ns=0;self.wait_ns=0;self.first=None;Ok(())
     }
     fn eval(&mut self,s:&Gomoku15)->Result<Output,String>{
         let board:String=s.board_as_12().iter().map(|v|(b'0'+*v) as char).collect();
@@ -74,7 +74,8 @@ struct SharedEval(Mutex<Bridge>);
 impl Evaluator<Gomoku15> for SharedEval{
     fn evaluate(&self,s:&Gomoku15)->EvalResult<u16>{
         assert!(!s.is_terminal());
-        let a=self.0.lock().unwrap().eval(s).expect("Rapfi evaluator failed; no fallback");
+        let t=Instant::now();let mut b=self.0.lock().unwrap();b.wait_ns+=t.elapsed().as_nanos();
+        let a=b.eval(s).expect("Rapfi evaluator failed; no fallback");drop(b);
         let legal=s.legal_moves();
         assert!(!legal.is_empty());
         let policy=legal.into_iter().map(|m|(m,a.p[m as usize])).collect();
@@ -428,3 +429,6 @@ mod tests{
 
 #[path="rapfi_k34.rs"] mod k34;
 pub(super) fn handle_k34(line:&str)->Value{k34::handle(line)}
+
+#[path="rapfi_k35.rs"] mod k35;
+pub(super) fn handle_k35(line:&str)->Value{k35::handle(line)}

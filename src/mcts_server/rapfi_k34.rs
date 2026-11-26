@@ -15,7 +15,7 @@ fn windows()->&'static Vec<[usize;5]>{
         }
     }}assert_eq!(out.len(),572);out})
 }
-fn scan(b:&[u8;225],p:u8)->Value{
+pub(super) fn scan(b:&[u8;225],p:u8)->Value{
     let mut own=[false;225];let mut opp=[false;225];let mut adj:Vec<Vec<usize>>=vec![Vec::new();225];
     let mut pairs=0;
     for l in windows(){

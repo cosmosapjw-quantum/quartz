@@ -2765,6 +2765,11 @@ pub fn serve() {
             continue;
         }
 
+        if cmd=="research_rapfi_k35"{
+            emit_stdout_json_value(&rapfi_shared_cpu_server::handle_k35(&line));
+            if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
+            continue;
+        }
         if cmd=="research_rapfi_k34"{
             emit_stdout_json_value(&rapfi_shared_cpu_server::handle_k34(&line));
             if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
