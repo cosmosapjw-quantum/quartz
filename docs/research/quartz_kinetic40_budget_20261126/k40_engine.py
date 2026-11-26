@@ -77,9 +77,9 @@ class Session:
         a,b=from_history(h);p=1-2*(len(h)%2)
         self.pr=proof(a,b) if p==1 else proof(b,a)
         self.rule_ns=time.perf_counter_ns()-self.t
-        self.root=None
+        self.root=None;self.root_value=None
         if self.pr['move'] is None:
-            self.root=Node(a,b,p);_,term=self.root.expand(ev);assert not term
+            self.root=Node(a,b,p);self.root_value,term=self.root.expand(ev);assert not term
     def advance(self,cap,lock):
         assert cap>0 and self.visits<=cap
         if self.root is None:
@@ -123,3 +123,49 @@ class Puct:
         out.update(bin=z,extended=extend,mask=mask,low_nn=lo['nn'],low_visits=lo['visits'],low_move=lo['move'],low_distance=lo['distance'],low_prior=lo['prior_best'])
         out['wall_ns']=time.perf_counter_ns()-ss.t;out['cpu_ns']=time.process_time_ns()-ss.c
         return out
+
+def feature40(ss,lo):
+    assert ss.root is not None and lo['kind']!='CERTIFICATE'
+    pr=ss.root.prior
+    positive=pr[pr>0]
+    entropy=float(-(positive*np.log(positive)).sum()/math.log(len(pr))) if len(pr)>1 else 0.
+    assert -1e-12<=entropy<=1+1e-12
+    v=ss.root_value
+    z=int(entropy>=.8)+2*int(lo['move']!=lo['prior_best'])+4*int(abs(v)>=.5)
+    return z,entropy,v
+
+def draw_h(h,policy,z):
+    from fractions import Fraction as F
+    import hashlib
+    hh=policy.get(str(z),{'20':'1'})
+    a,b=from_history(h)
+    key=f"K40-2026112640:{a}:{b}:{len(h)%2}".encode()
+    r=int.from_bytes(hashlib.sha256(key).digest(),'big')
+    u=F(r,1<<256);cum=F(0)
+    assert sum(F(v) for v in hh.values())==1
+    for cap,p in sorted(hh.items(),key=lambda x:int(x[0])):
+        cum+=F(p)
+        if u<cum:return int(cap)
+    raise AssertionError("probability mass")
+
+def _atlas40(self,h):
+    before=self.ev.rows
+    b=self.search(h,32,False)
+    ss=Session(self.ev,h);lo=ss.advance(20,True)
+    if lo['kind']=='CERTIFICATE':
+        return dict(B32=b,L20=lo,L26=ss.advance(26,True),L32=ss.advance(32,True),bin=None,entropy=None,root_value=None,actual_nn=0)
+    z,e,v=feature40(ss,lo);mid=ss.advance(26,True);hi=ss.advance(32,True)
+    assert hi['move']==b['move'] and lo['nn']<=mid['nn']<=hi['nn']<=b['nn']
+    assert self.ev.rows-before==b['nn']+hi['nn']
+    return dict(B32=b,L20=lo,L26=mid,L32=hi,bin=z,entropy=e,root_value=v,actual_nn=self.ev.rows-before)
+def _adaptive40(self,h,policy):
+    ss=Session(self.ev,h);lo=ss.advance(20,True)
+    z=e=v=None;H=20
+    if lo['kind']!='CERTIFICATE':
+        z,e,v=feature40(ss,lo);H=draw_h(h,policy,z);assert H in (20,26,32)
+    out=lo.copy() if H==20 else ss.advance(H,True)
+    out.update(bin=z,entropy=e,root_value=v,selected_cap=H,low_nn=lo['nn'],low_visits=lo['visits'],low_move=lo['move'],low_prior=lo['prior_best'])
+    out['wall_ns']=time.perf_counter_ns()-ss.t;out['cpu_ns']=time.process_time_ns()-ss.c
+    return out
+Puct.atlas40=_atlas40
+Puct.adaptive40=_adaptive40

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic40_budget_target_20261126/native_test.py", line 13, in <module>
+    assert a.get('certificate_checks',0)>0,'missing explicit quiescent certificate telemetry'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: missing explicit quiescent certificate telemetry

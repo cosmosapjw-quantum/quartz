@@ -34,7 +34,7 @@ fn inner(line:&str)->Result<Value,String>{
     hook.set_k25_mask(0);
     let mut probe=None;
     out["selected_mask"]=json!(0);
-    let mut waves=Vec::new();let mut cause="VISIT_CAP";
+    let mut waves=Vec::new();let mut cause="VISIT_CAP";let mut certificate_checks=0u64;
     loop{
         let (n,nn,_)=engine.k34_progress();
         if probe.is_none()&&(n>=32||nn>=32){
@@ -51,13 +51,17 @@ fn inner(line:&str)->Result<Value,String>{
         let d=engine.vote_min_distance();
         if nn>=cap as u64{cause="NN_TARGET";break;}
         if n>=cap{break;}
-        if locked&&d.is_none_or(|x|x>cap-n){cause="VOTE_LOCK";break;}
+        let certified=engine.vote_certificate_quiescent(cap);
+        certificate_checks+=1;
+        assert_eq!(certified,d.is_none_or(|x|x>cap-n));
+        if locked&&certified{cause="VOTE_LOCK";break;}
         let v=(cap-n).min(8);let t=Instant::now();
         let budget=engine.four_axis_k26_budget(cap as u64-nn,v,threads,false,&hook);
         let (pn,pc,pb)=engine.k34_progress();
         waves.push(json!({"before_n":n,"before_nn":nn,"before_d":d,"budget":budget,
             "after_n":pn,"after_nn":pc,"after_best":pb,"after_d":engine.vote_min_distance(),"step_us":t.elapsed().as_micros()}));
     }
+    out["certificate_checks"]=json!(certificate_checks);
     out["probe"]=probe.expect("common probe completed");
     let result=engine.four_axis_snapshot();let best=result["best"].as_u64().ok_or("missing best")?;
     let (calls,ipc,wait,first)={let b=eval.0.lock().unwrap();(b.calls,b.elapsed_ns,b.wait_ns,b.first.as_ref().ok_or("missing root NN")?.json())};

@@ -866,6 +866,26 @@ impl<G:GameState> MctsEngine<G>{
         assert_eq!(n.iter().sum::<u32>(),self.root.n_total.load(Ordering::Acquire));
         let (_,d)=math::vote_reach(&n);d.into_iter().flatten().min()
     }
+    /// K40: joined-wave snapshot. Caller must have stopped dispatch and joined all workers.
+    /// Reverse native candidate rank preserves the existing last-index tie rule.
+    pub fn vote_certificate_quiescent(&self,cap:u32)->bool{
+        let mut counts=vec![0u32;self.root.candidate_count()];
+        let edges=self.root.read_edges();
+        for (i,e) in edges.iter().enumerate(){
+            assert_eq!(e.virtual_losses.load(Ordering::Acquire),0);
+            assert_eq!(atomic_f64_load(&e.virtual_value),0.);
+            counts[i]=e.n.load(Ordering::Acquire);
+        }
+        drop(edges);
+        assert_eq!(counts.iter().sum::<u32>(),self.root.n_total.load(Ordering::Acquire));
+        let ranks:Vec<u32>=(0..counts.len() as u32).rev().collect();
+        let certified=math::vote_certificate(&counts,&ranks,0,cap).expect("coherent K40 snapshot");
+        if let Some(i)=certified{
+            let c=self.root.candidates.get().expect("candidate order");
+            assert_eq!(self.root_state.move_to_idx(c[i].0),self.root_state.move_to_idx(self.best_move().unwrap()));
+        }
+        certified.is_some()
+    }
     pub fn four_axis_lite(&self)->LiteRoot{
         let ca=self.root.candidates.get().expect("initialized candidates");
         let len=ca.len();assert!((1..=7).contains(&len));
