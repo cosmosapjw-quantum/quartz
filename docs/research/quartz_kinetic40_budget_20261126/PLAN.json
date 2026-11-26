@@ -1,0 +1,6809 @@
+{
+  "budget_fraction": "7/10",
+  "fit": [
+    101,
+    103,
+    105
+  ],
+  "heldout": 102,
+  "horizons": [
+    20,
+    26,
+    32
+  ],
+  "jobs": [
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        18,
+        8,
+        22
+      ],
+      "id": 0,
+      "opening": [
+        19,
+        12,
+        32,
+        10
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        29,
+        30
+      ],
+      "id": 1,
+      "opening": [
+        15,
+        18,
+        37,
+        11
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        8,
+        31
+      ],
+      "id": 2,
+      "opening": [
+        17,
+        23,
+        26,
+        12
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        16,
+        11,
+        12
+      ],
+      "id": 3,
+      "opening": [
+        30,
+        39,
+        36,
+        40
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        17,
+        8,
+        33
+      ],
+      "id": 4,
+      "opening": [
+        16,
+        8,
+        23,
+        39
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        12,
+        26
+      ],
+      "id": 5,
+      "opening": [
+        29,
+        8,
+        12,
+        22
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        26,
+        3,
+        25
+      ],
+      "id": 6,
+      "opening": [
+        47,
+        45,
+        22,
+        23
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        38,
+        14,
+        36
+      ],
+      "id": 7,
+      "opening": [
+        10,
+        34,
+        47,
+        12
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        11,
+        19,
+        22
+      ],
+      "id": 8,
+      "opening": [
+        7,
+        10,
+        29,
+        37
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        4,
+        6
+      ],
+      "id": 9,
+      "opening": [
+        9,
+        6,
+        17,
+        4
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        12,
+        16,
+        26
+      ],
+      "id": 10,
+      "opening": [
+        40,
+        10,
+        12,
+        32
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        9,
+        10,
+        16
+      ],
+      "id": 11,
+      "opening": [
+        12,
+        26,
+        19,
+        18
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        17,
+        15,
+        25
+      ],
+      "id": 12,
+      "opening": [
+        29,
+        37,
+        23,
+        17
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        9,
+        12,
+        17
+      ],
+      "id": 13,
+      "opening": [
+        19,
+        25,
+        12,
+        40
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        30,
+        37
+      ],
+      "id": 14,
+      "opening": [
+        39,
+        18,
+        29,
+        11
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        18,
+        9,
+        19
+      ],
+      "id": 15,
+      "opening": [
+        18,
+        11,
+        32,
+        33
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        17,
+        8,
+        36
+      ],
+      "id": 16,
+      "opening": [
+        23,
+        36,
+        22,
+        40
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        10,
+        18
+      ],
+      "id": 17,
+      "opening": [
+        29,
+        30,
+        39,
+        38
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        29,
+        26,
+        32
+      ],
+      "id": 18,
+      "opening": [
+        15,
+        26,
+        44,
+        18
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        39,
+        4,
+        28
+      ],
+      "id": 19,
+      "opening": [
+        9,
+        28,
+        39,
+        4
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        26,
+        21,
+        41
+      ],
+      "id": 20,
+      "opening": [
+        2,
+        21,
+        26,
+        41
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        44,
+        27,
+        43
+      ],
+      "id": 21,
+      "opening": [
+        41,
+        3,
+        28,
+        35
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        2,
+        12,
+        43
+      ],
+      "id": 22,
+      "opening": [
+        13,
+        40,
+        20,
+        7
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        27,
+        20,
+        39
+      ],
+      "id": 23,
+      "opening": [
+        1,
+        39,
+        27,
+        20
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        9,
+        17,
+        40
+      ],
+      "id": 24,
+      "opening": [
+        9,
+        17,
+        8,
+        40
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        25,
+        26,
+        33
+      ],
+      "id": 25,
+      "opening": [
+        17,
+        9,
+        33,
+        10
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        16,
+        29,
+        33
+      ],
+      "id": 26,
+      "opening": [
+        30,
+        11,
+        22,
+        39
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        8,
+        31
+      ],
+      "id": 27,
+      "opening": [
+        37,
+        17,
+        33,
+        36
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        29,
+        38
+      ],
+      "id": 28,
+      "opening": [
+        26,
+        9,
+        16,
+        22
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        30,
+        8,
+        36
+      ],
+      "id": 29,
+      "opening": [
+        32,
+        36,
+        22,
+        40
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        36,
+        17,
+        44
+      ],
+      "id": 30,
+      "opening": [
+        4,
+        17,
+        40,
+        46
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        36,
+        21,
+        31
+      ],
+      "id": 31,
+      "opening": [
+        1,
+        31,
+        36,
+        21
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        24,
+        2,
+        40
+      ],
+      "id": 32,
+      "opening": [
+        24,
+        4,
+        10,
+        36
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        19,
+        9,
+        28
+      ],
+      "id": 33,
+      "opening": [
+        39,
+        2,
+        6,
+        19
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        32,
+        19,
+        45
+      ],
+      "id": 34,
+      "opening": [
+        16,
+        11,
+        48,
+        21
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        11,
+        30,
+        44
+      ],
+      "id": 35,
+      "opening": [
+        8,
+        44,
+        11,
+        30
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        26,
+        18,
+        23
+      ],
+      "id": 36,
+      "opening": [
+        38,
+        32,
+        19,
+        17
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        24,
+        8,
+        15
+      ],
+      "id": 37,
+      "opening": [
+        24,
+        9,
+        22,
+        8
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        17,
+        10,
+        12
+      ],
+      "id": 38,
+      "opening": [
+        25,
+        26,
+        12,
+        40
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        16,
+        12,
+        26
+      ],
+      "id": 39,
+      "opening": [
+        16,
+        38,
+        22,
+        36
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        39,
+        15,
+        33
+      ],
+      "id": 40,
+      "opening": [
+        19,
+        11,
+        29,
+        37
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        26,
+        36,
+        37
+      ],
+      "id": 41,
+      "opening": [
+        38,
+        15,
+        19,
+        8
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        9,
+        14,
+        44
+      ],
+      "id": 42,
+      "opening": [
+        48,
+        46,
+        33,
+        28
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        38,
+        11,
+        25
+      ],
+      "id": 43,
+      "opening": [
+        26,
+        31,
+        15,
+        29
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        38,
+        11,
+        39
+      ],
+      "id": 44,
+      "opening": [
+        10,
+        37,
+        47,
+        9
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        16,
+        6,
+        29
+      ],
+      "id": 45,
+      "opening": [
+        30,
+        0,
+        28,
+        39
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        8,
+        17,
+        40
+      ],
+      "id": 46,
+      "opening": [
+        36,
+        12,
+        35,
+        23
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        13,
+        32,
+        44
+      ],
+      "id": 47,
+      "opening": [
+        13,
+        30,
+        47,
+        14
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        11,
+        26,
+        29
+      ],
+      "id": 48,
+      "opening": [
+        12,
+        22,
+        9,
+        33
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        22,
+        33
+      ],
+      "id": 49,
+      "opening": [
+        33,
+        9,
+        11,
+        38
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        24,
+        9,
+        26
+      ],
+      "id": 50,
+      "opening": [
+        24,
+        26,
+        31,
+        37
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        38,
+        11,
+        12
+      ],
+      "id": 51,
+      "opening": [
+        26,
+        36,
+        15,
+        29
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        31,
+        16,
+        18
+      ],
+      "id": 52,
+      "opening": [
+        31,
+        30,
+        17,
+        32
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        10,
+        29,
+        30
+      ],
+      "id": 53,
+      "opening": [
+        10,
+        33,
+        12,
+        32
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        40,
+        26,
+        46
+      ],
+      "id": 54,
+      "opening": [
+        35,
+        20,
+        12,
+        10
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        8,
+        13,
+        37
+      ],
+      "id": 55,
+      "opening": [
+        45,
+        41,
+        36,
+        9
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        27,
+        8,
+        40
+      ],
+      "id": 56,
+      "opening": [
+        28,
+        36,
+        3,
+        12
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        31,
+        27,
+        43
+      ],
+      "id": 57,
+      "opening": [
+        25,
+        13,
+        15,
+        45
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        36,
+        7,
+        29
+      ],
+      "id": 58,
+      "opening": [
+        27,
+        9,
+        8,
+        5
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        16,
+        4,
+        36
+      ],
+      "id": 59,
+      "opening": [
+        40,
+        36,
+        32,
+        20
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        25,
+        12,
+        30
+      ],
+      "id": 60,
+      "opening": [
+        31,
+        18,
+        15,
+        36
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        32,
+        11,
+        19
+      ],
+      "id": 61,
+      "opening": [
+        18,
+        9,
+        29,
+        15
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        29,
+        36
+      ],
+      "id": 62,
+      "opening": [
+        19,
+        8,
+        30,
+        9
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        38,
+        17,
+        24
+      ],
+      "id": 63,
+      "opening": [
+        26,
+        23,
+        29,
+        24
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        29,
+        36
+      ],
+      "id": 64,
+      "opening": [
+        8,
+        36,
+        26,
+        29
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        25,
+        26
+      ],
+      "id": 65,
+      "opening": [
+        37,
+        31,
+        12,
+        38
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        32,
+        4,
+        6
+      ],
+      "id": 66,
+      "opening": [
+        13,
+        48,
+        30,
+        34
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        41,
+        6,
+        28
+      ],
+      "id": 67,
+      "opening": [
+        5,
+        0,
+        35,
+        46
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        31,
+        4,
+        22
+      ],
+      "id": 68,
+      "opening": [
+        25,
+        28,
+        7,
+        10
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        16,
+        27,
+        45
+      ],
+      "id": 69,
+      "opening": [
+        16,
+        27,
+        9,
+        45
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        36,
+        1,
+        45
+      ],
+      "id": 70,
+      "opening": [
+        12,
+        7,
+        14,
+        27
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        30,
+        7,
+        42
+      ],
+      "id": 71,
+      "opening": [
+        21,
+        6,
+        18,
+        1
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        23,
+        19,
+        26
+      ],
+      "id": 72,
+      "opening": [
+        31,
+        11,
+        33,
+        10
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        37,
+        19,
+        22
+      ],
+      "id": 73,
+      "opening": [
+        33,
+        9,
+        29,
+        38
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        33,
+        39
+      ],
+      "id": 74,
+      "opening": [
+        16,
+        19,
+        38,
+        11
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        25,
+        8,
+        24
+      ],
+      "id": 75,
+      "opening": [
+        17,
+        40,
+        32,
+        24
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        11,
+        36,
+        38
+      ],
+      "id": 76,
+      "opening": [
+        19,
+        36,
+        40,
+        22
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        31,
+        17,
+        38
+      ],
+      "id": 77,
+      "opening": [
+        29,
+        23,
+        25,
+        26
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        27,
+        4,
+        5
+      ],
+      "id": 78,
+      "opening": [
+        1,
+        5,
+        27,
+        4
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        20,
+        42,
+        48
+      ],
+      "id": 79,
+      "opening": [
+        20,
+        0,
+        46,
+        42
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        22,
+        19,
+        43
+      ],
+      "id": 80,
+      "opening": [
+        10,
+        13,
+        15,
+        37
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        8,
+        15,
+        35
+      ],
+      "id": 81,
+      "opening": [
+        4,
+        41,
+        12,
+        19
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        38,
+        26,
+        46
+      ],
+      "id": 82,
+      "opening": [
+        29,
+        20,
+        26,
+        10
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        16,
+        34,
+        44
+      ],
+      "id": 83,
+      "opening": [
+        2,
+        44,
+        16,
+        34
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        18,
+        30,
+        40
+      ],
+      "id": 84,
+      "opening": [
+        16,
+        12,
+        36,
+        32
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        33,
+        8,
+        32
+      ],
+      "id": 85,
+      "opening": [
+        19,
+        18,
+        37,
+        36
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        31,
+        10,
+        15
+      ],
+      "id": 86,
+      "opening": [
+        23,
+        26,
+        19,
+        11
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        15,
+        24,
+        26
+      ],
+      "id": 87,
+      "opening": [
+        37,
+        24,
+        29,
+        26
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        23,
+        12,
+        36
+      ],
+      "id": 88,
+      "opening": [
+        25,
+        36,
+        31,
+        12
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        19,
+        24
+      ],
+      "id": 89,
+      "opening": [
+        33,
+        11,
+        16,
+        24
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        21,
+        9,
+        14
+      ],
+      "id": 90,
+      "opening": [
+        21,
+        14,
+        1,
+        9
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        17,
+        34,
+        46
+      ],
+      "id": 91,
+      "opening": [
+        40,
+        2,
+        31,
+        14
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        10,
+        20,
+        22
+      ],
+      "id": 92,
+      "opening": [
+        33,
+        4,
+        26,
+        38
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        34,
+        8,
+        25
+      ],
+      "id": 93,
+      "opening": [
+        34,
+        25,
+        2,
+        8
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        17,
+        3,
+        39
+      ],
+      "id": 94,
+      "opening": [
+        16,
+        3,
+        17,
+        39
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        10,
+        7,
+        26
+      ],
+      "id": 95,
+      "opening": [
+        40,
+        22,
+        38,
+        41
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        32,
+        37
+      ],
+      "id": 96,
+      "opening": [
+        24,
+        15,
+        19,
+        30
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        19,
+        29
+      ],
+      "id": 97,
+      "opening": [
+        29,
+        9,
+        23,
+        39
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        32,
+        39
+      ],
+      "id": 98,
+      "opening": [
+        37,
+        33,
+        8,
+        32
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        25,
+        9,
+        37
+      ],
+      "id": 99,
+      "opening": [
+        40,
+        11,
+        23,
+        39
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        12,
+        37
+      ],
+      "id": 100,
+      "opening": [
+        37,
+        36,
+        15,
+        19
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        31,
+        12,
+        36
+      ],
+      "id": 101,
+      "opening": [
+        25,
+        8,
+        29,
+        40
+      ],
+      "source": 101,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        32,
+        1,
+        28
+      ],
+      "id": 102,
+      "opening": [
+        32,
+        4,
+        14,
+        7
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        32,
+        0,
+        34
+      ],
+      "id": 103,
+      "opening": [
+        16,
+        2,
+        40,
+        48
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        20,
+        4,
+        10
+      ],
+      "id": 104,
+      "opening": [
+        42,
+        14,
+        2,
+        22
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        32,
+        14,
+        40
+      ],
+      "id": 105,
+      "opening": [
+        44,
+        12,
+        18,
+        28
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        31,
+        4,
+        26
+      ],
+      "id": 106,
+      "opening": [
+        19,
+        34,
+        23,
+        38
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        24,
+        5,
+        8
+      ],
+      "id": 107,
+      "opening": [
+        7,
+        35,
+        24,
+        8
+      ],
+      "source": 102,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        17,
+        12,
+        29
+      ],
+      "id": 108,
+      "opening": [
+        25,
+        12,
+        32,
+        37
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        12,
+        22,
+        31
+      ],
+      "id": 109,
+      "opening": [
+        36,
+        38,
+        8,
+        25
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        19,
+        36
+      ],
+      "id": 110,
+      "opening": [
+        16,
+        29,
+        39,
+        12
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        17,
+        8,
+        26
+      ],
+      "id": 111,
+      "opening": [
+        31,
+        22,
+        32,
+        40
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        18,
+        10,
+        24
+      ],
+      "id": 112,
+      "opening": [
+        9,
+        10,
+        18,
+        24
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        17,
+        23,
+        26
+      ],
+      "id": 113,
+      "opening": [
+        23,
+        10,
+        30,
+        31
+      ],
+      "source": 103,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        26,
+        28,
+        45
+      ],
+      "id": 114,
+      "opening": [
+        39,
+        20,
+        22,
+        3
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        15,
+        16,
+        37
+      ],
+      "id": 115,
+      "opening": [
+        33,
+        11,
+        45,
+        32
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        17,
+        27,
+        42
+      ],
+      "id": 116,
+      "opening": [
+        25,
+        42,
+        40,
+        3
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        28,
+        0,
+        37
+      ],
+      "id": 117,
+      "opening": [
+        46,
+        42,
+        35,
+        33
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        1,
+        15,
+        29
+      ],
+      "id": 118,
+      "opening": [
+        1,
+        15,
+        0,
+        29
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        28,
+        6,
+        32
+      ],
+      "id": 119,
+      "opening": [
+        35,
+        18,
+        46,
+        0
+      ],
+      "source": 105,
+      "split": "TRAIN",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        18,
+        22,
+        40
+      ],
+      "id": 120,
+      "opening": [
+        29,
+        38,
+        16,
+        12
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        29,
+        33
+      ],
+      "id": 121,
+      "opening": [
+        22,
+        39,
+        18,
+        11
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        25,
+        40
+      ],
+      "id": 122,
+      "opening": [
+        38,
+        25,
+        16,
+        12
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        10,
+        18,
+        40
+      ],
+      "id": 123,
+      "opening": [
+        10,
+        40,
+        9,
+        18
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        32,
+        33
+      ],
+      "id": 124,
+      "opening": [
+        18,
+        16,
+        38,
+        15
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        16,
+        26,
+        30
+      ],
+      "id": 125,
+      "opening": [
+        32,
+        18,
+        39,
+        22
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        13,
+        36,
+        43
+      ],
+      "id": 126,
+      "opening": [
+        1,
+        40,
+        35,
+        41
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        33,
+        28,
+        36
+      ],
+      "id": 127,
+      "opening": [
+        14,
+        12,
+        39,
+        4
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        38,
+        28,
+        42
+      ],
+      "id": 128,
+      "opening": [
+        10,
+        20,
+        46,
+        6
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        16,
+        23,
+        43
+      ],
+      "id": 129,
+      "opening": [
+        32,
+        31,
+        27,
+        35
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        15,
+        5,
+        9
+      ],
+      "id": 130,
+      "opening": [
+        29,
+        47,
+        44,
+        37
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        10,
+        17,
+        46
+      ],
+      "id": 131,
+      "opening": [
+        22,
+        34,
+        15,
+        23
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        30,
+        8,
+        31
+      ],
+      "id": 132,
+      "opening": [
+        10,
+        12,
+        32,
+        31
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        24,
+        26,
+        33
+      ],
+      "id": 133,
+      "opening": [
+        24,
+        37,
+        19,
+        38
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        8,
+        18
+      ],
+      "id": 134,
+      "opening": [
+        9,
+        18,
+        30,
+        8
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        10,
+        12,
+        29
+      ],
+      "id": 135,
+      "opening": [
+        37,
+        40,
+        38,
+        15
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        26,
+        16,
+        25
+      ],
+      "id": 136,
+      "opening": [
+        33,
+        17,
+        10,
+        32
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        16,
+        10,
+        11
+      ],
+      "id": 137,
+      "opening": [
+        32,
+        19,
+        40,
+        26
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        17,
+        33,
+        41
+      ],
+      "id": 138,
+      "opening": [
+        23,
+        47,
+        15,
+        39
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        17,
+        18,
+        19
+      ],
+      "id": 139,
+      "opening": [
+        25,
+        32,
+        18,
+        39
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        21,
+        11,
+        36
+      ],
+      "id": 140,
+      "opening": [
+        27,
+        40,
+        5,
+        9
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        31,
+        2,
+        21
+      ],
+      "id": 141,
+      "opening": [
+        17,
+        27,
+        31,
+        4
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        21,
+        18,
+        23
+      ],
+      "id": 142,
+      "opening": [
+        14,
+        30,
+        3,
+        17
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        3,
+        1,
+        46
+      ],
+      "id": 143,
+      "opening": [
+        20,
+        13,
+        27,
+        28
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        32,
+        11,
+        24
+      ],
+      "id": 144,
+      "opening": [
+        30,
+        24,
+        12,
+        9
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        16,
+        8,
+        33
+      ],
+      "id": 145,
+      "opening": [
+        16,
+        8,
+        9,
+        33
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        12,
+        36
+      ],
+      "id": 146,
+      "opening": [
+        37,
+        40,
+        22,
+        8
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        30,
+        33,
+        39
+      ],
+      "id": 147,
+      "opening": [
+        18,
+        39,
+        15,
+        33
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        31,
+        16,
+        24
+      ],
+      "id": 148,
+      "opening": [
+        11,
+        18,
+        31,
+        24
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        24,
+        8,
+        39
+      ],
+      "id": 149,
+      "opening": [
+        24,
+        36,
+        23,
+        19
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        33,
+        9,
+        45
+      ],
+      "id": 150,
+      "opening": [
+        33,
+        9,
+        1,
+        45
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        24,
+        7,
+        9
+      ],
+      "id": 151,
+      "opening": [
+        24,
+        11,
+        5,
+        13
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        29,
+        20,
+        42
+      ],
+      "id": 152,
+      "opening": [
+        15,
+        34,
+        44,
+        0
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        9,
+        21,
+        43
+      ],
+      "id": 153,
+      "opening": [
+        39,
+        5,
+        47,
+        27
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        24,
+        0,
+        14
+      ],
+      "id": 154,
+      "opening": [
+        24,
+        48,
+        25,
+        46
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        11,
+        7,
+        15
+      ],
+      "id": 155,
+      "opening": [
+        29,
+        1,
+        14,
+        9
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        23,
+        9,
+        15
+      ],
+      "id": 156,
+      "opening": [
+        25,
+        19,
+        17,
+        11
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        26,
+        17,
+        33
+      ],
+      "id": 157,
+      "opening": [
+        19,
+        37,
+        38,
+        25
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        26,
+        24,
+        38
+      ],
+      "id": 158,
+      "opening": [
+        12,
+        24,
+        38,
+        22
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        25,
+        15,
+        37
+      ],
+      "id": 159,
+      "opening": [
+        18,
+        19,
+        23,
+        39
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        12,
+        18
+      ],
+      "id": 160,
+      "opening": [
+        15,
+        30,
+        32,
+        36
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        24,
+        33
+      ],
+      "id": 161,
+      "opening": [
+        30,
+        37,
+        19,
+        24
+      ],
+      "source": 103,
+      "split": "CAL",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        10,
+        23,
+        24
+      ],
+      "id": 162,
+      "opening": [
+        38,
+        25,
+        39,
+        24
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        41,
+        6,
+        36
+      ],
+      "id": 163,
+      "opening": [
+        0,
+        36,
+        41,
+        6
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        29,
+        13,
+        22
+      ],
+      "id": 164,
+      "opening": [
+        37,
+        5,
+        41,
+        38
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        36,
+        1,
+        34
+      ],
+      "id": 165,
+      "opening": [
+        36,
+        41,
+        34,
+        2
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        32,
+        10,
+        26
+      ],
+      "id": 166,
+      "opening": [
+        12,
+        38,
+        30,
+        26
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        5,
+        16,
+        41
+      ],
+      "id": 167,
+      "opening": [
+        0,
+        16,
+        5,
+        41
+      ],
+      "source": 105,
+      "split": "CAL",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        31,
+        12,
+        25
+      ],
+      "id": 168,
+      "opening": [
+        33,
+        17,
+        23,
+        12
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        17,
+        8,
+        15
+      ],
+      "id": 169,
+      "opening": [
+        23,
+        9,
+        16,
+        8
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        25,
+        16,
+        29
+      ],
+      "id": 170,
+      "opening": [
+        29,
+        30,
+        17,
+        39
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        33,
+        15,
+        40
+      ],
+      "id": 171,
+      "opening": [
+        11,
+        37,
+        36,
+        12
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        10,
+        15,
+        30
+      ],
+      "id": 172,
+      "opening": [
+        22,
+        37,
+        36,
+        32
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        17,
+        12,
+        19
+      ],
+      "id": 173,
+      "opening": [
+        16,
+        12,
+        17,
+        19
+      ],
+      "source": 101,
+      "split": "CAL",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        29,
+        16,
+        27
+      ],
+      "id": 174,
+      "opening": [
+        28,
+        3,
+        39,
+        30
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        21,
+        35,
+        48
+      ],
+      "id": 175,
+      "opening": [
+        20,
+        1,
+        3,
+        42
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        18,
+        4,
+        47
+      ],
+      "id": 176,
+      "opening": [
+        18,
+        47,
+        9,
+        4
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        27,
+        33,
+        43
+      ],
+      "id": 177,
+      "opening": [
+        45,
+        39,
+        7,
+        13
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        2,
+        35,
+        40
+      ],
+      "id": 178,
+      "opening": [
+        13,
+        1,
+        20,
+        36
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        12,
+        2,
+        27
+      ],
+      "id": 179,
+      "opening": [
+        5,
+        21,
+        8,
+        4
+      ],
+      "source": 102,
+      "split": "CAL",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        15,
+        17,
+        33
+      ],
+      "id": 180,
+      "opening": [
+        29,
+        11,
+        37,
+        23
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        19,
+        32
+      ],
+      "id": 181,
+      "opening": [
+        11,
+        15,
+        17,
+        30
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        25,
+        26
+      ],
+      "id": 182,
+      "opening": [
+        33,
+        17,
+        38,
+        10
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        19,
+        24,
+        33
+      ],
+      "id": 183,
+      "opening": [
+        29,
+        24,
+        9,
+        11
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        18,
+        16,
+        32
+      ],
+      "id": 184,
+      "opening": [
+        40,
+        32,
+        30,
+        16
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        19,
+        16,
+        22
+      ],
+      "id": 185,
+      "opening": [
+        36,
+        38,
+        9,
+        30
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        26,
+        36
+      ],
+      "id": 186,
+      "opening": [
+        19,
+        38,
+        24,
+        8
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        16,
+        14,
+        38
+      ],
+      "id": 187,
+      "opening": [
+        16,
+        2,
+        14,
+        26
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        23,
+        2,
+        9
+      ],
+      "id": 188,
+      "opening": [
+        47,
+        46,
+        25,
+        39
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        12,
+        3,
+        43
+      ],
+      "id": 189,
+      "opening": [
+        0,
+        43,
+        12,
+        3
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        3,
+        15,
+        18
+      ],
+      "id": 190,
+      "opening": [
+        21,
+        37,
+        28,
+        16
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        34,
+        46
+      ],
+      "id": 191,
+      "opening": [
+        15,
+        46,
+        23,
+        34
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        23,
+        26,
+        38
+      ],
+      "id": 192,
+      "opening": [
+        23,
+        26,
+        37,
+        10
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        33,
+        10,
+        39
+      ],
+      "id": 193,
+      "opening": [
+        29,
+        22,
+        11,
+        19
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        10,
+        39
+      ],
+      "id": 194,
+      "opening": [
+        36,
+        38,
+        19,
+        11
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        10,
+        23
+      ],
+      "id": 195,
+      "opening": [
+        15,
+        10,
+        12,
+        25
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        16,
+        15,
+        19
+      ],
+      "id": 196,
+      "opening": [
+        22,
+        9,
+        30,
+        37
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        15,
+        17,
+        38
+      ],
+      "id": 197,
+      "opening": [
+        29,
+        23,
+        37,
+        26
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        12,
+        6,
+        26
+      ],
+      "id": 198,
+      "opening": [
+        0,
+        26,
+        12,
+        6
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        30,
+        13,
+        21
+      ],
+      "id": 199,
+      "opening": [
+        32,
+        1,
+        21,
+        45
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        15,
+        6,
+        34
+      ],
+      "id": 200,
+      "opening": [
+        15,
+        34,
+        1,
+        6
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        29,
+        41,
+        44
+      ],
+      "id": 201,
+      "opening": [
+        27,
+        1,
+        37,
+        28
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        8,
+        36,
+        45
+      ],
+      "id": 202,
+      "opening": [
+        7,
+        12,
+        8,
+        27
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        8,
+        3,
+        18
+      ],
+      "id": 203,
+      "opening": [
+        7,
+        21,
+        8,
+        30
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        12,
+        16,
+        30
+      ],
+      "id": 204,
+      "opening": [
+        12,
+        18,
+        8,
+        32
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        26,
+        37,
+        39
+      ],
+      "id": 205,
+      "opening": [
+        8,
+        37,
+        26,
+        39
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        25,
+        32
+      ],
+      "id": 206,
+      "opening": [
+        8,
+        31,
+        37,
+        32
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        24,
+        17,
+        23
+      ],
+      "id": 207,
+      "opening": [
+        10,
+        17,
+        24,
+        23
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        25,
+        10,
+        37
+      ],
+      "id": 208,
+      "opening": [
+        12,
+        26,
+        31,
+        15
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        38,
+        17,
+        22
+      ],
+      "id": 209,
+      "opening": [
+        26,
+        10,
+        22,
+        23
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        34,
+        16,
+        21
+      ],
+      "id": 210,
+      "opening": [
+        46,
+        16,
+        14,
+        3
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        3,
+        7,
+        25
+      ],
+      "id": 211,
+      "opening": [
+        5,
+        23,
+        3,
+        13
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        38,
+        17,
+        46
+      ],
+      "id": 212,
+      "opening": [
+        19,
+        28,
+        22,
+        25
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        18,
+        9,
+        37
+      ],
+      "id": 213,
+      "opening": [
+        16,
+        29,
+        28,
+        33
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        23,
+        8,
+        10
+      ],
+      "id": 214,
+      "opening": [
+        21,
+        36,
+        31,
+        22
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        25,
+        36,
+        48
+      ],
+      "id": 215,
+      "opening": [
+        17,
+        0,
+        33,
+        36
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        25,
+        11,
+        38
+      ],
+      "id": 216,
+      "opening": [
+        8,
+        11,
+        25,
+        38
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        23,
+        22,
+        25
+      ],
+      "id": 217,
+      "opening": [
+        23,
+        25,
+        38,
+        22
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        16,
+        25
+      ],
+      "id": 218,
+      "opening": [
+        17,
+        18,
+        26,
+        31
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        11,
+        10,
+        12
+      ],
+      "id": 219,
+      "opening": [
+        39,
+        40,
+        36,
+        38
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        25,
+        12,
+        22
+      ],
+      "id": 220,
+      "opening": [
+        15,
+        10,
+        31,
+        36
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        23,
+        18,
+        19
+      ],
+      "id": 221,
+      "opening": [
+        23,
+        37,
+        17,
+        30
+      ],
+      "source": 103,
+      "split": "TEST",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        24,
+        16,
+        26
+      ],
+      "id": 222,
+      "opening": [
+        24,
+        30,
+        22,
+        10
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        47,
+        4,
+        11
+      ],
+      "id": 223,
+      "opening": [
+        35,
+        15,
+        13,
+        14
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        16,
+        18,
+        48
+      ],
+      "id": 224,
+      "opening": [
+        32,
+        0,
+        41,
+        18
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        30,
+        20,
+        37
+      ],
+      "id": 225,
+      "opening": [
+        45,
+        11,
+        18,
+        28
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        21,
+        19,
+        41
+      ],
+      "id": 226,
+      "opening": [
+        44,
+        13,
+        21,
+        33
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        27,
+        15,
+        17
+      ],
+      "id": 227,
+      "opening": [
+        45,
+        9,
+        7,
+        23
+      ],
+      "source": 105,
+      "split": "TEST",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        9,
+        12,
+        30
+      ],
+      "id": 228,
+      "opening": [
+        12,
+        16,
+        19,
+        40
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        25,
+        11,
+        29
+      ],
+      "id": 229,
+      "opening": [
+        36,
+        39,
+        17,
+        15
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        10,
+        19,
+        30
+      ],
+      "id": 230,
+      "opening": [
+        37,
+        33,
+        38,
+        16
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        23,
+        8,
+        40
+      ],
+      "id": 231,
+      "opening": [
+        25,
+        36,
+        17,
+        12
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        30,
+        31
+      ],
+      "id": 232,
+      "opening": [
+        26,
+        30,
+        31,
+        23
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        23,
+        26
+      ],
+      "id": 233,
+      "opening": [
+        19,
+        23,
+        8,
+        26
+      ],
+      "source": 101,
+      "split": "TEST",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        22,
+        15,
+        48
+      ],
+      "id": 234,
+      "opening": [
+        38,
+        6,
+        35,
+        37
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        27,
+        22,
+        39
+      ],
+      "id": 235,
+      "opening": [
+        34,
+        15,
+        3,
+        38
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        33,
+        29,
+        38
+      ],
+      "id": 236,
+      "opening": [
+        0,
+        26,
+        39,
+        11
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        32,
+        22,
+        47
+      ],
+      "id": 237,
+      "opening": [
+        9,
+        22,
+        32,
+        47
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        24,
+        7,
+        15
+      ],
+      "id": 238,
+      "opening": [
+        11,
+        19,
+        24,
+        13
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        24,
+        7,
+        30
+      ],
+      "id": 239,
+      "opening": [
+        24,
+        18,
+        22,
+        1
+      ],
+      "source": 102,
+      "split": "TEST",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        22,
+        12,
+        19
+      ],
+      "id": 240,
+      "opening": [
+        39,
+        36,
+        26,
+        29
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        16,
+        17,
+        23
+      ],
+      "id": 241,
+      "opening": [
+        18,
+        17,
+        12,
+        25
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        23,
+        12,
+        25
+      ],
+      "id": 242,
+      "opening": [
+        9,
+        12,
+        23,
+        25
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        12,
+        30,
+        40
+      ],
+      "id": 243,
+      "opening": [
+        12,
+        40,
+        8,
+        30
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        17,
+        39
+      ],
+      "id": 244,
+      "opening": [
+        16,
+        31,
+        39,
+        9
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        19,
+        40
+      ],
+      "id": 245,
+      "opening": [
+        9,
+        40,
+        30,
+        19
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        31,
+        1,
+        44
+      ],
+      "id": 246,
+      "opening": [
+        23,
+        13,
+        25,
+        14
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        24,
+        2,
+        17
+      ],
+      "id": 247,
+      "opening": [
+        24,
+        20,
+        18,
+        25
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        1,
+        5,
+        34
+      ],
+      "id": 248,
+      "opening": [
+        1,
+        34,
+        0,
+        5
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        31,
+        4,
+        18
+      ],
+      "id": 249,
+      "opening": [
+        35,
+        16,
+        25,
+        14
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        2,
+        19,
+        43
+      ],
+      "id": 250,
+      "opening": [
+        46,
+        29,
+        48,
+        5
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        10,
+        14,
+        36
+      ],
+      "id": 251,
+      "opening": [
+        26,
+        8,
+        6,
+        4
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        10,
+        37
+      ],
+      "id": 252,
+      "opening": [
+        24,
+        38,
+        37,
+        9
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        19,
+        30,
+        38
+      ],
+      "id": 253,
+      "opening": [
+        36,
+        10,
+        33,
+        16
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        18,
+        9,
+        25
+      ],
+      "id": 254,
+      "opening": [
+        16,
+        25,
+        18,
+        9
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        25,
+        22,
+        33
+      ],
+      "id": 255,
+      "opening": [
+        36,
+        38,
+        17,
+        11
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        32,
+        19,
+        40
+      ],
+      "id": 256,
+      "opening": [
+        11,
+        36,
+        30,
+        15
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        33,
+        15,
+        17
+      ],
+      "id": 257,
+      "opening": [
+        15,
+        23,
+        39,
+        9
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        3,
+        17,
+        30
+      ],
+      "id": 258,
+      "opening": [
+        48,
+        30,
+        27,
+        25
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        40,
+        9,
+        46
+      ],
+      "id": 259,
+      "opening": [
+        36,
+        44,
+        4,
+        11
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        20,
+        23,
+        26
+      ],
+      "id": 260,
+      "opening": [
+        7,
+        17,
+        44,
+        38
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        33,
+        26,
+        36
+      ],
+      "id": 261,
+      "opening": [
+        19,
+        8,
+        42,
+        26
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        0,
+        14
+      ],
+      "id": 262,
+      "opening": [
+        12,
+        6,
+        37,
+        4
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        36,
+        1,
+        24
+      ],
+      "id": 263,
+      "opening": [
+        34,
+        41,
+        36,
+        24
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        16,
+        12,
+        37
+      ],
+      "id": 264,
+      "opening": [
+        32,
+        11,
+        39,
+        36
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        32,
+        33
+      ],
+      "id": 265,
+      "opening": [
+        37,
+        18,
+        22,
+        19
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        9,
+        16,
+        29
+      ],
+      "id": 266,
+      "opening": [
+        19,
+        9,
+        12,
+        18
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        10,
+        18,
+        24
+      ],
+      "id": 267,
+      "opening": [
+        12,
+        16,
+        10,
+        24
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        38,
+        37,
+        40
+      ],
+      "id": 268,
+      "opening": [
+        38,
+        40,
+        9,
+        37
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        24,
+        19,
+        31
+      ],
+      "id": 269,
+      "opening": [
+        24,
+        29,
+        32,
+        17
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        19,
+        12,
+        26
+      ],
+      "id": 270,
+      "opening": [
+        11,
+        12,
+        33,
+        10
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        37,
+        28,
+        44
+      ],
+      "id": 271,
+      "opening": [
+        29,
+        28,
+        41,
+        44
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        11,
+        1,
+        32
+      ],
+      "id": 272,
+      "opening": [
+        28,
+        18,
+        15,
+        35
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        38,
+        7,
+        20
+      ],
+      "id": 273,
+      "opening": [
+        22,
+        5,
+        19,
+        46
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        15,
+        5,
+        14
+      ],
+      "id": 274,
+      "opening": [
+        14,
+        2,
+        9,
+        35
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        26,
+        37,
+        39
+      ],
+      "id": 275,
+      "opening": [
+        22,
+        11,
+        39,
+        9
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        18,
+        11,
+        36
+      ],
+      "id": 276,
+      "opening": [
+        19,
+        8,
+        32,
+        33
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        22,
+        40
+      ],
+      "id": 277,
+      "opening": [
+        24,
+        38,
+        33,
+        8
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        25,
+        9,
+        24
+      ],
+      "id": 278,
+      "opening": [
+        16,
+        24,
+        25,
+        9
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        24,
+        17,
+        29
+      ],
+      "id": 279,
+      "opening": [
+        24,
+        23,
+        22,
+        39
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        24,
+        17,
+        31
+      ],
+      "id": 280,
+      "opening": [
+        24,
+        31,
+        30,
+        17
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        23,
+        17,
+        18
+      ],
+      "id": 281,
+      "opening": [
+        31,
+        16,
+        22,
+        23
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        32,
+        18,
+        33
+      ],
+      "id": 282,
+      "opening": [
+        32,
+        30,
+        0,
+        39
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        3,
+        0,
+        23
+      ],
+      "id": 283,
+      "opening": [
+        27,
+        17,
+        20,
+        6
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        26,
+        43,
+        45
+      ],
+      "id": 284,
+      "opening": [
+        29,
+        41,
+        10,
+        27
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        26,
+        21,
+        29
+      ],
+      "id": 285,
+      "opening": [
+        43,
+        15,
+        26,
+        21
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        19,
+        36,
+        41
+      ],
+      "id": 286,
+      "opening": [
+        8,
+        36,
+        19,
+        41
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 8
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        33,
+        16,
+        34
+      ],
+      "id": 287,
+      "opening": [
+        9,
+        2,
+        34,
+        32
+      ],
+      "source": 105,
+      "split": "ARENA",
+      "target": 9
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        18,
+        11,
+        33
+      ],
+      "id": 288,
+      "opening": [
+        18,
+        11,
+        8,
+        33
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        17,
+        23,
+        29
+      ],
+      "id": 289,
+      "opening": [
+        23,
+        11,
+        16,
+        17
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        19,
+        18,
+        37
+      ],
+      "id": 290,
+      "opening": [
+        40,
+        30,
+        29,
+        11
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        18,
+        29,
+        37
+      ],
+      "id": 291,
+      "opening": [
+        37,
+        15,
+        32,
+        9
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 7
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        31,
+        8,
+        22
+      ],
+      "id": 292,
+      "opening": [
+        17,
+        8,
+        31,
+        22
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        8,
+        17
+      ],
+      "id": 293,
+      "opening": [
+        11,
+        12,
+        24,
+        17
+      ],
+      "source": 101,
+      "split": "ARENA",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        22,
+        6,
+        36
+      ],
+      "id": 294,
+      "opening": [
+        10,
+        8,
+        26,
+        48
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        18,
+        12,
+        19
+      ],
+      "id": 295,
+      "opening": [
+        32,
+        40,
+        44,
+        33
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        2,
+        1,
+        41
+      ],
+      "id": 296,
+      "opening": [
+        48,
+        7,
+        46,
+        47
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        24,
+        32,
+        46
+      ],
+      "id": 297,
+      "opening": [
+        47,
+        2,
+        24,
+        16
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 7
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        25,
+        2,
+        4
+      ],
+      "id": 298,
+      "opening": [
+        29,
+        14,
+        17,
+        28
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 8
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        19,
+        5,
+        27
+      ],
+      "id": 299,
+      "opening": [
+        19,
+        5,
+        0,
+        27
+      ],
+      "source": 102,
+      "split": "ARENA",
+      "target": 9
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        25,
+        12,
+        24
+      ],
+      "id": 300,
+      "opening": [
+        15,
+        24,
+        31,
+        36
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 4
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        26,
+        16,
+        30
+      ],
+      "id": 301,
+      "opening": [
+        11,
+        32,
+        22,
+        18
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 5
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        24,
+        17,
+        26
+      ],
+      "id": 302,
+      "opening": [
+        18,
+        38,
+        24,
+        25
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 6
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        11,
+        16,
+        19
+      ],
+      "id": 303,
+      "opening": [
+        12,
+        18,
+        33,
+        39
+      ],
+      "source": 103,
+      "split": "ARENA",
+      "target": 7
+    }
+  ],
+  "margin": 0.05,
+  "models": {
+    "101": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 82.3,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.72,
+            "timestamp": "2026-07-13 22:49:57",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "training_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+    },
+    "102": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 54.9,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.64,
+            "timestamp": "2026-07-13 23:27:53",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "training_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+    },
+    "103": {
+      "bytes": 4203527,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "105": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/gen_5.pt",
+      "role": "103 unpromoted trained gen5 (related checkpoint)",
+      "sha256": "a430602a889eba3f568c0a515c8a10dd3bb74d6b6b9adade5c00f0b22b91604b",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    }
+  },
+  "prior_families": 964,
+  "prior_locks": [
+    {
+      "path": "docs/research/quartz_kinetic33_20261126/PLAN.json",
+      "sha256": "58877f6bc469438a8759dd1a7a60ccdef5782eaef82686180a0fa3c9363c680b"
+    },
+    {
+      "path": "docs/research/quartz_kinetic38_nnlock_20261126/PLAN.json",
+      "sha256": "aedf701de9d8e5598654e8f9880c0561f887a09bd2facbdd769d855286ec0d50"
+    },
+    {
+      "path": "docs/research/quartz_kinetic39_voc_20261126/PLAN.json",
+      "sha256": "64511e71fac2e3b53cfd566828b2779c045d8d18ed2db59ea9543a32437491df"
+    }
+  ],
+  "scope": "matched common board families across fixed evaluators, no cross-model games; source assigned before data; heldout102 from all fitting and admission; frozen random hash policy",
+  "seed": 2026112640,
+  "splits": {
+    "ARENA": 64,
+    "CAL": 60,
+    "TEST": 60,
+    "TRAIN": 120
+  },
+  "workers": 8
+}
