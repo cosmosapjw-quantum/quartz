@@ -1,0 +1,17 @@
+.F
+======================================================================
+FAIL: test_stages (__main__.Test.test_stages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic45_sequential_20261127/docs/research/quartz_kinetic45_sequential_20261127/test_k45.py", line 6, in test_stages
+    with Session(h,n) as s:
+         ^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic45_sequential_20261127/docs/research/quartz_kinetic45_sequential_20261127/seq45.py", line 16, in __init__
+    self.ptr=lib.start45(n,4 if n==7 else 5,b);assert self.ptr,'missing native persistent session'
+                                                      ^^^^^^^^
+AssertionError: missing native persistent session
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+FAILED (failures=1)
