@@ -1,0 +1,51 @@
+{
+  "admitted": true,
+  "cal": {
+    "counts": {
+      "B_cpu_ns": 73844646640,
+      "B_nn": 25905,
+      "roots": 785
+    },
+    "options": {
+      "20": {
+        "cert": 229,
+        "changes": 434,
+        "cost_cpu_ns": 32438188511,
+        "exact_gain": 357,
+        "gain2_hi": 868,
+        "gain2_lo": -162,
+        "nn": 11041,
+        "replacement": 140,
+        "strict_negative": 0,
+        "strict_positive": 6
+      },
+      "26": {
+        "cert": 229,
+        "changes": 403,
+        "cost_cpu_ns": 41635532598,
+        "exact_gain": 388,
+        "gain2_hi": 806,
+        "gain2_lo": -100,
+        "nn": 14233,
+        "replacement": 138,
+        "strict_negative": 0,
+        "strict_positive": 6
+      },
+      "32": {
+        "cert": 229,
+        "changes": 347,
+        "cost_cpu_ns": 51011471743,
+        "exact_gain": 444,
+        "gain2_hi": 694,
+        "gain2_lo": 12,
+        "nn": 17425,
+        "replacement": 130,
+        "strict_negative": 0,
+        "strict_positive": 6
+      }
+    }
+  },
+  "cap": 32,
+  "frozen_sha256": "29ec2f6c862f13c8dcdada473ac39e38d0bf5afec7d468337ddec87d2c6e66ba",
+  "selected": 32
+}
