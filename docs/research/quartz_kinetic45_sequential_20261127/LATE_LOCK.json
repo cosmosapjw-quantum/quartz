@@ -1,0 +1,20 @@
+{
+  "counts": {
+    "exact_attempt": 267,
+    "exact_complete": 260,
+    "exact_nodes": 707336,
+    "hybrid": 377,
+    "partial": 117,
+    "roots": 384,
+    "truth": 377,
+    "verified_hybrid": 374
+  },
+  "file": "LATE.jsonl.gz",
+  "scope": "all 384 historical late roots, 377 independent full action labels, no TRAIN fitting",
+  "sha256": "4f6d81c889b0422674b82db35769e40ea155be490fb46804a15f6321b398b0c6",
+  "truth_sources": {
+    "docs/research/quartz_kinetic41_exact_20261126/INDEPENDENT.jsonl.gz": "b2ad468f81cbe6b3cbe1fb7c5a7497c1a92f96cab426b91529a7589a35d278cf",
+    "docs/research/quartz_kinetic42_threshold_20261127/BENCHMARK.jsonl.gz": "2e019e1a5f3ef782b62bb9fcddde88eed77010014f1d1de35de78c955f96ab21",
+    "docs/research/quartz_kinetic42_threshold_20261127/INDEPENDENT.jsonl.gz": "b42b50e17754570889d70de85e7c5c9625a392c7320fb66e78593c4586d286df"
+  }
+}

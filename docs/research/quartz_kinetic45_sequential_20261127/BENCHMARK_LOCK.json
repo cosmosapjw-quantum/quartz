@@ -1,0 +1,18 @@
+{
+  "counts": {
+    "NN": 1709,
+    "R": 772
+  },
+  "file": "BENCHMARK.jsonl.gz",
+  "geometry": "763b5b788dafd13b1e7b4bc49e73c0933e116de241f1e0da84a496a2cf37fa3c",
+  "library": "7c7cb2ab396a7d0eb2b3e9d12be8a557b939110a30aeef62da3d22793ce09f0b",
+  "old_source_locks": {
+    "NN_CAL": "9f55d8fb7ba896fd9e6dc97c4bcebce99888ff6e828e88bd1f4826c89cf2c27c",
+    "NN_TEST": "bd953845affcca2ed040023a96bac95d0b4069127240c91402412191f9f34f99",
+    "R_CAL": "305511c4999802fe6724bbc61fc8eb5d79845d17954bf8d435c73620443b71f5",
+    "R_TEST": "7c82913a03ef0882fbb2ef772c108032c305ed0178e6c4e62b45e756135cc44a"
+  },
+  "scope": "cold serial alternating with full staged lifecycle; K44 historical TRAIN, exact fallback only NN",
+  "sha256": "e84f0711f660475882789a4f59f03fdc63c80b9fc0c2f98e3f4aedb7a2abf8f8",
+  "source": "a000519906a3c5759b8a0a1624dac65dd20e19d2b17dba2228c7bdfaf8d30cc3"
+}
