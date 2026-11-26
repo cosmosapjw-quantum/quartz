@@ -1,0 +1,1241 @@
+{
+  "NN": 48700,
+  "code": "702509a06dfb8b3760ece94a2652ad14bde4d7f510059cbd3c6a1876f5678741",
+  "files": [
+    {
+      "NN": 3104,
+      "file": "GAMES_103_blind20_1.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203527,
+          "champion": {
+            "bridge": [],
+            "champion": "gen_0",
+            "elo": -12.9,
+            "generation": 0,
+            "history": []
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+          "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+          "train_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 103,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 109,
+      "physical": 3104,
+      "sha256": "5a6d9690a606ad5142d7d2608b862590c2e5d1a18e75c29212290df7abded302"
+    },
+    {
+      "NN": 2504,
+      "file": "GAMES_103_proof20_1.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203527,
+          "champion": {
+            "bridge": [],
+            "champion": "gen_0",
+            "elo": -12.9,
+            "generation": 0,
+            "history": []
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+          "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+          "train_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 103,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 107,
+      "physical": 2504,
+      "sha256": "4347573fa9042f8f92cacd169426dbe9753f42b66a73c42bcb9e55c26045addc"
+    },
+    {
+      "NN": 2859,
+      "file": "GAMES_102_proof32_0.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 54.9,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.64,
+                "timestamp": "2026-07-13 23:27:53",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+          "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+          "train_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 102,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 108,
+      "physical": 2859,
+      "sha256": "d528298f13a9c5272d8afedb9bdc3218fe75da6ac9329e390eefa52fb8465bd9"
+    },
+    {
+      "NN": 3759,
+      "file": "GAMES_101_blind20_1.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 82.3,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.72,
+                "timestamp": "2026-07-13 22:49:57",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+          "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+          "train_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 101,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 129,
+      "physical": 3759,
+      "sha256": "795783717d20e288e9c949d664e91287752c3e8227670e1eeb780c3b137f9849"
+    },
+    {
+      "NN": 1826,
+      "file": "GAMES_101_proof20_1.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 82.3,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.72,
+                "timestamp": "2026-07-13 22:49:57",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+          "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+          "train_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 101,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 82,
+      "physical": 1826,
+      "sha256": "9f3b18c15ff69c44329c66b5fb6edf2abcd4d07fa7d2ddc86c8472f9ad52512d"
+    },
+    {
+      "NN": 1995,
+      "file": "GAMES_103_proof20_0.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203527,
+          "champion": {
+            "bridge": [],
+            "champion": "gen_0",
+            "elo": -12.9,
+            "generation": 0,
+            "history": []
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+          "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+          "train_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 103,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 88,
+      "physical": 1995,
+      "sha256": "255178c22ab2860c36c2aa80ae30ef3a1a036a306131ba9e3b6eab9eea3655d0"
+    },
+    {
+      "NN": 2020,
+      "file": "GAMES_102_proof20_1.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 54.9,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.64,
+                "timestamp": "2026-07-13 23:27:53",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+          "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+          "train_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 102,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 88,
+      "physical": 2020,
+      "sha256": "e06afcff79e28fa8d800919ee095f9c6d2a13b256b1573bec9a635b1ebb3b17d"
+    },
+    {
+      "NN": 1977,
+      "file": "GAMES_101_proof32_1.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 82.3,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.72,
+                "timestamp": "2026-07-13 22:49:57",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+          "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+          "train_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 101,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 78,
+      "physical": 1977,
+      "sha256": "f3e360e67f1c052658c2261e09dc860b84e31c3562d89146a447cf6ded949ab6"
+    },
+    {
+      "NN": 1991,
+      "file": "GAMES_101_proof32_0.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 82.3,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.72,
+                "timestamp": "2026-07-13 22:49:57",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+          "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+          "train_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 101,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 80,
+      "physical": 1991,
+      "sha256": "b9f5d65d97526c1f373c6d061d7095f12cc254516eb88bfa17b9ff658edf2409"
+    },
+    {
+      "NN": 2345,
+      "file": "GAMES_101_proof20_0.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 82.3,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.72,
+                "timestamp": "2026-07-13 22:49:57",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+          "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+          "train_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 101,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 100,
+      "physical": 2345,
+      "sha256": "0f90413871715f75f06ad1742bbeea2fda1481e4137ce8dab66782fc66c4e09d"
+    },
+    {
+      "NN": 2341,
+      "file": "GAMES_103_proof32_1.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203527,
+          "champion": {
+            "bridge": [],
+            "champion": "gen_0",
+            "elo": -12.9,
+            "generation": 0,
+            "history": []
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+          "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+          "train_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 103,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 89,
+      "physical": 2341,
+      "sha256": "8206185d5093cc8e1f146c9105b8b676c2acb1820c75977445b539c16cba2efa"
+    },
+    {
+      "NN": 3539,
+      "file": "GAMES_102_blind20_1.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 54.9,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.64,
+                "timestamp": "2026-07-13 23:27:53",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+          "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+          "train_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 102,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 123,
+      "physical": 3539,
+      "sha256": "1a7f3b1abdcc16fce833db1612133d929f81adeff4912d5cbdb7813704dc6760"
+    },
+    {
+      "NN": 3637,
+      "file": "GAMES_102_blind20_0.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 54.9,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.64,
+                "timestamp": "2026-07-13 23:27:53",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+          "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+          "train_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 102,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 124,
+      "physical": 3637,
+      "sha256": "74006d9591d8be2a39bf00bacc2b3d19990d9429784859169fd23cda1da2f5d8"
+    },
+    {
+      "NN": 3716,
+      "file": "GAMES_103_blind20_0.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203527,
+          "champion": {
+            "bridge": [],
+            "champion": "gen_0",
+            "elo": -12.9,
+            "generation": 0,
+            "history": []
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+          "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+          "train_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 103,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 130,
+      "physical": 3716,
+      "sha256": "bb0820bbc3e2e1f11b1d3d5fc783b70265b513fd26deca59c2c4575d3f07c59d"
+    },
+    {
+      "NN": 3452,
+      "file": "GAMES_101_blind20_0.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 82.3,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.72,
+                "timestamp": "2026-07-13 22:49:57",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+          "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+          "train_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 101,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 118,
+      "physical": 3452,
+      "sha256": "2acbba04234012c02c32fea752becdcfde28b5f73703e9f0028ec3b7002df187"
+    },
+    {
+      "NN": 2649,
+      "file": "GAMES_103_proof32_0.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203527,
+          "champion": {
+            "bridge": [],
+            "champion": "gen_0",
+            "elo": -12.9,
+            "generation": 0,
+            "history": []
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+          "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+          "train_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 103,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 98,
+      "physical": 2649,
+      "sha256": "5a49a51199f61b55500d39fe58b46015e13adecb594fea5cb38ec1821e44216c"
+    },
+    {
+      "NN": 2445,
+      "file": "GAMES_102_proof20_0.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 54.9,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.64,
+                "timestamp": "2026-07-13 23:27:53",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+          "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+          "train_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 102,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 102,
+      "physical": 2445,
+      "sha256": "fb14e2d25520389ed7d05389a2feaedaf732cb44ed7468914ae4a293e7806f56"
+    },
+    {
+      "NN": 2541,
+      "file": "GAMES_102_proof32_1.jsonl.gz",
+      "games": 12,
+      "meta": {
+        "anchor": {
+          "id": "A1_legacy_base",
+          "label": "GatedRefreshLegacy/root=0/pr=0.00/tau=1.00/h=0.30/s=0.30/mv=15/ci=20/cp=2.00",
+          "overrides": {
+            "c_puct": 2.0,
+            "check_interval": 20,
+            "hbar_penalty_cap": 0.3,
+            "min_visits": 15,
+            "penalty_mode": "GatedRefreshLegacy",
+            "prior_refresh_rate": 0.0,
+            "prior_refresh_temp": 1.0,
+            "root_only_shaping": false,
+            "sigma_0": 0.3
+          },
+          "source": "anchor"
+        },
+        "checkpoint": {
+          "bytes": 4203643,
+          "champion": {
+            "bridge": [
+              "gen_0"
+            ],
+            "champion": "gen_5",
+            "elo": 54.9,
+            "generation": 5,
+            "history": [
+              {
+                "from": "gen_0",
+                "games": 200,
+                "generation": 5,
+                "score_rate": 0.64,
+                "timestamp": "2026-07-13 23:27:53",
+                "to": "gen_5"
+              }
+            ]
+          },
+          "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+          "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+          "train_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+        },
+        "manifest": {
+          "_name": "gomoku7",
+          "batch_size": 8,
+          "c_puct": 2.0,
+          "check_interval": 20,
+          "hbar_penalty_cap": 0.3,
+          "iters": 32,
+          "min_visits": 15,
+          "n_threads": 4,
+          "penalty_mode": "GatedRefreshLegacy",
+          "prior_refresh_rate": 0.0,
+          "prior_refresh_temp": 1.0,
+          "root_only_shaping": false,
+          "search_profile": "quartz",
+          "sigma_0": 0.3,
+          "vl_mode": "adaptive"
+        },
+        "manifest_hash": "9fe9d1998ae24072",
+        "model_parameters": 1040206,
+        "runtime_overrides": {},
+        "seed": 102,
+        "torch": "2.15.0+cpu"
+      },
+      "moves": 94,
+      "physical": 2541,
+      "sha256": "96e2619d7201bc0b546446dd9dc344a3c7de2008ea584e027b1c3bf47aa796f0"
+    }
+  ],
+  "games": 216,
+  "moves": 1847,
+  "physical": 48700,
+  "plan": "58877f6bc469438a8759dd1a7a60ccdef5782eaef82686180a0fa3c9363c680b",
+  "proof": "2d0a55057c0de231d1169e7afe10341f760f522934519ef5df4d150fdf076228"
+}
