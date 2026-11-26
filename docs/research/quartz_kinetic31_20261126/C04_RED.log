@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic31_20261126/docs/research/quartz_kinetic31_20261126/native_test.py", line 5, in <module>
+    assert a.get('schema')=='quartz_k31_c4_v1',a
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'move': 6, 'move_str': '(0,6)', 'hbar_eff': 0.0, 'p_flip': 0.5, 'iters': 200, 'cpu_ns': 4855796, 'wall_ns': 5092165}
+exit=1
