@@ -1,0 +1,9 @@
+{
+  "binary_sha256": "4fb4ccfd0e63f9a3eb3a7df82a61ffaaf1a9568115178e4e06ee141423b0b5c4",
+  "bytes": 26416,
+  "source_sha256": "33001794de76b652ab5b3fdd12c68d7f4aa7e42f933029d3bcc06968d8d9ba20",
+  "source_commit": "e300ae2b1181b19e5820f73aa93609d285e68fe6",
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "build": "g++ -std=c++17 -O3 -Wall -Wextra -fPIC -shared threshold42.cpp -o threshold42.so",
+  "scope": "native C++ research library invoked from Python PUCT, not Rust production endpoint"
+}
