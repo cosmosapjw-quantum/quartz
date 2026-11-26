@@ -1,0 +1,22 @@
+SHARD EXACT_TRAIN 0 1 {'complete': 15, 'censored': 0, 'solver_nodes': 51355, 'solver_cpu_ns': 905592928, 'items': 15}
+SHARD EXACT_TRAIN 0 3 {'complete': 15, 'censored': 0, 'solver_nodes': 64838, 'solver_cpu_ns': 1077674528, 'items': 15}
+SHARD EXACT_TRAIN 0 5 {'complete': 15, 'censored': 0, 'solver_nodes': 71470, 'solver_cpu_ns': 1196837326, 'items': 15}
+SHARD EXACT_TRAIN 0 2 {'complete': 14, 'censored': 1, 'solver_nodes': 82631, 'solver_cpu_ns': 1341365645, 'items': 15}
+SHARD EXACT_TRAIN 0 4 {'complete': 14, 'censored': 1, 'solver_nodes': 99135, 'solver_cpu_ns': 1662263467, 'items': 15}
+SHARD EXACT_TRAIN 0 6 {'complete': 13, 'censored': 2, 'solver_nodes': 119245, 'solver_cpu_ns': 1868674228, 'items': 15}
+SHARD EXACT_TRAIN 0 7 {'complete': 13, 'censored': 2, 'solver_nodes': 120613, 'solver_cpu_ns': 1902866513, 'items': 15}
+SHARD EXACT_TRAIN 0 0 {'complete': 14, 'censored': 1, 'solver_nodes': 119890, 'solver_cpu_ns': 1944813150, 'items': 15}
+EXACT_TRAIN {'complete': 113, 'censored': 7, 'solver_nodes': 729177, 'solver_cpu_ns': 11900087785, 'items': 120}
+SHARD ATLAS_TRAIN 105 2 {'nn': 2639, 'suboptimal20': 14, 'suboptimal32': 12, 'suboptimal64': 9, 'items': 28}
+SHARD ATLAS_TRAIN 101 1 {'nn': 2593, 'suboptimal20': 11, 'suboptimal32': 11, 'suboptimal64': 11, 'items': 28}
+SHARD ATLAS_TRAIN 101 2 {'nn': 2619, 'suboptimal20': 15, 'suboptimal32': 16, 'suboptimal64': 12, 'items': 28}
+SHARD ATLAS_TRAIN 103 2 {'nn': 2742, 'suboptimal20': 14, 'suboptimal32': 15, 'suboptimal64': 14, 'items': 28}
+SHARD ATLAS_TRAIN 103 3 {'nn': 2741, 'suboptimal20': 14, 'suboptimal32': 16, 'suboptimal64': 15, 'items': 28}
+SHARD ATLAS_TRAIN 105 1 {'nn': 2683, 'suboptimal20': 17, 'suboptimal32': 15, 'suboptimal64': 14, 'items': 28}
+SHARD ATLAS_TRAIN 103 1 {'nn': 2744, 'suboptimal20': 17, 'suboptimal32': 16, 'suboptimal64': 18, 'items': 28}
+SHARD ATLAS_TRAIN 105 0 {'nn': 2717, 'suboptimal20': 17, 'suboptimal32': 12, 'suboptimal64': 11, 'items': 29}
+SHARD ATLAS_TRAIN 101 3 {'nn': 2569, 'suboptimal20': 14, 'suboptimal32': 13, 'suboptimal64': 12, 'items': 28}
+SHARD ATLAS_TRAIN 105 3 {'nn': 2685, 'suboptimal20': 15, 'suboptimal32': 16, 'suboptimal64': 13, 'items': 28}
+SHARD ATLAS_TRAIN 101 0 {'nn': 2708, 'suboptimal20': 13, 'suboptimal32': 15, 'suboptimal64': 12, 'items': 29}
+SHARD ATLAS_TRAIN 103 0 {'nn': 2841, 'suboptimal20': 15, 'suboptimal32': 16, 'suboptimal64': 17, 'items': 29}
+ATLAS_TRAIN {'nn': 32281, 'suboptimal20': 176, 'suboptimal32': 173, 'suboptimal64': 158, 'items': 339}

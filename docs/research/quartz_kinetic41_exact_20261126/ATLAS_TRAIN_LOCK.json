@@ -1,0 +1,184 @@
+{
+  "counts": {
+    "items": 339,
+    "nn": 32281,
+    "suboptimal20": 176,
+    "suboptimal32": 173,
+    "suboptimal64": 158
+  },
+  "elapsed_s": 16.666441736975685,
+  "engine": "268cac734fb198a878f9ea635169df6c4d6250700110ceeb7a1ae511ea55f22f",
+  "experiment": "2221cbbbc37ed79ad8d1c4ebdbdbcc27c449f99d011bd922abe34c3c2a26ab9b",
+  "files": [
+    {
+      "counts": {
+        "items": 28,
+        "nn": 2639,
+        "suboptimal20": 14,
+        "suboptimal32": 12,
+        "suboptimal64": 9
+      },
+      "elapsed_s": 7.297907683067024,
+      "file": "ATLAS_TRAIN_105_2.jsonl.gz",
+      "seed": 105,
+      "sha256": "63b75cf75f3abced528c0e0dd69602d5a141d1f597b08814bd50476dbe6275d7",
+      "shard": 2
+    },
+    {
+      "counts": {
+        "items": 28,
+        "nn": 2683,
+        "suboptimal20": 17,
+        "suboptimal32": 15,
+        "suboptimal64": 14
+      },
+      "elapsed_s": 7.582348785013892,
+      "file": "ATLAS_TRAIN_105_1.jsonl.gz",
+      "seed": 105,
+      "sha256": "830699e24e70efc0d6b5b065c340cf6be774f5e2d98867483125ee3164656508",
+      "shard": 1
+    },
+    {
+      "counts": {
+        "items": 28,
+        "nn": 2744,
+        "suboptimal20": 17,
+        "suboptimal32": 16,
+        "suboptimal64": 18
+      },
+      "elapsed_s": 7.573563872021623,
+      "file": "ATLAS_TRAIN_103_1.jsonl.gz",
+      "seed": 103,
+      "sha256": "9195c0901014193d3f65ffbaa71b8b5f3ef7e2dd6001559e5408d00da3a65528",
+      "shard": 1
+    },
+    {
+      "counts": {
+        "items": 28,
+        "nn": 2742,
+        "suboptimal20": 14,
+        "suboptimal32": 15,
+        "suboptimal64": 14
+      },
+      "elapsed_s": 7.484631173079833,
+      "file": "ATLAS_TRAIN_103_2.jsonl.gz",
+      "seed": 103,
+      "sha256": "c063939bdccb2917607da55ea761aa9f2743d0e9cea4a4bcbd3f1a70d816ba0c",
+      "shard": 2
+    },
+    {
+      "counts": {
+        "items": 28,
+        "nn": 2619,
+        "suboptimal20": 15,
+        "suboptimal32": 16,
+        "suboptimal64": 12
+      },
+      "elapsed_s": 7.456167693948373,
+      "file": "ATLAS_TRAIN_101_2.jsonl.gz",
+      "seed": 101,
+      "sha256": "c4e5c934f6d0cf30e4ef435656328e5935f0c3629022c4386661ffd8b37d2531",
+      "shard": 2
+    },
+    {
+      "counts": {
+        "items": 29,
+        "nn": 2717,
+        "suboptimal20": 17,
+        "suboptimal32": 12,
+        "suboptimal64": 11
+      },
+      "elapsed_s": 7.739641489926726,
+      "file": "ATLAS_TRAIN_105_0.jsonl.gz",
+      "seed": 105,
+      "sha256": "33691c214eefaf9de24208d2d613b1c92e8ba729eb1aa843e27679966a3db28a",
+      "shard": 0
+    },
+    {
+      "counts": {
+        "items": 28,
+        "nn": 2741,
+        "suboptimal20": 14,
+        "suboptimal32": 16,
+        "suboptimal64": 15
+      },
+      "elapsed_s": 7.501162981032394,
+      "file": "ATLAS_TRAIN_103_3.jsonl.gz",
+      "seed": 103,
+      "sha256": "cc0152498063172f41ce9e40bc06b3d7a88f9c76235a537a9ea7fbe8030c618e",
+      "shard": 3
+    },
+    {
+      "counts": {
+        "items": 28,
+        "nn": 2593,
+        "suboptimal20": 11,
+        "suboptimal32": 11,
+        "suboptimal64": 11
+      },
+      "elapsed_s": 7.275745840976015,
+      "file": "ATLAS_TRAIN_101_1.jsonl.gz",
+      "seed": 101,
+      "sha256": "d99aeb473dec06f1b486558800e29264465626e51b6a0571b5da62b1e2b45504",
+      "shard": 1
+    },
+    {
+      "counts": {
+        "items": 29,
+        "nn": 2841,
+        "suboptimal20": 15,
+        "suboptimal32": 16,
+        "suboptimal64": 17
+      },
+      "elapsed_s": 6.931709113996476,
+      "file": "ATLAS_TRAIN_103_0.jsonl.gz",
+      "seed": 103,
+      "sha256": "db9fd522f5ec70842f6644ccb6c70846f345a7cdee89813ea6348c022d4cc4ec",
+      "shard": 0
+    },
+    {
+      "counts": {
+        "items": 28,
+        "nn": 2569,
+        "suboptimal20": 14,
+        "suboptimal32": 13,
+        "suboptimal64": 12
+      },
+      "elapsed_s": 6.230145261040889,
+      "file": "ATLAS_TRAIN_101_3.jsonl.gz",
+      "seed": 101,
+      "sha256": "0efc428aba0620205ba2f6a971767dbf4a0c55bf90393f505a44514e8562fb6c",
+      "shard": 3
+    },
+    {
+      "counts": {
+        "items": 29,
+        "nn": 2708,
+        "suboptimal20": 13,
+        "suboptimal32": 15,
+        "suboptimal64": 12
+      },
+      "elapsed_s": 6.671376301907003,
+      "file": "ATLAS_TRAIN_101_0.jsonl.gz",
+      "seed": 101,
+      "sha256": "e8a6baaf4063dbf96b06566c5e7413594e3757fcce612b6eefff6b0242309401",
+      "shard": 0
+    },
+    {
+      "counts": {
+        "items": 28,
+        "nn": 2685,
+        "suboptimal20": 15,
+        "suboptimal32": 16,
+        "suboptimal64": 13
+      },
+      "elapsed_s": 6.4943354469724,
+      "file": "ATLAS_TRAIN_105_3.jsonl.gz",
+      "seed": 105,
+      "sha256": "1f5c5c1371a51f1bb9ec0fdd1a52170bb3bdb7a2604243ab0382c5c44eff6206",
+      "shard": 3
+    }
+  ],
+  "plan": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40",
+  "solver": "2a47493c6017f381db823f947c8b15261d1cd2fca498826f999c338f88efcd3e"
+}
