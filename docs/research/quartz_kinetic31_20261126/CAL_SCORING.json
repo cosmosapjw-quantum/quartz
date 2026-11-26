@@ -1,0 +1,54 @@
+{
+  "candidates": [
+    {
+      "augment": false,
+      "cal": 0.0347228742203933,
+      "lambda_": null,
+      "oof": 0.028150289403519047
+    },
+    {
+      "augment": false,
+      "cal": 0.034515846153684915,
+      "lambda_": 0.03,
+      "oof": 0.028647510541988382
+    },
+    {
+      "augment": false,
+      "cal": 0.03440728463222337,
+      "lambda_": 0.3,
+      "oof": 0.028295916762500154
+    },
+    {
+      "augment": false,
+      "cal": 0.034523368269737564,
+      "lambda_": 3.0,
+      "oof": 0.0280812003491979
+    },
+    {
+      "augment": true,
+      "cal": 0.034728179733044894,
+      "lambda_": null,
+      "oof": 0.028162701706704308
+    },
+    {
+      "augment": true,
+      "cal": 0.034240992656858565,
+      "lambda_": 0.03,
+      "oof": 0.02828603286670218
+    },
+    {
+      "augment": true,
+      "cal": 0.03431233629970287,
+      "lambda_": 0.3,
+      "oof": 0.028147721325154557
+    },
+    {
+      "augment": true,
+      "cal": 0.03453864715454625,
+      "lambda_": 3.0,
+      "oof": 0.02808109318052667
+    }
+  ],
+  "scope": "root-disjoint OOF fresh TRAIN, CAL-A direct gain MSE; CAL-B actual policies; historical TRAIN-only scalar",
+  "selected": 5
+}
