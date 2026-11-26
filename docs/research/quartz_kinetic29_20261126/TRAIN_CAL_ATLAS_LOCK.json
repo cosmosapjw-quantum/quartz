@@ -1,0 +1,53 @@
+{
+  "NN": 1082650,
+  "cohort": "6c6becf256349145f57440652b16038ea28890ddb80f6cb83e2d768caceab05a",
+  "files": [
+    {
+      "NN": 542313,
+      "elapsed": 27.573440594016574,
+      "file": "TRAIN_CAL_ATLAS_0.jsonl.gz",
+      "physical": 528652,
+      "requests": 7824,
+      "roots": 489,
+      "sha256": "8ec8e7009028c55f924a30ff07bb875445c7e350f1d3946ff5a258fc126ade7e",
+      "visits": 940822
+    },
+    {
+      "NN": 540337,
+      "elapsed": 27.664121401961893,
+      "file": "TRAIN_CAL_ATLAS_1.jsonl.gz",
+      "physical": 526202,
+      "requests": 7824,
+      "roots": 489,
+      "sha256": "b7a5113cf9e73f294044c9619ef2f51eb929e25b8517f2319b5975547e73d776",
+      "visits": 936243
+    }
+  ],
+  "freeze": null,
+  "identity": {
+    "assets": {
+      "book": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+      "helpers": [
+        {
+          "commit": "c682713639777d366772e7be795206b2735c3efc",
+          "path": "docs/research/quartz_kinetic16_20261126/pair_run.py",
+          "sha256": "1e5d6bb427e6fb162a3252b08650d8407d468b19cd46a61666158ae5639ccb99"
+        },
+        {
+          "commit": "c682713639777d366772e7be795206b2735c3efc",
+          "path": "docs/research/quartz_kinetic16_20261126/audit.py",
+          "sha256": "bb571e3486d7e6777fb5204906e36b3b46e49a10f579af1b0feb792d5725bf49"
+        }
+      ],
+      "model": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "oracle": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+      "source_binary": "c238b84ca99695e8415974d122b17d576f6b8a30d135d8a5ff92fa88a18bf64b"
+    },
+    "binary": "efc2a1651b935e2ff2b357e9dd839f899cb24cabd5d1600fb2e57db0776cbb7f",
+    "source": "f957e4cabeddbf66a4c24405ea5d9731732103ae"
+  },
+  "physical": 1054854,
+  "requests": 15648,
+  "roots": 978,
+  "visits": 1877065
+}
