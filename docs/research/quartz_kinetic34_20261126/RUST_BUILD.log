@@ -1,0 +1,1155 @@
+   Compiling libc v0.2.184
+   Compiling cfg-if v1.0.4
+   Compiling crossbeam-utils v0.8.21
+   Compiling proc-macro2 v1.0.106
+   Compiling zerocopy v0.8.48
+   Compiling quote v1.0.45
+   Compiling unicode-ident v1.0.24
+   Compiling serde_core v1.0.228
+   Compiling libm v0.2.16
+   Compiling autocfg v1.5.0
+   Compiling getrandom v0.2.17
+   Compiling num-traits v0.2.19
+   Compiling crossbeam-epoch v0.9.18
+   Compiling rand_core v0.6.4
+   Compiling rustversion v1.0.22
+   Compiling rayon-core v1.13.0
+   Compiling parking_lot_core v0.9.12
+   Compiling zmij v1.0.21
+   Compiling crossbeam-deque v0.8.6
+   Compiling syn v2.0.117
+   Compiling scopeguard v1.2.0
+   Compiling serde v1.0.228
+   Compiling serde_json v1.0.149
+   Compiling smallvec v1.15.1
+   Compiling serde_derive v1.0.228
+   Compiling ppv-lite86 v0.2.21
+   Compiling lock_api v0.4.14
+   Compiling rand_chacha v0.3.1
+   Compiling rand v0.8.5
+   Compiling itoa v1.0.18
+   Compiling either v1.15.0
+   Compiling memchr v2.8.0
+   Compiling rayon v1.11.0
+   Compiling arc-swap v1.9.1
+   Compiling rand_distr v0.4.3
+   Compiling parking_lot v0.12.5
+   Compiling crossbeam-channel v0.5.15
+   Compiling bumpalo v3.20.2
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_kinetic34_20261126)
+warning: unused import: `crate::mcts::quartz::HaltReason`
+  --> src/mcts/policy/cache.rs:35:9
+   |
+35 | pub use crate::mcts::quartz::HaltReason;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `smallvec::SmallVec`
+  --> src/mcts/policy/kl_lucb.rs:24:5
+   |
+24 | use smallvec::SmallVec;
+   |     ^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `bernoulli_kl`
+  --> src/mcts/policy/kl_lucb.rs:26:25
+   |
+26 | use super::kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
+   |                         ^^^^^^^^^^^^
+
+warning: unused imports: `EdgeRef`, `PolicyCachePublisher`, and `PolicyCache`
+  --> src/mcts/policy/mod.rs:31:17
+   |
+31 | pub use cache::{EdgeRef, PolicyCache, PolicyCachePublisher};
+   |                 ^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `SequentialHalvingBracket`, `gumbel_top_m`, `initial_bracket`, and `sample_gumbel`
+  --> src/mcts/policy/mod.rs:32:21
+   |
+32 | ...::{gumbel_top_m, initial_bracket, sample_gumbel, SequentialHalvingBracket};
+   |       ^^^^^^^^^^^^  ^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `KgCostSource`, `compute_kg_array`, `expected_improvement`, `kg_per_arm`, and `should_halt_by_kg`
+  --> src/mcts/policy/mod.rs:34:5
+   |
+34 |     compute_kg_array, expected_improvement, kg_per_arm, should_halt_by_kg, KgCostSource, K...
+   |     ^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^  ^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^
+
+warning: unused imports: `bernoulli_kl`, `kl_lower`, `kl_lucb_beta`, and `kl_upper`
+  --> src/mcts/policy/mod.rs:36:22
+   |
+36 | pub use kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
+   |                      ^^^^^^^^^^^^  ^^^^^^^^  ^^^^^^^^^^^^  ^^^^^^^^
+
+warning: unused import: `legacy_quartz::LegacyQuartz`
+  --> src/mcts/policy/mod.rs:39:9
+   |
+39 | pub use legacy_quartz::LegacyQuartz;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `kl_visit_to_soft`, `soft_policy`, and `soft_value`
+  --> src/mcts/policy/mod.rs:40:17
+   |
+40 | pub use ments::{kl_visit_to_soft, soft_policy, soft_value};
+   |                 ^^^^^^^^^^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^^^
+
+warning: unused imports: `Reservoir`, `lambda_score`, and `quantile`
+  --> src/mcts/policy/mod.rs:41:21
+   |
+41 | pub use reservoir::{lambda_score, quantile, Reservoir};
+   |                     ^^^^^^^^^^^^  ^^^^^^^^  ^^^^^^^^^
+
+warning: unused imports: `TacticalResult` and `tactical_sentinel`
+  --> src/mcts/policy/mod.rs:42:20
+   |
+42 | pub use tactical::{tactical_sentinel, TacticalResult};
+   |                    ^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^
+
+warning: unused imports: `BoxedPolicy` and `EffectivePrior`
+  --> src/mcts/policy/mod.rs:44:5
+   |
+44 |     BoxedPolicy, ControllerTelemetry, EdgeView, EffectivePrior, HaltDeci...
+   |     ^^^^^^^^^^^                                 ^^^^^^^^^^^^^^
+
+warning: unused import: `crate::mcts::quartz::HaltReason`
+  --> src/mcts/policy/mod.rs:48:5
+   |
+48 | use crate::mcts::quartz::HaltReason;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `connect4_nn::TinyConnect4Evaluator`
+  --> src/mcts_server.rs:33:40
+   |
+33 | ...nect4::Connect4, connect4_nn::TinyConnect4Evaluator, connect4_conv::C...
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `std::sync::atomic::Ordering`
+ --> src/mcts_server/highbranch14_cpu_server.rs:8:5
+  |
+8 | use std::sync::atomic::Ordering;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unnecessary parentheses around assigned value
+   --> src/mcts_server/highbranch14_cpu_server.rs:245:22
+    |
+245 |     let same_stats = (first_edges == after_edges);
+    |                      ^                          ^
+    |
+    = note: `#[warn(unused_parens)]` (part of `#[warn(unused)]`) on by default
+help: remove these parentheses
+    |
+245 -     let same_stats = (first_edges == after_edges);
+245 +     let same_stats = first_edges == after_edges;
+    |
+
+warning: unused import: `meta_feedback as mf`
+   --> src/mcts_server/rapfi_shared_cpu_server.rs:178:91
+    |
+178 | ...,kinetic_response as kr,meta_feedback as mf};
+    |                            ^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:33:21
+   |
+33 |         return f32::NEG_INFINITY;
+   |                     ^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:36:51
+   |
+36 |         return q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                   ^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:38:52
+   |
+38 |     let max_q = q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                    ^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:82:52
+   |
+82 |     let max_q = q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                    ^^^^^^^^^^^^
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:262:33
+    |
+262 | ...   if self.local_remaining.fetch_update(Ordering::AcqRel,Ordering::R...
+    |                               ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+262 -         if self.local_remaining.fetch_update(Ordering::AcqRel,Ordering::Relaxed,|n|if n>0{Some(n-1)}else{None}).is_ok(){
+262 +         if self.local_remaining.try_update(Ordering::AcqRel,Ordering::Relaxed,|n|if n>0{Some(n-1)}else{None}).is_ok(){
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:401:30
+    |
+401 | ...   return k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,...
+    |                        ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+401 -             return k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|claim28(v,n,false)).is_ok();
+401 +             return k.floor28.try_update(Ordering::AcqRel,Ordering::Acquire,|v|claim28(v,n,false)).is_ok();
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:403:20
+    |
+403 | ...   k.budget26.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|v.c...
+    |                  ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+403 -         k.budget26.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|v.checked_sub(n)).is_ok()
+403 +         k.budget26.try_update(Ordering::AcqRel,Ordering::Acquire,|v|v.checked_sub(n)).is_ok()
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:408:30
+    |
+408 | ...   return k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,...
+    |                        ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+408 -             return k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|claim28(v,n,true)).is_ok();
+408 +             return k.floor28.try_update(Ordering::AcqRel,Ordering::Acquire,|v|claim28(v,n,true)).is_ok();
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:411:25
+    |
+411 | ...   else{k.refine27.fetch_update(Ordering::AcqRel,Ordering::Acquire,|...
+    |                       ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+411 -         else{k.refine27.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|v.checked_sub(n)).is_ok()}
+411 +         else{k.refine27.try_update(Ordering::AcqRel,Ordering::Acquire,|v|v.checked_sub(n)).is_ok()}
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:417:27
+    |
+417 | ...   k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|{let...
+    |                 ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+417 -                 k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|{let(s,p)=pools28(v);Some(pack28(s+1,p))}).unwrap();
+417 +                 k.floor28.try_update(Ordering::AcqRel,Ordering::Acquire,|v|{let(s,p)=pools28(v);Some(pack28(s+1,p))}).unwrap();
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u32>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:737:28
+    |
+737 | ...   if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if ...
+    |                  ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+737 -                 if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+737 +                 if tickets.try_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u32>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:767:32
+    |
+767 | ...   if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if ...
+    |                  ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+767 -                     if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+767 +                     if tickets.try_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u32>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:811:32
+    |
+811 | ...   if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if ...
+    |                  ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+811 -                     if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+811 +                     if tickets.try_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u32>::fetch_update`: renamed to `try_update` for consistency
+    --> src/mcts/four_axis.rs:1006:36
+     |
+1006 | ...   if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if...
+     |                  ^^^^^^^^^^^^
+     |
+help: replace the use of the deprecated method
+     |
+1006 -                         if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){hr.k26_refund();break;}
+1006 +                         if tickets.try_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){hr.k26_refund();break;}
+     |
+
+warning: value assigned to `counters` is never read
+   --> src/mcts_server/rapfi_shared_cpu_server.rs:307:23
+    |
+307 |             prev=next;counters=next_c;mon=nxt;
+    |                       ^^^^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: value assigned to `target` is never read
+   --> src/mcts_server/rapfi_shared_cpu_server.rs:332:71
+    |
+332 | ...ut phases=Vec::new();let mut current=0u32;let mut target=None;let mu...
+    |                                                             ^^^^ this value is reassigned later and never used
+...
+359 | ...   target=idx.map(|i|(i,ca[i][0].as_u64().unwrap() as usize));
+    |       ---------------------------------------------------------- `target` is overwritten here before the previous value is read
+
+warning: constant `BISHOP_DIRS` is never used
+   --> src/games/chess.rs:380:7
+    |
+380 | const BISHOP_DIRS: [(i8, i8); 4] = [(1, 1), (1, -1), (-1, 1), (-1, -1)];
+    |       ^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: constant `ROOK_DIRS` is never used
+   --> src/games/chess.rs:381:7
+    |
+381 | const ROOK_DIRS: [(i8, i8); 4] = [(1, 0), (-1, 0), (0, 1), (0, -1)];
+    |       ^^^^^^^^^
+
+warning: method `all_occ` is never used
+    --> src/games/chess.rs:1041:8
+     |
+ 631 | impl Chess {
+     | ---------- method in this implementation
+...
+1041 |     fn all_occ(&self) -> u64 {
+     |        ^^^^^^^
+
+warning: methods `group_liberties_on_board`, `group_stones_and_liberties_on_board`, and `remove_group` are never used
+   --> src/games/go.rs:626:8
+    |
+305 | impl Go {
+    | ------- methods in this implementation
+...
+626 |     fn group_liberties_on_board(&self, board: &[u8; MAX_N2], pos: usize...
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^
+...
+677 |     fn group_stones_and_liberties_on_board(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+693 |     fn remove_group(&mut self, pos: usize) -> u16 {
+    |        ^^^^^^^^^^^^
+
+warning: methods `size_dim`, `win_len_dim`, `current_player_sign`, `cell_is_empty`, and `cell_is_player` are never used
+   --> src/games/gomoku.rs:417:12
+    |
+414 | impl Gomoku {
+    | ----------- methods in this implementation
+...
+417 |     pub fn size_dim(&self) -> usize {
+    |            ^^^^^^^^
+...
+424 |     pub fn win_len_dim(&self) -> usize {
+    |            ^^^^^^^^^^^
+...
+429 |     pub fn current_player_sign(&self) -> i8 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+436 |     pub fn cell_is_empty(&self, pos: usize) -> bool {
+    |            ^^^^^^^^^^^^^
+...
+445 |     pub fn cell_is_player(&self, pos: usize, player: i8) -> bool {
+    |            ^^^^^^^^^^^^^^
+
+warning: method `is_forbidden` is never used
+   --> src/games/gomoku15.rs:525:12
+    |
+166 | impl Gomoku15 {
+    | ------------- method in this implementation
+...
+525 |     pub fn is_forbidden(&self, pos: usize) -> bool {
+    |            ^^^^^^^^^^^^
+
+warning: function `reset_engine_phase_counters` is never used
+  --> src/mcts/mod.rs:94:8
+   |
+94 | pub fn reset_engine_phase_counters() {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `with_search_policy` is never used
+   --> src/mcts/mod.rs:278:12
+    |
+242 | impl MctsConfig {
+    | --------------- method in this implementation
+...
+278 |     pub fn with_search_policy(
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: associated function `new` is never used
+   --> src/mcts/four_axis.rs:219:12
+    |
+218 | impl Hooks{
+    | ---------- associated function in this implementation
+219 |     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}els...
+    |            ^^^
+
+warning: method `run_four_axis` is never used
+   --> src/mcts/four_axis.rs:703:12
+    |
+610 | impl<G:GameState> MctsEngine<G>{
+    | ------------------------------- method in this implementation
+...
+703 |     pub fn run_four_axis(&self,visits:u32,threads:usize,h:&Hooks){
+    |            ^^^^^^^^^^^^^
+
+warning: method `observe` is never used
+  --> src/mcts/four_axis_math.rs:31:12
+   |
+30 | impl<K:Copy+Eq+std::hash::Hash+Ord> ContextLedger<K>{
+   | ---------------------------------------------------- method in this implementation
+31 |     pub fn observe(&mut self,child:K,parent:K,edge:usize,raw:f32)->Optio...
+   |            ^^^^^^^
+
+warning: constant `SHM_DIR_TO_RUST` is never used
+   --> src/mcts/eval.rs:499:7
+    |
+499 | const SHM_DIR_TO_RUST: u8 = 1;
+    |       ^^^^^^^^^^^^^^^
+
+warning: associated function `ptr_eq` is never used
+   --> src/mcts/node.rs:118:12
+    |
+ 98 | impl<T> ArenaRef<T> {
+    | ------------------- associated function in this implementation
+...
+118 |     pub fn ptr_eq(a: &Self, b: &Self) -> bool {
+    |            ^^^^^^
+
+warning: field `busy_skips` is never read
+   --> src/mcts/node.rs:220:9
+    |
+216 | pub struct EdgeLockContentionSnapshot {
+    |            -------------------------- field in this struct
+...
+220 |     pub busy_skips: u64,
+    |         ^^^^^^^^^^
+    |
+    = note: `EdgeLockContentionSnapshot` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: function `reset_edge_lock_contention_counters` is never used
+   --> src/mcts/node.rs:232:8
+    |
+232 | pub fn reset_edge_lock_contention_counters() {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `add_w` is never used
+   --> src/mcts/node.rs:343:12
+    |
+257 | impl<M: Copy + Send + Sync + 'static> MctsEdge<M> {
+    | ------------------------------------------------- method in this implementation
+...
+343 |     pub fn add_w(&self, delta: f32) {
+    |            ^^^^^
+
+warning: fields `virtual_losses` and `virtual_value` are never read
+   --> src/mcts/node.rs:356:9
+    |
+349 | pub struct MctsEdgeSnapshot<M> {
+    |            ---------------- fields in this struct
+...
+356 |     pub virtual_losses: i32,
+    |         ^^^^^^^^^^^^^^
+357 |     pub virtual_value: f64,
+    |         ^^^^^^^^^^^^^
+    |
+    = note: `MctsEdgeSnapshot` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: methods `q_eff` and `edge_sigma` are never used
+   --> src/mcts/node.rs:370:12
+    |
+360 | impl<M: Copy + Send + Sync + 'static> MctsEdgeSnapshot<M> {
+    | --------------------------------------------------------- methods in this implementation
+...
+370 |     pub fn q_eff(&self) -> f32 {
+    |            ^^^^^
+...
+376 |     pub fn edge_sigma(&self) -> Option<f32> {
+    |            ^^^^^^^^^^
+
+warning: struct `DefaultBridgePolicy` is never constructed
+  --> src/mcts/policy/mod.rs:60:12
+   |
+60 | pub struct DefaultBridgePolicy;
+   |            ^^^^^^^^^^^^^^^^^^^
+
+warning: struct `PolicyCache` is never constructed
+  --> src/mcts/policy/cache.rs:45:12
+   |
+45 | pub struct PolicyCache {
+   |            ^^^^^^^^^^^
+
+warning: associated items `empty` and `is_stale_for` are never used
+   --> src/mcts/policy/cache.rs:93:12
+    |
+ 90 | impl PolicyCache {
+    | ---------------- associated items in this implementation
+...
+ 93 |     pub fn empty() -> Self {
+    |            ^^^^^
+...
+122 |     pub fn is_stale_for(&self, current_root_visits: u32, current_edge_h...
+    |            ^^^^^^^^^^^^
+
+warning: struct `PolicyCachePublisher` is never constructed
+   --> src/mcts/policy/cache.rs:139:12
+    |
+139 | pub struct PolicyCachePublisher {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: associated items `new`, `load`, `store`, and `snapshot` are never used
+   --> src/mcts/policy/cache.rs:152:12
+    |
+151 | impl PolicyCachePublisher {
+    | ------------------------- associated items in this implementation
+152 |     pub fn new() -> Self {
+    |            ^^^
+...
+162 |     pub fn load(&self) -> arc_swap::Guard<Arc<PolicyCache>> {
+    |            ^^^^
+...
+168 |     pub fn store(&self, cache: PolicyCache) {
+    |            ^^^^^
+...
+238 |     pub fn snapshot(&self) -> Arc<PolicyCache> {
+    |            ^^^^^^^^
+
+warning: struct `EdgeRef` is never constructed
+   --> src/mcts/policy/cache.rs:257:12
+    |
+257 | pub struct EdgeRef {
+    |            ^^^^^^^
+
+warning: constant `NORMALIZATION_TOLERANCE` is never used
+ --> src/mcts/policy/finite_metalevel.rs:6:7
+  |
+6 | const NORMALIZATION_TOLERANCE: f64 = 1e-10;
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `TIE_TOLERANCE` is never used
+ --> src/mcts/policy/finite_metalevel.rs:7:7
+  |
+7 | const TIE_TOLERANCE: f64 = 1e-12;
+  |       ^^^^^^^^^^^^^
+
+warning: constant `MAX_REFERENCE_HORIZON` is never used
+ --> src/mcts/policy/finite_metalevel.rs:8:7
+  |
+8 | const MAX_REFERENCE_HORIZON: usize = 4;
+  |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `Computation` is never constructed
+  --> src/mcts/policy/finite_metalevel.rs:11:12
+   |
+11 | pub struct Computation {
+   |            ^^^^^^^^^^^
+
+warning: struct `FiniteMetalevel` is never constructed
+  --> src/mcts/policy/finite_metalevel.rs:19:12
+   |
+19 | pub struct FiniteMetalevel {
+   |            ^^^^^^^^^^^^^^^
+
+warning: struct `OneStepDecision` is never constructed
+  --> src/mcts/policy/finite_metalevel.rs:29:12
+   |
+29 | pub struct OneStepDecision {
+   |            ^^^^^^^^^^^^^^^
+
+warning: function `validate_probability` is never used
+  --> src/mcts/policy/finite_metalevel.rs:37:4
+   |
+37 | fn validate_probability(row: &[f64]) -> Result<(), String> {
+   |    ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `validate_payoffs` is never used
+  --> src/mcts/policy/finite_metalevel.rs:47:4
+   |
+47 | fn validate_payoffs(belief: &[f64], utilities: &[Vec<f64>]) -> Result<us...
+   |    ^^^^^^^^^^^^^^^^
+
+warning: function `terminal_value` is never used
+  --> src/mcts/policy/finite_metalevel.rs:59:8
+   |
+59 | pub fn terminal_value(belief: &[f64], utilities: &[Vec<f64>]) -> Result<...
+   |        ^^^^^^^^^^^^^^
+
+warning: function `bayes_risk` is never used
+  --> src/mcts/policy/finite_metalevel.rs:66:8
+   |
+66 | pub fn bayes_risk(belief: &[f64], utilities: &[Vec<f64>]) -> Result<f64,...
+   |        ^^^^^^^^^^
+
+warning: associated items `new`, `outcomes`, `gross_evsi`, `one_step`, `finite_horizon`, and `value_recursive` are never used
+   --> src/mcts/policy/finite_metalevel.rs:81:12
+    |
+ 80 | impl FiniteMetalevel {
+    | -------------------- associated items in this implementation
+ 81 |     pub fn new(
+    |            ^^^
+...
+121 |     fn outcomes(
+    |        ^^^^^^^^
+...
+151 |     pub fn gross_evsi(&self, belief: &[f64], c: usize) -> Result<f64, S...
+    |            ^^^^^^^^^^
+...
+164 |     pub fn one_step(&self, belief: &[f64]) -> Result<OneStepDecision, S...
+    |            ^^^^^^^^
+...
+196 |     pub fn finite_horizon(
+    |            ^^^^^^^^^^^^^^
+...
+208 |     fn value_recursive(
+    |        ^^^^^^^^^^^^^^^
+
+warning: function `sample_gumbel` is never used
+  --> src/mcts/policy/gumbel_sh.rs:32:8
+   |
+32 | pub fn sample_gumbel<R: Rng + ?Sized>(rng: &mut R) -> f32 {
+   |        ^^^^^^^^^^^^^
+
+warning: function `gumbel_top_m` is never used
+  --> src/mcts/policy/gumbel_sh.rs:48:8
+   |
+48 | pub fn gumbel_top_m<R: Rng + ?Sized>(
+   |        ^^^^^^^^^^^^
+
+warning: struct `SequentialHalvingBracket` is never constructed
+  --> src/mcts/policy/gumbel_sh.rs:85:12
+   |
+85 | pub struct SequentialHalvingBracket {
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple associated items are never used
+   --> src/mcts/policy/gumbel_sh.rs:99:12
+    |
+ 98 | impl SequentialHalvingBracket {
+    | ----------------------------- associated items in this implementation
+ 99 |     pub fn new(candidates: SmallVec<[u16; 32]>, budget: u32) -> Self {
+    |            ^^^
+...
+124 |     fn rounds_for(m0: u16) -> u16 {
+    |        ^^^^^^^^^^
+...
+131 |     fn shrink_to_affordable(
+    |        ^^^^^^^^^^^^^^^^^^^^
+...
+149 |     pub fn n_total_rounds(&self) -> u16 {
+    |            ^^^^^^^^^^^^^^
+...
+159 |     pub fn round_budget(&self) -> u32 {
+    |            ^^^^^^^^^^^^
+...
+169 |     pub fn is_done(&self) -> bool {
+    |            ^^^^^^^
+...
+195 |     pub fn advance_round(&self, arm_means: &[f32]) -> Self {
+    |            ^^^^^^^^^^^^^
+...
+231 |     pub fn select_winner(&self, arm_means: &[f32]) -> u16 {
+    |            ^^^^^^^^^^^^^
+
+warning: function `initial_bracket` is never used
+   --> src/mcts/policy/gumbel_sh.rs:255:8
+    |
+255 | pub fn initial_bracket<R: Rng + ?Sized>(
+    |        ^^^^^^^^^^^^^^^
+
+warning: variant `Fixed` is never constructed
+   --> src/mcts/policy/kg_stop.rs:195:5
+    |
+193 | pub enum KgCostSource {
+    |          ------------ variant in this enum
+194 |     MeasuredPerIter,
+195 |     Fixed(f32),
+    |     ^^^^^
+    |
+    = note: `KgCostSource` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `best_idx` and `n_total_at_observe` are never read
+   --> src/mcts/policy/kg_stop.rs:217:5
+    |
+207 | struct KgCache {
+    |        ------- fields in this struct
+...
+217 |     best_idx: u16,
+    |     ^^^^^^^^
+...
+221 |     n_total_at_observe: u32,
+    |     ^^^^^^^^^^^^^^^^^^
+    |
+    = note: `KgCache` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: fields `best_idx`, `second_idx`, `best_mu`, and `second_ucb` are never read
+  --> src/mcts/policy/kl_lucb.rs:40:5
+   |
+36 | struct Cache {
+   |        ----- fields in this struct
+...
+40 |     best_idx: u16,
+   |     ^^^^^^^^
+41 |     /// Argmax of UCB across arms ≠ best.
+42 |     second_idx: u16,
+   |     ^^^^^^^^^^
+43 |     /// Most recent best mean (in [0, 1] mapped space) for telemetry.
+44 |     best_mu: f32,
+   |     ^^^^^^^
+...
+47 |     second_ucb: f32,
+   |     ^^^^^^^^^^
+   |
+   = note: `Cache` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: struct `LegacyQuartz` is never constructed
+  --> src/mcts/policy/legacy_quartz.rs:38:12
+   |
+38 | pub struct LegacyQuartz {
+   |            ^^^^^^^^^^^^
+
+warning: associated function `new` is never used
+  --> src/mcts/policy/legacy_quartz.rs:44:12
+   |
+43 | impl LegacyQuartz {
+   | ----------------- associated function in this implementation
+44 |     pub fn new(cfg: QuartzConfig, ctrl: Arc<QuartzController>) -> Self {
+   |            ^^^
+
+warning: function `soft_value` is never used
+  --> src/mcts/policy/ments.rs:31:8
+   |
+31 | pub fn soft_value(q_values: &[f32], tau: f32) -> f32 {
+   |        ^^^^^^^^^^
+
+warning: function `soft_policy` is never used
+  --> src/mcts/policy/ments.rs:60:8
+   |
+60 | pub fn soft_policy(q_values: &[f32], n_state: u32, tau: f32, epsilon: f3...
+   |        ^^^^^^^^^^^
+
+warning: function `kl_visit_to_soft` is never used
+   --> src/mcts/policy/ments.rs:108:8
+    |
+108 | pub fn kl_visit_to_soft(visit_counts: &[u32], soft_policy: &[f32]) -> f...
+    |        ^^^^^^^^^^^^^^^^
+
+warning: function `lambda_score` is never used
+  --> src/mcts/policy/reservoir.rs:36:8
+   |
+36 | pub fn lambda_score(upper_ci: f32, kg: f32, log_prior_smoothed: f32, rho...
+   |        ^^^^^^^^^^^^
+
+warning: function `quantile` is never used
+  --> src/mcts/policy/reservoir.rs:45:8
+   |
+45 | pub fn quantile(values: &[f32], q: f32) -> f32 {
+   |        ^^^^^^^^
+
+warning: struct `Reservoir` is never constructed
+  --> src/mcts/policy/reservoir.rs:67:12
+   |
+67 | pub struct Reservoir {
+   |            ^^^^^^^^^
+
+warning: associated items `new`, `default_for_budget`, `is_eligible`, `add`, `remove`, and `prune_below_quantile` are never used
+   --> src/mcts/policy/reservoir.rs:75:12
+    |
+ 74 | impl Reservoir {
+    | -------------- associated items in this implementation
+ 75 |     pub fn new(max_size: usize, cooldown_iters: u32) -> Self {
+    |            ^^^
+...
+ 86 |     pub fn default_for_budget(_budget: u32) -> Self {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+ 91 |     pub fn is_eligible(&self, idx: u16, current_iter: u32) -> bool {
+    |            ^^^^^^^^^^^
+...
+100 |     pub fn add(&mut self, idx: u16, current_iter: u32) -> bool {
+    |            ^^^
+...
+116 |     pub fn remove(&mut self, idx: u16, current_iter: u32) -> bool {
+    |            ^^^^^^
+...
+135 |     pub fn prune_below_quantile(
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `TacticalResult` is never used
+  --> src/mcts/policy/tactical.rs:62:10
+   |
+62 | pub enum TacticalResult {
+   |          ^^^^^^^^^^^^^^
+
+warning: methods `is_forced` and `action_id` are never used
+  --> src/mcts/policy/tactical.rs:72:12
+   |
+71 | impl TacticalResult {
+   | ------------------- methods in this implementation
+72 |     pub fn is_forced(&self) -> bool {
+   |            ^^^^^^^^^
+...
+75 |     pub fn action_id(&self) -> Option<u32> {
+   |            ^^^^^^^^^
+
+warning: function `tactical_sentinel` is never used
+  --> src/mcts/policy/tactical.rs:86:8
+   |
+86 | pub fn tactical_sentinel<G: GameState>(state: &G) -> TacticalResult {
+   |        ^^^^^^^^^^^^^^^^^
+
+warning: fields `n_visible`, `depth_max`, `mean_q_root`, `sigma_eval`, `best_idx`, and `second_idx` are never read
+  --> src/mcts/policy/trait_def.rs:38:9
+   |
+30 | pub struct SearchSnapshot {
+   |            -------------- fields in this struct
+...
+38 |     pub n_visible: u16,
+   |         ^^^^^^^^^
+...
+42 |     pub depth_max: u16,
+   |         ^^^^^^^^^
+...
+45 |     pub mean_q_root: f32,
+   |         ^^^^^^^^^^^
+...
+52 |     pub sigma_eval: Option<f32>,
+   |         ^^^^^^^^^^
+...
+61 |     pub best_idx: u16,
+   |         ^^^^^^^^
+...
+64 |     pub second_idx: u16,
+   |         ^^^^^^^^^^
+   |
+   = note: `SearchSnapshot` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: multiple fields are never read
+  --> src/mcts/policy/trait_def.rs:82:9
+   |
+77 | pub struct EdgeView<'a> {
+   |            -------- fields in this struct
+...
+82 |     pub n_virtual: u32,
+   |         ^^^^^^^^^
+83 |     /// "Outside" / un-materialized neighbor visits (PUCT denominator).
+84 |     pub o_a: u32,
+   |         ^^^
+...
+88 |     pub q_sum: f32,
+   |         ^^^^^
+...
+92 |     pub prior: f32,
+   |         ^^^^^
+93 |     pub depth: u16,
+   |         ^^^^^
+94 |     /// Last leaf value backed up through this edge.
+95 |     pub last_value: f32,
+   |         ^^^^^^^^^^
+...
+98 |     pub envar_partial: f32,
+   |         ^^^^^^^^^^^^^
+99 |     pub root_total_n: &'a u32,
+   |         ^^^^^^^^^^^^
+   |
+   = note: `EdgeView` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: struct `ScoreAdjustment` is never constructed
+   --> src/mcts/policy/trait_def.rs:145:12
+    |
+145 | pub struct ScoreAdjustment {
+    |            ^^^^^^^^^^^^^^^
+
+warning: struct `EffectivePrior` is never constructed
+   --> src/mcts/policy/trait_def.rs:173:12
+    |
+173 | pub struct EffectivePrior {
+    |            ^^^^^^^^^^^^^^
+
+warning: methods `score_adjustment` and `refresh_prior` are never used
+   --> src/mcts/policy/trait_def.rs:259:8
+    |
+245 | pub trait SearchPolicy: Send + Sync {
+    |           ------------ methods in this trait
+...
+259 |     fn score_adjustment(&self, edge: EdgeView<'_>) -> ScoreAdjustment;
+    |        ^^^^^^^^^^^^^^^^
+...
+266 |     fn refresh_prior(&self, _e: EdgeView<'_>) -> Option<EffectivePrior> {
+    |        ^^^^^^^^^^^^^
+
+warning: type alias `BoxedPolicy` is never used
+   --> src/mcts/policy/trait_def.rs:275:10
+    |
+275 | pub type BoxedPolicy = Box<dyn SearchPolicy>;
+    |          ^^^^^^^^^^^
+
+warning: variant `ConfAdaptive` is never constructed
+   --> src/mcts/quartz.rs:211:5
+    |
+201 | pub enum HaltMode {
+    |          -------- variant in this enum
+...
+211 |     ConfAdaptive {
+    |     ^^^^^^^^^^^^
+    |
+    = note: `HaltMode` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: variants `Constant` and `TimeDriven` are never constructed
+   --> src/mcts/quartz.rs:239:5
+    |
+233 | pub enum CostMode {
+    |          -------- variants in this enum
+...
+239 |     Constant,
+    |     ^^^^^^^^
+...
+242 |     TimeDriven,
+    |     ^^^^^^^^^^
+    |
+    = note: `CostMode` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: associated function `from_value_loss` is never used
+   --> src/mcts/quartz.rs:401:12
+    |
+391 | impl EvalStrength {
+    | ----------------- associated function in this implementation
+...
+401 |     pub fn from_value_loss(vl: f32) -> Self {
+    |            ^^^^^^^^^^^^^^^
+
+warning: fields `p_hidden`, `p_hidden_poisson`, `m_out`, `p_flip_gaussian`, and `p_flip_saddlepoint` are never read
+   --> src/mcts/quartz.rs:631:9
+    |
+586 | pub struct QuartzStats {
+    |            ----------- fields in this struct
+...
+631 |     pub p_hidden: f32,
+    |         ^^^^^^^^
+632 |     /// G2: Poisson P_hidden = 1−exp(−m_out·p_tail·n_mat)
+633 |     pub p_hidden_poisson: f32,
+    |         ^^^^^^^^^^^^^^^^
+634 |     /// G2: outside prior mass (1 − Σ materialized priors)
+635 |     pub m_out: f32,
+    |         ^^^^^
+...
+641 |     pub p_flip_gaussian: f32,
+    |         ^^^^^^^^^^^^^^^
+642 |     /// PR-6B: Cornish-Fisher...
+643 |     pub p_flip_saddlepoint: f32,
+    |         ^^^^^^^^^^^^^^^^^^
+    |
+    = note: `QuartzStats` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: constant `HBAR_PENALTY_CAP` is never used
+    --> src/mcts/quartz.rs:1473:11
+     |
+1473 | pub const HBAR_PENALTY_CAP: f32 = 0.3;
+     |           ^^^^^^^^^^^^^^^^
+
+warning: function `pflip_with_correction` is never used
+    --> src/mcts/quartz.rs:1564:8
+     |
+1564 | pub fn pflip_with_correction(
+     |        ^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `kappa_at`, `calibrate_sigma`, and `kappas` are never used
+    --> src/mcts/quartz.rs:1643:12
+     |
+1625 | impl DepthCalibration {
+     | --------------------- methods in this implementation
+...
+1643 |     pub fn kappa_at(&self, depth: usize) -> f32 {
+     |            ^^^^^^^^
+...
+1648 |     pub fn calibrate_sigma(&self, depth: usize, sigma_raw: f32) -> f32 {
+     |            ^^^^^^^^^^^^^^^
+...
+1669 |     pub fn kappas(&self) -> [f32; 3] {
+     |            ^^^^^^
+
+warning: struct `CircularBuffer` is never constructed
+    --> src/mcts/quartz.rs:1681:12
+     |
+1681 | pub struct CircularBuffer {
+     |            ^^^^^^^^^^^^^^
+
+warning: associated items `new`, `push`, `len`, and `as_slice` are never used
+    --> src/mcts/quartz.rs:1689:12
+     |
+1688 | impl CircularBuffer {
+     | ------------------- associated items in this implementation
+1689 |     pub fn new(capacity: usize) -> Self {
+     |            ^^^
+...
+1698 |     pub fn push(&mut self, val: f32) {
+     |            ^^^^
+...
+1706 |     pub fn len(&self) -> usize {
+     |            ^^^
+...
+1714 |     pub fn as_slice(&self) -> &[f32] {
+     |            ^^^^^^^^
+
+warning: function `median_of_means_sigma` is never used
+    --> src/mcts/quartz.rs:1723:8
+     |
+1723 | pub fn median_of_means_sigma(values: &[f32], n_groups: usize) -> Optio...
+     |        ^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `he`, `se`, and `te` are never read
+    --> src/mcts/quartz.rs:1784:9
+     |
+1783 | pub struct NsGateResult {
+     |            ------------ fields in this struct
+1784 |     pub he: f32,       // bimodality coefficient / running median
+     |         ^^
+1785 |     pub se: f32,       // surprise / running median
+     |         ^^
+1786 |     pub te: f32,       // heavy-tail / running median
+     |         ^^
+     |
+     = note: `NsGateResult` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: method `reset` is never used
+    --> src/mcts/quartz.rs:1837:12
+     |
+1790 | impl NsGate {
+     | ----------- method in this implementation
+...
+1837 |     pub fn reset(&mut self) {
+     |            ^^^^^
+
+warning: methods `sigma_response`, `defect`, and `depth_kappas` are never used
+    --> src/mcts/quartz.rs:1997:12
+     |
+1939 | impl QuartzController {
+     | --------------------- methods in this implementation
+...
+1997 |     pub fn sigma_response(&self) -> (f32, u32) {
+     |            ^^^^^^^^^^^^^^
+...
+2002 |     pub fn defect(&self) -> f32 {
+     |            ^^^^^^
+...
+2012 |     pub fn depth_kappas(&self) -> [f32; 3] {
+     |            ^^^^^^^^^^^^
+
+warning: variant `MaxNodesHit` is never constructed
+  --> src/mcts/search.rs:22:5
+   |
+14 | pub enum StopReason {
+   |          ---------- variant in this enum
+...
+22 |     MaxNodesHit { nodes: u32 },
+   |     ^^^^^^^^^^^
+   |
+   = note: `StopReason` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: method `is_set` is never used
+  --> src/mcts/search.rs:48:12
+   |
+35 | impl StopReason {
+   | --------------- method in this implementation
+...
+48 |     pub fn is_set(&self) -> bool {
+   |            ^^^^^^
+
+warning: field `elapsed_ms` is never read
+  --> src/mcts/search.rs:60:9
+   |
+58 | pub struct SearchStats {
+   |            ----------- field in this struct
+59 |     pub iterations: u32,
+60 |     pub elapsed_ms: u64,
+   |         ^^^^^^^^^^
+   |
+   = note: `SearchStats` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: function `puct_score` is never used
+  --> src/mcts/select.rs:25:8
+   |
+25 | pub fn puct_score(
+   |        ^^^^^^^^^^
+
+warning: function `ablation_puct_score` is never used
+  --> src/mcts/select.rs:81:8
+   |
+81 | pub fn ablation_puct_score(
+   |        ^^^^^^^^^^^^^^^^^^^
+
+warning: fields `read_lock_wait_nanos`, `max_read_lock_wait_nanos`, `write_lock_wait_nanos`, and `max_write_lock_wait_nanos` are never read
+   --> src/mcts/tt.rs:304:9
+    |
+299 | pub struct TtContentionSnapshot {
+    |            -------------------- fields in this struct
+...
+304 |     pub read_lock_wait_nanos: u64,
+    |         ^^^^^^^^^^^^^^^^^^^^
+305 |     pub max_read_lock_wait_nanos: u64,
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^
+306 |     pub write_lock_wait_nanos: u64,
+    |         ^^^^^^^^^^^^^^^^^^^^^
+307 |     pub max_write_lock_wait_nanos: u64,
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `TtContentionSnapshot` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: method `get` is never used
+   --> src/mcts/tt.rs:730:12
+    |
+328 | impl<M: Copy + Send + Sync + 'static> TranspositionTable<M> {
+    | ----------------------------------------------------------- method in this implementation
+...
+730 |     pub fn get(&self, hash: u64) -> Option<ArenaRef<MctsNode<M>>> {
+    |            ^^^
+
+warning: constant `ARENA_EVAL_REQ_VERSION` is never used
+   --> src/mcts_server.rs:455:7
+    |
+455 | const ARENA_EVAL_REQ_VERSION: u8 = 2;
+    |       ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `foundry_mode`, `foundry_axis_id`, `foundry_checkpoint_id`, `foundry_evaluator_id`, `foundry_risk_limit`, and `foundry_min_visits` are never read
+    --> src/mcts_server.rs:1326:5
+     |
+1308 | struct SearchOverrides {
+     |        --------------- fields in this struct
+...
+1326 |     foundry_mode: Option<String>,
+     |     ^^^^^^^^^^^^
+1327 |     foundry_axis_id: Option<String>,
+     |     ^^^^^^^^^^^^^^^
+1328 |     foundry_checkpoint_id: Option<String>,
+     |     ^^^^^^^^^^^^^^^^^^^^^
+1329 |     foundry_evaluator_id: Option<String>,
+     |     ^^^^^^^^^^^^^^^^^^^^
+1330 |     foundry_risk_limit: Option<f32>,
+     |     ^^^^^^^^^^^^^^^^^^
+1331 |     foundry_min_visits: Option<u32>,
+     |     ^^^^^^^^^^^^^^^^^^
+     |
+     = note: `SearchOverrides` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: `mcts_demo` (bin "mcts_demo") generated 116 warnings (run `cargo fix --bin "mcts_demo" -p mcts_demo` to apply 27 suggestions)
+    Finished `release` profile [optimized] target(s) in 28.31s
+
+exit=0
