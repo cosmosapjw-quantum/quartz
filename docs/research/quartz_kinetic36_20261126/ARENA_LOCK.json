@@ -1,0 +1,127 @@
+{
+  "alias": null,
+  "arms": [
+    "L128",
+    "L96",
+    "L112",
+    "ADAPT"
+  ],
+  "counts": {
+    "NN": 1025654,
+    "games": 768,
+    "requests": 13309,
+    "visits": 1160403
+  },
+  "files": [
+    {
+      "NN": 93801,
+      "arm": "L112",
+      "file": "ARENA_L112_2.jsonl.gz",
+      "games": 64,
+      "requests": 1168,
+      "sha256": "27a8230a6f63f749564439625d6f6e25526a172a5a1f3f2e99c056f55d649297",
+      "visits": 105867
+    },
+    {
+      "NN": 75640,
+      "arm": "L128",
+      "file": "ARENA_L128_1.jsonl.gz",
+      "games": 64,
+      "requests": 918,
+      "sha256": "396d8d3f0985562e7f417689aa20ef0b1582cbee760b967409d675aa13302824",
+      "visits": 87623
+    },
+    {
+      "NN": 85992,
+      "arm": "L96",
+      "file": "ARENA_L96_0.jsonl.gz",
+      "games": 64,
+      "requests": 1163,
+      "sha256": "b94dccf3e36a87e23a41cf33698596645aa684e5874e5e6d0e7ac77da3dc580c",
+      "visits": 97409
+    },
+    {
+      "NN": 78506,
+      "arm": "L112",
+      "file": "ARENA_L112_1.jsonl.gz",
+      "games": 64,
+      "requests": 1005,
+      "sha256": "6e97e02e0e3ad82b055076c201ad3cf7afd9cb03420e944cdd5b1884fa57cd39",
+      "visits": 89617
+    },
+    {
+      "NN": 84846,
+      "arm": "ADAPT",
+      "file": "ARENA_ADAPT_0.jsonl.gz",
+      "games": 64,
+      "requests": 1202,
+      "sha256": "1959471aafe764a7bceff899ded13365469d29a4e61aeed349750635a02d1f33",
+      "visits": 94599
+    },
+    {
+      "NN": 77603,
+      "arm": "L96",
+      "file": "ARENA_L96_1.jsonl.gz",
+      "games": 64,
+      "requests": 1048,
+      "sha256": "dd71e2f24c71696611f3db29bab25a1dad76f814ee997228455fd9617c386ae7",
+      "visits": 87951
+    },
+    {
+      "NN": 89207,
+      "arm": "L128",
+      "file": "ARENA_L128_2.jsonl.gz",
+      "games": 64,
+      "requests": 1108,
+      "sha256": "b19b4474a538048f97f5e09ee286470917ab1fb6061bd8934f603f91f9dfa1dc",
+      "visits": 102292
+    },
+    {
+      "NN": 66859,
+      "arm": "ADAPT",
+      "file": "ARENA_ADAPT_2.jsonl.gz",
+      "games": 64,
+      "requests": 997,
+      "sha256": "c983447298249174576f1a7591b8417949aacb174efd307d03d59eb50a807d7f",
+      "visits": 77053
+    },
+    {
+      "NN": 145275,
+      "arm": "L128",
+      "file": "ARENA_L128_0.jsonl.gz",
+      "games": 64,
+      "requests": 1570,
+      "sha256": "091255028dce9c0f16dc487c265c216415c7848cdafd2bf9951b8943db240b92",
+      "visits": 158006
+    },
+    {
+      "NN": 70836,
+      "arm": "ADAPT",
+      "file": "ARENA_ADAPT_1.jsonl.gz",
+      "games": 64,
+      "requests": 1030,
+      "sha256": "55e32de87835cdd4e1205c12760979eada5ca3987830c4566d3a2853ae279f7b",
+      "visits": 80126
+    },
+    {
+      "NN": 67043,
+      "arm": "L96",
+      "file": "ARENA_L96_2.jsonl.gz",
+      "games": 64,
+      "requests": 948,
+      "sha256": "d5c6eb2bcf97d1f88e3eafeeccfd58b6bbbbc49efe67f558d234c23e68e892ba",
+      "visits": 78002
+    },
+    {
+      "NN": 90046,
+      "arm": "L112",
+      "file": "ARENA_L112_0.jsonl.gz",
+      "games": 64,
+      "requests": 1152,
+      "sha256": "102309a8ed80c25a20a0e887de10ed52b8d10d073d186221f717a616a0aadeff",
+      "visits": 101858
+    }
+  ],
+  "freeze": "feab74afb37a7ece4ff0b01c44e2f1a60a9afdae5edb1d15568548906e178b6b",
+  "plan": "28c5c83be3ed880d72eb5d0c4ca76f5147561959262de0c37d89c275e2725af0"
+}
