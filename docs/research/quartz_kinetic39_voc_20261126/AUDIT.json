@@ -1,0 +1,25 @@
+{
+  "arena_nn": 217498,
+  "counts": {
+    "certificates": 7881,
+    "legal_edges": 485583,
+    "locks": 1933,
+    "reference_games": 224,
+    "reverse_cross_horizon_games": 384,
+    "rule_checks": 19646,
+    "same_horizon_matched_moves": 2913,
+    "same_horizon_pairs": 384
+  },
+  "exact_summary_reconstructed": true,
+  "label_nn": {
+    "TEST": 23132,
+    "TRAIN_CAL": 29931
+  },
+  "mask": 0,
+  "scalar_NN": 2496,
+  "scalar_comparisons": 96,
+  "scalar_roots": 24,
+  "scope": "all archived game histories/rule gates/vote snapshots, exact costs and signed labels, exact table enumeration and bounded independent scalar PUCT using same trained evaluator; no independent CI or generalization claim",
+  "screen_nn": 63527,
+  "unique_rule_states": 6409
+}
