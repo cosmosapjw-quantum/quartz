@@ -1,0 +1,152 @@
+{
+  "NN": 1296547,
+  "cohort": "ede843dec9276eb0e7da2b202d2d2c0111eb80f37a1d9394bdc715cbbb7ec68b",
+  "files": [
+    {
+      "NN": 40304,
+      "budget": 8,
+      "elapsed": 3.869250310002826,
+      "file": "TEST_ATLAS_B8_0.jsonl.gz",
+      "requests": 1650,
+      "roots": 55,
+      "sha256": "dfc9676a5a6db31ad89b62b35032e014cf25bddbcb3e7badda0b1c76da3a222f",
+      "visits": 42980
+    },
+    {
+      "NN": 39486,
+      "budget": 8,
+      "elapsed": 3.8425623990478925,
+      "file": "TEST_ATLAS_B8_1.jsonl.gz",
+      "requests": 1620,
+      "roots": 54,
+      "sha256": "39eb673a34dce66e2682a308bb7567c22738297932f658c0d2d60d1b4b01e4a4",
+      "visits": 40930
+    },
+    {
+      "NN": 39829,
+      "budget": 8,
+      "elapsed": 3.764830850996077,
+      "file": "TEST_ATLAS_B8_2.jsonl.gz",
+      "requests": 1620,
+      "roots": 54,
+      "sha256": "2918d9ed14f058ea115ae412483ea4314bb1f177f495de2b33fcf6a93941099f",
+      "visits": 40392
+    },
+    {
+      "NN": 66415,
+      "budget": 16,
+      "elapsed": 5.27880000701407,
+      "file": "TEST_ATLAS_B16_0.jsonl.gz",
+      "requests": 1650,
+      "roots": 55,
+      "sha256": "938cfb936ec6f0bbf0b4ec7c71d0e91b1e98d46d3298316d2b9a878442d45331",
+      "visits": 76528
+    },
+    {
+      "NN": 65320,
+      "budget": 16,
+      "elapsed": 5.1171304189483635,
+      "file": "TEST_ATLAS_B16_1.jsonl.gz",
+      "requests": 1620,
+      "roots": 54,
+      "sha256": "4210d61744d273ee14cc66a9ffa402caa392a057c896a9f6fdf34dad9a347d81",
+      "visits": 71064
+    },
+    {
+      "NN": 65444,
+      "budget": 16,
+      "elapsed": 5.168595540977549,
+      "file": "TEST_ATLAS_B16_2.jsonl.gz",
+      "requests": 1620,
+      "roots": 54,
+      "sha256": "60558bf32491d465bd7958e7e5a00c03f87ebd4cafc9576074d03ec1175c3874",
+      "visits": 70415
+    },
+    {
+      "NN": 117289,
+      "budget": 32,
+      "elapsed": 5.808021550998092,
+      "file": "TEST_ATLAS_B32_0.jsonl.gz",
+      "requests": 1650,
+      "roots": 55,
+      "sha256": "4872e58dadf4525c7bf180ee7b70e8704082374aefde846a95348b5a822f9a56",
+      "visits": 156456
+    },
+    {
+      "NN": 115468,
+      "budget": 32,
+      "elapsed": 5.645805203996133,
+      "file": "TEST_ATLAS_B32_1.jsonl.gz",
+      "requests": 1620,
+      "roots": 54,
+      "sha256": "db3d24fa9bd70df8b6f11944d6c9391aa506bcbdf8b07fd9b279abbc1ecceb34",
+      "visits": 148198
+    },
+    {
+      "NN": 115657,
+      "budget": 32,
+      "elapsed": 5.665514809021261,
+      "file": "TEST_ATLAS_B32_2.jsonl.gz",
+      "requests": 1620,
+      "roots": 54,
+      "sha256": "8f288ad0b60f8e0786b082688d6eaaa72ed395fc1d551b759b9743c48b0ec4e9",
+      "visits": 141477
+    },
+    {
+      "NN": 210852,
+      "budget": 64,
+      "elapsed": 8.127888040966354,
+      "file": "TEST_ATLAS_B64_0.jsonl.gz",
+      "requests": 1650,
+      "roots": 55,
+      "sha256": "ee790fef9fa22b31892ceabdbb77fb0277c016b7f51fad9330561ebd06788e6a",
+      "visits": 354510
+    },
+    {
+      "NN": 208988,
+      "budget": 64,
+      "elapsed": 8.109838894975837,
+      "file": "TEST_ATLAS_B64_1.jsonl.gz",
+      "requests": 1620,
+      "roots": 54,
+      "sha256": "42d5dd2f8af7b377b60bc91136b8446924b8c5b8527140a703736fc90d034bd9",
+      "visits": 352730
+    },
+    {
+      "NN": 211495,
+      "budget": 64,
+      "elapsed": 8.107363047020044,
+      "file": "TEST_ATLAS_B64_2.jsonl.gz",
+      "requests": 1620,
+      "roots": 54,
+      "sha256": "d7c581a1175bc2b321c72af3d89b32f302ff8d4c1bd3faedb3157d3c1cbc38eb",
+      "visits": 317403
+    }
+  ],
+  "freeze": "6b91490fe628ef8a19d21d31898319f80f174e1ae3fac68bc08cb580ed785414",
+  "identity": {
+    "assets": {
+      "book": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+      "helpers": [
+        {
+          "commit": "0f1ebd33da6048f8ccea7ccdb3f421c9aad3317a",
+          "path": "docs/research/quartz_kinetic16_20261126/pair_run.py",
+          "sha256": "1e5d6bb427e6fb162a3252b08650d8407d468b19cd46a61666158ae5639ccb99"
+        },
+        {
+          "commit": "0f1ebd33da6048f8ccea7ccdb3f421c9aad3317a",
+          "path": "docs/research/quartz_kinetic16_20261126/audit.py",
+          "sha256": "bb571e3486d7e6777fb5204906e36b3b46e49a10f579af1b0feb792d5725bf49"
+        }
+      ],
+      "model": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "oracle": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+      "source_binary": "c238b84ca99695e8415974d122b17d576f6b8a30d135d8a5ff92fa88a18bf64b"
+    },
+    "binary": "d6a22eaac6f6955b166f5175e25e2da2ec0881408ed0d505a71d39cfbe91c299",
+    "source": "e868aaa641495633a3af7d5dfbb547f97e2957c7"
+  },
+  "requests": 19560,
+  "roots": 652,
+  "visits": 1813083
+}
