@@ -425,3 +425,6 @@ mod tests{
         assert!(parse(&row.replace("0.3","0.8"),1,&b,1).is_err());
     }
 }
+
+#[path="rapfi_k34.rs"] mod k34;
+pub(super) fn handle_k34(line:&str)->Value{k34::handle(line)}

@@ -88,14 +88,25 @@ mod merge24_tests{
 // K25: one ledger per isolated tree. Exact base-evaluator observations,
 // distinct from refined/backed-up values. Receipt insertion and backup
 // linearize under one lock. This is not posterior sample accounting.
-type Leaf25=(Key,bool);
+#[derive(Clone,Copy,Debug,PartialEq,Eq,PartialOrd,Ord)]
+enum ReceiptKey25{C4(Key),Freestyle15([u64;8])}
+fn receipt_key25<G:GameState>(s:&G,gomoku:bool)->ReceiptKey25{
+    if gomoku{
+        let g=(s as &dyn std::any::Any).downcast_ref::<Gomoku15>().expect("board-only Rapfi Gomoku15 receipt");
+        assert_eq!(g.rules,crate::games::gomoku15::GomokuVariant::Freestyle);
+        assert_eq!(g.tt_hash(),g.hash());
+        ReceiptKey25::Freestyle15(math::placement_key(g.board_as_12(),g.current_player()))
+    }else{ReceiptKey25::C4(exact_key(s))}
+}
+type Leaf25=(ReceiptKey25,bool);
 type Evidence25=std::collections::BTreeMap<Leaf25,f32>;
 #[derive(Default)]
 struct Ctx25{direct:Evidence25,received:Evidence25}
 #[derive(Default)]
 struct Ledger25{
-    nodes:std::collections::BTreeMap<Key,std::collections::BTreeMap<(Key,usize),Ctx25>>,
-    exact:Merge24,
+    nodes:std::collections::BTreeMap<ReceiptKey25,std::collections::BTreeMap<(ReceiptKey25,usize),Ctx25>>,
+    ptrs:std::collections::BTreeMap<ReceiptKey25,usize>,
+    reverse_ptrs:std::collections::BTreeMap<usize,ReceiptKey25>,
     payload:Evidence25,
     events:u64,edges:u64,eligible:u64,novel:u64,blocked:u64,transferred:u64,
     applied:u64,changed:u64,repeat:u64,trace:Vec<serde_json::Value>,
@@ -104,7 +115,7 @@ fn compatible25(m:&mut Evidence25,k:Leaf25,v:f32){
     if let Some(old)=m.insert(k,v){assert_eq!(old,v,"conflicting deterministic raw evidence");}
 }
 impl Ledger25{
-    fn observe(&mut self,child:Key,ctx:(Key,usize),leaf:Leaf25,raw:f32,deliver:bool)->(usize,usize,usize,Option<f64>){
+    fn observe(&mut self,child:ReceiptKey25,ctx:(ReceiptKey25,usize),leaf:Leaf25,raw:f32,deliver:bool)->(usize,usize,usize,Option<f64>){
         let contexts=self.nodes.entry(child).or_default();
         let mut other=Evidence25::new();
         for (k,v) in contexts.iter(){if *k!=ctx{for (&l,&x) in &v.direct{compatible25(&mut other,l,x);}}}
@@ -165,11 +176,11 @@ mod floor28_tests{
     }
 }
 struct K25{
-    ledger:Mutex<Ledger25>, trace:bool, b:bool, active:AtomicU64,peak:AtomicU64,
+    ledger:Mutex<Ledger25>, trace:bool, b:bool, gomoku:bool, active:AtomicU64,peak:AtomicU64,
     width_realized:AtomicU64, work:[AtomicU64;4],
     budget26:AtomicU64,denied26:AtomicU64,refine27:AtomicU64,floor28:AtomicU64,
 }
-impl K25{fn new(trace:bool)->Self{Self{ledger:Mutex::new(Ledger25::default()),trace,b:false,
+impl K25{fn new(trace:bool)->Self{Self{ledger:Mutex::new(Ledger25::default()),trace,b:false,gomoku:false,
     active:AtomicU64::new(0),peak:AtomicU64::new(0),width_realized:AtomicU64::new(0),
     work:std::array::from_fn(|_|AtomicU64::new(0)),budget26:AtomicU64::new(u64::MAX),denied26:AtomicU64::new(0),refine27:AtomicU64::new(u64::MAX),floor28:AtomicU64::new(u64::MAX)}}}
 #[cfg(test)]
@@ -177,11 +188,11 @@ mod receipt25_tests{
     use super::*;
     #[test]fn once_per_context_even_across_direct_arrival(){
         let mut l=Ledger25::default();
-        assert_eq!(l.observe(9,(1,0),(20,false),0.5,false),(0,0,0,None));
-        assert_eq!(l.observe(9,(2,0),(21,false),-0.5,true),(1,1,0,Some(0.5)));
-        assert_eq!(l.observe(9,(2,0),(22,false),0.,true),(1,0,1,None));
-        assert_eq!(l.observe(9,(2,0),(20,false),0.5,true),(0,0,0,None));
-        assert_eq!(l.observe(9,(2,0),(23,false),0.25,true),(0,0,0,None));
+        assert_eq!(l.observe(ReceiptKey25::C4(9),(ReceiptKey25::C4(1),0),(ReceiptKey25::C4(20),false),0.5,false),(0,0,0,None));
+        assert_eq!(l.observe(ReceiptKey25::C4(9),(ReceiptKey25::C4(2),0),(ReceiptKey25::C4(21),false),-0.5,true),(1,1,0,Some(0.5)));
+        assert_eq!(l.observe(ReceiptKey25::C4(9),(ReceiptKey25::C4(2),0),(ReceiptKey25::C4(22),false),0.,true),(1,0,1,None));
+        assert_eq!(l.observe(ReceiptKey25::C4(9),(ReceiptKey25::C4(2),0),(ReceiptKey25::C4(20),false),0.5,true),(0,0,0,None));
+        assert_eq!(l.observe(ReceiptKey25::C4(9),(ReceiptKey25::C4(2),0),(ReceiptKey25::C4(23),false),0.25,true),(0,0,0,None));
         assert_eq!(l.transferred,1);assert_eq!(l.repeat,0);
     }
 }
@@ -368,6 +379,10 @@ impl Hooks{
         assert!(self.mask==0&&self.vmode==0&&self.bmode==0&&self.proof_mode==0);
         self.k25=Some(K25::new(trace));self
     }
+    /// Only the dedicated fixed board-only Rapfi Freestyle15 endpoint may call this.
+    pub fn with_k34_rapfi(self,trace:bool)->Self{
+        let mut h=self.with_k25(trace);h.k25.as_mut().unwrap().gomoku=true;h
+    }
     pub fn set_k25_mask(&mut self,m:u8){
         assert!(m<=15);
         let k=self.k25.as_mut().unwrap();assert_eq!(k.active.load(Ordering::Acquire),0);
@@ -431,14 +446,16 @@ impl Hooks{
         let k=self.k25.as_ref().unwrap();let mut l=k.ledger.lock().unwrap();
         let mut state=root.clone();let mut keys=Vec::with_capacity(path.len());let mut moves=Vec::with_capacity(path.len());
         for pe in path{
-            let e=&pe.parent.read_edges()[pe.edge_idx];let parent=exact_key(&state);let mv=state.move_to_idx(e.mv);
+            let e=&pe.parent.read_edges()[pe.edge_idx];let parent=receipt_key25(&state,k.gomoku);let mv=state.move_to_idx(e.mv);
             assert_eq!(state.tt_hash(),pe.parent.hash);state=state.apply_move(e.mv);
-            let child=exact_key(&state);assert_eq!(state.tt_hash(),e.child.hash);
-            l.exact.identity(child,&*e.child as *const _ as usize);
+            let child=receipt_key25(&state,k.gomoku);assert_eq!(state.tt_hash(),e.child.hash);
+            let ptr=&*e.child as *const _ as usize;
+            if let Some(old)=l.ptrs.insert(child,ptr){assert_eq!(old,ptr,"exact state must share actual node");}
+            if let Some(old)=l.reverse_ptrs.insert(ptr,child){assert_eq!(old,child,"actual node aliases exact states");}
             keys.push((child,(parent,mv)));moves.push(mv);
         }
         assert_eq!(state.is_terminal(),terminal);
-        let leaf=(exact_key(&state),terminal);
+        let leaf=(receipt_key25(&state,k.gomoku),terminal);
         compatible25(&mut l.payload,leaf,raw_leaf);
         let mut raw=raw_leaf;let mut y=value;let mut steps=Vec::new();
         for (i,pe) in path.iter().enumerate().rev(){
@@ -840,6 +857,9 @@ impl<G:GameState> MctsEngine<G>{
     }
     /// Quiescent serial root, immutable complete candidate order, no root masks.
     /// Unmaterialized actions have zero visits. None means no competitor.
+    pub fn k34_progress(&self)->(u32,u64,usize){
+        (self.root.n_total.load(Ordering::Acquire),self.evaluator_call_count(),self.root_state.move_to_idx(self.best_move().unwrap()))
+    }
     pub fn vote_min_distance(&self)->Option<u32>{
         let mut n=vec![0u32;self.root.candidate_count()];
         for (i,e) in self.root.read_edges().iter().enumerate(){n[i]=e.n.load(Ordering::Acquire);}
