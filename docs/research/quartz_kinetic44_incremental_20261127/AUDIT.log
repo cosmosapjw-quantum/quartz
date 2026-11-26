@@ -1,0 +1,163 @@
+BENCH_AUDIT {'low': 448, 'inherited_exact_facts': 5334, 'NN': 1130, 'R': 648}
+AUDITED NN_CAL {'roots': 843, 'B_nn': 27819, 'L_nn': 26487, 'B_cpu': 93436497903, 'L_cpu': 88816904253, 'moves': 1497, 'common': 654, 'games': 192, 'nn': 26977, 'score2': 226, 'wins': 113, 'draws': 0}
+AUDITED NN_TEST {'roots': 866, 'B_nn': 28578, 'L_nn': 27245, 'B_cpu': 115876995671, 'L_cpu': 110641920043, 'moves': 1519, 'common': 653, 'games': 192, 'nn': 28019, 'score2': 194, 'wins': 97, 'draws': 0}
+AUDITED NN_ARENA {'baseline_nn': 31977, 'baseline_cpu_ns': 109064075307, 'baseline_wall_ns': 109410123627, 'baseline_moves': 2027, 'moves': 4188, 'common': 2052, 'partial_attempts': 1167, 'queries': 202256, 'skipped': 12176, 'replacement': 203, 'candidate_nn': 24431, 'candidate_cpu_ns': 86281491345, 'candidate_wall_ns': 86640170625, 'candidate_moves': 2161, 'allocation_7': 1167, 'partial_cert': 386, 'allocation_0': 994, 'games': 512, 'nn': 56408, 'score2': 780, 'wins': 390, 'draws': 0}
+AUDITED R_CAL {'roots': 344, 'B_nn': 38010, 'L_nn': 31473, 'B_cpu': 7797523080, 'L_cpu': 6700510085, 'moves': 427, 'common': 83, 'games': 24, 'nn': 34883, 'score2': 20, 'wins': 10, 'draws': 0}
+AUDITED R_TEST {'roots': 428, 'B_nn': 49232, 'L_nn': 40787, 'B_cpu': 10690554371, 'L_cpu': 9051054458, 'moves': 507, 'common': 79, 'games': 24, 'nn': 44539, 'score2': 32, 'wins': 16, 'draws': 0}
+AUDITED R_ADAPT {'baseline_nn': 109711, 'baseline_cpu_ns': 25631583779, 'baseline_wall_ns': 25391593230, 'baseline_moves': 1141, 'moves': 2284, 'common': 386, 'partial_attempts': 682, 'queries': 605502, 'skipped': 18216, 'replacement': 61, 'candidate_nn': 88384, 'candidate_cpu_ns': 22105612048, 'candidate_wall_ns': 21937286069, 'candidate_moves': 1143, 'allocation_7': 349, 'allocation_0': 461, 'games': 96, 'nn': 198095, 'score2': 100, 'wins': 49, 'draws': 2, 'partial_cert': 87, 'allocation_5': 333}
+AUDITED R_FIXED {'baseline_nn': 109518, 'baseline_cpu_ns': 24477998006, 'baseline_wall_ns': 24182839991, 'baseline_moves': 1163, 'moves': 2328, 'common': 405, 'partial_attempts': 965, 'queries': 955301, 'skipped': 57100, 'replacement': 70, 'candidate_nn': 88235, 'candidate_cpu_ns': 21489175778, 'candidate_wall_ns': 21200297737, 'candidate_moves': 1165, 'allocation_7': 1165, 'games': 96, 'nn': 197753, 'score2': 100, 'wins': 49, 'draws': 2, 'partial_cert': 123}
+{
+  "benchmark": {
+    "low": 448,
+    "inherited_exact_facts": 5334,
+    "NN": 1130,
+    "R": 648
+  },
+  "counts": {
+    "vote_rows": 10323,
+    "legal_edges": 1206808,
+    "partial_receipts": 10257,
+    "bound_cells": 1053428,
+    "queries": 3368700,
+    "partial_cert": 1577,
+    "new_loss_facts": 251768,
+    "common": 4312,
+    "new_win_facts": 1083
+  },
+  "extra_checks": {
+    "feature_checks": 3624,
+    "F_receipts": 10257
+  },
+  "modes": {
+    "NN_CAL": {
+      "roots": 843,
+      "B_nn": 27819,
+      "L_nn": 26487,
+      "B_cpu": 93436497903,
+      "L_cpu": 88816904253,
+      "moves": 1497,
+      "common": 654,
+      "games": 192,
+      "nn": 26977,
+      "score2": 226,
+      "wins": 113,
+      "draws": 0
+    },
+    "R_CAL": {
+      "roots": 344,
+      "B_nn": 38010,
+      "L_nn": 31473,
+      "B_cpu": 7797523080,
+      "L_cpu": 6700510085,
+      "moves": 427,
+      "common": 83,
+      "games": 24,
+      "nn": 34883,
+      "score2": 20,
+      "wins": 10,
+      "draws": 0
+    },
+    "NN_TEST": {
+      "roots": 866,
+      "B_nn": 28578,
+      "L_nn": 27245,
+      "B_cpu": 115876995671,
+      "L_cpu": 110641920043,
+      "moves": 1519,
+      "common": 653,
+      "games": 192,
+      "nn": 28019,
+      "score2": 194,
+      "wins": 97,
+      "draws": 0
+    },
+    "R_TEST": {
+      "roots": 428,
+      "B_nn": 49232,
+      "L_nn": 40787,
+      "B_cpu": 10690554371,
+      "L_cpu": 9051054458,
+      "moves": 507,
+      "common": 79,
+      "games": 24,
+      "nn": 44539,
+      "score2": 32,
+      "wins": 16,
+      "draws": 0
+    },
+    "NN_ARENA": {
+      "baseline_nn": 31977,
+      "baseline_cpu_ns": 109064075307,
+      "baseline_wall_ns": 109410123627,
+      "baseline_moves": 2027,
+      "moves": 4188,
+      "common": 2052,
+      "partial_attempts": 1167,
+      "queries": 202256,
+      "skipped": 12176,
+      "replacement": 203,
+      "candidate_nn": 24431,
+      "candidate_cpu_ns": 86281491345,
+      "candidate_wall_ns": 86640170625,
+      "candidate_moves": 2161,
+      "allocation_7": 1167,
+      "partial_cert": 386,
+      "allocation_0": 994,
+      "games": 512,
+      "nn": 56408,
+      "score2": 780,
+      "wins": 390,
+      "draws": 0
+    },
+    "R_FIXED": {
+      "baseline_nn": 109518,
+      "baseline_cpu_ns": 24477998006,
+      "baseline_wall_ns": 24182839991,
+      "baseline_moves": 1163,
+      "moves": 2328,
+      "common": 405,
+      "partial_attempts": 965,
+      "queries": 955301,
+      "skipped": 57100,
+      "replacement": 70,
+      "candidate_nn": 88235,
+      "candidate_cpu_ns": 21489175778,
+      "candidate_wall_ns": 21200297737,
+      "candidate_moves": 1165,
+      "allocation_7": 1165,
+      "games": 96,
+      "nn": 197753,
+      "score2": 100,
+      "wins": 49,
+      "draws": 2,
+      "partial_cert": 123
+    },
+    "R_ADAPT": {
+      "baseline_nn": 109711,
+      "baseline_cpu_ns": 25631583779,
+      "baseline_wall_ns": 25391593230,
+      "baseline_moves": 1141,
+      "moves": 2284,
+      "common": 386,
+      "partial_attempts": 682,
+      "queries": 605502,
+      "skipped": 18216,
+      "replacement": 61,
+      "candidate_nn": 88384,
+      "candidate_cpu_ns": 22105612048,
+      "candidate_wall_ns": 21937286069,
+      "candidate_moves": 1143,
+      "allocation_7": 349,
+      "allocation_0": 461,
+      "games": 96,
+      "nn": 198095,
+      "score2": 100,
+      "wins": 49,
+      "draws": 2,
+      "partial_cert": 87,
+      "allocation_5": 333
+    }
+  },
+  "actual_nn": 721887,
+  "scope": "all raw legal trajectories, feature bins, new forcing facts, exact action certificates, same-horizon votes and cost/conditional allocation; historical unchanged facts independently checked K43; CIs not independently recomputed"
+}
