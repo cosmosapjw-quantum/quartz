@@ -1,0 +1,152 @@
+{
+  "NN": 301154,
+  "cohort": "ede843dec9276eb0e7da2b202d2d2c0111eb80f37a1d9394bdc715cbbb7ec68b",
+  "files": [
+    {
+      "NN": 9856,
+      "budget": 8,
+      "elapsed": 0.8416415240499191,
+      "file": "TEST_LIVE_B8_0.jsonl.gz",
+      "requests": 440,
+      "roots": 55,
+      "sha256": "ef94c3c6ff1dcf9cc3c32d5c66e97411499cce6e0b911b5594176fd4b2a51772",
+      "visits": 11639
+    },
+    {
+      "NN": 9751,
+      "budget": 8,
+      "elapsed": 0.8341843460220844,
+      "file": "TEST_LIVE_B8_1.jsonl.gz",
+      "requests": 432,
+      "roots": 54,
+      "sha256": "d5be1749d254543220832180bd693472ab3767f2510e374e4c4718c52c1e3b09",
+      "visits": 11187
+    },
+    {
+      "NN": 9882,
+      "budget": 8,
+      "elapsed": 0.8567051109857857,
+      "file": "TEST_LIVE_B8_2.jsonl.gz",
+      "requests": 432,
+      "roots": 54,
+      "sha256": "52eeaf8193c6ebc92c90d3f6654423996db25de27511a986ca4faa937306d6aa",
+      "visits": 10982
+    },
+    {
+      "NN": 15861,
+      "budget": 16,
+      "elapsed": 1.0841489260201342,
+      "file": "TEST_LIVE_B16_0.jsonl.gz",
+      "requests": 440,
+      "roots": 55,
+      "sha256": "54ebf90edd7a3b973d674b8fcbbc302ae70f3c170c27be955a1ee5a64266705d",
+      "visits": 21137
+    },
+    {
+      "NN": 15614,
+      "budget": 16,
+      "elapsed": 1.0697246640338562,
+      "file": "TEST_LIVE_B16_1.jsonl.gz",
+      "requests": 432,
+      "roots": 54,
+      "sha256": "6178124831526d8572c718cc05f00b4d17fe80f63c428af569b228e49f86a100",
+      "visits": 19690
+    },
+    {
+      "NN": 15621,
+      "budget": 16,
+      "elapsed": 1.0757528379908763,
+      "file": "TEST_LIVE_B16_2.jsonl.gz",
+      "requests": 432,
+      "roots": 54,
+      "sha256": "a7dc9219b2c51c3e4107abf6032493f118e18916c5ac82af7cdc9ae2595397aa",
+      "visits": 19017
+    },
+    {
+      "NN": 27185,
+      "budget": 32,
+      "elapsed": 1.3927456199890003,
+      "file": "TEST_LIVE_B32_0.jsonl.gz",
+      "requests": 440,
+      "roots": 55,
+      "sha256": "47f7b142e5bbc4ece47ae89c83ef74d8afac9656f74a06714bfbbcd91ac891a4",
+      "visits": 45332
+    },
+    {
+      "NN": 26989,
+      "budget": 32,
+      "elapsed": 1.3551197180058807,
+      "file": "TEST_LIVE_B32_1.jsonl.gz",
+      "requests": 432,
+      "roots": 54,
+      "sha256": "dbb3ed00da0e129525a271413f424fc0a414aac80e1b965a1d9b32752c34290f",
+      "visits": 43267
+    },
+    {
+      "NN": 27047,
+      "budget": 32,
+      "elapsed": 1.3122158370097168,
+      "file": "TEST_LIVE_B32_2.jsonl.gz",
+      "requests": 432,
+      "roots": 54,
+      "sha256": "6761fe2afc9bb531d795d6cd9893955152e098767cb15fa3197ae1579a563880",
+      "visits": 41123
+    },
+    {
+      "NN": 47734,
+      "budget": 64,
+      "elapsed": 2.350725414988119,
+      "file": "TEST_LIVE_B64_0.jsonl.gz",
+      "requests": 440,
+      "roots": 55,
+      "sha256": "f7841e831406d4a4ad1ac4faba00c56a790b60c88cbcdd9c965960fb800e26ff",
+      "visits": 105168
+    },
+    {
+      "NN": 47277,
+      "budget": 64,
+      "elapsed": 2.259154516039416,
+      "file": "TEST_LIVE_B64_1.jsonl.gz",
+      "requests": 432,
+      "roots": 54,
+      "sha256": "0ce7d1233fa53cd33cd016bd52d4757cd96ad149f140939d4bf6d51c00d0da5a",
+      "visits": 102623
+    },
+    {
+      "NN": 48337,
+      "budget": 64,
+      "elapsed": 2.289518768026028,
+      "file": "TEST_LIVE_B64_2.jsonl.gz",
+      "requests": 432,
+      "roots": 54,
+      "sha256": "617d09c91398946db9c3e68b1184ddc10d14b856e37ca877fecd5de08f99f7c4",
+      "visits": 94399
+    }
+  ],
+  "freeze": "6b91490fe628ef8a19d21d31898319f80f174e1ae3fac68bc08cb580ed785414",
+  "identity": {
+    "assets": {
+      "book": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+      "helpers": [
+        {
+          "commit": "0f1ebd33da6048f8ccea7ccdb3f421c9aad3317a",
+          "path": "docs/research/quartz_kinetic16_20261126/pair_run.py",
+          "sha256": "1e5d6bb427e6fb162a3252b08650d8407d468b19cd46a61666158ae5639ccb99"
+        },
+        {
+          "commit": "0f1ebd33da6048f8ccea7ccdb3f421c9aad3317a",
+          "path": "docs/research/quartz_kinetic16_20261126/audit.py",
+          "sha256": "bb571e3486d7e6777fb5204906e36b3b46e49a10f579af1b0feb792d5725bf49"
+        }
+      ],
+      "model": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "oracle": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+      "source_binary": "c238b84ca99695e8415974d122b17d576f6b8a30d135d8a5ff92fa88a18bf64b"
+    },
+    "binary": "d6a22eaac6f6955b166f5175e25e2da2ec0881408ed0d505a71d39cfbe91c299",
+    "source": "e868aaa641495633a3af7d5dfbb547f97e2957c7"
+  },
+  "requests": 5216,
+  "roots": 652,
+  "visits": 525564
+}
