@@ -1,0 +1,845 @@
+{
+  "arms": [
+    "proof32",
+    "blind20",
+    "proof20"
+  ],
+  "binary": {
+    "path": "/home/cosmosapjw/quantum/research/quartz_kinetic32_target_20261126/mcts_demo",
+    "sha256": "a6809347e45607373917df76f3b7a70004f9e251bcb2195cf9d62e2d1ef8b0aa"
+  },
+  "env": {
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "QUARTZ_DISABLE_ASYNC_PIPELINE": "1",
+    "QUARTZ_DISABLE_NN_CACHE": "1",
+    "QUARTZ_NO_COMPILE": "1"
+  },
+  "jobs": [
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        8,
+        22,
+        26
+      ],
+      "game_seed": 1527189927782707821,
+      "id": 0,
+      "opening": [
+        23,
+        36,
+        38,
+        10
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        15,
+        29
+      ],
+      "game_seed": 4909434769135670575,
+      "id": 1,
+      "opening": [
+        29,
+        23,
+        37,
+        39
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        9,
+        18,
+        15
+      ],
+      "game_seed": 5859839207026866454,
+      "id": 2,
+      "opening": [
+        12,
+        11,
+        16,
+        19
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        24,
+        23
+      ],
+      "game_seed": 2336437082303262137,
+      "id": 3,
+      "opening": [
+        33,
+        25,
+        24,
+        31
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        17,
+        23,
+        25
+      ],
+      "game_seed": 3845757952275659725,
+      "id": 4,
+      "opening": [
+        26,
+        25,
+        31,
+        17
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        30,
+        26,
+        31
+      ],
+      "game_seed": 3693684996029488198,
+      "id": 5,
+      "opening": [
+        23,
+        18,
+        38,
+        25
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        24,
+        17,
+        18
+      ],
+      "game_seed": 4994112961908993037,
+      "id": 6,
+      "opening": [
+        8,
+        24,
+        23,
+        30
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        17,
+        15,
+        25
+      ],
+      "game_seed": 2132571322850624983,
+      "id": 7,
+      "opening": [
+        30,
+        23,
+        37,
+        17
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        15,
+        37,
+        8
+      ],
+      "game_seed": 9186875233663327544,
+      "id": 8,
+      "opening": [
+        23,
+        9,
+        19,
+        8
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        9,
+        25,
+        36
+      ],
+      "game_seed": 615891967866085727,
+      "id": 9,
+      "opening": [
+        12,
+        11,
+        23,
+        40
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        12,
+        15,
+        40
+      ],
+      "game_seed": 830991896505425408,
+      "id": 10,
+      "opening": [
+        32,
+        12,
+        39,
+        8
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        16,
+        19,
+        25
+      ],
+      "game_seed": 2480698020550962888,
+      "id": 11,
+      "opening": [
+        19,
+        18,
+        39,
+        31
+      ],
+      "seed": 101
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        38,
+        8,
+        29
+      ],
+      "game_seed": 3287031391434814357,
+      "id": 0,
+      "opening": [
+        17,
+        38,
+        12,
+        33
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        36,
+        32,
+        39
+      ],
+      "game_seed": 1325451296509186481,
+      "id": 1,
+      "opening": [
+        19,
+        8,
+        30,
+        29
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        19,
+        11
+      ],
+      "game_seed": 3395885211555165065,
+      "id": 2,
+      "opening": [
+        26,
+        17,
+        39,
+        33
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        25,
+        33,
+        40
+      ],
+      "game_seed": 6471327474227714542,
+      "id": 3,
+      "opening": [
+        18,
+        23,
+        29,
+        36
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        24,
+        15,
+        37
+      ],
+      "game_seed": 7740097501359412076,
+      "id": 4,
+      "opening": [
+        23,
+        24,
+        9,
+        19
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        22,
+        15,
+        31
+      ],
+      "game_seed": 3776123593123738702,
+      "id": 5,
+      "opening": [
+        31,
+        26,
+        33,
+        17
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        40,
+        11,
+        18
+      ],
+      "game_seed": 5459877353101040744,
+      "id": 6,
+      "opening": [
+        8,
+        40,
+        29,
+        30
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        38,
+        22,
+        15
+      ],
+      "game_seed": 1101403718927310441,
+      "id": 7,
+      "opening": [
+        25,
+        22,
+        10,
+        11
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        23,
+        12,
+        40
+      ],
+      "game_seed": 595642601657437738,
+      "id": 8,
+      "opening": [
+        25,
+        31,
+        12,
+        8
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        33,
+        11
+      ],
+      "game_seed": 5941083931342257441,
+      "id": 9,
+      "opening": [
+        38,
+        25,
+        15,
+        37
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        25,
+        36,
+        26
+      ],
+      "game_seed": 4881234778972259297,
+      "id": 10,
+      "opening": [
+        15,
+        31,
+        12,
+        38
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        30,
+        9,
+        26
+      ],
+      "game_seed": 6519406793100463574,
+      "id": 11,
+      "opening": [
+        23,
+        32,
+        29,
+        10
+      ],
+      "seed": 102
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        23,
+        36,
+        9
+      ],
+      "game_seed": 5231859040587743648,
+      "id": 0,
+      "opening": [
+        38,
+        25,
+        12,
+        39
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        9,
+        38,
+        22
+      ],
+      "game_seed": 6400247740208946327,
+      "id": 1,
+      "opening": [
+        31,
+        39,
+        10,
+        26
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        33,
+        26,
+        10
+      ],
+      "game_seed": 1181542300289692355,
+      "id": 2,
+      "opening": [
+        30,
+        19,
+        26,
+        38
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        36,
+        37,
+        24
+      ],
+      "game_seed": 4963525781295253341,
+      "id": 3,
+      "opening": [
+        9,
+        36,
+        37,
+        24
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        22,
+        30,
+        19
+      ],
+      "game_seed": 4167868831476137342,
+      "id": 4,
+      "opening": [
+        29,
+        38,
+        32,
+        9
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        37,
+        12,
+        31
+      ],
+      "game_seed": 6764637277796787903,
+      "id": 5,
+      "opening": [
+        9,
+        37,
+        12,
+        31
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        24,
+        9,
+        31,
+        39
+      ],
+      "game_seed": 5064744332005633594,
+      "id": 6,
+      "opening": [
+        24,
+        39,
+        17,
+        9
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        33,
+        24,
+        25
+      ],
+      "game_seed": 1562376781268973946,
+      "id": 7,
+      "opening": [
+        29,
+        11,
+        24,
+        17
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        38,
+        29,
+        17
+      ],
+      "game_seed": 5404542735792562820,
+      "id": 8,
+      "opening": [
+        22,
+        26,
+        11,
+        23
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        8,
+        40,
+        11
+      ],
+      "game_seed": 310057906800324572,
+      "id": 9,
+      "opening": [
+        26,
+        40,
+        8,
+        19
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        10,
+        36,
+        26
+      ],
+      "game_seed": 5551326072294633830,
+      "id": 10,
+      "opening": [
+        9,
+        10,
+        36,
+        26
+      ],
+      "seed": 103
+    },
+    {
+      "candidate_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        15,
+        22,
+        33
+      ],
+      "game_seed": 4373604822406696148,
+      "id": 11,
+      "opening": [
+        29,
+        37,
+        38,
+        11
+      ],
+      "seed": 103
+    }
+  ],
+  "margin": 0.05,
+  "models": {
+    "101": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 82.3,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.72,
+            "timestamp": "2026-07-13 22:49:57",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "train_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+    },
+    "102": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 54.9,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.64,
+            "timestamp": "2026-07-13 23:27:53",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "train_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+    },
+    "103": {
+      "bytes": 4203527,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+      "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+      "train_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    }
+  },
+  "pairs": 12,
+  "scope": "fixed checkpoint panel; original Gomoku7 4-in-row, A1 settings; seeded four-ply openings; actual paired color swap; no policy fitting",
+  "seed": 2026112633,
+  "workers": 4
+}
