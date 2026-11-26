@@ -71,11 +71,11 @@ class Node:
         return self.child[i]
 
 class Session:
-    def __init__(self,ev,h):
+    def __init__(self,ev,h,pr=None):
         self.ev=ev;self.t=time.perf_counter_ns();self.c=time.process_time_ns()
         self.initial=ev.rows;self.visits=self.terminal=0
         a,b=from_history(h);p=1-2*(len(h)%2)
-        self.pr=proof(a,b) if p==1 else proof(b,a)
+        self.pr=(proof(a,b) if p==1 else proof(b,a)) if pr is None else pr
         self.rule_ns=time.perf_counter_ns()-self.t
         self.root=None;self.root_value=None
         if self.pr['move'] is None:
@@ -169,3 +169,43 @@ def _adaptive40(self,h,policy):
     return out
 Puct.atlas40=_atlas40
 Puct.adaptive40=_adaptive40
+
+# K41: diagnostic nested horizons and exact proof controller.
+def _features41(ss,lo):
+    pr=ss.root.prior;n=ss.root.n;w=ss.root.w
+    H=-float(sum(float(x)*math.log(float(x)) for x in pr if x>0))
+    deficit=1-H/math.log(len(pr)) if len(pr)>1 else 1.
+    vals=sorted((float(x) for x in pr),reverse=True)
+    gap=math.log(vals[0]/vals[1]) if len(vals)>1 and vals[1]>0 else 0.
+    revision=abs(float(w.sum()/max(1,int(n.sum())))-ss.root_value)
+    margin=lo['distance']/max(1,lo['visits'])
+    return [deficit,revision,margin,gap]
+def _atlas41(self,h):
+    before=self.ev.rows
+    b=self.search(h,32,False);ss=Session(self.ev,h);lo=ss.advance(20,True)
+    assert lo['kind']!='CERTIFICATE'
+    f=_features41(ss,lo);mid=ss.advance(26,True);hi=ss.advance(32,True);long=ss.advance(64,True)
+    assert b['move']==hi['move'] and lo['nn']<=mid['nn']<=hi['nn']<=long['nn']
+    assert self.ev.rows-before==b['nn']+long['nn']
+    return dict(B32=b,L20=lo,L26=mid,L32=hi,L64=long,features=f,actual_nn=self.ev.rows-before)
+def _quartz41(self,h):
+    from exact41 import solve
+    from k41_plan import BUDGET
+    if len(h)<37:
+        r=self.search(h,32,True);r.update(exact_attempt=False,exact_complete=False,exact_nodes=0,exact_cpu_ns=0);return r
+    t=time.perf_counter_ns();c=time.process_time_ns();a,b=from_history(h);p=1-2*(len(h)%2);a,b=(a,b) if p==1 else (b,a)
+    pr=proof(a,b);rule_ns=time.perf_counter_ns()-t
+    if pr['move'] is not None:
+        r=Session(self.ev,h,pr).advance(32,True);r.update(exact_attempt=False,exact_complete=False,exact_nodes=0,exact_cpu_ns=0)
+    else:
+        before=self.ev.rows;ct=time.process_time_ns();z=solve(a,b,BUDGET);dt=time.process_time_ns()-ct
+        if z['complete']:
+            assert self.ev.rows==before
+            r=dict(move=z['best'],kind='EXACT41',proof='MINIMAX',cap=32,lock=True,nn=0,visits=0,terminal_leaves=0,votes=[],distance=None,prior_best=None,exact_values=z['values'],exact_value=z['best_value'])
+        else:
+            r=Session(self.ev,h,pr).advance(32,True)
+        r.update(exact_attempt=True,exact_complete=z['complete'],exact_nodes=z['nodes'],exact_cpu_ns=dt,exact_hits=z['hits'])
+    r.update(wall_ns=time.perf_counter_ns()-t,cpu_ns=time.process_time_ns()-c,rule_ns=rule_ns)
+    return r
+Puct.atlas41=_atlas41
+Puct.quartz41=_quartz41
