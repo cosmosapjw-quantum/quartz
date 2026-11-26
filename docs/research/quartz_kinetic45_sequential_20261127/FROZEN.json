@@ -1,0 +1,50 @@
+{
+  "cap": 32,
+  "scope": "earliest fixed cap with nonnegative aggregate certified lower gain and NN<=Q32; empirical finite sample, not posterior VOC",
+  "train": {
+    "counts": {
+      "B_cpu_ns": 209313493574,
+      "B_nn": 56397,
+      "roots": 1709
+    },
+    "options": {
+      "20": {
+        "cert": 493,
+        "changes": 964,
+        "cost_cpu_ns": 69854754668,
+        "exact_gain": 767,
+        "gain2_hi": 1928,
+        "gain2_lo": -352,
+        "nn": 24062,
+        "replacement": 309,
+        "strict_negative": 0,
+        "strict_positive": 22
+      },
+      "26": {
+        "cert": 493,
+        "changes": 895,
+        "cost_cpu_ns": 89707894328,
+        "exact_gain": 836,
+        "gain2_hi": 1790,
+        "gain2_lo": -214,
+        "nn": 31016,
+        "replacement": 304,
+        "strict_negative": 0,
+        "strict_positive": 22
+      },
+      "32": {
+        "cert": 493,
+        "changes": 766,
+        "cost_cpu_ns": 109602209985,
+        "exact_gain": 965,
+        "gain2_hi": 1532,
+        "gain2_lo": 44,
+        "nn": 37970,
+        "replacement": 288,
+        "strict_negative": 0,
+        "strict_positive": 22
+      }
+    }
+  },
+  "train_sha256": "7cd316ed02a8a734b6fd1c5dffcf11a1fc8fdcc8526414db3b12c488bb99a981"
+}
