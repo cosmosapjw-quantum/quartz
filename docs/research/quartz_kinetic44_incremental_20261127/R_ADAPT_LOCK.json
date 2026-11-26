@@ -1,0 +1,65 @@
+{
+  "collector": "4eaa4e19835aae063218db3f31c4f0dc1997c69a847bcf623546658d1146ab26",
+  "counts": {
+    "cert": 386,
+    "games": 96,
+    "items": 48,
+    "moves": 2284,
+    "nn": 198095
+  },
+  "elapsed_s": 25.16385209292639,
+  "engine": "17db73e75606112650d94c98d731753bc8e48cb12b7bbf20559cc77a6c0bc9d2",
+  "files": [
+    {
+      "counts": {
+        "cert": 114,
+        "games": 24,
+        "items": 12,
+        "moves": 894,
+        "nn": 86470
+      },
+      "elapsed_s": 25.082260575029068,
+      "file": "R_ADAPT_0_3.jsonl.gz",
+      "sha256": "cd7ff0aba5a11484d46185986a49e649bb2527bc1068e6ac27fbe13417be1a96"
+    },
+    {
+      "counts": {
+        "cert": 100,
+        "games": 24,
+        "items": 12,
+        "moves": 494,
+        "nn": 39398
+      },
+      "elapsed_s": 8.491323383990675,
+      "file": "R_ADAPT_0_1.jsonl.gz",
+      "sha256": "b7c43be8bd022bc270dc5ae88cdc609bdd0f9a9c3960c16d2c84fb54ba6ed4d3"
+    },
+    {
+      "counts": {
+        "cert": 81,
+        "games": 24,
+        "items": 12,
+        "moves": 414,
+        "nn": 32592
+      },
+      "elapsed_s": 6.875148998922668,
+      "file": "R_ADAPT_0_2.jsonl.gz",
+      "sha256": "5d2d5653f0c28988827559e17f911b9245d2264b62078e1d30d740ab181ed208"
+    },
+    {
+      "counts": {
+        "cert": 91,
+        "games": 24,
+        "items": 12,
+        "moves": 482,
+        "nn": 39635
+      },
+      "elapsed_s": 8.696964281029068,
+      "file": "R_ADAPT_0_0.jsonl.gz",
+      "sha256": "2aeede0d3146c8402668e8f97fa9b3f9a4b2de4b549217e9fdb30286bb579fb9"
+    }
+  ],
+  "lib": "e3f92bb23e5ff2f1ae5642bd3b528ba6a296d255d4abcfa1b64af93d16e1aabc",
+  "plan": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e",
+  "source": "763b5b788dafd13b1e7b4bc49e73c0933e116de241f1e0da84a496a2cf37fa3c"
+}

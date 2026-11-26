@@ -1,0 +1,602 @@
+{
+  "admitted": true,
+  "arena": {
+    "NN_ARENA": {
+      "CPU_reduction": 0.2579470373347599,
+      "NI_lower": 0.720703125,
+      "NN_CI": [
+        0.2442097589219333,
+        0.3237019763288641
+      ],
+      "NN_reduction": 0.28335758505972675,
+      "baseline_moves": 2027,
+      "baseline_nn": 31977,
+      "by_seed": {
+        "101": {
+          "CPU_reduction": 0.501276865139628,
+          "NN_reduction": 0.5194306532237567,
+          "baseline_moves": 404,
+          "baseline_nn": 6105,
+          "candidate_moves": 435,
+          "candidate_nn": 3159,
+          "draws": 0,
+          "games": 128,
+          "losses": 33,
+          "partial_attempts": 196,
+          "partial_cert": 68,
+          "queries": 25008,
+          "replacement": 39,
+          "score": 0.7421875,
+          "wall_reduction": 0.5014410897005687,
+          "wins": 95
+        },
+        "102": {
+          "CPU_reduction": 0.21577379062798696,
+          "NN_reduction": 0.23743300419842306,
+          "baseline_moves": 520,
+          "baseline_nn": 7755,
+          "candidate_moves": 553,
+          "candidate_nn": 6289,
+          "draws": 0,
+          "games": 128,
+          "losses": 31,
+          "partial_attempts": 300,
+          "partial_cert": 105,
+          "queries": 56864,
+          "replacement": 58,
+          "score": 0.7578125,
+          "wall_reduction": 0.21352826818252046,
+          "wins": 97
+        },
+        "103": {
+          "CPU_reduction": 0.19205560221854123,
+          "NN_reduction": 0.2154606706514426,
+          "baseline_moves": 596,
+          "baseline_nn": 10626,
+          "candidate_moves": 637,
+          "candidate_nn": 8910,
+          "draws": 0,
+          "games": 128,
+          "losses": 23,
+          "partial_attempts": 380,
+          "partial_cert": 110,
+          "queries": 73143,
+          "replacement": 53,
+          "score": 0.8203125,
+          "wall_reduction": 0.19194237325573038,
+          "wins": 105
+        },
+        "105": {
+          "CPU_reduction": 0.21977215819397167,
+          "NN_reduction": 0.233156653656029,
+          "baseline_moves": 507,
+          "baseline_nn": 7491,
+          "candidate_moves": 536,
+          "candidate_nn": 6073,
+          "draws": 0,
+          "games": 128,
+          "losses": 35,
+          "partial_attempts": 291,
+          "partial_cert": 103,
+          "queries": 47241,
+          "replacement": 53,
+          "score": 0.7265625,
+          "wall_reduction": 0.21945903025262803,
+          "wins": 93
+        }
+      },
+      "candidate_moves": 2161,
+      "candidate_nn": 24431,
+      "draws": 0,
+      "games": 512,
+      "identical_pairs": 69,
+      "losses": 122,
+      "partial_attempts": 1167,
+      "partial_cert": 386,
+      "queries": 202256,
+      "replacement": 203,
+      "score": 0.76171875,
+      "score_CI": [
+        0.7109375,
+        0.8125
+      ],
+      "wall_reduction": 0.25721902430171206,
+      "wins": 390
+    },
+    "R_ADAPT": {
+      "CPU_reduction": 0.1390726280443998,
+      "NI_lower": 0.5,
+      "NN_CI": [
+        0.15098322077268855,
+        0.24694266889693295
+      ],
+      "NN_reduction": 0.19580217725129156,
+      "baseline_moves": 1141,
+      "baseline_nn": 109711,
+      "by_seed": {
+        "0": {
+          "CPU_reduction": 0.1390726280443998,
+          "NN_reduction": 0.19580217725129156,
+          "baseline_moves": 1141,
+          "baseline_nn": 109711,
+          "candidate_moves": 1143,
+          "candidate_nn": 88384,
+          "draws": 2,
+          "games": 96,
+          "losses": 45,
+          "partial_attempts": 682,
+          "partial_cert": 87,
+          "queries": 605502,
+          "replacement": 61,
+          "score": 0.5208333333333334,
+          "wall_reduction": 0.13755310987388536,
+          "wins": 49
+        }
+      },
+      "candidate_moves": 1143,
+      "candidate_nn": 88384,
+      "draws": 2,
+      "games": 96,
+      "identical_pairs": 1,
+      "losses": 45,
+      "partial_attempts": 682,
+      "partial_cert": 87,
+      "queries": 605502,
+      "replacement": 61,
+      "score": 0.5208333333333334,
+      "score_CI": [
+        0.5,
+        0.5520833333333334
+      ],
+      "wall_reduction": 0.13755310987388536,
+      "wins": 49
+    },
+    "R_FIXED": {
+      "CPU_reduction": 0.12360951725494917,
+      "NI_lower": 0.5,
+      "NN_CI": [
+        0.15146458395854268,
+        0.2478664820551666
+      ],
+      "NN_reduction": 0.19571647030487938,
+      "baseline_moves": 1163,
+      "baseline_nn": 109518,
+      "by_seed": {
+        "0": {
+          "CPU_reduction": 0.12360951725494917,
+          "NN_reduction": 0.19571647030487938,
+          "baseline_moves": 1163,
+          "baseline_nn": 109518,
+          "candidate_moves": 1165,
+          "candidate_nn": 88235,
+          "draws": 2,
+          "games": 96,
+          "losses": 45,
+          "partial_attempts": 965,
+          "partial_cert": 123,
+          "queries": 955301,
+          "replacement": 70,
+          "score": 0.5208333333333334,
+          "wall_reduction": 0.12483800976417292,
+          "wins": 49
+        }
+      },
+      "candidate_moves": 1165,
+      "candidate_nn": 88235,
+      "draws": 2,
+      "games": 96,
+      "identical_pairs": 1,
+      "losses": 45,
+      "partial_attempts": 965,
+      "partial_cert": 123,
+      "queries": 955301,
+      "replacement": 70,
+      "score": 0.5208333333333334,
+      "score_CI": [
+        0.5,
+        0.5520833333333334
+      ],
+      "wall_reduction": 0.12483800976417292,
+      "wins": 49
+    }
+  },
+  "benchmark": {
+    "NN": {
+      "F": {
+        "cert": 309,
+        "cpu_ns": 111446614,
+        "exhausted": 0,
+        "queries": 179721,
+        "scans": 5200644,
+        "skipped": 14178,
+        "wall_ns": 112655761
+      },
+      "F_changed_bounds": 0,
+      "F_changed_cert": 0,
+      "I": {
+        "cert": 309,
+        "cpu_ns": 121915688,
+        "exhausted": 0,
+        "queries": 208077,
+        "scans": 5407706,
+        "skipped": 0,
+        "wall_ns": 123207170
+      },
+      "OLD": {
+        "cert": 309,
+        "cpu_ns": 276313449,
+        "exhausted": 0,
+        "queries": 208077,
+        "scans": 15121128,
+        "skipped": 0,
+        "wall_ns": 278181781
+      },
+      "n": 1130
+    },
+    "R": {
+      "F": {
+        "cert": 53,
+        "cpu_ns": 525526976,
+        "exhausted": 55,
+        "queries": 616389,
+        "scans": 32664842,
+        "skipped": 41832,
+        "wall_ns": 526847189
+      },
+      "F_changed_bounds": 0,
+      "F_changed_cert": 0,
+      "I": {
+        "cert": 53,
+        "cpu_ns": 564969077,
+        "exhausted": 55,
+        "queries": 700053,
+        "scans": 33625376,
+        "skipped": 0,
+        "wall_ns": 567111809
+      },
+      "OLD": {
+        "cert": 53,
+        "cpu_ns": 5245387791,
+        "exhausted": 55,
+        "queries": 700053,
+        "scans": 343193136,
+        "skipped": 0,
+        "wall_ns": 5250983511
+      },
+      "n": 648
+    }
+  },
+  "counts": {
+    "NN_ARENA": {
+      "cert": 2052,
+      "games": 512,
+      "items": 256,
+      "moves": 4188,
+      "nn": 56408
+    },
+    "NN_CAL": {
+      "atlas_extra_nn": 27329,
+      "atlas_roots": 843,
+      "cert": 654,
+      "games": 192,
+      "items": 192,
+      "moves": 1497,
+      "nn": 26977
+    },
+    "NN_TEST": {
+      "atlas_extra_nn": 27804,
+      "atlas_roots": 866,
+      "cert": 653,
+      "games": 192,
+      "items": 192,
+      "moves": 1519,
+      "nn": 28019
+    },
+    "R_ADAPT": {
+      "cert": 386,
+      "games": 96,
+      "items": 48,
+      "moves": 2284,
+      "nn": 198095
+    },
+    "R_CAL": {
+      "atlas_extra_nn": 34600,
+      "atlas_roots": 344,
+      "cert": 83,
+      "games": 24,
+      "items": 24,
+      "moves": 427,
+      "nn": 34883
+    },
+    "R_FIXED": {
+      "cert": 405,
+      "games": 96,
+      "items": 48,
+      "moves": 2328,
+      "nn": 197753
+    },
+    "R_TEST": {
+      "atlas_extra_nn": 45480,
+      "atlas_roots": 428,
+      "cert": 79,
+      "games": 24,
+      "items": 24,
+      "moves": 507,
+      "nn": 44539
+    }
+  },
+  "source": {
+    "NN_CAL": {
+      "bins": {
+        "0": 187,
+        "1": 90,
+        "2": 243,
+        "3": 323
+      },
+      "counts": {
+        "B_cpu": 93436497903,
+        "B_nn": 27819,
+        "L_cpu": 88816904253,
+        "L_nn": 26487
+      },
+      "matched_fixed_mixture": null,
+      "options": {
+        "0": {
+          "cert": 0,
+          "changed": 0,
+          "cost": 88836248294,
+          "net": -19344041,
+          "nn": 26487,
+          "proof_cpu": 19344041,
+          "replacement": 0
+        },
+        "3": {
+          "cert": 0,
+          "changed": 0,
+          "cost": 88913594335,
+          "net": -96690082,
+          "nn": 26487,
+          "proof_cpu": 96690082,
+          "replacement": 0
+        },
+        "5": {
+          "cert": 129,
+          "changed": 233,
+          "cost": 75529764834,
+          "net": 13287139419,
+          "nn": 22419,
+          "proof_cpu": 88282167,
+          "replacement": 111
+        },
+        "7": {
+          "cert": 230,
+          "changed": 363,
+          "cost": 64339913956,
+          "net": 24476990297,
+          "nn": 19124,
+          "proof_cpu": 111753671,
+          "replacement": 151
+        },
+        "policy": {
+          "cert": 230,
+          "changed": 363,
+          "cost": 64335476406,
+          "net": 24481427847,
+          "nn": 19124,
+          "proof_cpu": 107316121,
+          "replacement": 151
+        }
+      },
+      "roots": 843,
+      "scope": "unresolved same-root estimates; all policy/fixed options pay feature; unconditional L no feature; NN certified estimates omit duplicate Python gate; fixed mixture descriptive upper envelope by cert count, not deployed"
+    },
+    "NN_TEST": {
+      "bins": {
+        "0": 177,
+        "1": 107,
+        "2": 234,
+        "3": 348
+      },
+      "counts": {
+        "B_cpu": 115876995671,
+        "B_nn": 28578,
+        "L_cpu": 110641920043,
+        "L_nn": 27245
+      },
+      "matched_fixed_mixture": null,
+      "options": {
+        "0": {
+          "cert": 0,
+          "changed": 0,
+          "cost": 110667159814,
+          "net": -25239771,
+          "nn": 27245,
+          "proof_cpu": 25239771,
+          "replacement": 0
+        },
+        "3": {
+          "cert": 0,
+          "changed": 0,
+          "cost": 110765312154,
+          "net": -123392111,
+          "nn": 27245,
+          "proof_cpu": 123392111,
+          "replacement": 0
+        },
+        "5": {
+          "cert": 148,
+          "changed": 251,
+          "cost": 91587794825,
+          "net": 19054125218,
+          "nn": 22527,
+          "proof_cpu": 109483385,
+          "replacement": 105
+        },
+        "7": {
+          "cert": 263,
+          "changed": 388,
+          "cost": 77325478321,
+          "net": 33316441722,
+          "nn": 18846,
+          "proof_cpu": 147409958,
+          "replacement": 137
+        },
+        "policy": {
+          "cert": 263,
+          "changed": 388,
+          "cost": 77320066697,
+          "net": 33321853346,
+          "nn": 18846,
+          "proof_cpu": 141998334,
+          "replacement": 137
+        }
+      },
+      "roots": 866,
+      "scope": "unresolved same-root estimates; all policy/fixed options pay feature; unconditional L no feature; NN certified estimates omit duplicate Python gate; fixed mixture descriptive upper envelope by cert count, not deployed"
+    },
+    "R_CAL": {
+      "bins": {
+        "0": 95,
+        "1": 33,
+        "2": 85,
+        "3": 131
+      },
+      "counts": {
+        "B_cpu": 7797523080,
+        "B_nn": 38010,
+        "L_cpu": 6700510085,
+        "L_nn": 31473
+      },
+      "matched_fixed_mixture": {
+        "cert": 33.24892731454194,
+        "changed": 32.87897022196026,
+        "cost": 6565861023,
+        "high": 3,
+        "low": 7,
+        "nn": 30446.506423255094,
+        "p_high": 0.6300429074183225
+      },
+      "options": {
+        "0": {
+          "cert": 0,
+          "changed": 0,
+          "cost": 6760496357,
+          "net": -59986272,
+          "nn": 31473,
+          "proof_cpu": 59986272,
+          "replacement": 0
+        },
+        "3": {
+          "cert": 24,
+          "changed": 24,
+          "cost": 6623724121,
+          "net": 76785964,
+          "nn": 30933,
+          "proof_cpu": 110772765,
+          "replacement": 0
+        },
+        "5": {
+          "cert": 39,
+          "changed": 37,
+          "cost": 6524540802,
+          "net": 175969283,
+          "nn": 30275,
+          "proof_cpu": 187687943,
+          "replacement": 9
+        },
+        "7": {
+          "cert": 49,
+          "changed": 48,
+          "cost": 6467319232,
+          "net": 233190853,
+          "nn": 29618,
+          "proof_cpu": 304167949,
+          "replacement": 11
+        },
+        "policy": {
+          "cert": 39,
+          "changed": 38,
+          "cost": 6565861023,
+          "net": 134649062,
+          "nn": 30275,
+          "proof_cpu": 229008164,
+          "replacement": 10
+        }
+      },
+      "roots": 344,
+      "scope": "unresolved same-root estimates; all policy/fixed options pay feature; unconditional L no feature; NN certified estimates omit duplicate Python gate; fixed mixture descriptive upper envelope by cert count, not deployed"
+    },
+    "R_TEST": {
+      "bins": {
+        "0": 120,
+        "1": 44,
+        "2": 107,
+        "3": 157
+      },
+      "counts": {
+        "B_cpu": 10690554371,
+        "B_nn": 49232,
+        "L_cpu": 9051054458,
+        "L_nn": 40787
+      },
+      "matched_fixed_mixture": {
+        "cert": 38.94254654244084,
+        "changed": 46.060780774915486,
+        "cost": 8999315568,
+        "high": 7,
+        "low": 5,
+        "nn": 39534.84938165646,
+        "p_high": 0.7060780774915483
+      },
+      "options": {
+        "0": {
+          "cert": 0,
+          "changed": 0,
+          "cost": 9117207948,
+          "net": -66153490,
+          "nn": 40787,
+          "proof_cpu": 66153490,
+          "replacement": 0
+        },
+        "3": {
+          "cert": 24,
+          "changed": 24,
+          "cost": 8982681454,
+          "net": 68373004,
+          "nn": 40244,
+          "proof_cpu": 131511111,
+          "replacement": 0
+        },
+        "5": {
+          "cert": 34,
+          "changed": 39,
+          "cost": 8967517286,
+          "net": 83537172,
+          "nn": 39866,
+          "proof_cpu": 230769009,
+          "replacement": 14
+        },
+        "7": {
+          "cert": 41,
+          "changed": 49,
+          "cost": 9012552365,
+          "net": 38502093,
+          "nn": 39397,
+          "proof_cpu": 405405986,
+          "replacement": 17
+        },
+        "policy": {
+          "cert": 35,
+          "changed": 40,
+          "cost": 8999315568,
+          "net": 51738890,
+          "nn": 39773,
+          "proof_cpu": 288695989,
+          "replacement": 14
+        }
+      },
+      "roots": 428,
+      "scope": "unresolved same-root estimates; all policy/fixed options pay feature; unconditional L no feature; NN certified estimates omit duplicate Python gate; fixed mixture descriptive upper envelope by cert count, not deployed"
+    }
+  }
+}
