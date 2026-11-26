@@ -1,0 +1,108 @@
+{
+  "continue:serial": {
+    "learned_utility": 0.49021084337349397,
+    "native_utility": 0.5112951807228916,
+    "readout": {
+      "better": 7,
+      "ci": [
+        -0.04292168674698795,
+        0.0
+      ],
+      "mean": -0.02108433734939759,
+      "n": 332,
+      "worse": 15
+    },
+    "readout_changed": 137,
+    "selection_native": {
+      "better": 5,
+      "ci": [
+        -0.017319277108433735,
+        0.009789156626506024
+      ],
+      "mean": -0.0037650602409638554,
+      "n": 332,
+      "worse": 7
+    },
+    "total": {
+      "better": 8,
+      "ci": [
+        -0.04819277108433735,
+        -0.0015060240963855422
+      ],
+      "mean": -0.024849397590361446,
+      "n": 332,
+      "worse": 17
+    }
+  },
+  "priced:short": {
+    "learned_utility": 0.4713855421686747,
+    "native_utility": 0.47289156626506024,
+    "readout": {
+      "better": 5,
+      "ci": [
+        -0.016566265060240965,
+        0.01355421686746988
+      ],
+      "mean": -0.0015060240963855422,
+      "n": 332,
+      "worse": 5
+    },
+    "readout_changed": 72,
+    "selection_native": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "mean": 0.0,
+      "n": 332,
+      "worse": 0
+    },
+    "total": {
+      "better": 5,
+      "ci": [
+        -0.016566265060240965,
+        0.01355421686746988
+      ],
+      "mean": -0.0015060240963855422,
+      "n": 332,
+      "worse": 5
+    }
+  },
+  "prior:short": {
+    "learned_utility": 0.46987951807228917,
+    "native_utility": 0.47289156626506024,
+    "readout": {
+      "better": 4,
+      "ci": [
+        -0.018072289156626505,
+        0.012048192771084338
+      ],
+      "mean": -0.0030120481927710845,
+      "n": 332,
+      "worse": 5
+    },
+    "readout_changed": 66,
+    "selection_native": {
+      "better": 0,
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "mean": 0.0,
+      "n": 332,
+      "worse": 0
+    },
+    "total": {
+      "better": 4,
+      "ci": [
+        -0.018072289156626505,
+        0.012048192771084338
+      ],
+      "mean": -0.0030120481927710845,
+      "n": 332,
+      "worse": 5
+    }
+  },
+  "scope": "post-freeze root-repeat diagnostic, same-run readout difference, no refit or policy selection"
+}
