@@ -1,0 +1,38 @@
+FFF
+======================================================================
+FAIL: test_live (__main__.Test.test_live)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic43_partial_20261127/docs/research/quartz_kinetic43_partial_20261127/test_k43.py", line 16, in test_live
+    e=Puct(load_eval(101));self.assertTrue(hasattr(e,'quartz43'),'missing partial proof policy')
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : missing partial proof policy
+
+======================================================================
+FAIL: test_rapfi_gate (__main__.Test.test_rapfi_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic43_partial_20261127/docs/research/quartz_kinetic43_partial_20261127/test_k43.py", line 14, in test_rapfi_gate
+    x=probe(h,15,7,4096);self.assertEqual(x['gate'],111)
+      ^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic43_partial_20261127/docs/research/quartz_kinetic43_partial_20261127/partial43.py", line 12, in probe
+    assert rc==r.status==0,'missing or invalid native proof receipt'
+           ^^^^^^^^^^^^^^^
+AssertionError: missing or invalid native proof receipt
+
+======================================================================
+FAIL: test_unknown_and_gate (__main__.Test.test_unknown_and_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic43_partial_20261127/docs/research/quartz_kinetic43_partial_20261127/test_k43.py", line 6, in test_unknown_and_gate
+    x=probe([0,48,7,47],7,7,0)
+      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic43_partial_20261127/docs/research/quartz_kinetic43_partial_20261127/partial43.py", line 12, in probe
+    assert rc==r.status==0,'missing or invalid native proof receipt'
+           ^^^^^^^^^^^^^^^
+AssertionError: missing or invalid native proof receipt
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.026s
+
+FAILED (failures=3)
