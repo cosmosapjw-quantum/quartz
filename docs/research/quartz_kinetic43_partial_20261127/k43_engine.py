@@ -169,3 +169,31 @@ def _adaptive40(self,h,policy):
     return out
 Puct.atlas40=_atlas40
 Puct.adaptive40=_adaptive40
+
+# K43 proof-aware policy: common-gate parity, sufficient partial proof,
+# then ordinary locked MCTS with loss-only weak replacement.
+def choose43(move,votes,partial):
+    bad={m for m,l,u in partial['bounds'] if u==-1}
+    if move not in bad:return move
+    pool=[(m,v) for m,v in votes if m not in bad]
+    if not pool:return move
+    return max(pool,key=lambda z:(z[1],-z[0]))[0]
+def _quartz43(self,h,depth=7,budget=4096):
+    from partial43 import probe
+    t=time.perf_counter_ns();c=time.process_time_ns()
+    # This common gate has exactly the K33 selection priority.
+    a,b=from_history(h);p=1-2*(len(h)%2);pr=proof(a,b) if p==1 else proof(b,a)
+    gate_ns=time.perf_counter_ns()-t
+    if pr['move'] is not None:
+        r=Session(self.ev,h,pr).advance(32,True)
+        r.update(partial=None,original_move=r['move'],replacement=False,proof_cpu_ns=0)
+    else:
+        zt=time.process_time_ns();z=probe(h,7,depth,budget);dt=time.process_time_ns()-zt;assert z['gate'] is None
+        if z['cert'] is not None:
+            r=dict(move=z['cert'],kind='PARTIAL43',proof='INTERVAL',cap=32,lock=True,nn=0,visits=0,terminal_leaves=0,votes=[],distance=None,prior_best=None,original_move=None,replacement=False)
+        else:
+            r=Session(self.ev,h,pr).advance(32,True);o=r['move'];r['move']=choose43(o,r['votes'],z);r.update(original_move=o,replacement=r['move']!=o)
+        r.update(partial=z,proof_cpu_ns=dt)
+    r.update(wall_ns=time.perf_counter_ns()-t,cpu_ns=time.process_time_ns()-c,rule_ns=gate_ns)
+    return r
+Puct.quartz43=_quartz43
