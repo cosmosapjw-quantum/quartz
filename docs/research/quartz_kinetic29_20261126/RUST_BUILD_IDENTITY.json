@@ -1,0 +1,26 @@
+{
+  "binary_sha256": "efc2a1651b935e2ff2b357e9dd839f899cb24cabd5d1600fb2e57db0776cbb7f",
+  "bytes": 6479112,
+  "cargo_lock": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+  "command": [
+    "nice",
+    "-n",
+    "5",
+    "cargo",
+    "build",
+    "--offline",
+    "--locked",
+    "--release",
+    "--bin",
+    "mcts_demo",
+    "--target-dir",
+    "/home/cosmosapjw/quantum/research/quartz_kinetic29_target_20261126/cargo"
+  ],
+  "env": {
+    "CARGO_BUILD_JOBS": "6",
+    "CARGO_PROFILE_RELEASE_CODEGEN_UNITS": "4",
+    "CARGO_PROFILE_RELEASE_LTO": "false"
+  },
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+  "source_head": "f957e4cabeddbf66a4c24405ea5d9731732103ae"
+}
