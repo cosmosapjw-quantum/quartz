@@ -1,0 +1,35 @@
+SHARD SOURCE 102 2 {'ROOT': 3, 'nn': 160, 'items': 4, 'TERMINAL': 1}
+SHARD SOURCE 102 0 {'ROOT': 3, 'nn': 129, 'items': 5, 'TERMINAL': 1, 'GATED': 1}
+SHARD SOURCE 102 1 {'ROOT': 3, 'nn': 126, 'items': 5, 'TERMINAL': 2}
+SHARD SOURCE 103 0 {'ROOT': 5, 'nn': 330, 'items': 14, 'TERMINAL': 5, 'GATED': 4}
+SHARD SOURCE 103 2 {'GATED': 4, 'nn': 495, 'items': 13, 'ROOT': 7, 'TERMINAL': 2}
+SHARD SOURCE 101 0 {'ROOT': 12, 'nn': 735, 'items': 29, 'TERMINAL': 6, 'GATED': 11}
+SHARD SOURCE 101 2 {'GATED': 13, 'nn': 852, 'items': 28, 'ROOT': 13, 'TERMINAL': 2}
+SHARD SOURCE 101 3 {'TERMINAL': 9, 'nn': 1071, 'items': 28, 'ROOT': 13, 'GATED': 6}
+SHARD SOURCE 105 3 {'ROOT': 9, 'nn': 1122, 'items': 13, 'GATED': 3, 'TERMINAL': 1}
+SHARD SOURCE 105 2 {'ROOT': 10, 'nn': 711, 'items': 13, 'GATED': 2, 'TERMINAL': 1}
+SHARD SOURCE 102 3 {'GATED': 2, 'nn': 190, 'items': 4, 'TERMINAL': 1, 'ROOT': 1}
+SHARD SOURCE 101 1 {'GATED': 14, 'nn': 1152, 'items': 29, 'TERMINAL': 6, 'ROOT': 9}
+SHARD SOURCE 103 1 {'GATED': 2, 'nn': 495, 'items': 14, 'TERMINAL': 6, 'ROOT': 6}
+SHARD SOURCE 105 0 {'ROOT': 7, 'nn': 515, 'items': 14, 'TERMINAL': 3, 'GATED': 4}
+SHARD SOURCE 103 3 {'ROOT': 7, 'nn': 792, 'items': 13, 'GATED': 3, 'TERMINAL': 3}
+SHARD SOURCE 105 1 {'ROOT': 9, 'nn': 962, 'items': 14, 'TERMINAL': 3, 'GATED': 2}
+SOURCE {'ROOT': 117, 'nn': 9837, 'items': 240, 'GATED': 71, 'TERMINAL': 52}
+SHARD ATLAS 101 2 {'nn': 1749, 'items': 29}
+SHARD ATLAS 101 0 {'nn': 1800, 'items': 30}
+SHARD ATLAS 105 1 {'nn': 1888, 'items': 29}
+SHARD ATLAS 102 0 {'nn': 1962, 'items': 30}
+SHARD ATLAS 103 2 {'nn': 1914, 'items': 29}
+SHARD ATLAS 105 2 {'nn': 1897, 'items': 29}
+SHARD ATLAS 105 0 {'nn': 1964, 'items': 30}
+SHARD ATLAS 103 0 {'nn': 1980, 'items': 30}
+SHARD ATLAS 101 1 {'nn': 1644, 'items': 29}
+SHARD ATLAS 102 2 {'nn': 1895, 'items': 29}
+SHARD ATLAS 105 3 {'nn': 1888, 'items': 29}
+SHARD ATLAS 103 3 {'nn': 1914, 'items': 29}
+SHARD ATLAS 102 3 {'nn': 1883, 'items': 29}
+SHARD ATLAS 102 1 {'nn': 1887, 'items': 29}
+SHARD ATLAS 101 3 {'nn': 1629, 'items': 29}
+SHARD ATLAS 103 1 {'nn': 1914, 'items': 29}
+ATLAS {'nn': 29808, 'items': 468}
+FRAME {'TRAIN:ROOT': 55, 'TRAIN:ADMITTED': 55, 'TRAIN:GATED': 39, 'TRAIN:TERMINAL': 26, 'CAL:ROOT': 31, 'CAL:ADMITTED': 31, 'CAL:GATED': 15, 'CAL:TERMINAL': 14, 'TEST:ROOT': 31, 'TEST:ADMITTED': 31, 'TEST:GATED': 17, 'TEST:TERMINAL': 12}
