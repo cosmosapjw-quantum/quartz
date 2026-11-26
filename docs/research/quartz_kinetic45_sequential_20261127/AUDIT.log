@@ -1,0 +1,141 @@
+BENCH_TRAIN_AUDIT {'NN': 1709, 'R': 772} {'inherited_stage_facts': 5771, 'stages': 5891, 'bundles': 2481, 'cert': 583, 'queries': 1194980, 'hits': 105470, 'independent_stages': 120, 'vote_rows': 6836, 'legal_edges': 278868, 'gain_checks': 5127}
+AUDITED NN_CAL {'moves': 1337, 'games': 160, 'nn': 25399, 'score2': 138, 'wins': 69, 'draws': 0}
+AUDITED NN_TEST {'moves': 1295, 'games': 160, 'nn': 24129, 'score2': 158, 'wins': 79, 'draws': 0}
+AUDITED NN_FIXED {'baseline_nn': 27555, 'baseline_cpu_ns': 75097077438, 'baseline_wall_ns': 75124896512, 'baseline_moves': 1608, 'moves': 3335, 'candidate_nn': 20326, 'candidate_cpu_ns': 57448183327, 'candidate_wall_ns': 57461570757, 'candidate_moves': 1727, 'games': 384, 'nn': 47881, 'score2': 622, 'wins': 311, 'draws': 0, 'attempts': 954, 'queries': 282069, 'hits': 19617, 'exact_attempt': 0, 'exact_complete': 0, 'replacement': 148, 'cert': 305}
+AUDITED NN_LOW {'attempts': 935, 'queries': 250722, 'hits': 12446, 'exact_attempt': 6, 'exact_complete': 5, 'replacement': 166, 'candidate_nn': 12829, 'candidate_cpu_ns': 44507703998, 'candidate_wall_ns': 44527309262, 'candidate_moves': 1715, 'moves': 3311, 'baseline_nn': 27532, 'baseline_cpu_ns': 92272149308, 'baseline_wall_ns': 92364443992, 'baseline_moves': 1596, 'cert': 289, 'games': 384, 'nn': 40361, 'score2': 623, 'wins': 311, 'draws': 1}
+AUDITED R_ARENA {'attempts': 972, 'queries': 1257503, 'hits': 234508, 'exact_attempt': 0, 'exact_complete': 0, 'replacement': 62, 'candidate_nn': 90008, 'candidate_cpu_ns': 20230604151, 'candidate_wall_ns': 19894864394, 'candidate_moves': 1166, 'moves': 2331, 'baseline_nn': 110751, 'baseline_cpu_ns': 22105804346, 'baseline_wall_ns': 21712464950, 'baseline_moves': 1165, 'games': 96, 'nn': 200759, 'score2': 99, 'wins': 49, 'draws': 1, 'cert': 106}
+{
+  "bench": {
+    "NN": 1709,
+    "R": 772
+  },
+  "late": {
+    "roots": 384,
+    "truth": 377,
+    "partial": 117,
+    "hybrid": 377,
+    "exact_attempt": 267,
+    "exact_complete": 260,
+    "exact_nodes": 707336,
+    "verified_hybrid": 374
+  },
+  "counts": {
+    "inherited_stage_facts": 5771,
+    "stages": 17726,
+    "bundles": 7259,
+    "cert": 2060,
+    "queries": 3452443,
+    "hits": 396601,
+    "independent_stages": 11955,
+    "vote_rows": 17466,
+    "legal_edges": 715150,
+    "gain_checks": 9726,
+    "exact_attempt": 273,
+    "exact_complete": 265,
+    "common": 4186
+  },
+  "independent": {
+    "partial_receipts": 11955,
+    "bound_cells": 830927,
+    "queries": 3863804,
+    "new_loss_facts": 191338,
+    "new_win_facts": 878,
+    "partial_cert": 1269,
+    "vote_rows": 1828,
+    "legal_edges": 356916,
+    "common": 397
+  },
+  "modes": {
+    "NN_CAL": {
+      "moves": 1337,
+      "games": 160,
+      "nn": 25399,
+      "score2": 138,
+      "wins": 69,
+      "draws": 0
+    },
+    "NN_TEST": {
+      "moves": 1295,
+      "games": 160,
+      "nn": 24129,
+      "score2": 158,
+      "wins": 79,
+      "draws": 0
+    },
+    "NN_FIXED": {
+      "baseline_nn": 27555,
+      "baseline_cpu_ns": 75097077438,
+      "baseline_wall_ns": 75124896512,
+      "baseline_moves": 1608,
+      "moves": 3335,
+      "candidate_nn": 20326,
+      "candidate_cpu_ns": 57448183327,
+      "candidate_wall_ns": 57461570757,
+      "candidate_moves": 1727,
+      "games": 384,
+      "nn": 47881,
+      "score2": 622,
+      "wins": 311,
+      "draws": 0,
+      "attempts": 954,
+      "queries": 282069,
+      "hits": 19617,
+      "exact_attempt": 0,
+      "exact_complete": 0,
+      "replacement": 148,
+      "cert": 305
+    },
+    "R_ARENA": {
+      "attempts": 972,
+      "queries": 1257503,
+      "hits": 234508,
+      "exact_attempt": 0,
+      "exact_complete": 0,
+      "replacement": 62,
+      "candidate_nn": 90008,
+      "candidate_cpu_ns": 20230604151,
+      "candidate_wall_ns": 19894864394,
+      "candidate_moves": 1166,
+      "moves": 2331,
+      "baseline_nn": 110751,
+      "baseline_cpu_ns": 22105804346,
+      "baseline_wall_ns": 21712464950,
+      "baseline_moves": 1165,
+      "games": 96,
+      "nn": 200759,
+      "score2": 99,
+      "wins": 49,
+      "draws": 1,
+      "cert": 106
+    },
+    "NN_LOW": {
+      "attempts": 935,
+      "queries": 250722,
+      "hits": 12446,
+      "exact_attempt": 6,
+      "exact_complete": 5,
+      "replacement": 166,
+      "candidate_nn": 12829,
+      "candidate_cpu_ns": 44507703998,
+      "candidate_wall_ns": 44527309262,
+      "candidate_moves": 1715,
+      "moves": 3311,
+      "baseline_nn": 27532,
+      "baseline_cpu_ns": 92272149308,
+      "baseline_wall_ns": 92364443992,
+      "baseline_moves": 1596,
+      "cert": 289,
+      "games": 384,
+      "nn": 40361,
+      "score2": 623,
+      "wins": 311,
+      "draws": 1
+    }
+  },
+  "physical_nn": 465864,
+  "natural_exact": {
+    "roots": 6,
+    "complete": 6
+  },
+  "scope": "all chronological legal games, all new proof facts checked by independent K43 integer geometry and forcing; historical identical stage facts reused audited K44; exact late labels independently known; signed gain and cost reconstruction; bootstrap not independently recomputed"
+}
