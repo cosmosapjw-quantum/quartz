@@ -1,0 +1,317 @@
+   Compiling libc v0.2.184
+   Compiling cfg-if v1.0.4
+   Compiling crossbeam-utils v0.8.21
+   Compiling proc-macro2 v1.0.106
+   Compiling zerocopy v0.8.48
+   Compiling quote v1.0.45
+   Compiling unicode-ident v1.0.24
+   Compiling libm v0.2.16
+   Compiling autocfg v1.5.0
+   Compiling serde_core v1.0.228
+   Compiling num-traits v0.2.19
+   Compiling parking_lot_core v0.9.12
+   Compiling rayon-core v1.13.0
+   Compiling crossbeam-epoch v0.9.18
+   Compiling zmij v1.0.21
+   Compiling rustversion v1.0.22
+   Compiling syn v2.0.117
+   Compiling crossbeam-deque v0.8.6
+   Compiling getrandom v0.2.17
+   Compiling rand_core v0.6.4
+   Compiling scopeguard v1.2.0
+   Compiling serde v1.0.228
+   Compiling serde_json v1.0.149
+   Compiling smallvec v1.15.1
+   Compiling lock_api v0.4.14
+   Compiling serde_derive v1.0.228
+   Compiling either v1.15.0
+   Compiling itoa v1.0.18
+   Compiling memchr v2.8.0
+   Compiling rayon v1.11.0
+   Compiling arc-swap v1.9.1
+   Compiling parking_lot v0.12.5
+   Compiling crossbeam-channel v0.5.15
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_chacha v0.3.1
+   Compiling bumpalo v3.20.2
+   Compiling rand v0.8.5
+   Compiling rand_distr v0.4.3
+   Compiling mcts_demo v0.3.0 (/home/cosmosapjw/quantum/research/quartz_kinetic29_20261126)
+error: float literals must have an integer part
+  --> src/mcts_server/k29_belief.rs:58:70
+   |
+58 | ...   let d=(0..l).map(|z|j[z][z]).sum::<f64>()-m[0];let net=g-.002*cost;
+   |                                                                ^^^^
+   |
+help: must have an integer part
+   |
+58 |             let d=(0..l).map(|z|j[z][z]).sum::<f64>()-m[0];let net=g-0.002*cost;
+   |                                                                      +
+
+warning: unused import: `crate::mcts::quartz::HaltReason`
+  --> src/mcts/policy/cache.rs:35:9
+   |
+35 | pub use crate::mcts::quartz::HaltReason;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `smallvec::SmallVec`
+  --> src/mcts/policy/kl_lucb.rs:24:5
+   |
+24 | use smallvec::SmallVec;
+   |     ^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `bernoulli_kl`
+  --> src/mcts/policy/kl_lucb.rs:26:25
+   |
+26 | use super::kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
+   |                         ^^^^^^^^^^^^
+
+warning: unused imports: `EdgeRef`, `PolicyCachePublisher`, and `PolicyCache`
+  --> src/mcts/policy/mod.rs:31:17
+   |
+31 | pub use cache::{EdgeRef, PolicyCache, PolicyCachePublisher};
+   |                 ^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `SequentialHalvingBracket`, `gumbel_top_m`, `initial_bracket`, and `sample_gumbel`
+  --> src/mcts/policy/mod.rs:32:21
+   |
+32 | ...::{gumbel_top_m, initial_bracket, sample_gumbel, SequentialHalvingBracket};
+   |       ^^^^^^^^^^^^  ^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `KgCostSource`, `compute_kg_array`, `expected_improvement`, `kg_per_arm`, and `should_halt_by_kg`
+  --> src/mcts/policy/mod.rs:34:5
+   |
+34 |     compute_kg_array, expected_improvement, kg_per_arm, should_halt_by_kg, KgCostSource, K...
+   |     ^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^  ^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^
+
+warning: unused imports: `bernoulli_kl`, `kl_lower`, `kl_lucb_beta`, and `kl_upper`
+  --> src/mcts/policy/mod.rs:36:22
+   |
+36 | pub use kl_helpers::{bernoulli_kl, kl_lower, kl_lucb_beta, kl_upper};
+   |                      ^^^^^^^^^^^^  ^^^^^^^^  ^^^^^^^^^^^^  ^^^^^^^^
+
+warning: unused import: `legacy_quartz::LegacyQuartz`
+  --> src/mcts/policy/mod.rs:39:9
+   |
+39 | pub use legacy_quartz::LegacyQuartz;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `kl_visit_to_soft`, `soft_policy`, and `soft_value`
+  --> src/mcts/policy/mod.rs:40:17
+   |
+40 | pub use ments::{kl_visit_to_soft, soft_policy, soft_value};
+   |                 ^^^^^^^^^^^^^^^^  ^^^^^^^^^^^  ^^^^^^^^^^
+
+warning: unused imports: `Reservoir`, `lambda_score`, and `quantile`
+  --> src/mcts/policy/mod.rs:41:21
+   |
+41 | pub use reservoir::{lambda_score, quantile, Reservoir};
+   |                     ^^^^^^^^^^^^  ^^^^^^^^  ^^^^^^^^^
+
+warning: unused imports: `TacticalResult` and `tactical_sentinel`
+  --> src/mcts/policy/mod.rs:42:20
+   |
+42 | pub use tactical::{tactical_sentinel, TacticalResult};
+   |                    ^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^
+
+warning: unused imports: `BoxedPolicy` and `EffectivePrior`
+  --> src/mcts/policy/mod.rs:44:5
+   |
+44 |     BoxedPolicy, ControllerTelemetry, EdgeView, EffectivePrior, HaltDeci...
+   |     ^^^^^^^^^^^                                 ^^^^^^^^^^^^^^
+
+warning: unused import: `crate::mcts::quartz::HaltReason`
+  --> src/mcts/policy/mod.rs:48:5
+   |
+48 | use crate::mcts::quartz::HaltReason;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `connect4_nn::TinyConnect4Evaluator`
+  --> src/mcts_server.rs:33:40
+   |
+33 | ...nect4::Connect4, connect4_nn::TinyConnect4Evaluator, connect4_conv::C...
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `std::sync::atomic::Ordering`
+ --> src/mcts_server/highbranch14_cpu_server.rs:8:5
+  |
+8 | use std::sync::atomic::Ordering;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unnecessary parentheses around assigned value
+   --> src/mcts_server/highbranch14_cpu_server.rs:245:22
+    |
+245 |     let same_stats = (first_edges == after_edges);
+    |                      ^                          ^
+    |
+    = note: `#[warn(unused_parens)]` (part of `#[warn(unused)]`) on by default
+help: remove these parentheses
+    |
+245 -     let same_stats = (first_edges == after_edges);
+245 +     let same_stats = first_edges == after_edges;
+    |
+
+warning: unused import: `meta_feedback as mf`
+   --> src/mcts_server/rapfi_shared_cpu_server.rs:178:91
+    |
+178 | ...,kinetic_response as kr,meta_feedback as mf};
+    |                            ^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:33:21
+   |
+33 |         return f32::NEG_INFINITY;
+   |                     ^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:36:51
+   |
+36 |         return q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                   ^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:38:52
+   |
+38 |     let max_q = q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                    ^^^^^^^^^^^^
+
+warning: use of deprecated constant `std::f32::NEG_INFINITY`: replaced by the `NEG_INFINITY` associated constant on `f32`
+  --> src/mcts/policy/ments.rs:82:52
+   |
+82 |     let max_q = q_values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+   |                                                    ^^^^^^^^^^^^
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:250:33
+    |
+250 | ...   if self.local_remaining.fetch_update(Ordering::AcqRel,Ordering::R...
+    |                               ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+250 -         if self.local_remaining.fetch_update(Ordering::AcqRel,Ordering::Relaxed,|n|if n>0{Some(n-1)}else{None}).is_ok(){
+250 +         if self.local_remaining.try_update(Ordering::AcqRel,Ordering::Relaxed,|n|if n>0{Some(n-1)}else{None}).is_ok(){
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:384:30
+    |
+384 | ...   return k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,...
+    |                        ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+384 -             return k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|claim28(v,n,false)).is_ok();
+384 +             return k.floor28.try_update(Ordering::AcqRel,Ordering::Acquire,|v|claim28(v,n,false)).is_ok();
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:386:20
+    |
+386 | ...   k.budget26.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|v.c...
+    |                  ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+386 -         k.budget26.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|v.checked_sub(n)).is_ok()
+386 +         k.budget26.try_update(Ordering::AcqRel,Ordering::Acquire,|v|v.checked_sub(n)).is_ok()
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:391:30
+    |
+391 | ...   return k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,...
+    |                        ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+391 -             return k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|claim28(v,n,true)).is_ok();
+391 +             return k.floor28.try_update(Ordering::AcqRel,Ordering::Acquire,|v|claim28(v,n,true)).is_ok();
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:394:25
+    |
+394 | ...   else{k.refine27.fetch_update(Ordering::AcqRel,Ordering::Acquire,|...
+    |                       ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+394 -         else{k.refine27.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|v.checked_sub(n)).is_ok()}
+394 +         else{k.refine27.try_update(Ordering::AcqRel,Ordering::Acquire,|v|v.checked_sub(n)).is_ok()}
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u64>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:400:27
+    |
+400 | ...   k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|{let...
+    |                 ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+400 -                 k.floor28.fetch_update(Ordering::AcqRel,Ordering::Acquire,|v|{let(s,p)=pools28(v);Some(pack28(s+1,p))}).unwrap();
+400 +                 k.floor28.try_update(Ordering::AcqRel,Ordering::Acquire,|v|{let(s,p)=pools28(v);Some(pack28(s+1,p))}).unwrap();
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u32>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:717:28
+    |
+717 | ...   if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if ...
+    |                  ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+717 -                 if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+717 +                 if tickets.try_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u32>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:747:32
+    |
+747 | ...   if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if ...
+    |                  ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+747 -                     if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+747 +                     if tickets.try_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+    |
+
+warning: use of deprecated method `std::sync::atomic::Atomic::<u32>::fetch_update`: renamed to `try_update` for consistency
+   --> src/mcts/four_axis.rs:791:32
+    |
+791 | ...   if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if ...
+    |                  ^^^^^^^^^^^^
+    |
+help: replace the use of the deprecated method
+    |
+791 -                     if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+791 +                     if tickets.try_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){h.k26_refund();break;}
+    |
+
+warning: value assigned to `counters` is never read
+   --> src/mcts_server/rapfi_shared_cpu_server.rs:307:23
+    |
+307 |             prev=next;counters=next_c;mon=nxt;
+    |                       ^^^^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: value assigned to `target` is never read
+   --> src/mcts_server/rapfi_shared_cpu_server.rs:332:71
+    |
+332 | ...ut phases=Vec::new();let mut current=0u32;let mut target=None;let mu...
+    |                                                             ^^^^ this value is reassigned later and never used
+...
+359 | ...   target=idx.map(|i|(i,ca[i][0].as_u64().unwrap() as usize));
+    |       ---------------------------------------------------------- `target` is overwritten here before the previous value is read
+
+warning: `mcts_demo` (bin "mcts_demo") generated 32 warnings
+error: could not compile `mcts_demo` (bin "mcts_demo") due to 1 previous error; 32 warnings emitted
+
+exit=101

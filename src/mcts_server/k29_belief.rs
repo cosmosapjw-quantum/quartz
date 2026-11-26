@@ -55,7 +55,7 @@ impl Model{
             let p:Vec<_>=j.iter().map(|x|if n==0{0}else{argmax(x)}).collect();
             for a in 0..l{assert!((j.iter().map(|z|z[a]).sum::<f64>()-m[a]).abs()<1e-9);}
             let value=j.iter().map(|row|row[argmax(row)]).sum::<f64>();let g=(value-m[argmax(&m)]).max(0.);
-            let d=(0..l).map(|z|j[z][z]).sum::<f64>()-m[0];let net=g-.002*cost;
+            let d=(0..l).map(|z|j[z][z]).sum::<f64>()-m[0];let net=g-0.002*cost;
             gs.push(g);nets.push(net);post.push(p.clone());
             reports.push(json!({"mass":mass,"post_rank":p,"joint_moments":j,"G":g,"D":d,"cost":cost,"net":net}));
         }
