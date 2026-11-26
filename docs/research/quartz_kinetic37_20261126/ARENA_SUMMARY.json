@@ -1,0 +1,139 @@
+{
+  "alias": "L80",
+  "arms": {
+    "B80": {
+      "NI_lower": 0.4453125,
+      "NN_ci": [
+        0.32693812053346294,
+        0.35179334864715617
+      ],
+      "NN_reduction": 0.33921259413672,
+      "counts": {
+        "base_BLOCK": 311,
+        "base_NN": 313974,
+        "base_NN_TARGET": 1343,
+        "base_VISIT_CAP": 1443,
+        "base_WIN1": 205,
+        "base_WIN3": 205,
+        "base_cpu_ns": 72972933071,
+        "base_moves": 3507,
+        "base_visits": 355430,
+        "base_wait_ns": 9502066,
+        "base_wall_ns": 78564503634,
+        "candidate_BLOCK": 253,
+        "candidate_NN": 206701,
+        "candidate_NN_TARGET": 1692,
+        "candidate_SOLE": 1,
+        "candidate_VISIT_CAP": 1192,
+        "candidate_WIN1": 178,
+        "candidate_WIN3": 178,
+        "candidate_cpu_ns": 51058750673,
+        "candidate_moves": 3494,
+        "candidate_visits": 229210,
+        "candidate_wait_ns": 6301077,
+        "candidate_wall_ns": 56263590597
+      },
+      "draws": 1,
+      "games": 384,
+      "joint": false,
+      "losses": 205,
+      "pairs": 192,
+      "score": 0.46484375,
+      "score_ci": [
+        0.44140625,
+        0.48828125
+      ],
+      "wins": 178
+    },
+    "L128": {
+      "NI_lower": 0.5,
+      "NN_ci": [
+        0.15040295107465096,
+        0.16807089196481095
+      ],
+      "NN_reduction": 0.15941768684792057,
+      "counts": {
+        "base_BLOCK": 276,
+        "base_NN": 311791,
+        "base_NN_TARGET": 1293,
+        "base_VISIT_CAP": 1488,
+        "base_WIN1": 192,
+        "base_WIN3": 192,
+        "base_cpu_ns": 69533559955,
+        "base_moves": 3441,
+        "base_visits": 354847,
+        "base_wait_ns": 9405942,
+        "base_wall_ns": 75227858336,
+        "candidate_BLOCK": 276,
+        "candidate_NN": 262086,
+        "candidate_NN_TARGET": 227,
+        "candidate_VISIT_CAP": 206,
+        "candidate_VOTE_LOCK": 2348,
+        "candidate_WIN1": 192,
+        "candidate_WIN3": 192,
+        "candidate_cpu_ns": 59531382070,
+        "candidate_moves": 3441,
+        "candidate_visits": 297379,
+        "candidate_wait_ns": 7903071,
+        "candidate_wall_ns": 64858353789
+      },
+      "draws": 0,
+      "games": 384,
+      "joint": false,
+      "losses": 192,
+      "pairs": 192,
+      "score": 0.5,
+      "score_ci": [
+        0.5,
+        0.5
+      ],
+      "wins": 192
+    },
+    "L80": {
+      "NI_lower": 0.4453125,
+      "NN_ci": [
+        0.4154824753076456,
+        0.44016437955358034
+      ],
+      "NN_reduction": 0.42757609835521404,
+      "counts": {
+        "base_BLOCK": 311,
+        "base_NN": 313974,
+        "base_NN_TARGET": 1343,
+        "base_VISIT_CAP": 1443,
+        "base_WIN1": 205,
+        "base_WIN3": 205,
+        "base_cpu_ns": 68739709682,
+        "base_moves": 3507,
+        "base_visits": 355430,
+        "base_wait_ns": 9287246,
+        "base_wall_ns": 73986828075,
+        "candidate_BLOCK": 253,
+        "candidate_NN": 179060,
+        "candidate_NN_TARGET": 550,
+        "candidate_SOLE": 1,
+        "candidate_VISIT_CAP": 289,
+        "candidate_VOTE_LOCK": 2045,
+        "candidate_WIN1": 178,
+        "candidate_WIN3": 178,
+        "candidate_cpu_ns": 42614400536,
+        "candidate_moves": 3494,
+        "candidate_visits": 197962,
+        "candidate_wait_ns": 5363242,
+        "candidate_wall_ns": 47129647179
+      },
+      "draws": 1,
+      "games": 384,
+      "joint": false,
+      "losses": 205,
+      "pairs": 192,
+      "score": 0.46484375,
+      "score_ci": [
+        0.44140625,
+        0.48828125
+      ],
+      "wins": 178
+    }
+  },
+  "scope": "paired opening families, identical pretrained evaluator, no external alpha-beta games"
+}
