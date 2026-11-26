@@ -1,0 +1,879 @@
+{
+  "NI_margin": 0.05,
+  "NN_reduction": 0.3,
+  "arms": [
+    "B128",
+    "B80",
+    "F128",
+    "F80",
+    "F80L",
+    "F80L4"
+  ],
+  "external_pairs": 6,
+  "external_turn_ms": 100,
+  "identity": {
+    "binary": "77b4e345fb88fe0d4486e10871583d7b56c495280826111b8c5b5f738e0816be",
+    "bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "external": "4217c3202cdd8dbb58524110d9064299e314a695e58ddbd055d9a4dd99de201c",
+    "source_head": "c08c175973bf3226e9d10ff618c3defd99c4cf95",
+    "upstream": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62"
+  },
+  "jobs": [
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "70df179b3388dc18d7ae7f870e6fe2763626f35c7e7d0229d5b9943049a33d88",
+      "id": 0,
+      "kind": "MAIN",
+      "opening": [
+        145,
+        95,
+        109,
+        112,
+        80,
+        156
+      ],
+      "seed": 407533762695509861,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "56445cff3dae9104bbc431fe5416f674464c3599b9decb73cd5f78136f694d68",
+      "id": 1,
+      "kind": "MAIN",
+      "opening": [
+        77,
+        114,
+        131,
+        84,
+        48,
+        174
+      ],
+      "seed": 728534304393201578,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9df16e48a3a510c36179464edaa240fd7f3f5fdeea373b227c9df0f0c4d66ddc",
+      "id": 2,
+      "kind": "MAIN",
+      "opening": [
+        142,
+        126,
+        115,
+        64,
+        155,
+        109
+      ],
+      "seed": 9221095150201658113,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6713d45d74ddabe18ea2427b2dce07c8816964fb63876947c8596470f72d51a5",
+      "id": 3,
+      "kind": "MAIN",
+      "opening": [
+        98,
+        152,
+        54,
+        84,
+        158,
+        171
+      ],
+      "seed": 5352800463549889446,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "50d59cb483d4bfa70b8323cd6744687bb01d80baa667b6ed5990fbdc0755db84",
+      "id": 4,
+      "kind": "MAIN",
+      "opening": [
+        66,
+        158,
+        69,
+        126,
+        142,
+        85
+      ],
+      "seed": 2537543915989180245,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "b77f861b1fe62f4e7bfc5ed134c80014ce6e66926b6643943ecd66847a0d27ca",
+      "id": 5,
+      "kind": "MAIN",
+      "opening": [
+        113,
+        190,
+        169,
+        49,
+        112,
+        138
+      ],
+      "seed": 1218959289470954198,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ddfedfcc3e8d22be17341510b78867f0dbf71ab042e97dcbff2887873b856203",
+      "id": 6,
+      "kind": "MAIN",
+      "opening": [
+        99,
+        79,
+        125,
+        127,
+        95,
+        84
+      ],
+      "seed": 552746452118608264,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c1e854c1d89be6fe3325e75ff6219253ad30e1b17e05c3de3ab151d6ec4f200e",
+      "id": 7,
+      "kind": "MAIN",
+      "opening": [
+        162,
+        186,
+        98,
+        66,
+        110,
+        147
+      ],
+      "seed": 7911663819447924917,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "97c45d901a0056ba448f4f01bdeacecbc2d856c19c9b1590af9bac7103e3c70e",
+      "id": 8,
+      "kind": "MAIN",
+      "opening": [
+        144,
+        114,
+        140,
+        159,
+        97,
+        155
+      ],
+      "seed": 3985907551454862155,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "be7e812d40922d21bddcc0a51a94faa9a3989daa3e69f2b0581e10b9c8e30ed5",
+      "id": 9,
+      "kind": "MAIN",
+      "opening": [
+        98,
+        186,
+        56,
+        143,
+        86,
+        71
+      ],
+      "seed": 649468719242923615,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9d9802a15fda1dfff25c6f0d4440e3ad2ef9e60eb66f2957ebb850edf6dcc378",
+      "id": 10,
+      "kind": "MAIN",
+      "opening": [
+        154,
+        143,
+        67,
+        95,
+        113,
+        124
+      ],
+      "seed": 4613872288603538007,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ac132ee19618c2a42be185e4fd405892103cf47cfd041e21cb67957785023fb0",
+      "id": 11,
+      "kind": "MAIN",
+      "opening": [
+        67,
+        112,
+        107,
+        111,
+        70,
+        122
+      ],
+      "seed": 8746381837833998063,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "e14e32a080f57a97babe74a4cc3bb39523a55c844e5f86534024abafa81dbfc4",
+      "id": 12,
+      "kind": "MAIN",
+      "opening": [
+        95,
+        66,
+        70,
+        100,
+        142,
+        156
+      ],
+      "seed": 5840993826611130452,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "b7dc7805fb6bc597d74de9eff9a59000663c93802955156db6b7bcc0652b09ae",
+      "id": 13,
+      "kind": "MAIN",
+      "opening": [
+        95,
+        186,
+        175,
+        189,
+        63,
+        52
+      ],
+      "seed": 2981466376034677879,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3ef1734734cc484cc3c6f2dbe3fbdbfee3d270967554dafc7bffcdb84d1887fe",
+      "id": 14,
+      "kind": "MAIN",
+      "opening": [
+        98,
+        142,
+        80,
+        96,
+        130,
+        66
+      ],
+      "seed": 4635491821779529224,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "2c244f1aadeb1b3e9e0eb87ee2293f1e41f38c2385eb901ac00365bf7f9ee39c",
+      "id": 15,
+      "kind": "MAIN",
+      "opening": [
+        40,
+        117,
+        95,
+        187,
+        191,
+        131
+      ],
+      "seed": 7455894248232674222,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1b49b9dbc9063937b6b6b237df90cdceb4d64e1580bb43796b2c204f9940745f",
+      "id": 16,
+      "kind": "MAIN",
+      "opening": [
+        84,
+        98,
+        142,
+        158,
+        82,
+        85
+      ],
+      "seed": 6686128569981651355,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9a6edf9cf34ab4f6efa1db291d55d67576d913545abe965c52f6f39e2065f348",
+      "id": 17,
+      "kind": "MAIN",
+      "opening": [
+        33,
+        129,
+        69,
+        112,
+        63,
+        147
+      ],
+      "seed": 4431614279519488378,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "c2458898560b07e0df0cdf509abcf14e4db7b3796a3eda6daf242059770b812d",
+      "id": 18,
+      "kind": "MAIN",
+      "opening": [
+        125,
+        64,
+        69,
+        67,
+        94,
+        96
+      ],
+      "seed": 8838981846868994653,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d7ab1a45c67a10d61df94b4948f163377b9c831fa5e75ef61387f71f4552589d",
+      "id": 19,
+      "kind": "MAIN",
+      "opening": [
+        36,
+        176,
+        78,
+        145,
+        67,
+        171
+      ],
+      "seed": 2255298911152737292,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "dbe40c8f5a81898814e985a8c91ac958e0dc1b49bf412e9e53e33c7d99025f86",
+      "id": 20,
+      "kind": "MAIN",
+      "opening": [
+        98,
+        157,
+        160,
+        159,
+        81,
+        100
+      ],
+      "seed": 4461764851387782770,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1e236e919abe9aa8229c108a1a29d75dbf21a7b60187471ce80dc611e72766ca",
+      "id": 21,
+      "kind": "MAIN",
+      "opening": [
+        72,
+        177,
+        185,
+        111,
+        132,
+        175
+      ],
+      "seed": 1951953116776930397,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "0dbf81f2d7b7c3fa4153706e2e134c1c8799f2f1aa11bcbf284d13fd7f840d65",
+      "id": 22,
+      "kind": "MAIN",
+      "opening": [
+        95,
+        79,
+        156,
+        143,
+        145,
+        65
+      ],
+      "seed": 496939458628282386,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "93eda7f1f12ecbc86d975a6fdedb18d33c5664839fe3e65c092983af1012b8c1",
+      "id": 23,
+      "kind": "MAIN",
+      "opening": [
+        132,
+        102,
+        81,
+        112,
+        53,
+        174
+      ],
+      "seed": 3790722090018959160,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "8d6f3563174560fff7d6e3e3f23796527270fdcee94b10b22a0968819891fb88",
+      "id": 24,
+      "kind": "MAIN",
+      "opening": [
+        95,
+        129,
+        124,
+        109,
+        70,
+        115
+      ],
+      "seed": 1342576651089593574,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ff5a519ad3ef92f4f9880d5f0dfb459e37bf3c3fff793eeb8dc0694194e8770f",
+      "id": 25,
+      "kind": "MAIN",
+      "opening": [
+        177,
+        71,
+        128,
+        102,
+        173,
+        79
+      ],
+      "seed": 7018644804814188882,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "78f53f9c5213e5452b251b5a5001086cf8ac184c700e43ee0765fb18f6bd02ec",
+      "id": 26,
+      "kind": "MAIN",
+      "opening": [
+        160,
+        85,
+        79,
+        145,
+        68,
+        70
+      ],
+      "seed": 7514925297429760245,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f7d9d1df80f3bdad8abfee75853e75e85834e763e6f262b2c185ff1bfab4a8e7",
+      "id": 27,
+      "kind": "MAIN",
+      "opening": [
+        79,
+        153,
+        80,
+        140,
+        170,
+        33
+      ],
+      "seed": 3525450321465434300,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "477ce2a95677627b77de58fbe122a03978194235037eadd2ee9c650e49fbcd4c",
+      "id": 28,
+      "kind": "MAIN",
+      "opening": [
+        145,
+        143,
+        141,
+        128,
+        109,
+        80
+      ],
+      "seed": 4944581091563681586,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ca058dfaed11248632dfbcfecdf21ef448ab4465d87dc7b0d28af57cd783f27a",
+      "id": 29,
+      "kind": "MAIN",
+      "opening": [
+        37,
+        128,
+        53,
+        77,
+        169,
+        142
+      ],
+      "seed": 6689382889424831336,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ef15a766f85638b7f21f8819db693bfab3b88247d81453d18b684fea9c83217b",
+      "id": 30,
+      "kind": "MAIN",
+      "opening": [
+        81,
+        85,
+        94,
+        139,
+        154,
+        126
+      ],
+      "seed": 4577840632192460071,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c4a12f26c28a1da2f5ff45ad8a6b78636896c8acb89f906976aaa87f211829bf",
+      "id": 31,
+      "kind": "MAIN",
+      "opening": [
+        174,
+        130,
+        126,
+        36,
+        169,
+        145
+      ],
+      "seed": 5333018416628447365,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "c3e32897a7dcc11a9442d77a22e2c3579ed2abec955f0ca1ddb8a4c6af017f43",
+      "id": 32,
+      "kind": "MAIN",
+      "opening": [
+        130,
+        127,
+        155,
+        112,
+        144,
+        128
+      ],
+      "seed": 2448012760407031187,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "12a89a7a1f777e6e0af12dfa44eb6ef659c1c5aea01e77f05cbaf9e2636b63fc",
+      "id": 33,
+      "kind": "MAIN",
+      "opening": [
+        71,
+        130,
+        42,
+        124,
+        47,
+        93
+      ],
+      "seed": 8830835345207782637,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "2e764604527fb0cfe0301fd69a7732755fc6e90a0a290517700f6742b5c03bbe",
+      "id": 34,
+      "kind": "MAIN",
+      "opening": [
+        69,
+        159,
+        157,
+        115,
+        82,
+        80
+      ],
+      "seed": 2218160322837353461,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "e0993976c38a156c8b740bd87905ae067b09d0e02bb0253df4d05820bd8b3bc3",
+      "id": 35,
+      "kind": "MAIN",
+      "opening": [
+        183,
+        83,
+        87,
+        192,
+        52,
+        160
+      ],
+      "seed": 23379259028136020,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "0486346bdec36772e483c4499fe13d6186190fe86cb9a43e1bef04f903c4c02a",
+      "id": 36,
+      "kind": "EXTERNAL",
+      "opening": [
+        155,
+        96,
+        97,
+        129,
+        110,
+        154
+      ],
+      "seed": 8069955907100093662,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "751e4d601d5605ed9bdbb75dc90a9016daca847fa73e1dbb69c42cbc619a8418",
+      "id": 37,
+      "kind": "EXTERNAL",
+      "opening": [
+        80,
+        99,
+        109,
+        92,
+        38,
+        173
+      ],
+      "seed": 7308731981500994632,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f28dc456b1c79dba4734758e5cefc1cb1e2f535e02881db28ff65f32237fc179",
+      "id": 38,
+      "kind": "EXTERNAL",
+      "opening": [
+        65,
+        83,
+        140,
+        124,
+        141,
+        97
+      ],
+      "seed": 8602440249539559070,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3630e4d5ed3a67926e2f29f92be6dcdefe22386f9719434212dccf234e8aaa29",
+      "id": 39,
+      "kind": "EXTERNAL",
+      "opening": [
+        42,
+        39,
+        137,
+        99,
+        190,
+        110
+      ],
+      "seed": 1967239212931238282,
+      "stratum": "broad"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "2d7cbfc46bbc48e9df27ae7dde3c01907c1abac0596eb255821cbe2f2e395a5e",
+      "id": 40,
+      "kind": "EXTERNAL",
+      "opening": [
+        139,
+        81,
+        84,
+        111,
+        127,
+        112
+      ],
+      "seed": 1099962139425019539,
+      "stratum": "central"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "fdf73592a6c0294f12edd53e29b24022841462889ec6b4298be213428c524cc3",
+      "id": 41,
+      "kind": "EXTERNAL",
+      "opening": [
+        111,
+        78,
+        152,
+        108,
+        145,
+        50
+      ],
+      "seed": 8349503362981120573,
+      "stratum": "broad"
+    }
+  ],
+  "main_pairs": 36,
+  "prior_families": 201,
+  "prior_locks": [
+    {
+      "added": 1,
+      "path": "docs/research/quartz_rapfi09_20261125/PAIR_PLAN.json",
+      "sha256": "92ffcd09ad9e449fbe73ae059ea8afa0b60bd771c4265d223d7294a531291108"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi10_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "60b69e9d8bea7b3d1c18332302e05d84b6d1328d7c391e75d81e8acfe1079f6c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_rapfi11_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "ff92c03c1f87b19c7307e2b95d613b30573a0e8147f1a5ad1f4c5422442f1b2c"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi12_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "db9c59fac9c1607167213de64e3f8de25356d30f5a7b5b22846606ccf2da362c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic14_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "1ef9e539893a238a45a4cd38edd17ec06416e1033125ccdb9ee2e1692dcb99a2"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic15_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "e2b5d01457564fd3aa0de3966fc1dcea30f9917629ce3f6ff0743c32f1544ccd"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic16_20261126/C06_PLAN.json",
+      "sha256": "08a46dfbcef2dd628728ef8e248a089883a6b196bd941b75ed030577a56bf8b8"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic19_20261126/G_PLAN.json",
+      "sha256": "ec1c84d3f7973bb6a0d6432b3e23b9a54a38f33eb19b1583ad3368fa5458d201"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic20_20261126/G_PLAN.json",
+      "sha256": "24c403a543ca933f40d93c47c7a62964e07a1c88ffa486228ef5b3af07a54587"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_tactical08_20261125/C07_COHORT.json",
+      "sha256": "14107220a3c60c9fe945f945ff2d91baa58a237bce3fa04ee20a81c18e330475"
+    }
+  ],
+  "scope": "fixed common proof main, separate actual external Rapfi finite time; no refit",
+  "seed": 2026112634
+}
