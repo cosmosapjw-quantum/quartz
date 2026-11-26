@@ -1,0 +1,59 @@
+{
+  "NN": 595340,
+  "cohort": "9d81831bb992f900d1b7da746239b852f867a70f2b58bad4e0aa45655e11507f",
+  "files": [
+    {
+      "NN": 198322,
+      "elapsed": 16.48067657405045,
+      "file": "TRAIN_CAL_ATLAS_0.jsonl.gz",
+      "requests": 8160,
+      "roots": 272,
+      "sha256": "9b5cd8c431e037c5a42de1a2530242911aaea9f5642501e9f3a8d051a29892a3",
+      "visits": 222035
+    },
+    {
+      "NN": 198540,
+      "elapsed": 16.433181428001262,
+      "file": "TRAIN_CAL_ATLAS_1.jsonl.gz",
+      "requests": 8160,
+      "roots": 272,
+      "sha256": "f032985269fc934edf5ae6904d4eb8df5552d806758d0de9c20291806af6c459",
+      "visits": 214919
+    },
+    {
+      "NN": 198478,
+      "elapsed": 16.434087172034197,
+      "file": "TRAIN_CAL_ATLAS_2.jsonl.gz",
+      "requests": 8130,
+      "roots": 271,
+      "sha256": "7fedd46e8d2239f5690efb68fcc9310db17061b713565d930e10b2840361e5f5",
+      "visits": 218683
+    }
+  ],
+  "freeze": null,
+  "identity": {
+    "assets": {
+      "book": "38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38",
+      "helpers": [
+        {
+          "commit": "c33cc621894b58d7ce7ad4e02632de03bfb6c066",
+          "path": "docs/research/quartz_kinetic16_20261126/pair_run.py",
+          "sha256": "1e5d6bb427e6fb162a3252b08650d8407d468b19cd46a61666158ae5639ccb99"
+        },
+        {
+          "commit": "c33cc621894b58d7ce7ad4e02632de03bfb6c066",
+          "path": "docs/research/quartz_kinetic16_20261126/audit.py",
+          "sha256": "bb571e3486d7e6777fb5204906e36b3b46e49a10f579af1b0feb792d5725bf49"
+        }
+      ],
+      "model": "161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24",
+      "oracle": "fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed",
+      "source_binary": "c238b84ca99695e8415974d122b17d576f6b8a30d135d8a5ff92fa88a18bf64b"
+    },
+    "binary": "ba146328384477e2dda96b9fd952f55e9aae3cb6500be35f0ea63e857573a7f5",
+    "source": "1167f9cf18ed49c7a3839938fa5c9c7aef161648"
+  },
+  "requests": 24450,
+  "roots": 815,
+  "visits": 655637
+}
