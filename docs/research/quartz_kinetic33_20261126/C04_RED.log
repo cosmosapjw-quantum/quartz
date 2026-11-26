@@ -1,0 +1,7 @@
+{"evaluator_calls": 36, "realized_iterations": 35, "requested_iteration_limit": 32, "stop_reason": "BudgetExhausted { iterations: 35 }"}
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic33_20261126/docs/research/quartz_kinetic33_20261126/native_red.py", line 13, in <module>
+    assert r['realized_budget']['evaluator_calls']==0,'old A1 does not implement exact pre-search WIN3 certificate'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: old A1 does not implement exact pre-search WIN3 certificate
+exit=1
