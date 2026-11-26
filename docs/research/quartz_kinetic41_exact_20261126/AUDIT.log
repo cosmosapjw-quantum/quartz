@@ -1,0 +1,41 @@
+{
+  "counts": {
+    "rule_checks": 11731,
+    "legal_edges": 127966,
+    "locks": 933,
+    "arena_exact": 1178,
+    "certificates": 3290,
+    "arena_censored": 29
+  },
+  "unique_rule_states": 4389,
+  "exact_corpus": 240,
+  "atlas": 775,
+  "arena_games": 1024,
+  "scalar_comparisons": 80,
+  "scalar_NN": 2794,
+  "exact_dual": "22",
+  "independent": {
+    "counts": {
+      "complete_value_vectors_matched": 1054,
+      "corpus_complete": 222,
+      "corpus_censored": 18,
+      "arena_complete": 832,
+      "arena_censored": 8
+    },
+    "queries": 1080,
+    "nodes": 7929340,
+    "elapsed_s": 1.3647964230040088,
+    "artifact_sha256": "b2ad468f81cbe6b3cbe1fb7c5a7497c1a92f96cab426b91529a7589a35d278cf",
+    "binary_sha256": "a1e943f250eae145e10a12482fc575d11af08960dfd7ddf804c1f0c0ff14c7af",
+    "corpus_censored_best_values": {
+      "0": 15,
+      "1": 3
+    }
+  },
+  "native_identity": {
+    "binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+    "rapfi_assets": 4,
+    "native_execution": "NOT_RUN_K41"
+  },
+  "scope": "all raw histories and votes/aggregates, independent scalar PUCT shared evaluator, independent compiled exhaustive minimax all exact vectors and censored boards; no CI recomputation"
+}
