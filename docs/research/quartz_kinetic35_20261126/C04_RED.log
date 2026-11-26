@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic35_20261126/docs/research/quartz_kinetic35_20261126/native_test.py", line 9, in <module>
+    assert len(a)==4 and a[1].get('schema')=='quartz_rapfi_k35_v1',('K35 native mask/table unavailable',len(a),p.returncode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('K35 native mask/table unavailable', 4, 0)
+exit=1
