@@ -1,0 +1,25 @@
+{
+  "admitted_families": 117,
+  "arena_games": 1024,
+  "atlas_records": 468,
+  "counts": {
+    "alias_games": 512,
+    "certificates": 4992,
+    "legal_edges": 321349,
+    "locks": 1303,
+    "rule_checks": 12785
+  },
+  "exact_dual": "0",
+  "native": {
+    "checks": 23178,
+    "moves": 2186,
+    "nn": 175280
+  },
+  "native_pairs": 64,
+  "reference_games": 384,
+  "scalar_NN": 1689,
+  "scalar_comparisons": 64,
+  "scope": "independent rule replay, scalar PUCT and entropy/value replay with shared evaluator, exact rational dual and game counts, native independent terminal replay; bootstrap CIs not independently recomputed",
+  "source_families": 240,
+  "unique_rule_states": 5092
+}
