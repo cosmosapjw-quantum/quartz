@@ -3,8 +3,12 @@ import pathlib,sys,os,time,math
 os.environ.update(OMP_NUM_THREADS='1',MKL_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',QUARTZ_NO_COMPILE='1')
 from plan import D,ROOT,load,sha
 sys.path.insert(0,str(ROOT))
-sys.path.insert(0,str(D.parent/'quartz_kinetic33_20261126'))
-from proof import root_certificate as proof,from_history,won,FULL
+# Load precisely the frozen rule module without modifying the child import path.
+import importlib.util
+assert D.name=='quartz_kinetic38_nnlock_20261126', D
+spec=importlib.util.spec_from_file_location('_k33_frozen_rule',D.parent/'quartz_kinetic33_20261126/proof.py')
+rule=importlib.util.module_from_spec(spec);spec.loader.exec_module(rule)
+proof,from_history,won,FULL=rule.root_certificate,rule.from_history,rule.won,rule.FULL
 import numpy as np
 import torch
 from quartz.models_torch import AlphaZeroNet
