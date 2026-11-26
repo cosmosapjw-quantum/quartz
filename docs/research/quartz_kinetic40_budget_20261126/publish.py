@@ -19,8 +19,13 @@ def publish(stage,body,paths=()):
     files=[str(p.relative_to(ROOT)),*paths]
     run('git','add','-f','--',*files)
     run('git','diff','--cached','--check')
+    message=f'research(kinetic40 {stage}): budget-constrained matched evaluator study'
     parent=git('rev-parse','HEAD')
-    run('git','commit','-m',f'research(kinetic40 {stage}): budget-constrained matched evaluator study')
+    if git('log','-1','--format=%s')==message:
+        assert not git('diff','--cached','--name-only')
+        parent=git('rev-parse','HEAD^')
+    else:
+        run('git','commit','-m',message)
     head=git('rev-parse','HEAD'); tree=git('rev-parse','HEAD^{tree}')
     for f in files: git('ls-files','--error-unmatch',f)
     assert not git('status','--porcelain')
