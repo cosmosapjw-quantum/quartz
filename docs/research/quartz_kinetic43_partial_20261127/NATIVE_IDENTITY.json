@@ -1,0 +1,10 @@
+{
+  "binary_sha256": "3d0b093d4ae5cffde0e6ae6e8f34cfec1a16cdf312faaa3cddbeefe355d205b1",
+  "bytes": 25256,
+  "source_sha256": "9af9a758bd073bfa861c0ab7aa05b62387309fb022d20ec358b2a92cca3289e3",
+  "source_commit": "7a01b3b1ce15e8838779ca608ef33d4c06bd32e3",
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "build": "g++ -std=c++17 -O3 -Wall -Wextra -fPIC -shared partial43.cpp -o partial43.so",
+  "rapfi_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+  "scope": "native C++ proof library in Python reference PUCT and wrapper of unchanged native K40 Rapfi server"
+}
