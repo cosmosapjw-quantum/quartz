@@ -1,0 +1,10 @@
+PROGRESS TEST_ATLAS 2 25 90 750 1.5
+PROGRESS TEST_ATLAS 1 25 90 750 1.51
+PROGRESS TEST_ATLAS 0 25 90 750 1.52
+PROGRESS TEST_ATLAS 0 50 90 1500 2.97
+PROGRESS TEST_ATLAS 1 50 90 1500 3.01
+PROGRESS TEST_ATLAS 2 50 90 1500 3.04
+PROGRESS TEST_ATLAS 0 75 90 2250 4.43
+PROGRESS TEST_ATLAS 2 75 90 2250 4.49
+PROGRESS TEST_ATLAS 1 75 90 2250 4.5
+COLLECT TEST_ATLAS {'NN': 197221, 'cohort': '9d81831bb992f900d1b7da746239b852f867a70f2b58bad4e0aa45655e11507f', 'files': [{'NN': 65605, 'elapsed': 5.287281965021975, 'file': 'TEST_ATLAS_0.jsonl.gz', 'requests': 2700, 'roots': 90, 'sha256': '7bcacd29c2fe9b49fcc951df03a2d7348dfaed2dea4d1b2c447a28a3be6a355f', 'visits': 70753}, {'NN': 65979, 'elapsed': 5.407501514011528, 'file': 'TEST_ATLAS_1.jsonl.gz', 'requests': 2700, 'roots': 90, 'sha256': '018d5dd8a0547a6ea7db7137ca3c9a7c7a4894175a7ff9ee763d0bc60c2e6d4f', 'visits': 69348}, {'NN': 65637, 'elapsed': 5.353048330987804, 'file': 'TEST_ATLAS_2.jsonl.gz', 'requests': 2700, 'roots': 90, 'sha256': '0e6e28c43a6228951e7a4181586c69f0ef03c491b099c2c063a324384d34af0c', 'visits': 72255}], 'freeze': '958fccff52b629578e0ea75e32dac79e0a1dbd5bbf3a89645c217086e9f9d7e7', 'identity': {'assets': {'book': '38f9834317c37d9516e45a21da598569a5d1556595686593d14c2e63f59c1f38', 'helpers': [{'commit': 'c33cc621894b58d7ce7ad4e02632de03bfb6c066', 'path': 'docs/research/quartz_kinetic16_20261126/pair_run.py', 'sha256': '1e5d6bb427e6fb162a3252b08650d8407d468b19cd46a61666158ae5639ccb99'}, {'commit': 'c33cc621894b58d7ce7ad4e02632de03bfb6c066', 'path': 'docs/research/quartz_kinetic16_20261126/audit.py', 'sha256': 'bb571e3486d7e6777fb5204906e36b3b46e49a10f579af1b0feb792d5725bf49'}], 'model': '161f9e6e26840754384cb47335d1082d837fa014735cbfaa2517209422e29f24', 'oracle': 'fca2b665b1b3dbd88f2f50a7e0ba86fd8ae253f2861da1ad51cf110c69f741ed', 'source_binary': 'c238b84ca99695e8415974d122b17d576f6b8a30d135d8a5ff92fa88a18bf64b'}, 'binary': 'ba146328384477e2dda96b9fd952f55e9aae3cb6500be35f0ea63e857573a7f5', 'source': '1167f9cf18ed49c7a3839938fa5c9c7aef161648'}, 'requests': 8100, 'roots': 270, 'visits': 212356}
