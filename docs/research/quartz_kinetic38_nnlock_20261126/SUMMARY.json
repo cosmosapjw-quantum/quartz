@@ -1,0 +1,111 @@
+{
+  "arms": {
+    "L20": {
+      "CPU_ci": [
+        0.3590358263718628,
+        0.41441283618623903
+      ],
+      "CPU_saving": 0.38854006657291107,
+      "NI_lower": 0.453125,
+      "NN_ci": [
+        0.3669970435781058,
+        0.4239209066795273
+      ],
+      "NN_saving": 0.3970369458308183,
+      "count": {
+        "B_cert": 318,
+        "B_cpu_ns": 35108864210,
+        "B_lock": 0,
+        "B_moves": 692,
+        "B_nn": 12342,
+        "B_rule_ns": 391565986,
+        "B_visits": 11968,
+        "B_wall_ns": 35147840290,
+        "L_cert": 314,
+        "L_cpu_ns": 21312550595,
+        "L_lock": 84,
+        "L_moves": 687,
+        "L_nn": 7388,
+        "L_rule_ns": 383527890,
+        "L_visits": 7015,
+        "L_wall_ns": 21332980420
+      },
+      "draws": 0,
+      "games": 192,
+      "joint": true,
+      "losses": 101,
+      "pairs": 96,
+      "same_color_swap_histories": 55,
+      "score": 0.4739583333333333,
+      "score_ci": [
+        0.4479166666666667,
+        0.5
+      ],
+      "seed_scores": {
+        "101": 0.5,
+        "102": 0.5,
+        "103": 0.421875
+      },
+      "wall_ci": [
+        0.35915583501615234,
+        0.41454862770931133
+      ],
+      "wall_saving": 0.3886326411826886,
+      "wins": 91
+    },
+    "L32": {
+      "CPU_ci": [
+        0.03330066137054055,
+        0.065348320359084
+      ],
+      "CPU_saving": 0.047672244388719864,
+      "NI_lower": 0.5,
+      "NN_ci": [
+        0.04384862449378579,
+        0.07115987460815043
+      ],
+      "NN_saving": 0.05556909578357305,
+      "count": {
+        "B_cert": 307,
+        "B_cpu_ns": 34940500586,
+        "B_lock": 0,
+        "B_moves": 680,
+        "B_nn": 12309,
+        "B_rule_ns": 387944573,
+        "B_visits": 11936,
+        "B_wall_ns": 34975087916,
+        "L_cert": 307,
+        "L_cpu_ns": 33274808503,
+        "L_lock": 84,
+        "L_moves": 680,
+        "L_nn": 11625,
+        "L_rule_ns": 387878604,
+        "L_visits": 11252,
+        "L_wall_ns": 33307949980
+      },
+      "draws": 0,
+      "games": 192,
+      "joint": false,
+      "losses": 96,
+      "pairs": 96,
+      "same_color_swap_histories": 96,
+      "score": 0.5,
+      "score_ci": [
+        0.5,
+        0.5
+      ],
+      "seed_scores": {
+        "101": 0.5,
+        "102": 0.5,
+        "103": 0.5
+      },
+      "wall_ci": [
+        0.033150751065407436,
+        0.06561004640235035
+      ],
+      "wall_saving": 0.04766644018176547,
+      "wins": 96
+    }
+  },
+  "scope": "fixed checkpoint panel, stratified pair bootstrap, descriptive CPU/wall under host contention; no A1 claim"
+}
