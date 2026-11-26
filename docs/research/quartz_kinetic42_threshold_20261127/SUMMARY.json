@@ -1,0 +1,651 @@
+{
+  "arena": {
+    "EARLY": {
+      "NI_lower": 0.5,
+      "NN_CI": [
+        0.04400890238060008,
+        0.05565228565671301
+      ],
+      "attempts": 0,
+      "baseline_moves": 2057,
+      "baseline_nn": 39204,
+      "by_seed": {
+        "101": {
+          "attempts": 0,
+          "baseline_moves": 386,
+          "baseline_nn": 5874,
+          "candidate_moves": 386,
+          "candidate_nn": 4373,
+          "complete": 0,
+          "cpu_reduction": 0.23408887125825517,
+          "draws": 0,
+          "games": 128,
+          "losses": 64,
+          "nn_reduction": 0.2555328566564522,
+          "nodes": 0,
+          "score": 0.5,
+          "wall_reduction": 0.23416520366895588,
+          "wins": 64
+        },
+        "102": {
+          "attempts": 0,
+          "baseline_moves": 489,
+          "baseline_nn": 8943,
+          "candidate_moves": 489,
+          "candidate_nn": 8714,
+          "complete": 0,
+          "cpu_reduction": 0.009286499415831928,
+          "draws": 0,
+          "games": 128,
+          "losses": 64,
+          "nn_reduction": 0.025606619702560618,
+          "nodes": 0,
+          "score": 0.5,
+          "wall_reduction": 0.00950611513081201,
+          "wins": 64
+        },
+        "103": {
+          "attempts": 0,
+          "baseline_moves": 645,
+          "baseline_nn": 14157,
+          "candidate_moves": 645,
+          "candidate_nn": 14157,
+          "complete": 0,
+          "cpu_reduction": -0.009253830776585703,
+          "draws": 0,
+          "games": 128,
+          "losses": 64,
+          "nn_reduction": 0.0,
+          "nodes": 0,
+          "score": 0.5,
+          "wall_reduction": -0.009260816782334258,
+          "wins": 64
+        },
+        "105": {
+          "attempts": 0,
+          "baseline_moves": 537,
+          "baseline_nn": 10230,
+          "candidate_moves": 537,
+          "candidate_nn": 10017,
+          "complete": 0,
+          "cpu_reduction": 0.008114401458219511,
+          "draws": 0,
+          "games": 128,
+          "losses": 64,
+          "nn_reduction": 0.020821114369501403,
+          "nodes": 0,
+          "score": 0.5,
+          "wall_reduction": 0.008133113190049612,
+          "wins": 64
+        }
+      },
+      "candidate_moves": 2057,
+      "candidate_nn": 37261,
+      "complete": 0,
+      "cpu_reduction": 0.036714872556567135,
+      "draws": 0,
+      "first": {
+        "B_cpu_ns": 19802620395,
+        "B_nn": 6996,
+        "B_wall_ns": 19812727241,
+        "Q_cpu_ns": 17173884941,
+        "Q_nn": 6037,
+        "Q_wall_ns": 17178008470
+      },
+      "games": 512,
+      "identical_pairs": 256,
+      "losses": 256,
+      "nn_reduction": 0.049561269258238894,
+      "nodes": 0,
+      "score": 0.5,
+      "score_CI": [
+        0.5,
+        0.5
+      ],
+      "wall_reduction": 0.036763408769588946,
+      "wins": 256
+    },
+    "LATE": {
+      "NI_lower": 0.5911458333333334,
+      "NN_CI": [
+        1.0,
+        1.0
+      ],
+      "attempts": 803,
+      "baseline_moves": 1446,
+      "baseline_nn": 23619,
+      "by_seed": {
+        "101": {
+          "attempts": 213,
+          "baseline_moves": 377,
+          "baseline_nn": 6188,
+          "candidate_moves": 387,
+          "candidate_nn": 0,
+          "complete": 213,
+          "cpu_reduction": 0.9847780850288617,
+          "draws": 63,
+          "games": 96,
+          "losses": 7,
+          "nn_reduction": 1.0,
+          "nodes": 58416,
+          "score": 0.5989583333333334,
+          "wall_reduction": 0.9847831710547384,
+          "wins": 26
+        },
+        "102": {
+          "attempts": 196,
+          "baseline_moves": 358,
+          "baseline_nn": 5478,
+          "candidate_moves": 370,
+          "candidate_nn": 0,
+          "complete": 196,
+          "cpu_reduction": 0.9838485398124481,
+          "draws": 55,
+          "games": 96,
+          "losses": 9,
+          "nn_reduction": 1.0,
+          "nodes": 56511,
+          "score": 0.6197916666666666,
+          "wall_reduction": 0.983857362983626,
+          "wins": 32
+        },
+        "103": {
+          "attempts": 197,
+          "baseline_moves": 353,
+          "baseline_nn": 6033,
+          "candidate_moves": 366,
+          "candidate_nn": 0,
+          "complete": 197,
+          "cpu_reduction": 0.9853086191215616,
+          "draws": 54,
+          "games": 96,
+          "losses": 8,
+          "nn_reduction": 1.0,
+          "nodes": 57606,
+          "score": 0.6354166666666666,
+          "wall_reduction": 0.9852595197148254,
+          "wins": 34
+        },
+        "105": {
+          "attempts": 197,
+          "baseline_moves": 358,
+          "baseline_nn": 5920,
+          "candidate_moves": 371,
+          "candidate_nn": 0,
+          "complete": 197,
+          "cpu_reduction": 0.9846911046264203,
+          "draws": 56,
+          "games": 96,
+          "losses": 8,
+          "nn_reduction": 1.0,
+          "nodes": 58021,
+          "score": 0.625,
+          "wall_reduction": 0.9846891788352666,
+          "wins": 32
+        }
+      },
+      "candidate_moves": 1494,
+      "candidate_nn": 0,
+      "complete": 803,
+      "cpu_reduction": 0.9846671195386365,
+      "draws": 228,
+      "first": {
+        "B_cpu_ns": 18206329740,
+        "B_nn": 6308,
+        "B_wall_ns": 18230629883,
+        "Q_cpu_ns": 142423095,
+        "Q_nn": 0,
+        "Q_wall_ns": 142565353
+      },
+      "games": 384,
+      "identical_pairs": 14,
+      "losses": 32,
+      "nn_reduction": 1.0,
+      "nodes": 230554,
+      "score": 0.6197916666666666,
+      "score_CI": [
+        0.5859375,
+        0.65234375
+      ],
+      "wall_reduction": 0.9846576506482078,
+      "wins": 124
+    },
+    "MID": {
+      "NI_lower": 0.703125,
+      "NN_CI": [
+        0.9581481224402154,
+        1.0
+      ],
+      "attempts": 612,
+      "baseline_moves": 1369,
+      "baseline_nn": 17816,
+      "by_seed": {
+        "101": {
+          "attempts": 158,
+          "baseline_moves": 350,
+          "baseline_nn": 4549,
+          "candidate_moves": 372,
+          "candidate_nn": 98,
+          "complete": 155,
+          "cpu_reduction": 0.954576779860042,
+          "draws": 25,
+          "games": 96,
+          "losses": 14,
+          "nn_reduction": 0.9797308636897628,
+          "nodes": 439706,
+          "score": 0.7239583333333334,
+          "wall_reduction": 0.9545789807408772,
+          "wins": 57
+        },
+        "102": {
+          "attempts": 143,
+          "baseline_moves": 342,
+          "baseline_nn": 4444,
+          "candidate_moves": 364,
+          "candidate_nn": 66,
+          "complete": 141,
+          "cpu_reduction": 0.9612791388617146,
+          "draws": 23,
+          "games": 96,
+          "losses": 13,
+          "nn_reduction": 0.986046132085736,
+          "nodes": 400923,
+          "score": 0.7447916666666666,
+          "wall_reduction": 0.9612935434551524,
+          "wins": 60
+        },
+        "103": {
+          "attempts": 154,
+          "baseline_moves": 339,
+          "baseline_nn": 4434,
+          "candidate_moves": 362,
+          "candidate_nn": 66,
+          "complete": 152,
+          "cpu_reduction": 0.9591771659741113,
+          "draws": 24,
+          "games": 96,
+          "losses": 12,
+          "nn_reduction": 0.9860607510522656,
+          "nodes": 458542,
+          "score": 0.75,
+          "wall_reduction": 0.9591781457201866,
+          "wins": 60
+        },
+        "105": {
+          "attempts": 157,
+          "baseline_moves": 338,
+          "baseline_nn": 4389,
+          "candidate_moves": 362,
+          "candidate_nn": 66,
+          "complete": 155,
+          "cpu_reduction": 0.9587400393235813,
+          "draws": 24,
+          "games": 96,
+          "losses": 12,
+          "nn_reduction": 0.9859593735720517,
+          "nodes": 442885,
+          "score": 0.75,
+          "wall_reduction": 0.9587315205592253,
+          "wins": 60
+        }
+      },
+      "candidate_moves": 1460,
+      "candidate_nn": 296,
+      "complete": 603,
+      "cpu_reduction": 0.958448277908309,
+      "draws": 96,
+      "first": {
+        "B_cpu_ns": 18437616808,
+        "B_nn": 6325,
+        "B_wall_ns": 18445061112,
+        "Q_cpu_ns": 1171502933,
+        "Q_nn": 263,
+        "Q_wall_ns": 1171586036
+      },
+      "games": 384,
+      "identical_pairs": 21,
+      "losses": 51,
+      "nn_reduction": 0.9844212682458741,
+      "nodes": 1742056,
+      "score": 0.7421875,
+      "score_CI": [
+        0.6953125,
+        0.7877604166666666
+      ],
+      "wall_reduction": 0.9584508063949277,
+      "wins": 237
+    }
+  },
+  "benchmark": {
+    "FRESH": {
+      "action": {
+        "complete": 137,
+        "cpu_ns": 189049884,
+        "n": 144,
+        "nodes": 706687,
+        "wall_ns": 189367330
+      },
+      "both_complete": {
+        "cpu_reduction": 0.482825529839766,
+        "n": 126,
+        "nodes_reduction": 0.483710583926686,
+        "wall_reduction": 0.48237633526580104
+      },
+      "census": {
+        "complete": 126,
+        "cpu_ns": 295499358,
+        "n": 144,
+        "nodes": 1159387,
+        "wall_ns": 295786509
+      },
+      "python": {
+        "complete": 74,
+        "cpu_ns": 7249685019,
+        "n": 80,
+        "nodes": 520863,
+        "wall_ns": 7254758105
+      },
+      "python_both": {
+        "cpu_speedup": 373.11355621591235,
+        "n": 74,
+        "wall_speedup": 371.02421707365977
+      }
+    },
+    "K41": {
+      "action": {
+        "complete": 240,
+        "cpu_ns": 61068745,
+        "n": 240,
+        "nodes": 238933,
+        "wall_ns": 61373266
+      },
+      "both_complete": {
+        "cpu_reduction": 0.47890998185891964,
+        "n": 240,
+        "nodes_reduction": 0.5034374259623338,
+        "wall_reduction": 0.47773215029948
+      },
+      "census": {
+        "complete": 240,
+        "cpu_ns": 117194233,
+        "n": 240,
+        "nodes": 481174,
+        "wall_ns": 117513008
+      }
+    },
+    "fresh_e10": {
+      "action": {
+        "complete": 16,
+        "cpu_ns": 3638374,
+        "n": 16,
+        "nodes": 14552,
+        "wall_ns": 3657393
+      },
+      "both_complete": {
+        "cpu_reduction": 0.5004270923026035,
+        "n": 16,
+        "nodes_reduction": 0.514074865595886,
+        "wall_reduction": 0.4991703032371183
+      },
+      "census": {
+        "complete": 16,
+        "cpu_ns": 7282969,
+        "n": 16,
+        "nodes": 29947,
+        "wall_ns": 7302668
+      },
+      "python": {
+        "complete": 16,
+        "cpu_ns": 946579390,
+        "n": 16,
+        "nodes": 70673,
+        "wall_ns": 946703925
+      },
+      "python_both": {
+        "cpu_speedup": 260.1654997534613,
+        "n": 16,
+        "wall_speedup": 258.84664978579
+      }
+    },
+    "fresh_e11": {
+      "action": {
+        "complete": 16,
+        "cpu_ns": 4574400,
+        "n": 16,
+        "nodes": 17208,
+        "wall_ns": 4596212
+      },
+      "both_complete": {
+        "cpu_reduction": 0.5489382833110124,
+        "n": 16,
+        "nodes_reduction": 0.5557850172956786,
+        "wall_reduction": 0.5487213182228059
+      },
+      "census": {
+        "complete": 16,
+        "cpu_ns": 10141406,
+        "n": 16,
+        "nodes": 38738,
+        "wall_ns": 10184864
+      },
+      "python": {
+        "complete": 15,
+        "cpu_ns": 2401323836,
+        "n": 16,
+        "nodes": 169983,
+        "wall_ns": 2403904190
+      },
+      "python_both": {
+        "cpu_speedup": 497.8562175444441,
+        "n": 15,
+        "wall_speedup": 496.04303308987147
+      }
+    },
+    "fresh_e12": {
+      "action": {
+        "complete": 16,
+        "cpu_ns": 10398347,
+        "n": 16,
+        "nodes": 44133,
+        "wall_ns": 10417551
+      },
+      "both_complete": {
+        "cpu_reduction": 0.46417673932887393,
+        "n": 15,
+        "nodes_reduction": 0.4577192087173175,
+        "wall_reduction": 0.4636632171808044
+      },
+      "census": {
+        "complete": 15,
+        "cpu_ns": 22163512,
+        "n": 16,
+        "nodes": 91626,
+        "wall_ns": 22183195
+      },
+      "python": {
+        "complete": 11,
+        "cpu_ns": 3270907727,
+        "n": 16,
+        "nodes": 234790,
+        "wall_ns": 3272985973
+      },
+      "python_both": {
+        "cpu_speedup": 486.9122394862233,
+        "n": 11,
+        "wall_speedup": 485.2997274679823
+      }
+    },
+    "fresh_e13": {
+      "action": {
+        "complete": 16,
+        "cpu_ns": 27210202,
+        "n": 16,
+        "nodes": 108640,
+        "wall_ns": 27244822
+      },
+      "both_complete": {
+        "cpu_reduction": 0.4640137756921626,
+        "n": 15,
+        "nodes_reduction": 0.4538283792448493,
+        "wall_reduction": 0.46358134189451106
+      },
+      "census": {
+        "complete": 15,
+        "cpu_ns": 46871781,
+        "n": 16,
+        "nodes": 190318,
+        "wall_ns": 46902685
+      }
+    },
+    "fresh_e14": {
+      "action": {
+        "complete": 15,
+        "cpu_ns": 32740637,
+        "n": 16,
+        "nodes": 129685,
+        "wall_ns": 32792475
+      },
+      "both_complete": {
+        "cpu_reduction": 0.40311864412498877,
+        "n": 14,
+        "nodes_reduction": 0.4092104761541687,
+        "wall_reduction": 0.40262445097807975
+      },
+      "census": {
+        "complete": 14,
+        "cpu_ns": 52330637,
+        "n": 16,
+        "nodes": 207386,
+        "wall_ns": 52383043
+      }
+    },
+    "fresh_e15": {
+      "action": {
+        "complete": 13,
+        "cpu_ns": 51654991,
+        "n": 16,
+        "nodes": 189971,
+        "wall_ns": 51710046
+      },
+      "both_complete": {
+        "cpu_reduction": 0.6555644975589106,
+        "n": 9,
+        "nodes_reduction": 0.6197094764101319,
+        "wall_reduction": 0.6553831799274944
+      },
+      "census": {
+        "complete": 9,
+        "cpu_ns": 72139101,
+        "n": 16,
+        "nodes": 273856,
+        "wall_ns": 72181834
+      }
+    },
+    "fresh_e16": {
+      "action": {
+        "complete": 13,
+        "cpu_ns": 56003375,
+        "n": 16,
+        "nodes": 193141,
+        "wall_ns": 56083318
+      },
+      "both_complete": {
+        "cpu_reduction": 0.4494610646910163,
+        "n": 9,
+        "nodes_reduction": 0.49004932302464654,
+        "wall_reduction": 0.4493398457465403
+      },
+      "census": {
+        "complete": 9,
+        "cpu_ns": 78747641,
+        "n": 16,
+        "nodes": 308609,
+        "wall_ns": 78788958
+      }
+    },
+    "fresh_e8": {
+      "action": {
+        "complete": 16,
+        "cpu_ns": 1094047,
+        "n": 16,
+        "nodes": 3730,
+        "wall_ns": 1111883
+      },
+      "both_complete": {
+        "cpu_reduction": 0.48133109186966894,
+        "n": 16,
+        "nodes_reduction": 0.48079064587973275,
+        "wall_reduction": 0.4774340061765152
+      },
+      "census": {
+        "complete": 16,
+        "cpu_ns": 2109336,
+        "n": 16,
+        "nodes": 7184,
+        "wall_ns": 2127737
+      },
+      "python": {
+        "complete": 16,
+        "cpu_ns": 203227239,
+        "n": 16,
+        "nodes": 14875,
+        "wall_ns": 203268431
+      },
+      "python_both": {
+        "cpu_speedup": 185.75732029793966,
+        "n": 16,
+        "wall_speedup": 182.81458660668434
+      }
+    },
+    "fresh_e9": {
+      "action": {
+        "complete": 16,
+        "cpu_ns": 1735511,
+        "n": 16,
+        "nodes": 5627,
+        "wall_ns": 1753630
+      },
+      "both_complete": {
+        "cpu_reduction": 0.5325820938735111,
+        "n": 16,
+        "nodes_reduction": 0.5200034120958799,
+        "wall_reduction": 0.5300500465627325
+      },
+      "census": {
+        "complete": 16,
+        "cpu_ns": 3712975,
+        "n": 16,
+        "nodes": 11723,
+        "wall_ns": 3731525
+      },
+      "python": {
+        "complete": 16,
+        "cpu_ns": 427646827,
+        "n": 16,
+        "nodes": 30542,
+        "wall_ns": 427895586
+      },
+      "python_both": {
+        "cpu_speedup": 246.40974733090138,
+        "n": 16,
+        "wall_speedup": 244.00562604426247
+      }
+    }
+  },
+  "counts": {
+    "attempts": 1415,
+    "complete": 1406,
+    "games": 1280,
+    "items": 640,
+    "moves": 9883,
+    "nn": 118196,
+    "nodes": 1972610,
+    "proof_cpu_ns": 565122890
+  },
+  "oracle": {
+    "complete": 144,
+    "items": 144,
+    "nodes": 1889358
+  },
+  "scope": "fixed sampled quiet late/mid and early opening families; same model per game; cold solver benchmark; native full census is shared-implementation reference, independent C++ audit separate"
+}

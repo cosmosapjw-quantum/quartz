@@ -1,0 +1,292 @@
+{
+  "binary": "4fb4ccfd0e63f9a3eb3a7df82a61ffaaf1a9568115178e4e06ee141423b0b5c4",
+  "collector": "f64847592109de0ee947793a7445647e09727f9c6ca415452eec16dbacdfd380",
+  "counts": {
+    "attempts": 1415,
+    "complete": 1406,
+    "games": 1280,
+    "items": 640,
+    "moves": 9883,
+    "nn": 118196,
+    "nodes": 1972610,
+    "proof_cpu_ns": 565122890
+  },
+  "elapsed_s": 63.36494464997668,
+  "engine": "463dd3cd3d2fa99f35dafbedbba565a614cdaa114438bc4c099b3c8380628ac4",
+  "files": [
+    {
+      "counts": {
+        "attempts": 77,
+        "complete": 77,
+        "games": 80,
+        "items": 40,
+        "moves": 472,
+        "nn": 3290,
+        "nodes": 97899,
+        "proof_cpu_ns": 27589094
+      },
+      "elapsed_s": 10.400320010026917,
+      "file": "ARENA_101_2.jsonl.gz",
+      "seed": 101,
+      "sha256": "f92df257cf00beff1a5cd6587874d22446ae9142ff5d4f760f68d93285e41648",
+      "shard": 2
+    },
+    {
+      "counts": {
+        "attempts": 94,
+        "complete": 94,
+        "games": 80,
+        "items": 40,
+        "moves": 648,
+        "nn": 7486,
+        "nodes": 79928,
+        "proof_cpu_ns": 26597222
+      },
+      "elapsed_s": 21.84289923403412,
+      "file": "ARENA_105_0.jsonl.gz",
+      "seed": 105,
+      "sha256": "0b3079dbe5f3506caec4327531116a79f4cce7c48f8f3544511a930ccf394057",
+      "shard": 0
+    },
+    {
+      "counts": {
+        "attempts": 86,
+        "complete": 85,
+        "games": 80,
+        "items": 40,
+        "moves": 664,
+        "nn": 9018,
+        "nodes": 119801,
+        "proof_cpu_ns": 36282717
+      },
+      "elapsed_s": 27.06104443501681,
+      "file": "ARENA_105_1.jsonl.gz",
+      "seed": 105,
+      "sha256": "c4ce64e71afc2a385e188145db1a4748d252f8dd51affebf4e44c26f09185bf6",
+      "shard": 1
+    },
+    {
+      "counts": {
+        "attempts": 78,
+        "complete": 78,
+        "games": 80,
+        "items": 40,
+        "moves": 512,
+        "nn": 4238,
+        "nodes": 92171,
+        "proof_cpu_ns": 26748016
+      },
+      "elapsed_s": 13.206777048995718,
+      "file": "ARENA_102_2.jsonl.gz",
+      "seed": 102,
+      "sha256": "432be376f9c35526aa006a6682a47150f0ecdec3b9b46ce26ad9042aca9fa5ff",
+      "shard": 2
+    },
+    {
+      "counts": {
+        "attempts": 79,
+        "complete": 78,
+        "games": 80,
+        "items": 40,
+        "moves": 644,
+        "nn": 8431,
+        "nodes": 115059,
+        "proof_cpu_ns": 32522377
+      },
+      "elapsed_s": 24.415080044069327,
+      "file": "ARENA_102_1.jsonl.gz",
+      "seed": 102,
+      "sha256": "b52165d98120f27a248230c1ad7fde60148324ecc6aa3f3c700de41cdfdd4454",
+      "shard": 1
+    },
+    {
+      "counts": {
+        "attempts": 93,
+        "complete": 92,
+        "games": 80,
+        "items": 40,
+        "moves": 663,
+        "nn": 8864,
+        "nodes": 166530,
+        "proof_cpu_ns": 46944876
+      },
+      "elapsed_s": 26.16999509895686,
+      "file": "ARENA_102_3.jsonl.gz",
+      "seed": 102,
+      "sha256": "8f63b4681ec0f995f7623615ed419b0090b345d38367d3c2b8d6268a08c12ea9",
+      "shard": 3
+    },
+    {
+      "counts": {
+        "attempts": 92,
+        "complete": 91,
+        "games": 80,
+        "items": 40,
+        "moves": 603,
+        "nn": 6381,
+        "nodes": 114950,
+        "proof_cpu_ns": 31152786
+      },
+      "elapsed_s": 18.62451881391462,
+      "file": "ARENA_101_1.jsonl.gz",
+      "seed": 101,
+      "sha256": "897b72a8c8f3dc0e0852910d46e1007ade5d585a9dd42c4e19981ea89f36c8f5",
+      "shard": 1
+    },
+    {
+      "counts": {
+        "attempts": 106,
+        "complete": 105,
+        "games": 80,
+        "items": 40,
+        "moves": 681,
+        "nn": 9084,
+        "nodes": 208355,
+        "proof_cpu_ns": 60932902
+      },
+      "elapsed_s": 26.952803386957385,
+      "file": "ARENA_105_3.jsonl.gz",
+      "seed": 105,
+      "sha256": "278f9d9be8f8a582e4f681ee60b0f8b06b70f8743a993fbfdf4ad8c811be5c13",
+      "shard": 3
+    },
+    {
+      "counts": {
+        "attempts": 93,
+        "complete": 93,
+        "games": 80,
+        "items": 40,
+        "moves": 533,
+        "nn": 4298,
+        "nodes": 79167,
+        "proof_cpu_ns": 24401477
+      },
+      "elapsed_s": 12.881483105942607,
+      "file": "ARENA_101_0.jsonl.gz",
+      "seed": 101,
+      "sha256": "2a80c47a55e3cace09f030928bc0b1424ec42bfcff82f823195877d2f72b5a22",
+      "shard": 0
+    },
+    {
+      "counts": {
+        "attempts": 90,
+        "complete": 90,
+        "games": 80,
+        "items": 40,
+        "moves": 658,
+        "nn": 8357,
+        "nodes": 80259,
+        "proof_cpu_ns": 23729245
+      },
+      "elapsed_s": 24.284607399022207,
+      "file": "ARENA_103_0.jsonl.gz",
+      "seed": 103,
+      "sha256": "789c174cad1327b6791e90e6d01134503db539ce209d6af5fc5165d60f0e0534",
+      "shard": 0
+    },
+    {
+      "counts": {
+        "attempts": 109,
+        "complete": 107,
+        "games": 80,
+        "items": 40,
+        "moves": 650,
+        "nn": 7113,
+        "nodes": 206106,
+        "proof_cpu_ns": 57748724
+      },
+      "elapsed_s": 20.624936493928544,
+      "file": "ARENA_101_3.jsonl.gz",
+      "seed": 101,
+      "sha256": "3db0bed837f6ada48bfb12fba7d671acc17ae3cd15462feef57b1bf16ba35bd9",
+      "shard": 3
+    },
+    {
+      "counts": {
+        "attempts": 68,
+        "complete": 68,
+        "games": 80,
+        "items": 40,
+        "moves": 510,
+        "nn": 5034,
+        "nodes": 92822,
+        "proof_cpu_ns": 24860564
+      },
+      "elapsed_s": 14.683992163976654,
+      "file": "ARENA_105_2.jsonl.gz",
+      "seed": 105,
+      "sha256": "ecc6c31db0209fe755ca8ff95e8c34debcd7955f3b87a5e2874967f3509fa553",
+      "shard": 2
+    },
+    {
+      "counts": {
+        "attempts": 89,
+        "complete": 89,
+        "games": 80,
+        "items": 40,
+        "moves": 593,
+        "nn": 6112,
+        "nodes": 83674,
+        "proof_cpu_ns": 22795632
+      },
+      "elapsed_s": 18.235792402992956,
+      "file": "ARENA_102_0.jsonl.gz",
+      "seed": 102,
+      "sha256": "8d86c25d63e1cafdd5e61f9887ffb01ec4d9332cded93857466b92949da6db6b",
+      "shard": 0
+    },
+    {
+      "counts": {
+        "attempts": 80,
+        "complete": 79,
+        "games": 80,
+        "items": 40,
+        "moves": 758,
+        "nn": 12332,
+        "nodes": 113427,
+        "proof_cpu_ns": 30149963
+      },
+      "elapsed_s": 33.60530983598437,
+      "file": "ARENA_103_1.jsonl.gz",
+      "seed": 103,
+      "sha256": "dc0a977c535ed9893017002889aaea28cea409ae6267ad75b88c75f4fa601390",
+      "shard": 1
+    },
+    {
+      "counts": {
+        "attempts": 100,
+        "complete": 99,
+        "games": 80,
+        "items": 40,
+        "moves": 758,
+        "nn": 12383,
+        "nodes": 206031,
+        "proof_cpu_ns": 58216116
+      },
+      "elapsed_s": 34.50199343706481,
+      "file": "ARENA_103_3.jsonl.gz",
+      "seed": 103,
+      "sha256": "83de8bd1174e316475eb6b44415d76f067e0fe246561c2cb40ef49099bdc8b0d",
+      "shard": 3
+    },
+    {
+      "counts": {
+        "attempts": 81,
+        "complete": 81,
+        "games": 80,
+        "items": 40,
+        "moves": 536,
+        "nn": 5775,
+        "nodes": 116431,
+        "proof_cpu_ns": 34451179
+      },
+      "elapsed_s": 17.123824612004682,
+      "file": "ARENA_103_2.jsonl.gz",
+      "seed": 103,
+      "sha256": "64b35731153b334c9d72006b6e589e295298e492dea18ea363277f48eae095be",
+      "shard": 2
+    }
+  ],
+  "plan": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d",
+  "source": "33001794de76b652ab5b3fdd12c68d7f4aa7e42f933029d3bcc06968d8d9ba20"
+}
