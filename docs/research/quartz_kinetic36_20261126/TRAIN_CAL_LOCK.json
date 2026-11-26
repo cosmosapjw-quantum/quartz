@@ -1,0 +1,96 @@
+{
+  "code": "7d8d13a8e85cb57097aa7b4b97d73a3f42fb4349a5229578b7363c851125e58f",
+  "cohort": "5008a5a326f1c08dadfe3edf14145252cf953b2d13250252aaf2752d653a0fef",
+  "counts": {
+    "NN": 179597,
+    "actions": 185,
+    "label_NN": 679823,
+    "label_requests": 5618,
+    "label_visits": 814278,
+    "labels": 370,
+    "requests": 1600,
+    "roots": 160,
+    "visits": 197349
+  },
+  "files": [
+    {
+      "NN": 31931,
+      "actions": 30,
+      "file": "TRAIN_CAL_0.jsonl.gz",
+      "label_NN": 69718,
+      "label_requests": 690,
+      "label_visits": 91918,
+      "labels": 60,
+      "requests": 270,
+      "roots": 27,
+      "sha256": "631d6e4998ab16debd137779f0c0f9dfc496e8d0b69f1b175d00c55f37255a84",
+      "visits": 33836
+    },
+    {
+      "NN": 28780,
+      "actions": 30,
+      "file": "TRAIN_CAL_1.jsonl.gz",
+      "label_NN": 114513,
+      "label_requests": 949,
+      "label_visits": 134727,
+      "labels": 60,
+      "requests": 270,
+      "roots": 27,
+      "sha256": "79a2b114e362573906547c521888d1d063eb85d1cc603c1a2d25c827ddc30b3f",
+      "visits": 33139
+    },
+    {
+      "NN": 31648,
+      "actions": 30,
+      "file": "TRAIN_CAL_2.jsonl.gz",
+      "label_NN": 100166,
+      "label_requests": 921,
+      "label_visits": 124076,
+      "labels": 60,
+      "requests": 270,
+      "roots": 27,
+      "sha256": "4dee26a8a21444f365efe6b49c74b55e91d7714183ea5916bd49f1e1e875dd1b",
+      "visits": 33284
+    },
+    {
+      "NN": 28637,
+      "actions": 32,
+      "file": "TRAIN_CAL_3.jsonl.gz",
+      "label_NN": 142008,
+      "label_requests": 993,
+      "label_visits": 162256,
+      "labels": 64,
+      "requests": 270,
+      "roots": 27,
+      "sha256": "f0eab64997d42a101025a81683e62c498ba63dc2e03d0ec5d7e80d6c22497b91",
+      "visits": 33484
+    },
+    {
+      "NN": 28715,
+      "actions": 32,
+      "file": "TRAIN_CAL_4.jsonl.gz",
+      "label_NN": 143319,
+      "label_requests": 1137,
+      "label_visits": 167004,
+      "labels": 64,
+      "requests": 260,
+      "roots": 26,
+      "sha256": "23942bc688e16d54996f9b7f91ae35c133cb1600697cc100b3d3fc72b12502ff",
+      "visits": 32343
+    },
+    {
+      "NN": 29886,
+      "actions": 31,
+      "file": "TRAIN_CAL_5.jsonl.gz",
+      "label_NN": 110099,
+      "label_requests": 928,
+      "label_visits": 134297,
+      "labels": 62,
+      "requests": 260,
+      "roots": 26,
+      "sha256": "d17e5571033f8afaf7e36c351b4f386e815e154c36b3f982d3696685e092640b",
+      "visits": 31263
+    }
+  ],
+  "freeze": null
+}
