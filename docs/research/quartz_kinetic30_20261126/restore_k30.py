@@ -10,8 +10,17 @@ def main():
     bundle=B/rec['bundle'];assert sha(bundle)==rec['sha256']
     receipts=[json.loads(x) for x in (B/'STAGE_RECEIPTS.jsonl').read_text().splitlines()]
     chain=git('rev-list','--reverse',f'{BASE}..{head}').splitlines()
-    assert chain==[x['head'] for x in receipts]
-    assert all(x['remote']==x['head'] and x['parent']==p for x,p in zip(receipts,[BASE]+chain[:-1]))
+    # R02 failed the clean-tree gate before bundle/push; R02A cumulatively
+    # included that exact commit. Do not invent a standalone R02 receipt.
+    r02='ec655e487b4ff8881a09b3e034ab92a45c80bc37'
+    r02a='020ee2d586fa04f1fa94dab0374e5bcfc4330d58'
+    assert chain.count(r02)==1 and chain[chain.index(r02)+1]==r02a
+    assert git('show','-s','--format=%P',r02a)==r02
+    assert chain==[x['head'] for x in receipts[:1]]+[r02]+[x['head'] for x in receipts[1:]]
+    assert receipts[1]['stage']=='R02A' and receipts[1]['head']==r02a
+    for x in receipts:
+        assert x['remote']==x['head']
+        assert x['parent']==git('show','-s','--format=%P',x['head'])
     clean=[json.loads(x) for x in (B/'CLEANUP.jsonl').read_text().splitlines()]
     assert len(clean)==len(receipts)-1 and sorted(p.name for p in B.glob('*.bundle'))==[bundle.name]
     assert all(c['old_head']==x['head'] and c['new_head']==y['head'] and c['old_sha256']==x['sha256'] and c['superseding']==y['bundle'] for c,x,y in zip(clean,receipts,receipts[1:]))
@@ -30,5 +39,5 @@ def main():
     bi=json.loads((D/'RUST_BUILD_IDENTITY.json').read_text())
     binary=ROOT.parent/'quartz_kinetic30_target_20261126/mcts_demo'
     assert sha(B/'mcts_demo')==sha(binary)==bi['binary_sha256']
-    return dict(head=head,tree=rec['tree'],remote=rec['remote'],bundle=bundle.name,bundle_sha256=sha(bundle),bytes=rec['bytes'],binary_sha256=sha(binary),restored_files=len(files),stage_count=len(receipts),cleanup_count=len(clean),external_base=BASE,actual_restore=True,connectivity_fsck=True,cloud_sync='NOT_VERIFIED')
+    return dict(head=head,tree=rec['tree'],remote=rec['remote'],bundle=bundle.name,bundle_sha256=sha(bundle),bytes=rec['bytes'],binary_sha256=sha(binary),restored_files=len(files),commit_count=len(chain),stage_count=len(receipts),cumulative_only_commit=r02,cumulative_receipt=r02a,cleanup_count=len(clean),external_base=BASE,actual_restore=True,connectivity_fsck=True,cloud_sync='NOT_VERIFIED')
 if __name__=='__main__':print(json.dumps(main(),indent=2,sort_keys=True),flush=True)
