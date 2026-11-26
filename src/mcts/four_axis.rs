@@ -202,12 +202,13 @@ pub struct Hooks{
     gomoku_b_steps:Mutex<Vec<Value>>,
     merge24:Option<Mutex<Merge24>>,merge24_mode:u8,
     k25:Option<K25>,
+    k32:Option<K32>,
 }
 impl Hooks{
     pub fn new(mask:u8)->Self{Self::new_modes(mask&3,if mask&V!=0{1}else{0},if mask&B!=0{4}else{0},false)}
     pub fn new_modes(mask:u8,vmode:u8,bmode:u8,trace:bool)->Self{
         assert!(mask<=3&&vmode<=4&&bmode<=5);
-        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,tactical_root_floor:0,tactical_root_first:None,decision_force:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),gomoku_ledger:None,gomoku_b_steps:Mutex::new(Vec::new()),merge24:None,merge24_mode:0,k25:None,leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
+        Self{mask,vmode,bmode,trace,record_repeats:false,solved_returns:Mutex::new(std::collections::BTreeSet::new()),local_mode:0,local_remaining:AtomicU64::new(0),local_focus:None,local_frontier:None,tactical_root_floor:0,tactical_root_first:None,decision_force:None,counts:std::array::from_fn(|_|AtomicU64::new(0)),ledger:Mutex::new(Ledger::default()),gomoku_ledger:None,gomoku_b_steps:Mutex::new(Vec::new()),merge24:None,merge24_mode:0,k25:None,k32:None,leaf_paths:Mutex::new(Vec::new()),workers:AtomicU64::new(0),graph:Mutex::new(Graph::default()),proof_mode:0,proof_priority:true,trace_b:false,b_events:Mutex::new(Vec::new())}
     }
     // Scope only exact unrestricted Freestyle15 board-only evaluator seam.
     pub fn with_gomoku_exact_merge(mut self)->Self{
@@ -268,7 +269,7 @@ impl Hooks{
         let c=node.candidates.get()?;
         c.iter().enumerate().find_map(|(i,(mv,_))|{
             let m=s.move_to_idx(*mv);
-            if (if mode==2{i>=visible}else{m==wanted})&&allowed.contains(&m)&&safe.contains(&m)&&aa.iter().any(|&(j,(l,u))|j==m&&l<u){Some((i,m))}else{None}
+            if (if mode==2{i>=if self.k32.is_some(){visible.max(node.materialized_count())}else{visible}}else{m==wanted})&&allowed.contains(&m)&&safe.contains(&m)&&aa.iter().any(|&(j,(l,u))|j==m&&l<u){Some((i,m))}else{None}
         })
     }
     pub fn local_applied(&self,mode:u8,depth:usize){
@@ -292,14 +293,15 @@ impl Hooks{
     fn register_locked<G:GameState>(&self,g:&mut Graph,s:&G)->Key{
         let k=exact_key(s);if g.registered(k){return k;}
         self.add(22,1);
+        let clock=self.k32.as_ref().map(|_|std::time::Instant::now());
         if s.is_terminal(){g.terminal(k,s.outcome() as i8);return k;}
         let mut a=Vec::new();
         for mv in s.legal_moves(){
-            let c=s.apply_move(mv);let ck=exact_key(&c);self.add(23,1);
+            let c=s.apply_move(mv);let ck=exact_key(&c);self.add(23,1);if let Some(k)=&self.k32{k.checks.fetch_add(1,Ordering::Relaxed);}
             if c.is_terminal(){g.terminal(ck,c.outcome() as i8);}
             a.push((s.move_to_idx(mv),ck));
         }
-        g.register(k,a);k
+        g.register(k,a);if let (Some(k),Some(t))=(&self.k32,clock){k.reg_ns.fetch_add(t.elapsed().as_nanos() as u64,Ordering::Relaxed);}k
     }
     pub fn proof_register<G:GameState>(&self,s:&G)->Option<I>{
         if self.proof_mode==0{return None;}
@@ -310,7 +312,7 @@ impl Hooks{
         let mut g=self.graph.lock().unwrap();let k=self.register_locked(&mut g,s);
         if self.proof_mode==1{return None;}
         let iv=g.interval(k);self.add(27,1);
-        if depth>0&&iv.0==iv.1{return Some(ProofPlan{stop:true,allowed:Vec::new()});}
+        if depth>0&&iv.0==iv.1&&self.k32.is_none(){return Some(ProofPlan{stop:true,allowed:Vec::new()});}
         let all=g.actions(k);let mut allowed=g.allowed(k);let n0=allowed.len();
         if depth==0{
             if let Some(w)=g.witness(k){allowed=vec![w];}
@@ -451,6 +453,7 @@ impl Hooks{
             if k.trace{steps.push(json!({"eligible":eligible,"novel":novel,"blocked":blocked,"mean":mean,"incoming":incoming,"backup":y}));}
         }
         l.events+=1;
+        if let Some(p)=&self.k32{p.paths.lock().unwrap().push(moves.clone());}
         if k.trace{steps.reverse();l.trace.push(json!({"path":moves,"raw":raw_leaf,"leaf":value,"terminal":terminal,"mask":self.mask|if self.vmode!=0{V}else{0}|if k.b{B}else{0},"steps":steps}));}
     }
     pub fn with_merge24(mut self)->Self{
@@ -620,13 +623,13 @@ impl<G:GameState> MctsEngine<G>{
             self.par_ctrl.should_reserve_virtual_loss(),&self.par_ctrl,h);
         h.k25_time(0,select_start);
         if let Some(t)=rayon::current_thread_index(){if t<64{h.workers.fetch_or(1u64<<t,Ordering::Relaxed);}}
-        if let Some(ref f)=h.local_frontier{if exact_key(&sel.leaf_state)==f.key{h.add(33,1);}}
+        if let Some(ref f)=h.local_frontier{if exact_key(&sel.leaf_state)==f.key{h.add(33,1);if let Some(k)=&h.k32{k.frontier_hits.fetch_add(1,Ordering::Relaxed);}}}
         let terminal=sel.leaf_state.is_terminal();
         let mut proved=terminal;let mut raw_base=0f32;
         let known_interval=h.proof_register(&sel.leaf_state);
         let value=if terminal{
             h.add(12,1);h.k26_refund();raw_base=sel.leaf_state.outcome();raw_base
-        }else if h.proof_mode==2&&known_interval.is_some_and(|x|x.0==x.1){
+        }else if h.proof_mode==2&&h.k32.is_none()&&known_interval.is_some_and(|x|x.0==x.1){
             h.add(24,1);
             if h.record_repeats&&!h.solved_returns.lock().unwrap().insert(exact_key(&sel.leaf_state)){h.add(36,1);}
             proved=true;known_interval.unwrap().0 as f32
@@ -731,7 +734,7 @@ impl<G:GameState> MctsEngine<G>{
     // unused balance back into the common pool. r=0 is K26 common pool.
     pub fn four_axis_k27_budget(&self,target:u64,cap:u32,threads:usize,wave:bool,reserve:u64,h:&Hooks)->Value{
         assert!(target>0&&cap>0&&reserve<target&&matches!(threads,1|2|4|8));
-        assert_eq!(h.proof_mode,0);assert!(h.vmode==0||h.vmode==1);assert!(reserve==0||h.vmode==1);
+        assert!(h.proof_mode==0||(h.proof_mode==1&&h.k32.is_some()));assert!(h.vmode==0||h.vmode==1);assert!(reserve==0||h.vmode==1);
         let k=h.k25.as_ref().unwrap();assert_eq!(k.active.load(Ordering::Acquire),0);
         assert_eq!(k.budget26.swap(target-reserve,Ordering::AcqRel),u64::MAX);
         assert_eq!(k.refine27.swap(if reserve>0{reserve}else{u64::MAX},Ordering::AcqRel),u64::MAX);
@@ -860,5 +863,155 @@ impl<G:GameState> MctsEngine<G>{
         let e:Vec<_>=self.root.read_edges().iter().map(|e|json!({"move":self.root_state.move_to_idx(e.mv),"n":e.n.load(Ordering::Acquire),"w":atomic_f64_load(&e.w),"m2":atomic_f64_load(&e.m2),"prior":e.p,"child_hash":format!("{:016x}",e.child.hash),"vl":e.virtual_losses.load(Ordering::Acquire),"vvalue":atomic_f64_load(&e.virtual_value)})).collect();
         let c:Vec<_>=self.root.candidates.get().map(|c|c.iter().map(|(mv,p)|json!([self.root_state.move_to_idx(*mv),p])).collect()).unwrap_or_default();
         json!({"root_hash":format!("{:016x}",self.root_state.tt_hash()),"root_n":self.root.n_total.load(Ordering::Acquire),"root_w":atomic_f64_load(&self.root.w_total),"candidates":c,"edges":e,"best":self.best_move().map(|x|self.root_state.move_to_idx(x)),"evaluator_calls":self.evaluator_call_count(),"tt_size":self.tt.size()})
+    }
+}
+
+// K32: proof facts stay separate from the raw NN receipt ledger.
+struct K32{
+    paths:Mutex<Vec<Vec<usize>>>, forced:Mutex<Vec<Value>>,
+    checks:AtomicU64,replay:AtomicU64,reg_ns:AtomicU64,frontier_hits:AtomicU64,
+}
+impl K32{fn new()->Self{Self{paths:Mutex::new(Vec::new()),forced:Mutex::new(Vec::new()),checks:AtomicU64::new(0),replay:AtomicU64::new(0),reg_ns:AtomicU64::new(0),frontier_hits:AtomicU64::new(0)}}}
+fn k32_fifo(g:&Graph,root:Key)->Option<Vec<usize>>{
+    use std::collections::{BTreeSet,VecDeque};
+    let mut seen=BTreeSet::from([root]);let mut q=VecDeque::from([(root,Vec::new())]);
+    while let Some((k,p))=q.pop_front(){
+        let (l,u)=g.interval(k);if l==u{continue;}
+        if !g.registered(k){return Some(p);}
+        let ok=g.allowed(k);
+        if let Some(aa)=&g.nodes[&k].actions{for &(m,c) in aa{
+            if ok.contains(&m)&&seen.insert(c){let mut t=p.clone();t.push(m);q.push_back((c,t));}
+        }}
+    }
+    None
+}
+impl Hooks{
+    pub fn with_k32(mut self)->Self{
+        assert!(self.k25.is_some()&&self.proof_mode==0);
+        self.k32=Some(K32::new());self.proof_mode=1;self.proof_priority=false;self
+    }
+    pub fn k32_init<G:GameState>(&self,s:&G){
+        let k=self.k32.as_ref().unwrap();assert_eq!(self.proof_mode,1);
+        let mut g=self.graph.lock().unwrap();self.register_locked(&mut g,s);
+        for m in s.legal_moves(){k.replay.fetch_add(1,Ordering::Relaxed);self.register_locked(&mut g,&s.apply_move(m));}
+    }
+    pub fn k32_activate(&mut self){
+        assert!(self.k32.is_some());assert_eq!(self.k25.as_ref().unwrap().active.load(Ordering::Acquire),0);
+        self.proof_mode=2;self.proof_priority=false;
+    }
+    pub fn k32_forced<G:GameState>(&self,s:&G,mode:u8,depth:usize,rank:usize,mv:G::Move,before:usize,after:usize,visible:usize){
+        if let Some(k)=&self.k32{
+            k.forced.lock().unwrap().push(json!({"key":keyhex(exact_key(s)),"mode":mode,"depth":depth,"rank":rank,"move":s.move_to_idx(mv),"before":before,"after":after,"visible":visible,"hidden":rank>=before}));
+        }
+    }
+    pub fn k32_report<G:GameState>(&self,s:&G,l:&LiteRoot,anchor:usize,dump:bool,paths:bool)->Value{
+        let Some(k)=&self.k32 else{return Value::Null;};
+        let vs:Vec<_>=l.moves[..l.len].iter().copied().zip(l.n[..l.len].iter().copied()).collect();
+        let mut v=self.root_proof(s,anchor,&vs,dump);
+        let aa=self.graph.lock().unwrap().actions(exact_key(s));
+        v["risk"]=json!(super::proof_graph::risk_width(&aa));
+        v["checks"]=json!(k.checks.load(Ordering::Relaxed));v["replay"]=json!(k.replay.load(Ordering::Relaxed));
+        v["rule_work"]=json!(k.checks.load(Ordering::Relaxed)+k.replay.load(Ordering::Relaxed));
+        v["reg_ns"]=json!(k.reg_ns.load(Ordering::Relaxed));v["frontier_hits"]=json!(k.frontier_hits.load(Ordering::Relaxed));
+        v["forced"]=json!(*k.forced.lock().unwrap());
+        v["paths"]=if paths{json!(*k.paths.lock().unwrap())}else{Value::Null};
+        v
+    }
+}
+impl<G:GameState> MctsEngine<G>{
+    pub fn k32_rule_expand(&self,h:&Hooks,anchor:usize)->Value{
+        let k=h.k32.as_ref().unwrap();let root=&self.root_state;let rk=exact_key(root);let l=self.four_axis_lite();
+        let mut steps=Vec::new();
+        for _ in 0..8{
+            let t=std::time::Instant::now();
+            let (path,score,scored,kind)={
+                let g=h.graph.lock().unwrap();if g.witness(rk).is_some(){break;}
+                let(f,n)=g.frontier(rk,16);
+                if let Some(f)=f{(Some(f.path.iter().map(|x|x.1).collect::<Vec<_>>()),Some(f.score),n,"FRONTIER")}
+                else{(k32_fifo(&g,rk),None,n,"FIFO_FALLBACK")}
+            };
+            let plan_ns=t.elapsed().as_nanos() as u64;
+            let Some(path)=path else{break;};let mut s=root.clone();
+            for &m in &path{
+                assert!(!s.is_terminal());let mv=s.legal_moves().into_iter().find(|&mv|s.move_to_idx(mv)==m).unwrap();
+                s=s.apply_move(mv);k.replay.fetch_add(1,Ordering::Relaxed);
+            }
+            let key=exact_key(&s);assert!(!s.is_terminal());
+            {let mut g=h.graph.lock().unwrap();assert!(!g.registered(key)&&g.nodes.contains_key(&key));h.register_locked(&mut g,&s);}
+            steps.push(json!({"path":path,"key":keyhex(key),"kind":kind,"score":score,"scored":scored,"plan_ns":plan_ns,"post":h.k32_report(root,&l,anchor,false,false)}));
+        }
+        json!(steps)
+    }
+    fn k32_prepare(&self,h:&mut Hooks,guide:u8)->Value{
+        h.local_mode=0;h.local_frontier=None;h.local_remaining.store(0,Ordering::Release);
+        if guide==0{return Value::Null;}
+        assert!(h.k32.is_some()&&h.proof_mode==2&&(guide==2||guide==3));
+        let t=std::time::Instant::now();let mut n=0;
+        if guide==3{
+            let(f,s)=h.graph.lock().unwrap().frontier(exact_key(&self.root_state),16);
+            h.local_frontier=f;n=s;
+        }
+        h.local_mode=if h.local_frontier.is_some(){3}else{2};h.local_remaining.store(1,Ordering::Release);
+        json!({"mode":h.local_mode,"scored":n,"plan_ns":t.elapsed().as_nanos() as u64,
+          "target":h.local_frontier.as_ref().map(|f|json!({"key":keyhex(f.key),"path":f.path.iter().map(|x|x.1).collect::<Vec<_>>(),"score":f.score}))})
+    }
+    // One common resource pool plus optional V floor; certificate checks only at joins.
+    pub fn four_axis_k32_budget(&self,target:u64,cap:u32,threads:usize,reserve:u64,guide:u8,cert_stop:bool,h:&mut Hooks)->Value{
+        assert!(target>0&&target<=64&&cap>0&&reserve<target&&matches!(threads,1|4|8));
+        assert!(reserve==0||h.vmode==1);
+        assert!(h.proof_mode==0||h.k32.is_some());
+        assert!(!cert_stop||h.proof_mode==2);
+        {
+            let k=h.k25.as_ref().unwrap();assert_eq!(k.active.load(Ordering::Acquire),0);
+            assert_eq!(k.budget26.load(Ordering::Acquire),u64::MAX);assert_eq!(k.refine27.load(Ordering::Acquire),u64::MAX);
+            assert_eq!(k.floor28.swap(pack28(target-reserve,reserve),Ordering::AcqRel),u64::MAX);
+        }
+        self.par_ctrl.set_n_threads(threads as u32);self.par_ctrl.reset_for_search();
+        let before=self.root.n_total.load(Ordering::Acquire);let calls=self.evaluator_call_count();
+        let base0=h.counts[7].load(Ordering::Acquire);let ext0=h.counts[8].load(Ordering::Acquire);
+        let mut used=0u32;let mut released=0;let mut pre_base=0;let mut pre_extra=0;let mut borrowed=0;let mut protected=0;
+        let mut pre_visits=0;let mut rounds=Vec::new();let mut certified=false;
+        for phase in 0..2{
+            loop{
+                if cert_stop&&h.root_control(&self.root_state).0.is_some(){certified=true;break;}
+                let shared=pools28(h.k25.as_ref().unwrap().floor28.load(Ordering::Acquire)).0;
+                if used>=cap||shared==0{break;}
+                let quota=(cap-used).min(8);let plan=self.k32_prepare(h,guide);let nn0=self.evaluator_call_count();
+                let forced0=h.k32.as_ref().map_or(0,|k|k.forced.lock().unwrap().len());
+                let tickets=AtomicU32::new(0);
+                {
+                    let hr:&Hooks=h;
+                    let worker=||loop{
+                        if !hr.k26_claim(1){break;}
+                        if tickets.fetch_update(Ordering::AcqRel,Ordering::Acquire,|n|if n<quota{Some(n+1)}else{None}).is_err(){hr.k26_refund();break;}
+                        hr.k25_enter();self.four_iterate(hr);hr.k25_leave();
+                    };
+                    if threads==1{worker();}else{rayon::scope(|s|{for _ in 0..threads{let w=&worker;s.spawn(move |_|w());}});}
+                }
+                assert_eq!(h.k25.as_ref().unwrap().active.load(Ordering::Acquire),0);
+                let n=tickets.load(Ordering::Acquire);assert!(n>0&&n<=quota);used+=n;
+                let(s,p)=pools28(h.k25.as_ref().unwrap().floor28.load(Ordering::Acquire));
+                assert_eq!(self.evaluator_call_count()-calls+s+p,target);
+                let w=if cert_stop{h.root_control(&self.root_state).0}else{None};
+                rounds.push(json!({"phase":phase,"plan":plan,"visits":n,"nn":self.evaluator_call_count()-nn0,"shared":s,"protected":p,"witness":w,
+                  "forced":h.k32.as_ref().map_or(0,|k|k.forced.lock().unwrap().len())-forced0}));
+                if w.is_some(){certified=true;break;}
+            }
+            if phase==0{
+                let(s,p)=pools28(h.k25.as_ref().unwrap().floor28.load(Ordering::Acquire));
+                released=p;protected=reserve-p;pre_base=h.counts[7].load(Ordering::Acquire)-base0;pre_extra=h.counts[8].load(Ordering::Acquire)-ext0;pre_visits=used;
+                borrowed=pre_extra-protected;assert_eq!(pre_base+borrowed+s,target-reserve);
+                h.k25.as_ref().unwrap().floor28.store(pack28(s+p,0),Ordering::Release);
+            }
+            if certified{break;}
+        }
+        h.local_mode=0;h.local_frontier=None;h.local_remaining.store(0,Ordering::Release);
+        let(free,p)=pools28(h.k25.as_ref().unwrap().floor28.swap(u64::MAX,Ordering::AcqRel));assert_eq!(p,0);
+        let nn=self.evaluator_call_count()-calls;assert_eq!(target-free,nn);
+        assert_eq!(self.root.n_total.load(Ordering::Acquire),before+used);
+        assert_eq!(nn,h.counts[7].load(Ordering::Acquire)-base0+h.counts[8].load(Ordering::Acquire)-ext0);
+        json!({"target":target,"cap":cap,"used_nn":nn,"unused":free,"visits":used,"rounds":rounds,
+          "reserve":reserve,"released":released,"protected_base":pre_base,"protected_extra":protected,"protected_visits":pre_visits,"borrowed":borrowed,"pre_extra":pre_extra,
+          "denied_refinement":h.k26_denied(),"cause":if certified{"CERTIFIED"}else if free==0{"NN_TARGET"}else{"VISIT_CAP"}})
     }
 }

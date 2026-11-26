@@ -1223,6 +1223,7 @@ where
 
         if locally_forced{
             axes.unwrap().local_applied(local_claim,depth);
+            axes.unwrap().k32_forced(cur_state,local_claim,depth,best_idx,edges[best_idx].mv,n_mat,n_edges,base_visible);
             if local_claim==2{expanded_local=true;}
         }
         let best_mv = edges[best_idx].mv;
