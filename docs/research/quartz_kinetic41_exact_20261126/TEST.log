@@ -1,0 +1,26 @@
+SHARD EXACT_TEST 0 3 {'complete': 8, 'censored': 0, 'solver_nodes': 26436, 'solver_cpu_ns': 542722509, 'items': 8}
+SHARD EXACT_TEST 0 5 {'complete': 7, 'censored': 0, 'solver_nodes': 18145, 'solver_cpu_ns': 412545651, 'items': 7}
+SHARD EXACT_TEST 0 6 {'complete': 7, 'censored': 0, 'solver_nodes': 30100, 'solver_cpu_ns': 579011455, 'items': 7}
+SHARD EXACT_TEST 0 2 {'complete': 7, 'censored': 1, 'solver_nodes': 45959, 'solver_cpu_ns': 743423959, 'items': 8}
+SHARD EXACT_TEST 0 0 {'complete': 7, 'censored': 1, 'solver_nodes': 50124, 'solver_cpu_ns': 888068198, 'items': 8}
+SHARD EXACT_TEST 0 7 {'complete': 7, 'censored': 0, 'solver_nodes': 35583, 'solver_cpu_ns': 702002522, 'items': 7}
+SHARD EXACT_TEST 0 4 {'complete': 6, 'censored': 1, 'solver_nodes': 57734, 'solver_cpu_ns': 936817388, 'items': 7}
+SHARD EXACT_TEST 0 1 {'complete': 7, 'censored': 1, 'solver_nodes': 68913, 'solver_cpu_ns': 1205307774, 'items': 8}
+EXACT_TEST {'complete': 56, 'censored': 4, 'solver_nodes': 332994, 'solver_cpu_ns': 6009899456, 'items': 60}
+SHARD ATLAS_TEST 105 0 {'nn': 1336, 'suboptimal20': 2, 'suboptimal32': 1, 'suboptimal64': 1, 'items': 14}
+SHARD ATLAS_TEST 105 2 {'nn': 1308, 'suboptimal20': 8, 'suboptimal32': 8, 'suboptimal64': 6, 'items': 14}
+SHARD ATLAS_TEST 101 1 {'nn': 1328, 'suboptimal20': 8, 'suboptimal32': 6, 'suboptimal64': 7, 'items': 14}
+SHARD ATLAS_TEST 102 3 {'nn': 1296, 'suboptimal20': 7, 'suboptimal32': 7, 'suboptimal64': 4, 'items': 14}
+SHARD ATLAS_TEST 103 0 {'nn': 1372, 'suboptimal20': 4, 'suboptimal32': 4, 'suboptimal64': 4, 'items': 14}
+SHARD ATLAS_TEST 101 3 {'nn': 1309, 'suboptimal20': 5, 'suboptimal32': 4, 'suboptimal64': 4, 'items': 14}
+SHARD ATLAS_TEST 102 2 {'nn': 1317, 'suboptimal20': 8, 'suboptimal32': 6, 'suboptimal64': 5, 'items': 14}
+SHARD ATLAS_TEST 101 0 {'nn': 1332, 'suboptimal20': 2, 'suboptimal32': 1, 'suboptimal64': 1, 'items': 14}
+SHARD ATLAS_TEST 102 1 {'nn': 1338, 'suboptimal20': 5, 'suboptimal32': 6, 'suboptimal64': 4, 'items': 14}
+SHARD ATLAS_TEST 105 1 {'nn': 1297, 'suboptimal20': 5, 'suboptimal32': 7, 'suboptimal64': 5, 'items': 14}
+SHARD ATLAS_TEST 105 3 {'nn': 1335, 'suboptimal20': 6, 'suboptimal32': 5, 'suboptimal64': 5, 'items': 14}
+SHARD ATLAS_TEST 102 0 {'nn': 1323, 'suboptimal20': 3, 'suboptimal32': 2, 'suboptimal64': 3, 'items': 14}
+SHARD ATLAS_TEST 103 2 {'nn': 1371, 'suboptimal20': 8, 'suboptimal32': 9, 'suboptimal64': 9, 'items': 14}
+SHARD ATLAS_TEST 103 3 {'nn': 1371, 'suboptimal20': 6, 'suboptimal32': 7, 'suboptimal64': 6, 'items': 14}
+SHARD ATLAS_TEST 101 2 {'nn': 1301, 'suboptimal20': 10, 'suboptimal32': 7, 'suboptimal64': 5, 'items': 14}
+SHARD ATLAS_TEST 103 1 {'nn': 1371, 'suboptimal20': 8, 'suboptimal32': 9, 'suboptimal64': 7, 'items': 14}
+ATLAS_TEST {'nn': 21305, 'suboptimal20': 95, 'suboptimal32': 89, 'suboptimal64': 76, 'items': 224}
