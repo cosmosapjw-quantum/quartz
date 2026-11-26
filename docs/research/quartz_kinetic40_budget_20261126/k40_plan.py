@@ -33,7 +33,7 @@ def plan():
             while True:
                 h=rng.sample(cells,4);f=family(h)
                 if f not in seen:break
-            seen.add(f);jobs.append(dict(id=len(jobs),split=split,opening=h,family=f,target=4+i%6,source=SEEDS[(i//6)%4],color_order=rng.sample([1,-1],2)))
-    save('PLAN.json',dict(seed=SEED,models=models,jobs=jobs,fit=list(FIT),heldout=102,splits=SPLITS,workers=WORKERS,horizons=H,budget_fraction='7/10',margin=.05,prior_families=prior,prior_locks=[dict(path=str(p.relative_to(ROOT)),sha256=sha(p)) for p in paths],scope='matched common board families across fixed evaluators, no cross-model games; source assigned before data; heldout102 from all fitting and admission; frozen random hash policy'))
+            seen.add(f);jobs.append(dict(id=len(jobs),split=split,opening=h,family=f,target=4+i%6,source=(101 if split in ('TRAIN','CAL') and SEEDS[(i//6)%4]==102 else SEEDS[(i//6)%4]),color_order=rng.sample([1,-1],2)))
+    save('PLAN.json',dict(seed=SEED,models=models,jobs=jobs,fit=list(FIT),heldout=102,splits=SPLITS,workers=WORKERS,horizons=H,budget_fraction='7/10',margin=.05,prior_families=prior,prior_locks=[dict(path=str(p.relative_to(ROOT)),sha256=sha(p)) for p in paths],scope='matched common board families across fixed evaluators, no cross-model games; source assigned before data; heldout102 from all fitting and admission; frozen random hash policy; pre-data source correction excludes 102 from TRAIN/CAL source as well as fit and admission'))
     print('PLAN',len(jobs),'prior',prior,'models',list(models))
 if __name__=='__main__':plan()
