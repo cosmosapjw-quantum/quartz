@@ -1,0 +1,21 @@
+FF.
+======================================================================
+FAIL: test_common_gate (__main__.Test.test_common_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic39_voc_20261126/docs/research/quartz_kinetic39_voc_20261126/test_k39.py", line 20, in test_common_gate
+    self.assertTrue(hasattr(engine,'adaptive'),'Missing adaptive path')
+AssertionError: False is not true : Missing adaptive path
+
+======================================================================
+FAIL: test_resumable_same_action_cost (__main__.Test.test_resumable_same_action_cost)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic39_voc_20261126/docs/research/quartz_kinetic39_voc_20261126/test_k39.py", line 8, in test_resumable_same_action_cost
+    self.assertTrue(hasattr(engine,'atlas'),'Missing single-prefix atlas; must not restart low prefix')
+AssertionError: False is not true : Missing single-prefix atlas; must not restart low prefix
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.142s
+
+FAILED (failures=2)
