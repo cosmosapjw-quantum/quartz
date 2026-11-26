@@ -1,0 +1,23 @@
+.FF
+======================================================================
+FAIL: test_gate (__main__.Test.test_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic40_budget_20261126/docs/research/quartz_kinetic40_budget_20261126/test_k40.py", line 18, in test_gate
+    e=Puct(self.ev);self.assertTrue(hasattr(e,'adaptive40'),'missing budgeted live path')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : missing budgeted live path
+
+======================================================================
+FAIL: test_three_horizon_prefix (__main__.Test.test_three_horizon_prefix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic40_budget_20261126/docs/research/quartz_kinetic40_budget_20261126/test_k40.py", line 8, in test_three_horizon_prefix
+    e=Puct(self.ev);self.assertTrue(hasattr(e,'atlas40'),'missing three-horizon atlas')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : missing three-horizon atlas
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.026s
+
+FAILED (failures=2)
