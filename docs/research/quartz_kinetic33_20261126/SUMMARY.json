@@ -1,0 +1,164 @@
+{
+  "arms": {
+    "blind20": {
+      "NI_lower": 0.4722222222222222,
+      "NI_margin": 0.05,
+      "NI_point_gate": true,
+      "NN_reduction": 0.3343130075033406,
+      "NN_reduction_ci": [
+        0.31981198589894255,
+        0.3484037105683283
+      ],
+      "certificate_kinds": {},
+      "count": {
+        "base_NN": 12690,
+        "base_cert": 0,
+        "base_moves": 365,
+        "base_physical": 12690,
+        "base_rule_ns": 161185,
+        "base_wall_ns": 45851574248,
+        "candidate_NN": 8517,
+        "candidate_cert": 0,
+        "candidate_moves": 368,
+        "candidate_physical": 8517,
+        "candidate_rule_ns": 149814,
+        "candidate_wall_ns": 37589018516
+      },
+      "draws": 0,
+      "games": 72,
+      "losses": 33,
+      "pairs": 36,
+      "physical_reduction": 0.3343130075033406,
+      "physical_reduction_ci": [
+        0.31981198589894255,
+        0.3484037105683283
+      ],
+      "score": 0.5416666666666666,
+      "score_ci": [
+        0.4583333333333333,
+        0.625
+      ],
+      "seed_scores": {
+        "101": 0.5416666666666666,
+        "102": 0.625,
+        "103": 0.4583333333333333
+      },
+      "side_scores": {
+        "-1": 0.4444444444444444,
+        "1": 0.6388888888888888
+      },
+      "wins": 39
+    },
+    "proof20": {
+      "NI_lower": 0.9166666666666666,
+      "NI_margin": 0.05,
+      "NI_point_gate": true,
+      "NN_reduction": 0.6606225680933853,
+      "NN_reduction_ci": [
+        0.6272805080497712,
+        0.6975122828797172
+      ],
+      "certificate_kinds": {
+        "LOSE2": 3,
+        "UNKNOWN": 14,
+        "UNRESOLVED": 152,
+        "WIN1": 69,
+        "WIN3": 62
+      },
+      "count": {
+        "base_NN": 9509,
+        "base_cert": 0,
+        "base_moves": 267,
+        "base_physical": 9509,
+        "base_rule_ns": 116072,
+        "base_wall_ns": 33335901491,
+        "candidate_NN": 3626,
+        "candidate_cert": 148,
+        "candidate_moves": 300,
+        "candidate_physical": 3626,
+        "candidate_rule_ns": 222231517,
+        "candidate_wall_ns": 15688495683
+      },
+      "draws": 0,
+      "games": 72,
+      "losses": 3,
+      "pairs": 36,
+      "physical_reduction": 0.6606225680933853,
+      "physical_reduction_ci": [
+        0.6272805080497712,
+        0.6975122828797172
+      ],
+      "score": 0.9583333333333334,
+      "score_ci": [
+        0.9027777777777778,
+        1.0
+      ],
+      "seed_scores": {
+        "101": 1.0,
+        "102": 0.9166666666666666,
+        "103": 0.9583333333333334
+      },
+      "side_scores": {
+        "-1": 0.9166666666666666,
+        "1": 1.0
+      },
+      "wins": 69
+    },
+    "proof32": {
+      "NI_lower": 0.8194444444444444,
+      "NI_margin": 0.05,
+      "NI_point_gate": true,
+      "NN_reduction": 0.46945207087158036,
+      "NN_reduction_ci": [
+        0.41782988000745513,
+        0.5257079265568962
+      ],
+      "certificate_kinds": {
+        "LOSE2": 9,
+        "UNKNOWN": 12,
+        "UNRESOLVED": 148,
+        "WIN1": 63,
+        "WIN3": 55
+      },
+      "count": {
+        "base_NN": 9055,
+        "base_cert": 0,
+        "base_moves": 260,
+        "base_physical": 9055,
+        "base_rule_ns": 100178,
+        "base_wall_ns": 32061950349,
+        "candidate_NN": 5303,
+        "candidate_cert": 139,
+        "candidate_moves": 287,
+        "candidate_physical": 5303,
+        "candidate_rule_ns": 212822709,
+        "candidate_wall_ns": 18850311215
+      },
+      "draws": 0,
+      "games": 72,
+      "losses": 9,
+      "pairs": 36,
+      "physical_reduction": 0.46945207087158036,
+      "physical_reduction_ci": [
+        0.41782988000745513,
+        0.5257079265568962
+      ],
+      "score": 0.875,
+      "score_ci": [
+        0.8055555555555556,
+        0.9444444444444444
+      ],
+      "seed_scores": {
+        "101": 0.8333333333333334,
+        "102": 0.9166666666666666,
+        "103": 0.875
+      },
+      "side_scores": {
+        "-1": 0.8055555555555556,
+        "1": 0.9444444444444444
+      },
+      "wins": 63
+    }
+  },
+  "scope": "stratified paired opening bootstrap, fixed checkpoint panel, descriptive pilot; not independently established mature strength or full research-grade P2"
+}
