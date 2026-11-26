@@ -1,0 +1,117 @@
+{
+  "labels": {
+    "TEST": {
+      "actions": 59,
+      "disagree_roots": 7,
+      "label_disagree": 4,
+      "nonconstant128": 0,
+      "nonconstant256": 1,
+      "nonconstant_avg": 1,
+      "ref_disagree": 2
+    },
+    "TRAIN_CAL": {
+      "actions": 185,
+      "disagree_roots": 25,
+      "label_disagree": 16,
+      "nonconstant128": 4,
+      "nonconstant256": 2,
+      "nonconstant_avg": 3,
+      "ref_disagree": 17
+    }
+  },
+  "same128": {
+    "NN_after": 142956,
+    "NN_before": 167166,
+    "NN_saved": 24210,
+    "games": 192,
+    "lock_stops": 1163,
+    "moves": 1798,
+    "pairs": 96,
+    "visits_after": 159970,
+    "visits_before": 187951
+  },
+  "same128_reduction": 0.1448261010013998,
+  "scope": "actual paired deterministic paths, full atlas/compact wave and vote reconstruction; timing includes traces and host contention",
+  "timing": {
+    "B112": {
+      "NN": 94,
+      "cpu_ms": 15.121847583333333,
+      "lock": 0,
+      "n": 12,
+      "visits": 111.83333333333333,
+      "wall_ms": 16.18714525
+    },
+    "B128": {
+      "NN": 105.75,
+      "cpu_ms": 14.99790325,
+      "lock": 0,
+      "n": 12,
+      "visits": 127.83333333333333,
+      "wall_ms": 15.753051166666667
+    },
+    "B256": {
+      "NN": 199.66666666666666,
+      "cpu_ms": 30.376781666666666,
+      "lock": 0,
+      "n": 12,
+      "visits": 255.83333333333334,
+      "wall_ms": 31.820520333333334
+    },
+    "B80": {
+      "NN": 68.75,
+      "cpu_ms": 10.893058166666666,
+      "lock": 0,
+      "n": 12,
+      "visits": 79.58333333333333,
+      "wall_ms": 12.3838505
+    },
+    "B96": {
+      "NN": 81.25,
+      "cpu_ms": 13.076189916666667,
+      "lock": 0,
+      "n": 12,
+      "visits": 95.83333333333333,
+      "wall_ms": 13.990130333333333
+    },
+    "L112": {
+      "NN": 79.25,
+      "cpu_ms": 12.2623085,
+      "lock": 11,
+      "n": 12,
+      "visits": 92.5,
+      "wall_ms": 13.380825916666666
+    },
+    "L128": {
+      "NN": 88.75,
+      "cpu_ms": 13.330658083333333,
+      "lock": 11,
+      "n": 12,
+      "visits": 105.16666666666667,
+      "wall_ms": 14.242436
+    },
+    "L256": {
+      "NN": 166.41666666666666,
+      "cpu_ms": 24.517243416666666,
+      "lock": 11,
+      "n": 12,
+      "visits": 209.83333333333334,
+      "wall_ms": 25.750041916666667
+    },
+    "L80": {
+      "NN": 58.916666666666664,
+      "cpu_ms": 9.192386333333333,
+      "lock": 11,
+      "n": 12,
+      "visits": 67.16666666666667,
+      "wall_ms": 10.018262916666666
+    },
+    "L96": {
+      "NN": 68.5,
+      "cpu_ms": 10.560793666666667,
+      "lock": 11,
+      "n": 12,
+      "visits": 79.16666666666667,
+      "wall_ms": 11.5674935
+    }
+  }
+}
