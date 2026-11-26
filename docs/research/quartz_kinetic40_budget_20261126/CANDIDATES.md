@@ -1,0 +1,2 @@
+# Candidate policy family
+Uniform L20/L26/L32; bin-conditional mixture over 20,26,32 fitted under .7 B32 total-row constraint; per-root oracle only diagnostic and deferred. For each bin z aggregate (K_zh,G_zh) over training records; shared policy across models. Upper concave envelope includes origin, remove dominated values and nonpositive marginal slopes; slack allowed. Example costs (0,3,8), gains (0,1,2) vs second bin (0,2,4), gains (0,1,1): budget4 buys second first segment and 2/3 first segment for 5/3 utility, dual1/3. Model-specific fits excluded; 102 held out.
