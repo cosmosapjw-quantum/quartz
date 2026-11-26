@@ -188,10 +188,11 @@ def _atlas41(self,h):
     assert b['move']==hi['move'] and lo['nn']<=mid['nn']<=hi['nn']<=long['nn']
     assert self.ev.rows-before==b['nn']+long['nn']
     return dict(B32=b,L20=lo,L26=mid,L32=hi,L64=long,features=f,actual_nn=self.ev.rows-before)
-def _quartz41(self,h):
-    from exact41 import solve
-    from k41_plan import BUDGET
-    if len(h)<37:
+
+def _quartz42(self,h):
+    from threshold42 import solve
+    from k42_plan import BUDGET
+    if len(h)<33:
         r=self.search(h,32,True);r.update(exact_attempt=False,exact_complete=False,exact_nodes=0,exact_cpu_ns=0);return r
     t=time.perf_counter_ns();c=time.process_time_ns();a,b=from_history(h);p=1-2*(len(h)%2);a,b=(a,b) if p==1 else (b,a)
     pr=proof(a,b);rule_ns=time.perf_counter_ns()-t
@@ -201,11 +202,11 @@ def _quartz41(self,h):
         before=self.ev.rows;ct=time.process_time_ns();z=solve(a,b,BUDGET);dt=time.process_time_ns()-ct
         if z['complete']:
             assert self.ev.rows==before
-            r=dict(move=z['best'],kind='EXACT41',proof='MINIMAX',cap=32,lock=True,nn=0,visits=0,terminal_leaves=0,votes=[],distance=None,prior_best=None,exact_values=z['values'],exact_value=z['best_value'])
+            r=dict(move=z['best'],kind='EXACT42',proof='THRESHOLD',cap=32,lock=True,nn=0,visits=0,terminal_leaves=0,votes=[],distance=None,prior_best=None,exact_bounds=z['bounds'],exact_value=z['best_value'])
         else:
             r=Session(self.ev,h,pr).advance(32,True)
-        r.update(exact_attempt=True,exact_complete=z['complete'],exact_nodes=z['nodes'],exact_cpu_ns=dt,exact_hits=z['hits'])
+        r.update(exact_attempt=True,exact_complete=z['complete'],exact_nodes=z['nodes'],exact_cpu_ns=dt,exact_hits=z['hits'],exact_states=z['states'])
     r.update(wall_ns=time.perf_counter_ns()-t,cpu_ns=time.process_time_ns()-c,rule_ns=rule_ns)
     return r
+Puct.quartz42=_quartz42
 Puct.atlas41=_atlas41
-Puct.quartz41=_quartz41
