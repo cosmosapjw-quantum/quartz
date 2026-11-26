@@ -1,0 +1,99 @@
+{
+  "alias": "L80",
+  "arms": [
+    "B80",
+    "L80",
+    "F80L"
+  ],
+  "counts": {
+    "NN": 577310,
+    "games": 384,
+    "requests": 7822,
+    "visits": 623312
+  },
+  "files": [
+    {
+      "NN": 52970,
+      "arm": "L80",
+      "file": "ARENA_L80_0.jsonl.gz",
+      "games": 44,
+      "requests": 755,
+      "sha256": "c7101811c370b408044915bfee47a8ea1afd60aafff98d9a1d1f32e2155109ba",
+      "visits": 59785
+    },
+    {
+      "NN": 77806,
+      "arm": "B80",
+      "file": "ARENA_B80_1.jsonl.gz",
+      "games": 42,
+      "requests": 1012,
+      "sha256": "c5b3f62b07adada4bf9dfb717fed320345ff855404abb43bbfd3e02b1ae3eb53",
+      "visits": 84938
+    },
+    {
+      "NN": 57052,
+      "arm": "L80",
+      "file": "ARENA_L80_2.jsonl.gz",
+      "games": 42,
+      "requests": 811,
+      "sha256": "afa376191bec9f94963a196a11dd95b48ef7486d236bd60f6f7c02bd05b890a5",
+      "visits": 64077
+    },
+    {
+      "NN": 55895,
+      "arm": "B80",
+      "file": "ARENA_B80_0.jsonl.gz",
+      "games": 44,
+      "requests": 755,
+      "sha256": "2634435d072119fa271d605c75e3704a2f87b616c8679bf6ec1df26fc77e5fa8",
+      "visits": 63119
+    },
+    {
+      "NN": 73429,
+      "arm": "L80",
+      "file": "ARENA_L80_1.jsonl.gz",
+      "games": 42,
+      "requests": 1012,
+      "sha256": "82e05114e02126f1630acda44c2454999153ff3b0cf14b18f180de8dd16747ad",
+      "visits": 80215
+    },
+    {
+      "NN": 60357,
+      "arm": "B80",
+      "file": "ARENA_B80_2.jsonl.gz",
+      "games": 42,
+      "requests": 811,
+      "sha256": "ab9008b8d790e8c43c782632309b57f850dcf089a2b17d152b489333e533c92c",
+      "visits": 67836
+    },
+    {
+      "NN": 92942,
+      "arm": "F80L",
+      "file": "ARENA_F80L_1.jsonl.gz",
+      "games": 42,
+      "requests": 1180,
+      "sha256": "3400f63ee62b6bb7e5ec8ee66edba8291f245c54f50a9c386c141ffdac90e1fa",
+      "visits": 89557
+    },
+    {
+      "NN": 52696,
+      "arm": "F80L",
+      "file": "ARENA_F80L_0.jsonl.gz",
+      "games": 44,
+      "requests": 731,
+      "sha256": "ef733c55db66696e284b946fc4dc496e2012d068a3d914f4c0e858b8ee95e5d5",
+      "visits": 55814
+    },
+    {
+      "NN": 54163,
+      "arm": "F80L",
+      "file": "ARENA_F80L_2.jsonl.gz",
+      "games": 42,
+      "requests": 755,
+      "sha256": "d4bd604bd52be176fb1094ec1e94461b963017c0e590208e5262d5f6af4d17b6",
+      "visits": 57971
+    }
+  ],
+  "freeze": "454c78eb4b5fd28118ed28ab3b747a2c91d07c28bc5e3ef53aae1b79311573c7",
+  "plan": "5e64440dddb6440bdadd427a279aa8353f1e0e948d90e550e436acdc8aeabb9b"
+}
