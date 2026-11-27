@@ -1,0 +1,3244 @@
+{
+  "conditional_by_seed": {
+    "101": {
+      "delta2": 0,
+      "episodes": 96,
+      "first": 25,
+      "first_kept": 2,
+      "logical_extra": 12,
+      "physical_extra": 10,
+      "second": 1,
+      "second_switch": 0
+    },
+    "102": {
+      "delta2": 2,
+      "episodes": 96,
+      "first": 28,
+      "first_kept": 12,
+      "logical_extra": 60,
+      "physical_extra": 51,
+      "second": 5,
+      "second_switch": 5
+    },
+    "103": {
+      "delta2": -2,
+      "episodes": 96,
+      "first": 65,
+      "first_kept": 27,
+      "logical_extra": 276,
+      "physical_extra": 230,
+      "second": 23,
+      "second_switch": 17
+    },
+    "105": {
+      "delta2": 2,
+      "episodes": 96,
+      "first": 29,
+      "first_kept": 16,
+      "logical_extra": 132,
+      "physical_extra": 110,
+      "second": 11,
+      "second_switch": 5
+    },
+    "41": {
+      "delta2": 0,
+      "episodes": 96,
+      "first": 61,
+      "first_kept": 54,
+      "logical_extra": 528,
+      "physical_extra": 440,
+      "second": 44,
+      "second_switch": 15
+    },
+    "42": {
+      "delta2": 2,
+      "episodes": 96,
+      "first": 64,
+      "first_kept": 22,
+      "logical_extra": 168,
+      "physical_extra": 116,
+      "second": 14,
+      "second_switch": 8
+    },
+    "43": {
+      "delta2": 2,
+      "episodes": 96,
+      "first": 15,
+      "first_kept": 8,
+      "logical_extra": 48,
+      "physical_extra": 42,
+      "second": 4,
+      "second_switch": 2
+    }
+  },
+  "conditional_diagnostic": {
+    "delta2": 6,
+    "episodes": 672,
+    "first": 287,
+    "first_kept": 141,
+    "logical_extra": 1224,
+    "physical_extra": 999,
+    "second": 102,
+    "second_switch": 52
+  },
+  "conditional_events": {
+    "0": 385,
+    "1": 185,
+    "2": 102
+  },
+  "locks": {
+    "NN": "a4eec72a784650a9e7b05e4c2ca74ea4d6631dec0481687e10d7d73478ee534e",
+    "R_96": "29f2a5fb9faf9793529c9a8844de4e14d156b9e63c0f53f9daec54614865bd86",
+    "R_T": "56ab116f6bc275f2969dbbc107ab7a6d97dbd134ab1016979e8016776d7a6321",
+    "UNCACHED": "860c218f13ef7248870afc9ebc8a21d54eedc24873317b8ef6a3939e5f3c5602"
+  },
+  "nn": {
+    "all": {
+      "arms": {
+        "cold": {
+          "counts": {
+            "B_hits": 0,
+            "B_logical": 45474,
+            "B_moves": 2727,
+            "B_physical": 45474,
+            "Q_hits": 659,
+            "Q_logical": 26429,
+            "Q_moves": 2922,
+            "Q_physical": 25770,
+            "target_events": 287,
+            "target_logical": 3443,
+            "target_physical": 2784
+          },
+          "delta": {
+            "CI": [
+              0.012225266959012493,
+              0.01475160740798065
+            ],
+            "point": 0.013524685767140499
+          },
+          "logical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.4179765795001049,
+                0.45753171156272154
+              ],
+              "CPU_reduction": [
+                0.45425200760316864,
+                0.4964148644533062
+              ],
+              "NN_game_reduction": [
+                0.40190906807334836,
+                0.43693213542459775
+              ],
+              "NN_reduction": [
+                0.43891772436737075,
+                0.4775215323981288
+              ],
+              "score": [
+                0.7336309523809523,
+                0.84375
+              ],
+              "wall_game_reduction": [
+                0.23760337882605853,
+                0.4451192180073217
+              ],
+              "wall_reduction": [
+                0.28778540118929896,
+                0.48322611743600585
+              ]
+            },
+            "counts": {
+              "Bcpu": 143034183210,
+              "Bmoves": 2727,
+              "Bnn": 45474,
+              "Bwall": 150787151406,
+              "Qcpu": 80493997372,
+              "Qmoves": 2922,
+              "Qnn": 26429,
+              "Qwall": 96533377119,
+              "cert": 496,
+              "draws": 0,
+              "games": 672,
+              "losses": 141,
+              "queries": 254519,
+              "replacement": 253,
+              "score2": 1062,
+              "wins": 531
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.4212319818462581,
+              "CPU_reduction": 0.4574772608462223,
+              "NN_game_reduction": 0.4045979969546849,
+              "NN_reduction": 0.4418088818087581,
+              "score": 0.7440476190476191,
+              "wall_game_reduction": 0.2609758744867666,
+              "wall_reduction": 0.3094221712349988
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.4372394376956711,
+              "CPU_reduction": 0.47479532737717156,
+              "NN_game_reduction": 0.4188107489994283,
+              "NN_reduction": 0.45759647930234115,
+              "score": 0.7901785714285714,
+              "wall_game_reduction": 0.3598036953488145,
+              "wall_reduction": 0.40252726804114214
+            }
+          },
+          "physical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.4179765795001049,
+                0.45753171156272154
+              ],
+              "CPU_reduction": [
+                0.45425200760316864,
+                0.4964148644533062
+              ],
+              "NN_game_reduction": [
+                0.4168194265281644,
+                0.4508950169327528
+              ],
+              "NN_reduction": [
+                0.4528237494178232,
+                0.49049104809780963
+              ],
+              "score": [
+                0.7336309523809523,
+                0.84375
+              ],
+              "wall_game_reduction": [
+                0.23760337882605853,
+                0.4451192180073217
+              ],
+              "wall_reduction": [
+                0.28778540118929896,
+                0.48322611743600585
+              ]
+            },
+            "counts": {
+              "Bcpu": 143034183210,
+              "Bmoves": 2727,
+              "Bnn": 45474,
+              "Bwall": 150787151406,
+              "Qcpu": 80493997372,
+              "Qmoves": 2922,
+              "Qnn": 25770,
+              "Qwall": 96533377119,
+              "cert": 496,
+              "draws": 0,
+              "games": 672,
+              "losses": 141,
+              "queries": 254519,
+              "replacement": 253,
+              "score2": 1062,
+              "wins": 531
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.4212319818462581,
+              "CPU_reduction": 0.4574772608462223,
+              "NN_game_reduction": 0.4193300999046553,
+              "NN_reduction": 0.4557592486699291,
+              "score": 0.7440476190476191,
+              "wall_game_reduction": 0.2609758744867666,
+              "wall_reduction": 0.3094221712349988
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.4372394376956711,
+              "CPU_reduction": 0.47479532737717156,
+              "NN_game_reduction": 0.4333025465100937,
+              "NN_reduction": 0.47112116506948165,
+              "score": 0.7901785714285714,
+              "wall_game_reduction": 0.3598036953488145,
+              "wall_reduction": 0.40252726804114214
+            }
+          }
+        },
+        "conditional": {
+          "counts": {
+            "B_hits": 0,
+            "B_logical": 45639,
+            "B_moves": 2708,
+            "B_physical": 45639,
+            "Q_hits": 884,
+            "Q_logical": 27422,
+            "Q_moves": 2906,
+            "Q_physical": 26538,
+            "target_events": 389,
+            "target_logical": 4667,
+            "target_physical": 3783
+          },
+          "delta": {
+            "CI": [
+              0.016476812365459836,
+              0.019481630420173368
+            ],
+            "point": 0.018049667045760054
+          },
+          "logical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.40500082457202646,
+                0.4449742386885195
+              ],
+              "CPU_reduction": [
+                0.44310837131445613,
+                0.4852501942015537
+              ],
+              "NN_game_reduction": [
+                0.382230495176334,
+                0.41744183016753955
+              ],
+              "NN_reduction": [
+                0.4215769552673747,
+                0.460055035815903
+              ],
+              "score": [
+                0.7380952380952381,
+                0.8482142857142857
+              ],
+              "wall_game_reduction": [
+                0.26157171442851923,
+                0.56401508824851
+              ],
+              "wall_reduction": [
+                0.3118200135128246,
+                0.5944189787791876
+              ]
+            },
+            "counts": {
+              "Bcpu": 143566325494,
+              "Bmoves": 2708,
+              "Bnn": 45639,
+              "Bwall": 171674105569,
+              "Qcpu": 82603063679,
+              "Qmoves": 2906,
+              "Qnn": 27422,
+              "Qwall": 96222707815,
+              "cert": 481,
+              "draws": 0,
+              "games": 672,
+              "losses": 138,
+              "queries": 255248,
+              "replacement": 245,
+              "score2": 1068,
+              "wins": 534
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.4082325684803648,
+              "CPU_reduction": 0.4465930584616795,
+              "NN_game_reduction": 0.3847486295367937,
+              "NN_reduction": 0.42423894226034364,
+              "score": 0.7470238095238095,
+              "wall_game_reduction": 0.2930986102979909,
+              "wall_reduction": 0.34246997391478895
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.4246348271799142,
+              "CPU_reduction": 0.46383727185244583,
+              "NN_game_reduction": 0.3991542321260325,
+              "NN_reduction": 0.4400927944243965,
+              "score": 0.7946428571428571,
+              "wall_game_reduction": 0.4395036601700788,
+              "wall_reduction": 0.47769301849297086
+            }
+          },
+          "physical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.40500082457202646,
+                0.4449742386885195
+              ],
+              "CPU_reduction": [
+                0.44310837131445613,
+                0.4852501942015537
+              ],
+              "NN_game_reduction": [
+                0.402351665959753,
+                0.43579069871536635
+              ],
+              "NN_reduction": [
+                0.44037117264954395,
+                0.4770598119398103
+              ],
+              "score": [
+                0.7380952380952381,
+                0.8482142857142857
+              ],
+              "wall_game_reduction": [
+                0.26157171442851923,
+                0.56401508824851
+              ],
+              "wall_reduction": [
+                0.3118200135128246,
+                0.5944189787791876
+              ]
+            },
+            "counts": {
+              "Bcpu": 143566325494,
+              "Bmoves": 2708,
+              "Bnn": 45639,
+              "Bwall": 171674105569,
+              "Qcpu": 82603063679,
+              "Qmoves": 2906,
+              "Qnn": 26538,
+              "Qwall": 96222707815,
+              "cert": 481,
+              "draws": 0,
+              "games": 672,
+              "losses": 138,
+              "queries": 255248,
+              "replacement": 245,
+              "score2": 1068,
+              "wins": 534
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.4082325684803648,
+              "CPU_reduction": 0.4465930584616795,
+              "NN_game_reduction": 0.40469342670167985,
+              "NN_reduction": 0.44290074306298155,
+              "score": 0.7470238095238095,
+              "wall_game_reduction": 0.2930986102979909,
+              "wall_reduction": 0.34246997391478895
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.4246348271799142,
+              "CPU_reduction": 0.46383727185244583,
+              "NN_game_reduction": 0.41852363110497603,
+              "NN_reduction": 0.4581424614701566,
+              "score": 0.7946428571428571,
+              "wall_game_reduction": 0.4395036601700788,
+              "wall_reduction": 0.47769301849297086
+            }
+          }
+        },
+        "control": {
+          "counts": {
+            "B_hits": 0,
+            "B_logical": 46992,
+            "B_moves": 2793,
+            "B_physical": 46992,
+            "Q_hits": 0,
+            "Q_logical": 23909,
+            "Q_moves": 2992,
+            "Q_physical": 23909
+          },
+          "delta": {
+            "CI": [
+              0.0,
+              0.0
+            ],
+            "point": 0.0
+          },
+          "logical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.4791548343926808,
+                0.5139688896489565
+              ],
+              "CPU_reduction": [
+                0.5114028823593416,
+                0.5485154445725297
+              ],
+              "NN_game_reduction": [
+                0.47633274393837777,
+                0.507620134398377
+              ],
+              "NN_reduction": [
+                0.5084419086423708,
+                0.5426037630667951
+              ],
+              "score": [
+                0.7410714285714286,
+                0.8497023809523809
+              ],
+              "wall_game_reduction": [
+                0.4822111710825412,
+                0.5880262547595061
+              ],
+              "wall_reduction": [
+                0.5148446101735736,
+                0.615463546356769
+              ]
+            },
+            "counts": {
+              "Bcpu": 148915341264,
+              "Bmoves": 2793,
+              "Bnn": 46992,
+              "Bwall": 162728172975,
+              "Qcpu": 75070543700,
+              "Qmoves": 2992,
+              "Qnn": 23909,
+              "Qwall": 77002219558,
+              "cert": 513,
+              "draws": 0,
+              "games": 672,
+              "losses": 137,
+              "queries": 268979,
+              "replacement": 262,
+              "score2": 1070,
+              "wins": 535
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.4817849112037216,
+              "CPU_reduction": 0.5138997556699679,
+              "NN_game_reduction": 0.4783519553072626,
+              "NN_reduction": 0.5108552505866073,
+              "score": 0.75,
+              "wall_game_reduction": 0.4856811514310272,
+              "wall_reduction": 0.5185857539993628
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.49588441954470297,
+              "CPU_reduction": 0.5294134972554665,
+              "NN_game_reduction": 0.4912112700034048,
+              "NN_reduction": 0.5250511621388736,
+              "score": 0.7961309523809523,
+              "wall_game_reduction": 0.5268046205506782,
+              "wall_reduction": 0.5582771741972072
+            }
+          },
+          "physical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.4791548343926808,
+                0.5139688896489565
+              ],
+              "CPU_reduction": [
+                0.5114028823593416,
+                0.5485154445725297
+              ],
+              "NN_game_reduction": [
+                0.47633274393837777,
+                0.507620134398377
+              ],
+              "NN_reduction": [
+                0.5084419086423708,
+                0.5426037630667951
+              ],
+              "score": [
+                0.7410714285714286,
+                0.8497023809523809
+              ],
+              "wall_game_reduction": [
+                0.4822111710825412,
+                0.5880262547595061
+              ],
+              "wall_reduction": [
+                0.5148446101735736,
+                0.615463546356769
+              ]
+            },
+            "counts": {
+              "Bcpu": 148915341264,
+              "Bmoves": 2793,
+              "Bnn": 46992,
+              "Bwall": 162728172975,
+              "Qcpu": 75070543700,
+              "Qmoves": 2992,
+              "Qnn": 23909,
+              "Qwall": 77002219558,
+              "cert": 513,
+              "draws": 0,
+              "games": 672,
+              "losses": 137,
+              "queries": 268979,
+              "replacement": 262,
+              "score2": 1070,
+              "wins": 535
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.4817849112037216,
+              "CPU_reduction": 0.5138997556699679,
+              "NN_game_reduction": 0.4783519553072626,
+              "NN_reduction": 0.5108552505866073,
+              "score": 0.75,
+              "wall_game_reduction": 0.4856811514310272,
+              "wall_reduction": 0.5185857539993628
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.49588441954470297,
+              "CPU_reduction": 0.5294134972554665,
+              "NN_game_reduction": 0.4912112700034048,
+              "NN_reduction": 0.5250511621388736,
+              "score": 0.7961309523809523,
+              "wall_game_reduction": 0.5268046205506782,
+              "wall_reduction": 0.5582771741972072
+            }
+          }
+        }
+      },
+      "pairs": {
+        "cold": {
+          "CI": {
+            "base_interventions": [
+              0.34226190476190477,
+              0.5089285714285714
+            ],
+            "changed": [
+              0.16666666666666666,
+              0.26785714285714285
+            ],
+            "delta_B": [
+              -3.9776785714285716,
+              -0.6875
+            ],
+            "delta_Q": [
+              1.6264880952380953,
+              3.9598214285714284
+            ],
+            "delta_total": [
+              -2.0550595238095237,
+              2.9717261904761907
+            ],
+            "downstream_B": [
+              -3.9776785714285716,
+              -0.6875
+            ],
+            "downstream_Q": [
+              -2.4642857142857144,
+              -0.37202380952380953
+            ],
+            "improved": [
+              0.008928571428571428,
+              0.028273809523809524
+            ],
+            "interventions": [
+              0.34226190476190477,
+              0.5089285714285714
+            ],
+            "local_nn": [
+              3.3273809523809526,
+              4.933035714285714
+            ],
+            "reached": [
+              0.34226190476190477,
+              0.5089285714285714
+            ],
+            "same_history": [
+              0.7321428571428571,
+              0.8333333333333334
+            ],
+            "tau": [
+              -0.020833333333333332,
+              0.00744047619047619
+            ],
+            "worsened": [
+              0.011904761904761904,
+              0.03720238095238095
+            ]
+          },
+          "baseline_relative": {
+            "CPU_game_reduction": {
+              "CI": [
+                -0.07126139925423602,
+                -0.046389904245659475
+              ],
+              "point": -0.058644981849031885
+            },
+            "CPU_reduction": {
+              "CI": [
+                -0.06725663927023895,
+                -0.042638220549156
+              ],
+              "point": -0.05461816987829493
+            },
+            "NN_game_reduction": {
+              "CI": [
+                -0.0674583318031522,
+                -0.04914361385008348
+              ],
+              "point": -0.05790872349331111
+            },
+            "NN_reduction": {
+              "CI": [
+                -0.06388817718935669,
+                -0.04482222727041607
+              ],
+              "point": -0.053929997069391944
+            },
+            "score": {
+              "CI": [
+                -0.02083333333333326,
+                0.007440476190476275
+              ],
+              "point": -0.005952380952380931
+            },
+            "wall_game_reduction": {
+              "CI": [
+                -0.2982658355997221,
+                -0.065173848269243
+              ],
+              "point": -0.16700092520186371
+            },
+            "wall_reduction": {
+              "CI": [
+                -0.27887933195011516,
+                -0.060228698352497
+              ],
+              "point": -0.1557499061560651
+            }
+          },
+          "counts": {
+            "base_interventions": 287,
+            "changed": 146,
+            "delta2": -8,
+            "delta_B": -1518,
+            "delta_Q": 1861,
+            "delta_total": 343,
+            "downstream_B": -1518,
+            "downstream_Q": -923,
+            "improved": 12,
+            "interventions": 287,
+            "local_nn": 2784,
+            "n": 672,
+            "reached": 287,
+            "same_history": 526,
+            "worsened": 16
+          },
+          "logical_extra_total": 3443,
+          "metrics": {
+            "base_interventions": 0.4270833333333333,
+            "changed": 0.21726190476190477,
+            "delta_B": -2.2589285714285716,
+            "delta_Q": 2.769345238095238,
+            "delta_total": 0.5104166666666666,
+            "downstream_B": -2.2589285714285716,
+            "downstream_Q": -1.3735119047619047,
+            "improved": 0.017857142857142856,
+            "interventions": 0.4270833333333333,
+            "local_nn": 4.142857142857143,
+            "reached": 0.4270833333333333,
+            "same_history": 0.7827380952380952,
+            "tau": -0.005952380952380952,
+            "worsened": 0.023809523809523808
+          },
+          "ratio": {
+            "delta_Q": {
+              "CI": [
+                -0.008009858287122612,
+                0.0029835902536051715
+              ],
+              "nonpositive_resamples": 0,
+              "point": -0.0021493820526598604
+            },
+            "delta_total": {
+              "CI": null,
+              "nonpositive_resamples": 2767,
+              "point": -0.011661807580174927
+            },
+            "local_nn": {
+              "CI": [
+                -0.0048802129547471165,
+                0.0019455252918287938
+              ],
+              "nonpositive_resamples": 0,
+              "point": -0.0014367816091954023
+            }
+          }
+        },
+        "conditional": {
+          "CI": {
+            "base_interventions": [
+              0.34226190476190477,
+              0.5089285714285714
+            ],
+            "changed": [
+              0.052083333333333336,
+              0.10416666666666667
+            ],
+            "delta_B": [
+              -0.7857142857142857,
+              1.2276785714285714
+            ],
+            "delta_Q": [
+              0.5669642857142857,
+              1.7678571428571428
+            ],
+            "delta_total": [
+              -0.09077380952380952,
+              2.912202380952381
+            ],
+            "downstream_B": [
+              -0.7857142857142857,
+              1.2276785714285714
+            ],
+            "downstream_Q": [
+              -0.9375,
+              0.21875
+            ],
+            "improved": [
+              0.001488095238095238,
+              0.011904761904761904
+            ],
+            "interventions": [
+              0.45982142857142855,
+              0.6964285714285714
+            ],
+            "local_nn": [
+              1.1160714285714286,
+              1.8675595238095237
+            ],
+            "reached": [
+              0.34226190476190477,
+              0.5089285714285714
+            ],
+            "same_history": [
+              0.8958333333333334,
+              0.9479166666666666
+            ],
+            "tau": [
+              -0.001488095238095238,
+              0.010416666666666666
+            ],
+            "worsened": [
+              0.0,
+              0.004464285714285714
+            ]
+          },
+          "baseline_relative": {
+            "CPU_game_reduction": {
+              "CI": [
+                -0.022460843531261654,
+                -0.0022936924770206035
+              ],
+              "point": -0.012604610515756898
+            },
+            "CPU_reduction": {
+              "CI": [
+                -0.020435720353919717,
+                -0.000964855154947597
+              ],
+              "point": -0.01095805552472573
+            },
+            "NN_game_reduction": {
+              "CI": [
+                -0.020065555434259807,
+                -0.009060785707043384
+              ],
+              "point": -0.014778915405117665
+            },
+            "NN_reduction": {
+              "CI": [
+                -0.018240517315405658,
+                -0.007318142604982203
+              ],
+              "point": -0.01297870359932507
+            },
+            "score": {
+              "CI": [
+                -0.0014880952380952328,
+                0.01041666666666674
+              ],
+              "point": 0.004464285714285698
+            },
+            "wall_game_reduction": {
+              "CI": [
+                -0.12179040961417786,
+                0.25266016661323043
+              ],
+              "point": 0.07969996482126429
+            },
+            "wall_reduction": {
+              "CI": [
+                -0.11345060277067875,
+                0.23692072552097965
+              ],
+              "point": 0.07516575045182872
+            }
+          },
+          "counts": {
+            "base_interventions": 287,
+            "changed": 52,
+            "delta2": 6,
+            "delta_B": 165,
+            "delta_Q": 768,
+            "delta_total": 933,
+            "downstream_B": 165,
+            "downstream_Q": -231,
+            "improved": 4,
+            "interventions": 389,
+            "local_nn": 999,
+            "n": 672,
+            "reached": 287,
+            "same_history": 620,
+            "worsened": 1
+          },
+          "logical_extra_total": 1224,
+          "metrics": {
+            "base_interventions": 0.4270833333333333,
+            "changed": 0.07738095238095238,
+            "delta_B": 0.24553571428571427,
+            "delta_Q": 1.1428571428571428,
+            "delta_total": 1.3883928571428572,
+            "downstream_B": 0.24553571428571427,
+            "downstream_Q": -0.34375,
+            "improved": 0.005952380952380952,
+            "interventions": 0.5788690476190477,
+            "local_nn": 1.4866071428571428,
+            "reached": 0.4270833333333333,
+            "same_history": 0.9226190476190477,
+            "tau": 0.004464285714285714,
+            "worsened": 0.001488095238095238
+          },
+          "ratio": {
+            "delta_Q": {
+              "CI": [
+                -0.001349527665317139,
+                0.013745704467353952
+              ],
+              "nonpositive_resamples": 0,
+              "point": 0.00390625
+            },
+            "delta_total": {
+              "CI": null,
+              "nonpositive_resamples": 259,
+              "point": 0.003215434083601286
+            },
+            "local_nn": {
+              "CI": [
+                -0.001034126163391934,
+                0.007339449541284404
+              ],
+              "nonpositive_resamples": 0,
+              "point": 0.003003003003003003
+            }
+          }
+        }
+      }
+    },
+    "new": {
+      "arms": {
+        "cold": {
+          "counts": {
+            "B_hits": 0,
+            "B_logical": 21120,
+            "B_moves": 1235,
+            "B_physical": 21120,
+            "Q_hits": 380,
+            "Q_logical": 12881,
+            "Q_moves": 1322,
+            "Q_physical": 12501,
+            "target_events": 140,
+            "target_logical": 1680,
+            "target_physical": 1300
+          },
+          "delta": {
+            "CI": [
+              0.015458527811027079,
+              0.018139495972008257
+            ],
+            "point": 0.01680835396323288
+          },
+          "logical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.37107574816974853,
+                0.4110096690108722
+              ],
+              "CPU_reduction": [
+                0.40933487037105176,
+                0.4529993369013404
+              ],
+              "NN_game_reduction": [
+                0.3720745104282758,
+                0.40889154704944175
+              ],
+              "NN_reduction": [
+                0.40991945429014165,
+                0.4510911424903723
+              ],
+              "score": [
+                0.7395833333333334,
+                0.8611111111111112
+              ],
+              "wall_game_reduction": [
+                0.0032466692914999706,
+                0.42500306209077887
+              ],
+              "wall_reduction": [
+                0.06854988549018137,
+                0.4634915326065677
+              ]
+            },
+            "counts": {
+              "Bcpu": 39956501630,
+              "Bmoves": 1235,
+              "Bnn": 21120,
+              "Bwall": 42322995519,
+              "Qcpu": 24343411794,
+              "Qmoves": 1322,
+              "Qnn": 12881,
+              "Qwall": 30129213677,
+              "cert": 233,
+              "draws": 0,
+              "games": 288,
+              "losses": 57,
+              "queries": 129791,
+              "replacement": 102,
+              "score2": 462,
+              "wins": 231
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.3748230964768059,
+              "CPU_reduction": 0.4130930300449833,
+              "NN_game_reduction": 0.37510521885521886,
+              "NN_reduction": 0.4131094616473331,
+              "score": 0.75,
+              "wall_game_reduction": 0.05776086482781373,
+              "wall_reduction": 0.11833126507473113
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.39075217296494835,
+              "CPU_reduction": 0.43084639456256524,
+              "NN_game_reduction": 0.3901041666666667,
+              "NN_reduction": 0.43024103315683315,
+              "score": 0.8020833333333334,
+              "wall_game_reduction": 0.28811244791323576,
+              "wall_reduction": 0.3349613261519261
+            }
+          },
+          "physical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.37107574816974853,
+                0.4110096690108722
+              ],
+              "CPU_reduction": [
+                0.40933487037105176,
+                0.4529993369013404
+              ],
+              "NN_game_reduction": [
+                0.3903799903799904,
+                0.42648902821316614
+              ],
+              "NN_reduction": [
+                0.4270946333535238,
+                0.46744642197940156
+              ],
+              "score": [
+                0.7395833333333334,
+                0.8611111111111112
+              ],
+              "wall_game_reduction": [
+                0.0032466692914999706,
+                0.42500306209077887
+              ],
+              "wall_reduction": [
+                0.06854988549018137,
+                0.4634915326065677
+              ]
+            },
+            "counts": {
+              "Bcpu": 39956501630,
+              "Bmoves": 1235,
+              "Bnn": 21120,
+              "Bwall": 42322995519,
+              "Qcpu": 24343411794,
+              "Qmoves": 1322,
+              "Qnn": 12501,
+              "Qwall": 30129213677,
+              "cert": 233,
+              "draws": 0,
+              "games": 288,
+              "losses": 57,
+              "queries": 129791,
+              "replacement": 102,
+              "score2": 462,
+              "wins": 231
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.3748230964768059,
+              "CPU_reduction": 0.4130930300449833,
+              "NN_game_reduction": 0.3933715347684683,
+              "NN_reduction": 0.4301978521717582,
+              "score": 0.75,
+              "wall_game_reduction": 0.05776086482781373,
+              "wall_reduction": 0.11833126507473113
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.39075217296494835,
+              "CPU_reduction": 0.43084639456256524,
+              "NN_game_reduction": 0.4080965909090909,
+              "NN_reduction": 0.44704938712006603,
+              "score": 0.8020833333333334,
+              "wall_game_reduction": 0.28811244791323576,
+              "wall_reduction": 0.3349613261519261
+            }
+          }
+        },
+        "conditional": {
+          "counts": {
+            "B_hits": 0,
+            "B_logical": 21483,
+            "B_moves": 1239,
+            "B_physical": 21483,
+            "Q_hits": 526,
+            "Q_logical": 13625,
+            "Q_moves": 1328,
+            "Q_physical": 13099,
+            "target_events": 202,
+            "target_logical": 2424,
+            "target_physical": 1898
+          },
+          "delta": {
+            "CI": [
+              0.021078062707404976,
+              0.024488666811795845
+            ],
+            "point": 0.022843573708323017
+          },
+          "logical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.3590414258360468,
+                0.3996671424532299
+              ],
+              "CPU_reduction": [
+                0.39969827462213536,
+                0.442439125034612
+              ],
+              "NN_game_reduction": [
+                0.3464069264069264,
+                0.3847046266648104
+              ],
+              "NN_reduction": [
+                0.38718304475098364,
+                0.4292584896450281
+              ],
+              "score": [
+                0.7465277777777778,
+                0.8680555555555556
+              ],
+              "wall_game_reduction": [
+                0.318748836347471,
+                0.6687799126638285
+              ],
+              "wall_reduction": [
+                0.36476609766115076,
+                0.691237818035985
+              ]
+            },
+            "counts": {
+              "Bcpu": 41001201959,
+              "Bmoves": 1239,
+              "Bnn": 21483,
+              "Bwall": 60417241334,
+              "Qcpu": 25440735892,
+              "Qmoves": 1328,
+              "Qnn": 13625,
+              "Qwall": 28453953569,
+              "cert": 226,
+              "draws": 0,
+              "games": 288,
+              "losses": 55,
+              "queries": 136748,
+              "replacement": 100,
+              "score2": 466,
+              "wins": 233
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.36275440686028015,
+              "CPU_reduction": 0.4034260121559945,
+              "NN_game_reduction": 0.349946836788942,
+              "NN_reduction": 0.39098403420420824,
+              "score": 0.7569444444444444,
+              "wall_game_reduction": 0.34298616266395343,
+              "wall_reduction": 0.38682941733951903
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.3795124367953898,
+              "CPU_reduction": 0.421096317160759,
+              "NN_game_reduction": 0.3657775915840432,
+              "NN_reduction": 0.4082819547986668,
+              "score": 0.8090277777777778,
+              "wall_game_reduction": 0.529042489515531,
+              "wall_reduction": 0.5606051539983004
+            }
+          },
+          "physical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.3590414258360468,
+                0.3996671424532299
+              ],
+              "CPU_reduction": [
+                0.39969827462213536,
+                0.442439125034612
+              ],
+              "NN_game_reduction": [
+                0.3717497556207233,
+                0.40856481481481477
+              ],
+              "NN_reduction": [
+                0.4108773135731407,
+                0.4511836521955028
+              ],
+              "score": [
+                0.7465277777777778,
+                0.8680555555555556
+              ],
+              "wall_game_reduction": [
+                0.318748836347471,
+                0.6687799126638285
+              ],
+              "wall_reduction": [
+                0.36476609766115076,
+                0.691237818035985
+              ]
+            },
+            "counts": {
+              "Bcpu": 41001201959,
+              "Bmoves": 1239,
+              "Bnn": 21483,
+              "Bwall": 60417241334,
+              "Qcpu": 25440735892,
+              "Qmoves": 1328,
+              "Qnn": 13099,
+              "Qwall": 28453953569,
+              "cert": 226,
+              "draws": 0,
+              "games": 288,
+              "losses": 55,
+              "queries": 136748,
+              "replacement": 100,
+              "score2": 466,
+              "wins": 233
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.36275440686028015,
+              "CPU_reduction": 0.4034260121559945,
+              "NN_game_reduction": 0.37506645401382244,
+              "NN_reduction": 0.4146353583346394,
+              "score": 0.7569444444444444,
+              "wall_game_reduction": 0.34298616266395343,
+              "wall_reduction": 0.38682941733951903
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.3795124367953898,
+              "CPU_reduction": 0.421096317160759,
+              "NN_game_reduction": 0.3902620676814226,
+              "NN_reduction": 0.4311255285069898,
+              "score": 0.8090277777777778,
+              "wall_game_reduction": 0.529042489515531,
+              "wall_reduction": 0.5606051539983004
+            }
+          }
+        },
+        "control": {
+          "counts": {
+            "B_hits": 0,
+            "B_logical": 21516,
+            "B_moves": 1255,
+            "B_physical": 21516,
+            "Q_hits": 0,
+            "Q_logical": 11410,
+            "Q_moves": 1343,
+            "Q_physical": 11410
+          },
+          "delta": {
+            "CI": [
+              0.0,
+              0.0
+            ],
+            "point": 0.0
+          },
+          "logical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.4402073480496044,
+                0.4744917379966965
+              ],
+              "CPU_reduction": [
+                0.47488533948840717,
+                0.5114541622790796
+              ],
+              "NN_game_reduction": [
+                0.4555155210643016,
+                0.4852635948526359
+              ],
+              "NN_reduction": [
+                0.48877380924025504,
+                0.5216124832855216
+              ],
+              "score": [
+                0.7465277777777778,
+                0.8611111111111112
+              ],
+              "wall_game_reduction": [
+                0.4356133870841673,
+                0.6770939130701039
+              ],
+              "wall_reduction": [
+                0.4713114175624773,
+                0.6986607600439696
+              ]
+            },
+            "counts": {
+              "Bcpu": 40863474742,
+              "Bmoves": 1255,
+              "Bnn": 21516,
+              "Bwall": 50543872237,
+              "Qcpu": 22209232466,
+              "Qmoves": 1343,
+              "Qnn": 11410,
+              "Qwall": 23105422028,
+              "cert": 239,
+              "draws": 0,
+              "games": 288,
+              "losses": 56,
+              "queries": 131559,
+              "replacement": 97,
+              "score2": 464,
+              "wins": 232
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.4427975128126471,
+              "CPU_reduction": 0.47760727433311223,
+              "NN_game_reduction": 0.45750507995405953,
+              "NN_reduction": 0.4912013359774555,
+              "score": 0.7569444444444444,
+              "wall_game_reduction": 0.43916942946925774,
+              "wall_reduction": 0.4747481523604915
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.45650161651150367,
+              "CPU_reduction": 0.4921143177378533,
+              "NN_game_reduction": 0.4696969696969697,
+              "NN_reduction": 0.5044450461427379,
+              "score": 0.8055555555555556,
+              "wall_game_reduction": 0.5428640306848914,
+              "wall_reduction": 0.5728178395454495
+            }
+          },
+          "physical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.4402073480496044,
+                0.4744917379966965
+              ],
+              "CPU_reduction": [
+                0.47488533948840717,
+                0.5114541622790796
+              ],
+              "NN_game_reduction": [
+                0.4555155210643016,
+                0.4852635948526359
+              ],
+              "NN_reduction": [
+                0.48877380924025504,
+                0.5216124832855216
+              ],
+              "score": [
+                0.7465277777777778,
+                0.8611111111111112
+              ],
+              "wall_game_reduction": [
+                0.4356133870841673,
+                0.6770939130701039
+              ],
+              "wall_reduction": [
+                0.4713114175624773,
+                0.6986607600439696
+              ]
+            },
+            "counts": {
+              "Bcpu": 40863474742,
+              "Bmoves": 1255,
+              "Bnn": 21516,
+              "Bwall": 50543872237,
+              "Qcpu": 22209232466,
+              "Qmoves": 1343,
+              "Qnn": 11410,
+              "Qwall": 23105422028,
+              "cert": 239,
+              "draws": 0,
+              "games": 288,
+              "losses": 56,
+              "queries": 131559,
+              "replacement": 97,
+              "score2": 464,
+              "wins": 232
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.4427975128126471,
+              "CPU_reduction": 0.47760727433311223,
+              "NN_game_reduction": 0.45750507995405953,
+              "NN_reduction": 0.4912013359774555,
+              "score": 0.7569444444444444,
+              "wall_game_reduction": 0.43916942946925774,
+              "wall_reduction": 0.4747481523604915
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.45650161651150367,
+              "CPU_reduction": 0.4921143177378533,
+              "NN_game_reduction": 0.4696969696969697,
+              "NN_reduction": 0.5044450461427379,
+              "score": 0.8055555555555556,
+              "wall_game_reduction": 0.5428640306848914,
+              "wall_reduction": 0.5728178395454495
+            }
+          }
+        }
+      },
+      "pairs": {
+        "cold": {
+          "CI": {
+            "base_interventions": [
+              0.3854166666666667,
+              0.5798611111111112
+            ],
+            "changed": [
+              0.1388888888888889,
+              0.25
+            ],
+            "delta_B": [
+              -3.2083333333333335,
+              0.22916666666666666
+            ],
+            "delta_Q": [
+              2.3090277777777777,
+              5.260416666666667
+            ],
+            "delta_total": [
+              -0.5625,
+              5.125
+            ],
+            "downstream_B": [
+              -3.2083333333333335,
+              0.22916666666666666
+            ],
+            "downstream_Q": [
+              -2.0416666666666665,
+              0.4409722222222222
+            ],
+            "improved": [
+              0.010416666666666666,
+              0.041666666666666664
+            ],
+            "interventions": [
+              0.3854166666666667,
+              0.5798611111111112
+            ],
+            "local_nn": [
+              3.6041666666666665,
+              5.368055555555555
+            ],
+            "reached": [
+              0.3854166666666667,
+              0.5798611111111112
+            ],
+            "same_history": [
+              0.75,
+              0.8611111111111112
+            ],
+            "tau": [
+              -0.03125,
+              0.020833333333333332
+            ],
+            "worsened": [
+              0.010416666666666666,
+              0.04861111111111111
+            ]
+          },
+          "baseline_relative": {
+            "CPU_game_reduction": {
+              "CI": [
+                -0.08383752518939191,
+                -0.04793326643769136
+              ],
+              "point": -0.06574944354655532
+            },
+            "CPU_reduction": {
+              "CI": [
+                -0.08023962232786319,
+                -0.04299912806832751
+              ],
+              "point": -0.061267923175288064
+            },
+            "NN_game_reduction": {
+              "CI": [
+                -0.07344954437977691,
+                -0.05046637347406879
+              ],
+              "point": -0.06160037878787883
+            },
+            "NN_reduction": {
+              "CI": [
+                -0.07121569326860655,
+                -0.04464219743191722
+              ],
+              "point": -0.05739565902267185
+            },
+            "score": {
+              "CI": [
+                -0.03125,
+                0.02083333333333337
+              ],
+              "point": -0.00347222222222221
+            },
+            "wall_game_reduction": {
+              "CI": [
+                -0.5609127113711229,
+                -0.039311030841695294
+              ],
+              "point": -0.25475158277165566
+            },
+            "wall_reduction": {
+              "CI": [
+                -0.5253794349054505,
+                -0.03673502052969724
+              ],
+              "point": -0.23785651339352343
+            }
+          },
+          "counts": {
+            "base_interventions": 140,
+            "changed": 56,
+            "delta2": -2,
+            "delta_B": -396,
+            "delta_Q": 1091,
+            "delta_total": 695,
+            "downstream_B": -396,
+            "downstream_Q": -209,
+            "improved": 7,
+            "interventions": 140,
+            "local_nn": 1300,
+            "n": 288,
+            "reached": 140,
+            "same_history": 232,
+            "worsened": 8
+          },
+          "logical_extra_total": 1680,
+          "metrics": {
+            "base_interventions": 0.4861111111111111,
+            "changed": 0.19444444444444445,
+            "delta_B": -1.375,
+            "delta_Q": 3.7881944444444446,
+            "delta_total": 2.4131944444444446,
+            "downstream_B": -1.375,
+            "downstream_Q": -0.7256944444444444,
+            "improved": 0.024305555555555556,
+            "interventions": 0.4861111111111111,
+            "local_nn": 4.513888888888889,
+            "reached": 0.4861111111111111,
+            "same_history": 0.8055555555555556,
+            "tau": -0.003472222222222222,
+            "worsened": 0.027777777777777776
+          },
+          "ratio": {
+            "delta_Q": {
+              "CI": [
+                -0.007275132275132275,
+                0.007502679528403001
+              ],
+              "nonpositive_resamples": 0,
+              "point": -0.0009165902841429881
+            },
+            "delta_total": {
+              "CI": null,
+              "nonpositive_resamples": 426,
+              "point": -0.0014388489208633094
+            },
+            "local_nn": {
+              "CI": [
+                -0.006802721088435374,
+                0.005065123010130246
+              ],
+              "nonpositive_resamples": 0,
+              "point": -0.0007692307692307692
+            }
+          }
+        },
+        "conditional": {
+          "CI": {
+            "base_interventions": [
+              0.3854166666666667,
+              0.5798611111111112
+            ],
+            "changed": [
+              0.059027777777777776,
+              0.11805555555555555
+            ],
+            "delta_B": [
+              0.22916666666666666,
+              2.40625
+            ],
+            "delta_Q": [
+              1.3159722222222223,
+              2.9097222222222223
+            ],
+            "delta_total": [
+              1.7361111111111112,
+              5.135416666666667
+            ],
+            "downstream_B": [
+              0.22916666666666666,
+              2.40625
+            ],
+            "downstream_Q": [
+              -0.5833333333333334,
+              0.5833333333333334
+            ],
+            "improved": [
+              0.0,
+              0.017361111111111112
+            ],
+            "interventions": [
+              0.5520833333333334,
+              0.84375
+            ],
+            "local_nn": [
+              1.5451388888888888,
+              2.611111111111111
+            ],
+            "reached": [
+              0.3854166666666667,
+              0.5798611111111112
+            ],
+            "same_history": [
+              0.8819444444444444,
+              0.9409722222222222
+            ],
+            "tau": [
+              0.0,
+              0.017361111111111112
+            ],
+            "worsened": [
+              0.0,
+              0.0
+            ]
+          },
+          "baseline_relative": {
+            "CPU_game_reduction": {
+              "CI": [
+                -0.021723796076103863,
+                -0.00037399270608551305
+              ],
+              "point": -0.011239736169558534
+            },
+            "CPU_reduction": {
+              "CI": [
+                -0.019842300730584017,
+                0.000757386074307087
+              ],
+              "point": -0.009750077401806223
+            },
+            "NN_game_reduction": {
+              "CI": [
+                -0.025271161802527198,
+                -0.010396457837232087
+              ],
+              "point": -0.01783452322766832
+            },
+            "NN_reduction": {
+              "CI": [
+                -0.023275821371787964,
+                -0.008541006138808371
+              ],
+              "point": -0.015923858613076214
+            },
+            "score": {
+              "CI": [
+                0.0,
+                0.01736111111111116
+              ],
+              "point": 0.00694444444444442
+            },
+            "wall_game_reduction": {
+              "CI": [
+                -0.03319013321440878,
+                0.5460546974112739
+              ],
+              "point": 0.24093004160229525
+            },
+            "wall_reduction": {
+              "CI": [
+                -0.030096164975017103,
+                0.5118218508435148
+              ],
+              "point": 0.22564382784637427
+            }
+          },
+          "counts": {
+            "base_interventions": 140,
+            "changed": 25,
+            "delta2": 4,
+            "delta_B": 363,
+            "delta_Q": 598,
+            "delta_total": 961,
+            "downstream_B": 363,
+            "downstream_Q": 0,
+            "improved": 2,
+            "interventions": 202,
+            "local_nn": 598,
+            "n": 288,
+            "reached": 140,
+            "same_history": 263,
+            "worsened": 0
+          },
+          "logical_extra_total": 744,
+          "metrics": {
+            "base_interventions": 0.4861111111111111,
+            "changed": 0.08680555555555555,
+            "delta_B": 1.2604166666666667,
+            "delta_Q": 2.076388888888889,
+            "delta_total": 3.3368055555555554,
+            "downstream_B": 1.2604166666666667,
+            "downstream_Q": 0.0,
+            "improved": 0.006944444444444444,
+            "interventions": 0.7013888888888888,
+            "local_nn": 2.076388888888889,
+            "reached": 0.4861111111111111,
+            "same_history": 0.9131944444444444,
+            "tau": 0.006944444444444444,
+            "worsened": 0.0
+          },
+          "ratio": {
+            "delta_Q": {
+              "CI": [
+                0.0,
+                0.010548523206751054
+              ],
+              "nonpositive_resamples": 0,
+              "point": 0.0033444816053511705
+            },
+            "delta_total": {
+              "CI": [
+                0.0,
+                0.007207207207207207
+              ],
+              "nonpositive_resamples": 0,
+              "point": 0.002081165452653486
+            },
+            "local_nn": {
+              "CI": [
+                0.0,
+                0.008116883116883116
+              ],
+              "nonpositive_resamples": 0,
+              "point": 0.0033444816053511705
+            }
+          }
+        }
+      }
+    },
+    "old": {
+      "arms": {
+        "cold": {
+          "counts": {
+            "B_hits": 0,
+            "B_logical": 24354,
+            "B_moves": 1492,
+            "B_physical": 24354,
+            "Q_hits": 279,
+            "Q_logical": 13548,
+            "Q_moves": 1600,
+            "Q_physical": 13269,
+            "target_events": 147,
+            "target_logical": 1763,
+            "target_physical": 1484
+          },
+          "delta": {
+            "CI": [
+              0.009312357781289915,
+              0.012067504360407266
+            ],
+            "point": 0.010682742054693217
+          },
+          "logical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.43310762741174225,
+                0.48040193958981703
+              ],
+              "CPU_reduction": [
+                0.46826633003194873,
+                0.5180796025222634
+              ],
+              "NN_game_reduction": [
+                0.4224202812438107,
+                0.46765432098765436
+              ],
+              "NN_reduction": [
+                0.4586900270754739,
+                0.5062444917774076
+              ],
+              "score": [
+                0.7265625,
+                0.8359375
+              ],
+              "wall_game_reduction": [
+                0.25292762496409127,
+                0.4726509656386665
+              ],
+              "wall_reduction": [
+                0.30318854422044894,
+                0.5101357865954906
+              ]
+            },
+            "counts": {
+              "Bcpu": 103077681580,
+              "Bmoves": 1492,
+              "Bnn": 24354,
+              "Bwall": 108464155887,
+              "Qcpu": 56150585578,
+              "Qmoves": 1600,
+              "Qnn": 13548,
+              "Qwall": 66404163442,
+              "cert": 263,
+              "draws": 0,
+              "games": 384,
+              "losses": 84,
+              "queries": 124728,
+              "replacement": 151,
+              "score2": 600,
+              "wins": 300
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.4366797675045936,
+              "CPU_reduction": 0.47183852368908696,
+              "NN_game_reduction": 0.42622891609780766,
+              "NN_reduction": 0.46234637845376103,
+              "score": 0.734375,
+              "wall_game_reduction": 0.27738034778537,
+              "wall_reduction": 0.3262331482570161
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.4552595215830426,
+              "CPU_reduction": 0.49202950387618727,
+              "NN_game_reduction": 0.4437053461443705,
+              "NN_reduction": 0.48125523527962555,
+              "score": 0.78125,
+              "wall_game_reduction": 0.38777780641946724,
+              "wall_reduction": 0.4291028044861531
+            }
+          },
+          "physical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.43310762741174225,
+                0.48040193958981703
+              ],
+              "CPU_reduction": [
+                0.46826633003194873,
+                0.5180796025222634
+              ],
+              "NN_game_reduction": [
+                0.4343881290783945,
+                0.47859699355762353
+              ],
+              "NN_reduction": [
+                0.46983847959136715,
+                0.5164116899752855
+              ],
+              "score": [
+                0.7265625,
+                0.8359375
+              ],
+              "wall_game_reduction": [
+                0.25292762496409127,
+                0.4726509656386665
+              ],
+              "wall_reduction": [
+                0.30318854422044894,
+                0.5101357865954906
+              ]
+            },
+            "counts": {
+              "Bcpu": 103077681580,
+              "Bmoves": 1492,
+              "Bnn": 24354,
+              "Bwall": 108464155887,
+              "Qcpu": 56150585578,
+              "Qmoves": 1600,
+              "Qnn": 13269,
+              "Qwall": 66404163442,
+              "cert": 263,
+              "draws": 0,
+              "games": 384,
+              "losses": 84,
+              "queries": 124728,
+              "replacement": 151,
+              "score2": 600,
+              "wins": 300
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.4366797675045936,
+              "CPU_reduction": 0.47183852368908696,
+              "NN_game_reduction": 0.43788856304985335,
+              "NN_reduction": 0.4733583697232445,
+              "score": 0.734375,
+              "wall_game_reduction": 0.27738034778537,
+              "wall_reduction": 0.3262331482570161
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.4552595215830426,
+              "CPU_reduction": 0.49202950387618727,
+              "NN_game_reduction": 0.45516136979551614,
+              "NN_reduction": 0.49193797733431877,
+              "score": 0.78125,
+              "wall_game_reduction": 0.38777780641946724,
+              "wall_reduction": 0.4291028044861531
+            }
+          }
+        },
+        "conditional": {
+          "counts": {
+            "B_hits": 0,
+            "B_logical": 24156,
+            "B_moves": 1469,
+            "B_physical": 24156,
+            "Q_hits": 358,
+            "Q_logical": 13797,
+            "Q_moves": 1578,
+            "Q_physical": 13439,
+            "target_events": 187,
+            "target_logical": 2243,
+            "target_physical": 1885
+          },
+          "delta": {
+            "CI": [
+              0.012159607849477005,
+              0.01545520601408934
+            ],
+            "point": 0.013796623174544997
+          },
+          "logical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.4201079731095281,
+                0.4668736671964372
+              ],
+              "CPU_reduction": [
+                0.45785837977151833,
+                0.506273576644223
+              ],
+              "NN_game_reduction": [
+                0.4077666121367921,
+                0.4525702172760996
+              ],
+              "NN_reduction": [
+                0.4459699575542976,
+                0.4929177258245291
+              ],
+              "score": [
+                0.7291666666666666,
+                0.8385416666666666
+              ],
+              "wall_game_reduction": [
+                0.15788194927996113,
+                0.5252594220619554
+              ],
+              "wall_reduction": [
+                0.21802681027164017,
+                0.5577877492172407
+              ]
+            },
+            "counts": {
+              "Bcpu": 102565123535,
+              "Bmoves": 1469,
+              "Bnn": 24156,
+              "Bwall": 111256864235,
+              "Qcpu": 57162327787,
+              "Qmoves": 1578,
+              "Qnn": 13797,
+              "Qwall": 67768754246,
+              "cert": 255,
+              "draws": 0,
+              "games": 384,
+              "losses": 83,
+              "queries": 118500,
+              "replacement": 145,
+              "score2": 602,
+              "wins": 301
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.42412696606492806,
+              "CPU_reduction": 0.4616239037696708,
+              "NN_game_reduction": 0.41103828251163677,
+              "NN_reduction": 0.44936308380818346,
+              "score": 0.7369791666666666,
+              "wall_game_reduction": 0.20973106571760103,
+              "wall_reduction": 0.2636869026233227
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.44267285197103523,
+              "CPU_reduction": 0.4811701011061158,
+              "NN_game_reduction": 0.4288375558867362,
+              "NN_reduction": 0.4682904750301746,
+              "score": 0.7838541666666666,
+              "wall_game_reduction": 0.3908802417542808,
+              "wall_reduction": 0.4329550539524959
+            }
+          },
+          "physical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.4201079731095281,
+                0.4668736671964372
+              ],
+              "CPU_reduction": [
+                0.45785837977151833,
+                0.506273576644223
+              ],
+              "NN_game_reduction": [
+                0.42309891366495145,
+                0.4664412722263962
+              ],
+              "NN_reduction": [
+                0.46040240896719287,
+                0.5059279453094898
+              ],
+              "score": [
+                0.7291666666666666,
+                0.8385416666666666
+              ],
+              "wall_game_reduction": [
+                0.15788194927996113,
+                0.5252594220619554
+              ],
+              "wall_reduction": [
+                0.21802681027164017,
+                0.5577877492172407
+              ]
+            },
+            "counts": {
+              "Bcpu": 102565123535,
+              "Bmoves": 1469,
+              "Bnn": 24156,
+              "Bwall": 111256864235,
+              "Qcpu": 57162327787,
+              "Qmoves": 1578,
+              "Qnn": 13439,
+              "Qwall": 67768754246,
+              "cert": 255,
+              "draws": 0,
+              "games": 384,
+              "losses": 83,
+              "queries": 118500,
+              "replacement": 145,
+              "score2": 602,
+              "wins": 301
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.42412696606492806,
+              "CPU_reduction": 0.4616239037696708,
+              "NN_game_reduction": 0.42641624277205337,
+              "NN_reduction": 0.46374502069646695,
+              "score": 0.7369791666666666,
+              "wall_game_reduction": 0.20973106571760103,
+              "wall_reduction": 0.2636869026233227
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.44267285197103523,
+              "CPU_reduction": 0.4811701011061158,
+              "NN_game_reduction": 0.4436578903792019,
+              "NN_reduction": 0.4820870982047196,
+              "score": 0.7838541666666666,
+              "wall_game_reduction": 0.3908802417542808,
+              "wall_reduction": 0.4329550539524959
+            }
+          }
+        },
+        "control": {
+          "counts": {
+            "B_hits": 0,
+            "B_logical": 25476,
+            "B_moves": 1538,
+            "B_physical": 25476,
+            "Q_hits": 0,
+            "Q_logical": 12499,
+            "Q_moves": 1649,
+            "Q_physical": 12499
+          },
+          "delta": {
+            "CI": [
+              0.0,
+              0.0
+            ],
+            "point": 0.0
+          },
+          "logical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.49089887683234745,
+                0.5331228389402436
+              ],
+              "CPU_reduction": [
+                0.5225020907255069,
+                0.5666796208441255
+              ],
+              "NN_game_reduction": [
+                0.48896235078053263,
+                0.5323357589422979
+              ],
+              "NN_reduction": [
+                0.5206457236127668,
+                0.5659655509488657
+              ],
+              "score": [
+                0.7317708333333334,
+                0.8463541666666666
+              ],
+              "wall_game_reduction": [
+                0.495751516583002,
+                0.5454422844912561
+              ],
+              "wall_reduction": [
+                0.5275665888986036,
+                0.578029021006458
+              ]
+            },
+            "counts": {
+              "Bcpu": 108051866522,
+              "Bmoves": 1538,
+              "Bnn": 25476,
+              "Bwall": 112184300738,
+              "Qcpu": 52861311234,
+              "Qmoves": 1649,
+              "Qnn": 12499,
+              "Qwall": 53896797530,
+              "cert": 274,
+              "draws": 0,
+              "games": 384,
+              "losses": 81,
+              "queries": 137420,
+              "replacement": 165,
+              "score2": 606,
+              "wins": 303
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.49390435194463655,
+              "CPU_reduction": 0.5257059598589117,
+              "NN_game_reduction": 0.492288799797739,
+              "NN_reduction": 0.5241049928513334,
+              "score": 0.7395833333333334,
+              "wall_game_reduction": 0.4992053817219346,
+              "wall_reduction": 0.5312330084558529
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.5107783610268581,
+              "CPU_reduction": 0.5437095932439708,
+              "NN_game_reduction": 0.509381378552363,
+              "NN_reduction": 0.5424066465818886,
+              "score": 0.7890625,
+              "wall_game_reduction": 0.51956916274878,
+              "wall_reduction": 0.5519086551289409
+            }
+          },
+          "physical": {
+            "CI": {
+              "CPU_game_reduction": [
+                0.49089887683234745,
+                0.5331228389402436
+              ],
+              "CPU_reduction": [
+                0.5225020907255069,
+                0.5666796208441255
+              ],
+              "NN_game_reduction": [
+                0.48896235078053263,
+                0.5323357589422979
+              ],
+              "NN_reduction": [
+                0.5206457236127668,
+                0.5659655509488657
+              ],
+              "score": [
+                0.7317708333333334,
+                0.8463541666666666
+              ],
+              "wall_game_reduction": [
+                0.495751516583002,
+                0.5454422844912561
+              ],
+              "wall_reduction": [
+                0.5275665888986036,
+                0.578029021006458
+              ]
+            },
+            "counts": {
+              "Bcpu": 108051866522,
+              "Bmoves": 1538,
+              "Bnn": 25476,
+              "Bwall": 112184300738,
+              "Qcpu": 52861311234,
+              "Qmoves": 1649,
+              "Qnn": 12499,
+              "Qwall": 53896797530,
+              "cert": 274,
+              "draws": 0,
+              "games": 384,
+              "losses": 81,
+              "queries": 137420,
+              "replacement": 165,
+              "score2": 606,
+              "wins": 303
+            },
+            "gate": {
+              "CPU": true,
+              "NN": true,
+              "score": true
+            },
+            "lower95": {
+              "CPU_game_reduction": 0.49390435194463655,
+              "CPU_reduction": 0.5257059598589117,
+              "NN_game_reduction": 0.492288799797739,
+              "NN_reduction": 0.5241049928513334,
+              "score": 0.7395833333333334,
+              "wall_game_reduction": 0.4992053817219346,
+              "wall_reduction": 0.5312330084558529
+            },
+            "metrics": {
+              "CPU_game_reduction": 0.5107783610268581,
+              "CPU_reduction": 0.5437095932439708,
+              "NN_game_reduction": 0.509381378552363,
+              "NN_reduction": 0.5424066465818886,
+              "score": 0.7890625,
+              "wall_game_reduction": 0.51956916274878,
+              "wall_reduction": 0.5519086551289409
+            }
+          }
+        }
+      },
+      "pairs": {
+        "cold": {
+          "CI": {
+            "base_interventions": [
+              0.3020833333333333,
+              0.4609375
+            ],
+            "changed": [
+              0.17708333333333334,
+              0.2942708333333333
+            ],
+            "delta_B": [
+              -5.7578125,
+              -0.4296875
+            ],
+            "delta_Q": [
+              0.34375,
+              3.6119791666666665
+            ],
+            "delta_total": [
+              -5.197916666666667,
+              2.8880208333333335
+            ],
+            "downstream_B": [
+              -5.7578125,
+              -0.4296875
+            ],
+            "downstream_Q": [
+              -3.609375,
+              -0.328125
+            ],
+            "improved": [
+              0.0026041666666666665,
+              0.028645833333333332
+            ],
+            "interventions": [
+              0.3020833333333333,
+              0.4609375
+            ],
+            "local_nn": [
+              3.0572916666666665,
+              4.635416666666667
+            ],
+            "reached": [
+              0.3020833333333333,
+              0.4609375
+            ],
+            "same_history": [
+              0.7057291666666666,
+              0.8229166666666666
+            ],
+            "tau": [
+              -0.0234375,
+              0.0078125
+            ],
+            "worsened": [
+              0.0078125,
+              0.033854166666666664
+            ]
+          },
+          "baseline_relative": {
+            "CPU_game_reduction": {
+              "CI": [
+                -0.06991212765686017,
+                -0.040783397822132694
+              ],
+              "point": -0.055518839443815526
+            },
+            "CPU_reduction": {
+              "CI": [
+                -0.0660319002956582,
+                -0.03691869078661325
+              ],
+              "point": -0.051680089367783566
+            },
+            "NN_game_reduction": {
+              "CI": [
+                -0.06717323896945104,
+                -0.04175585096722634
+              ],
+              "point": -0.05422000875684685
+            },
+            "NN_reduction": {
+              "CI": [
+                -0.06318132998003634,
+                -0.038308314995323944
+              ],
+              "point": -0.050468669247569875
+            },
+            "score": {
+              "CI": [
+                -0.0234375,
+                0.0078125
+              ],
+              "point": -0.0078125
+            },
+            "wall_game_reduction": {
+              "CI": [
+                -0.2731838176442377,
+                -0.04767589590169552
+              ],
+              "point": -0.13179135632931271
+            },
+            "wall_reduction": {
+              "CI": [
+                -0.25504499435654804,
+                -0.04413098536829729
+              ],
+              "point": -0.12280585064278782
+            }
+          },
+          "counts": {
+            "base_interventions": 147,
+            "changed": 90,
+            "delta2": -6,
+            "delta_B": -1122,
+            "delta_Q": 770,
+            "delta_total": -352,
+            "downstream_B": -1122,
+            "downstream_Q": -714,
+            "improved": 5,
+            "interventions": 147,
+            "local_nn": 1484,
+            "n": 384,
+            "reached": 147,
+            "same_history": 294,
+            "worsened": 8
+          },
+          "logical_extra_total": 1763,
+          "metrics": {
+            "base_interventions": 0.3828125,
+            "changed": 0.234375,
+            "delta_B": -2.921875,
+            "delta_Q": 2.0052083333333335,
+            "delta_total": -0.9166666666666666,
+            "downstream_B": -2.921875,
+            "downstream_Q": -1.859375,
+            "improved": 0.013020833333333334,
+            "interventions": 0.3828125,
+            "local_nn": 3.8645833333333335,
+            "reached": 0.3828125,
+            "same_history": 0.765625,
+            "tau": -0.0078125,
+            "worsened": 0.020833333333333332
+          },
+          "ratio": {
+            "delta_Q": {
+              "CI": null,
+              "nonpositive_resamples": 74,
+              "point": -0.003896103896103896
+            },
+            "delta_total": {
+              "CI": null,
+              "nonpositive_resamples": 5332,
+              "point": null
+            },
+            "local_nn": {
+              "CI": [
+                -0.006329113924050633,
+                0.0024067388688327317
+              ],
+              "nonpositive_resamples": 0,
+              "point": -0.0020215633423180594
+            }
+          }
+        },
+        "conditional": {
+          "CI": {
+            "base_interventions": [
+              0.3020833333333333,
+              0.4609375
+            ],
+            "changed": [
+              0.041666666666666664,
+              0.1015625
+            ],
+            "delta_B": [
+              -1.9765625,
+              0.6875
+            ],
+            "delta_Q": [
+              -0.296875,
+              1.1432291666666667
+            ],
+            "delta_total": [
+              -2.2213541666666665,
+              1.7317708333333333
+            ],
+            "downstream_B": [
+              -1.9765625,
+              0.6875
+            ],
+            "downstream_Q": [
+              -1.421875,
+              0.109375
+            ],
+            "improved": [
+              0.0,
+              0.013020833333333334
+            ],
+            "interventions": [
+              0.3828125,
+              0.5911458333333334
+            ],
+            "local_nn": [
+              0.703125,
+              1.4088541666666667
+            ],
+            "reached": [
+              0.3020833333333333,
+              0.4609375
+            ],
+            "same_history": [
+              0.8984375,
+              0.9583333333333334
+            ],
+            "tau": [
+              -0.005208333333333333,
+              0.013020833333333334
+            ],
+            "worsened": [
+              0.0,
+              0.0078125
+            ]
+          },
+          "baseline_relative": {
+            "CPU_game_reduction": {
+              "CI": [
+                -0.025313904797743203,
+                0.0003425578802624951
+              ],
+              "point": -0.012586669612007384
+            },
+            "CPU_reduction": {
+              "CI": [
+                -0.02282730026069746,
+                0.0012984732394931697
+              ],
+              "point": -0.010859402770071469
+            },
+            "NN_game_reduction": {
+              "CI": [
+                -0.01825148834932666,
+                -0.004305098363702853
+              ],
+              "point": -0.011503479416314244
+            },
+            "NN_reduction": {
+              "CI": [
+                -0.016513943247032703,
+                -0.0029479886762632246
+              ],
+              "point": -0.009850879129599144
+            },
+            "score": {
+              "CI": [
+                -0.00520833333333337,
+                0.01302083333333326
+              ],
+              "point": 0.0026041666666666297
+            },
+            "wall_game_reduction": {
+              "CI": [
+                -0.23984938739619965,
+                0.19260291112440286
+              ],
+              "point": 0.0031024353348135802
+            },
+            "wall_reduction": {
+              "CI": [
+                -0.22323677243272733,
+                0.18111045618000288
+              ],
+              "point": 0.003852249466342772
+            }
+          },
+          "counts": {
+            "base_interventions": 147,
+            "changed": 27,
+            "delta2": 2,
+            "delta_B": -198,
+            "delta_Q": 170,
+            "delta_total": -28,
+            "downstream_B": -198,
+            "downstream_Q": -231,
+            "improved": 2,
+            "interventions": 187,
+            "local_nn": 401,
+            "n": 384,
+            "reached": 147,
+            "same_history": 357,
+            "worsened": 1
+          },
+          "logical_extra_total": 480,
+          "metrics": {
+            "base_interventions": 0.3828125,
+            "changed": 0.0703125,
+            "delta_B": -0.515625,
+            "delta_Q": 0.4427083333333333,
+            "delta_total": -0.07291666666666667,
+            "downstream_B": -0.515625,
+            "downstream_Q": -0.6015625,
+            "improved": 0.005208333333333333,
+            "interventions": 0.4869791666666667,
+            "local_nn": 1.0442708333333333,
+            "reached": 0.3828125,
+            "same_history": 0.9296875,
+            "tau": 0.0026041666666666665,
+            "worsened": 0.0026041666666666665
+          },
+          "ratio": {
+            "delta_Q": {
+              "CI": null,
+              "nonpositive_resamples": 928,
+              "point": 0.0058823529411764705
+            },
+            "delta_total": {
+              "CI": null,
+              "nonpositive_resamples": 4026,
+              "point": null
+            },
+            "local_nn": {
+              "CI": [
+                -0.005865102639296188,
+                0.011363636363636364
+              ],
+              "nonpositive_resamples": 0,
+              "point": 0.0024937655860349127
+            }
+          }
+        }
+      }
+    }
+  },
+  "parity": {
+    "baseline_roots": 28,
+    "hits": 117,
+    "logical": 2310,
+    "new_uncached": 2310,
+    "old_nn": 2310,
+    "physical": 2193,
+    "target_roots": 56
+  },
+  "rapfi": {
+    "arms": {
+      "96": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.25723315001175906,
+            0.2857047882351813
+          ],
+          "CPU_reduction": [
+            0.25632521663737895,
+            0.28523713919149696
+          ],
+          "NN_game_reduction": [
+            0.35161644242429246,
+            0.3824743017890948
+          ],
+          "NN_reduction": [
+            0.3508462148606317,
+            0.3821108129329468
+          ],
+          "score": [
+            0.4609375,
+            0.5104166666666666
+          ],
+          "wall_game_reduction": [
+            0.11281202163242865,
+            0.3228171758962304
+          ],
+          "wall_reduction": [
+            0.11192744542811717,
+            0.3224714193085235
+          ]
+        },
+        "counts": {
+          "Bcpu": 158385055388,
+          "Bmoves": 5666,
+          "Bnn": 542145,
+          "Bwall": 248831681521,
+          "Qcpu": 115634183542,
+          "Qmoves": 5661,
+          "Qnn": 343358,
+          "Qwall": 192819374234,
+          "cert": 508,
+          "draws": 5,
+          "games": 384,
+          "losses": 195,
+          "queries": 4326600,
+          "replacement": 283,
+          "score2": 373,
+          "wins": 184
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.25911089033943635,
+          "CPU_reduction": 0.258320969568531,
+          "NN_game_reduction": 0.35417223062998904,
+          "NN_reduction": 0.35351996777890493,
+          "score": 0.46484375,
+          "wall_game_reduction": 0.13249850172059785,
+          "wall_reduction": 0.13177669310140128
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.26991733368575765,
+          "CPU_reduction": 0.26927249826240995,
+          "NN_game_reduction": 0.36666758892916107,
+          "NN_reduction": 0.36610820683141254,
+          "score": 0.4856770833333333,
+          "wall_game_reduction": 0.22510118866143203,
+          "wall_reduction": 0.2244167699974693
+        }
+      },
+      "T": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.2446051459159443,
+            0.27578880683712415
+          ],
+          "CPU_reduction": [
+            0.24290722095490913,
+            0.27485514291668134
+          ],
+          "NN_game_reduction": [
+            0.35097678984116,
+            0.38130610759205696
+          ],
+          "NN_reduction": [
+            0.349671857261335,
+            0.38065143949204316
+          ],
+          "score": [
+            0.4505208333333333,
+            0.4986979166666667
+          ],
+          "wall_game_reduction": [
+            0.24574585633400559,
+            0.2776474749734218
+          ],
+          "wall_reduction": [
+            0.24409264323938173,
+            0.2767545247015827
+          ]
+        },
+        "counts": {
+          "Bcpu": 134264750450,
+          "Bmoves": 5458,
+          "Bnn": 516672,
+          "Bwall": 135309515105,
+          "Qcpu": 99382507225,
+          "Qmoves": 5449,
+          "Qnn": 327388,
+          "Qwall": 99966735173,
+          "cert": 504,
+          "draws": 3,
+          "games": 384,
+          "losses": 200,
+          "queries": 4148322,
+          "replacement": 292,
+          "score2": 365,
+          "wins": 181
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.24696689198135569,
+          "CPU_reduction": 0.2454366196391785,
+          "NN_game_reduction": 0.3535319532890284,
+          "NN_reduction": 0.35221883103966256,
+          "score": 0.4544270833333333,
+          "wall_game_reduction": 0.2479694219338605,
+          "wall_reduction": 0.24641758513697254
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.2598019443531465,
+          "CPU_reduction": 0.2585793746154291,
+          "NN_game_reduction": 0.3663523473306082,
+          "NN_reduction": 0.3653057646780069,
+          "score": 0.4752604166666667,
+          "wall_game_reduction": 0.2611995165644785,
+          "wall_reduction": 0.25997925516772313
+        }
+      }
+    },
+    "confirmed": true,
+    "contrast": {
+      "CPU_game_reduction": {
+        "CI": [
+          -0.023046568578271143,
+          0.001889951278217783
+        ],
+        "point": -0.010115389332611135
+      },
+      "CPU_reduction": {
+        "CI": [
+          -0.02410972500828712,
+          0.0016810230456196784
+        ],
+        "point": -0.010693123646980829
+      },
+      "NN_game_reduction": {
+        "CI": [
+          -0.011301295119712007,
+          0.01195598374506568
+        ],
+        "point": -0.0003152415985528956
+      },
+      "NN_reduction": {
+        "CI": [
+          -0.012098262353566147,
+          0.011849344951564866
+        ],
+        "point": -0.0008024421534056358
+      },
+      "score": {
+        "CI": [
+          -0.028645833333333315,
+          0.0078125
+        ],
+        "point": -0.01041666666666663
+      },
+      "wall_game_reduction": {
+        "CI": [
+          -0.058585835446208656,
+          0.14621711287824302
+        ],
+        "point": 0.03609832790304646
+      },
+      "wall_reduction": {
+        "CI": [
+          -0.0595695236060404,
+          0.1459068538670133
+        ],
+        "point": 0.035562485170253844
+      }
+    },
+    "paired": {
+      "CI": {
+        "base_interventions": [
+          0.0,
+          0.0
+        ],
+        "changed": [
+          0.13802083333333334,
+          0.21354166666666666
+        ],
+        "delta_B": [
+          -201.796875,
+          16.682291666666668
+        ],
+        "delta_Q": [
+          -141.34895833333334,
+          17.333333333333332
+        ],
+        "delta_total": [
+          -342.1145833333333,
+          32.580729166666664
+        ],
+        "downstream_B": [
+          -201.796875,
+          16.682291666666668
+        ],
+        "downstream_Q": [
+          -147.97916666666666,
+          10.684895833333334
+        ],
+        "improved": [
+          0.0026041666666666665,
+          0.028645833333333332
+        ],
+        "interventions": [
+          0.5052083333333334,
+          0.609375
+        ],
+        "local_nn": [
+          6.0625,
+          7.3125
+        ],
+        "reached": [
+          0.5052083333333334,
+          0.609375
+        ],
+        "same_history": [
+          0.7864583333333334,
+          0.8619791666666666
+        ],
+        "tau": [
+          -0.028645833333333332,
+          0.0078125
+        ],
+        "worsened": [
+          0.0078125,
+          0.036458333333333336
+        ]
+      },
+      "counts": {
+        "base_interventions": 0,
+        "changed": 67,
+        "delta2": -8,
+        "delta_B": -25473,
+        "delta_Q": -15970,
+        "delta_total": -41443,
+        "downstream_B": -25473,
+        "downstream_Q": -18538,
+        "improved": 5,
+        "interventions": 214,
+        "local_nn": 2568,
+        "n": 384,
+        "reached": 214,
+        "same_history": 317,
+        "worsened": 8
+      },
+      "metrics": {
+        "base_interventions": 0.0,
+        "changed": 0.17447916666666666,
+        "delta_B": -66.3359375,
+        "delta_Q": -41.588541666666664,
+        "delta_total": -107.92447916666667,
+        "downstream_B": -66.3359375,
+        "downstream_Q": -48.276041666666664,
+        "improved": 0.013020833333333334,
+        "interventions": 0.5572916666666666,
+        "local_nn": 6.6875,
+        "reached": 0.5572916666666666,
+        "same_history": 0.8255208333333334,
+        "tau": -0.010416666666666666,
+        "worsened": 0.020833333333333332
+      },
+      "ratio": {
+        "delta_Q": {
+          "CI": null,
+          "nonpositive_resamples": 6490,
+          "point": null
+        },
+        "delta_total": {
+          "CI": null,
+          "nonpositive_resamples": 6935,
+          "point": null
+        },
+        "local_nn": {
+          "CI": [
+            -0.0041876046901172526,
+            0.001091703056768559
+          ],
+          "nonpositive_resamples": 0,
+          "point": -0.001557632398753894
+        }
+      }
+    }
+  },
+  "scope": "8000 family bootstrap, fair cached baseline physical counts, logical costs separately; Rapfi independent confirmation; conditional heuristic exploratory",
+  "uncached_replay": {
+    "cached": {
+      "counts": {
+        "B_hits": 0,
+        "B_logical": 5775,
+        "B_moves": 376,
+        "B_physical": 5775,
+        "Q_hits": 81,
+        "Q_logical": 3431,
+        "Q_moves": 396,
+        "Q_physical": 3350,
+        "target_events": 35,
+        "target_logical": 420,
+        "target_physical": 339
+      },
+      "delta": {
+        "CI": [
+          0.011576128526910034,
+          0.016677722872808443
+        ],
+        "point": 0.013317591499409587
+      },
+      "logical": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.3853914841076169,
+            0.4431532373554412
+          ],
+          "CPU_reduction": [
+            0.4000902966918579,
+            0.4743014184211267
+          ],
+          "NN_game_reduction": [
+            0.3874458874458875,
+            0.4247740563530037
+          ],
+          "NN_reduction": [
+            0.4068311897175244,
+            0.4572247643199735
+          ],
+          "score": [
+            0.5535714285714286,
+            0.8214285714285714
+          ],
+          "wall_game_reduction": [
+            -1.2236355325652517,
+            0.45759156879382723
+          ],
+          "wall_reduction": [
+            -1.1595327840019718,
+            0.49113056790590637
+          ]
+        },
+        "counts": {
+          "Bcpu": 17771117447,
+          "Bmoves": 376,
+          "Bnn": 5775,
+          "Bwall": 20048341959,
+          "Qcpu": 10377794435,
+          "Qmoves": 396,
+          "Qnn": 3431,
+          "Qwall": 17538811841,
+          "cert": 51,
+          "draws": 0,
+          "games": 112,
+          "losses": 36,
+          "queries": 26757,
+          "replacement": 27,
+          "score2": 152,
+          "wins": 76
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.3902813719892616,
+          "CPU_reduction": 0.41168731789834967,
+          "NN_game_reduction": 0.38821548821548824,
+          "NN_reduction": 0.4082007981554545,
+          "score": 0.5625,
+          "wall_game_reduction": -0.85882844835409,
+          "wall_reduction": -0.8098841394549712
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.4160302825103489,
+          "CPU_reduction": 0.4455237025855838,
+          "NN_game_reduction": 0.40588744588744585,
+          "NN_reduction": 0.435893130438585,
+          "score": 0.6785714285714286,
+          "wall_game_reduction": 0.12517394820639693,
+          "wall_reduction": 0.1693570821353667
+        }
+      },
+      "physical": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.3853914841076169,
+            0.4431532373554412
+          ],
+          "CPU_reduction": [
+            0.4000902966918579,
+            0.4743014184211267
+          ],
+          "NN_game_reduction": [
+            0.40173580464842595,
+            0.43894566971490045
+          ],
+          "NN_reduction": [
+            0.4185017480036638,
+            0.47034015105573623
+          ],
+          "score": [
+            0.5535714285714286,
+            0.8214285714285714
+          ],
+          "wall_game_reduction": [
+            -1.2236355325652517,
+            0.45759156879382723
+          ],
+          "wall_reduction": [
+            -1.1595327840019718,
+            0.49113056790590637
+          ]
+        },
+        "counts": {
+          "Bcpu": 17771117447,
+          "Bmoves": 376,
+          "Bnn": 5775,
+          "Bwall": 20048341959,
+          "Qcpu": 10377794435,
+          "Qmoves": 396,
+          "Qnn": 3350,
+          "Qwall": 17538811841,
+          "cert": 51,
+          "draws": 0,
+          "games": 112,
+          "losses": 36,
+          "queries": 26757,
+          "replacement": 27,
+          "score2": 152,
+          "wins": 76
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.3902813719892616,
+          "CPU_reduction": 0.41168731789834967,
+          "NN_game_reduction": 0.40235690235690236,
+          "NN_reduction": 0.4228457276940012,
+          "score": 0.5625,
+          "wall_game_reduction": -0.85882844835409,
+          "wall_reduction": -0.8098841394549712
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.4160302825103489,
+          "CPU_reduction": 0.4455237025855838,
+          "NN_game_reduction": 0.4199134199134199,
+          "NN_reduction": 0.4492107219379946,
+          "score": 0.6785714285714286,
+          "wall_game_reduction": 0.12517394820639693,
+          "wall_reduction": 0.1693570821353667
+        }
+      }
+    },
+    "n": 112,
+    "physical_contrast": {
+      "CPU_game_reduction": {
+        "CI": [
+          0.006365439611884516,
+          0.04922153913276339
+        ],
+        "point": 0.03326741713621861
+      },
+      "CPU_reduction": {
+        "CI": [
+          0.006166519624013156,
+          0.04658231451438466
+        ],
+        "point": 0.031587244553581306
+      },
+      "NN_game_reduction": {
+        "CI": [
+          0.012149141181399314,
+          0.01729055258467016
+        ],
+        "point": 0.014025974025974053
+      },
+      "NN_reduction": {
+        "CI": [
+          0.011576128526910034,
+          0.016677722872808443
+        ],
+        "point": 0.013317591499409587
+      },
+      "score": {
+        "CI": [
+          0.0,
+          0.0
+        ],
+        "point": 0.0
+      },
+      "wall_game_reduction": {
+        "CI": [
+          -1.5686068298891245,
+          0.06466092299419268
+        ],
+        "point": -0.2581065734474757
+      },
+      "wall_reduction": {
+        "CI": [
+          -1.514443170027365,
+          0.06086562674941265
+        ],
+        "point": -0.24507088791982545
+      }
+    },
+    "scope": "same games repeated for semantic and cost parity, not independent sample",
+    "uncached": {
+      "CI": {
+        "CPU_game_reduction": [
+          0.3461129801396353,
+          0.40939522694665786
+        ],
+        "CPU_reduction": [
+          0.3753169238437488,
+          0.4424587411686761
+        ],
+        "NN_game_reduction": [
+          0.3874458874458875,
+          0.4247740563530037
+        ],
+        "NN_reduction": [
+          0.4068311897175244,
+          0.4572247643199735
+        ],
+        "score": [
+          0.5535714285714286,
+          0.8214285714285714
+        ],
+        "wall_game_reduction": [
+          0.34718607351031217,
+          0.40773231093764484
+        ],
+        "wall_reduction": [
+          0.3757094775786095,
+          0.4415189562543167
+        ]
+      },
+      "counts": {
+        "Bcpu": 14835061485,
+        "Bmoves": 376,
+        "Bnn": 5775,
+        "Bwall": 14895400816,
+        "Qcpu": 9156750843,
+        "Qmoves": 396,
+        "Qnn": 3431,
+        "Qwall": 9186283821,
+        "cert": 51,
+        "draws": 0,
+        "games": 112,
+        "losses": 36,
+        "queries": 26757,
+        "replacement": 27,
+        "score2": 152,
+        "wins": 76
+      },
+      "gate": {
+        "CPU": true,
+        "NN": true,
+        "score": true
+      },
+      "lower95": {
+        "CPU_game_reduction": 0.3539689288561766,
+        "CPU_reduction": 0.3820423470413479,
+        "NN_game_reduction": 0.38821548821548824,
+        "NN_reduction": 0.4082007981554545,
+        "score": 0.5625,
+        "wall_game_reduction": 0.3548959280665962,
+        "wall_reduction": 0.3828603536682331
+      },
+      "metrics": {
+        "CPU_game_reduction": 0.3827628653741303,
+        "CPU_reduction": 0.4139364580320025,
+        "NN_game_reduction": 0.40588744588744585,
+        "NN_reduction": 0.435893130438585,
+        "score": 0.6785714285714286,
+        "wall_game_reduction": 0.3832805216538726,
+        "wall_reduction": 0.41442797005519216
+      }
+    }
+  }
+}
