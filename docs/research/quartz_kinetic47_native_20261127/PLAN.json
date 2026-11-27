@@ -1,0 +1,3120 @@
+{
+  "NI_margin": 0.05,
+  "NN_target": 0.3,
+  "bootstrap_replicates": 8000,
+  "bootstrap_seed": 202611274700,
+  "jobs": [
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        11,
+        16,
+        30
+      ],
+      "id": 0,
+      "opening": [
+        39,
+        16,
+        36,
+        30
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        27,
+        34
+      ],
+      "id": 1,
+      "opening": [
+        9,
+        27,
+        30,
+        34
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        22,
+        11,
+        16
+      ],
+      "id": 2,
+      "opening": [
+        22,
+        29,
+        10,
+        16
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        24,
+        4,
+        45
+      ],
+      "id": 3,
+      "opening": [
+        36,
+        14,
+        24,
+        27
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        11,
+        18,
+        25
+      ],
+      "id": 4,
+      "opening": [
+        33,
+        31,
+        12,
+        32
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        24,
+        2,
+        26
+      ],
+      "id": 5,
+      "opening": [
+        33,
+        10,
+        24,
+        34
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        19,
+        16,
+        18
+      ],
+      "id": 6,
+      "opening": [
+        8,
+        16,
+        37,
+        30
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        18,
+        17,
+        19
+      ],
+      "id": 7,
+      "opening": [
+        32,
+        25,
+        20,
+        39
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        23,
+        10,
+        39
+      ],
+      "id": 8,
+      "opening": [
+        23,
+        39,
+        17,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        39,
+        20,
+        33
+      ],
+      "id": 9,
+      "opening": [
+        33,
+        39,
+        14,
+        44
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        25,
+        30,
+        31
+      ],
+      "id": 10,
+      "opening": [
+        32,
+        30,
+        17,
+        23
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        7,
+        48
+      ],
+      "id": 11,
+      "opening": [
+        31,
+        41,
+        39,
+        0
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        19,
+        24,
+        26
+      ],
+      "id": 12,
+      "opening": [
+        9,
+        10,
+        29,
+        24
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        19,
+        5,
+        35
+      ],
+      "id": 13,
+      "opening": [
+        42,
+        7,
+        9,
+        47
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        10,
+        15
+      ],
+      "id": 14,
+      "opening": [
+        19,
+        11,
+        16,
+        26
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        9,
+        16,
+        26
+      ],
+      "id": 15,
+      "opening": [
+        27,
+        38,
+        19,
+        18
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        10,
+        29,
+        37
+      ],
+      "id": 16,
+      "opening": [
+        10,
+        29,
+        8,
+        37
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        10,
+        19,
+        44
+      ],
+      "id": 17,
+      "opening": [
+        9,
+        19,
+        10,
+        44
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        31,
+        29,
+        38
+      ],
+      "id": 18,
+      "opening": [
+        23,
+        37,
+        26,
+        22
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        34,
+        23,
+        32
+      ],
+      "id": 19,
+      "opening": [
+        44,
+        17,
+        13,
+        30
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        32,
+        10,
+        12
+      ],
+      "id": 20,
+      "opening": [
+        16,
+        12,
+        32,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        19,
+        6,
+        21
+      ],
+      "id": 21,
+      "opening": [
+        48,
+        45,
+        11,
+        6
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        23,
+        10,
+        37
+      ],
+      "id": 22,
+      "opening": [
+        23,
+        37,
+        9,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        30,
+        5,
+        6
+      ],
+      "id": 23,
+      "opening": [
+        32,
+        0,
+        28,
+        7
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        32,
+        29,
+        40
+      ],
+      "id": 24,
+      "opening": [
+        19,
+        36,
+        30,
+        9
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        26,
+        21,
+        35
+      ],
+      "id": 25,
+      "opening": [
+        39,
+        27,
+        22,
+        13
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        30,
+        15,
+        19
+      ],
+      "id": 26,
+      "opening": [
+        16,
+        33,
+        38,
+        29
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        22,
+        6,
+        26
+      ],
+      "id": 27,
+      "opening": [
+        38,
+        6,
+        27,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        16,
+        26
+      ],
+      "id": 28,
+      "opening": [
+        12,
+        22,
+        15,
+        18
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        33,
+        20,
+        21
+      ],
+      "id": 29,
+      "opening": [
+        6,
+        3,
+        37,
+        46
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        18,
+        38
+      ],
+      "id": 30,
+      "opening": [
+        9,
+        18,
+        22,
+        38
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        37,
+        10,
+        47
+      ],
+      "id": 31,
+      "opening": [
+        9,
+        38,
+        43,
+        5
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        18,
+        26,
+        33
+      ],
+      "id": 32,
+      "opening": [
+        16,
+        10,
+        36,
+        11
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        38,
+        26,
+        41
+      ],
+      "id": 33,
+      "opening": [
+        7,
+        38,
+        26,
+        47
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        16,
+        8,
+        17
+      ],
+      "id": 34,
+      "opening": [
+        16,
+        23,
+        22,
+        8
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        31,
+        2,
+        24
+      ],
+      "id": 35,
+      "opening": [
+        23,
+        24,
+        19,
+        20
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        25,
+        11,
+        36
+      ],
+      "id": 36,
+      "opening": [
+        12,
+        33,
+        31,
+        8
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        5,
+        23
+      ],
+      "id": 37,
+      "opening": [
+        22,
+        31,
+        32,
+        7
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        18,
+        19,
+        37
+      ],
+      "id": 38,
+      "opening": [
+        16,
+        33,
+        29,
+        9
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        30,
+        4,
+        38
+      ],
+      "id": 39,
+      "opening": [
+        18,
+        44,
+        45,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        25,
+        8,
+        33
+      ],
+      "id": 40,
+      "opening": [
+        31,
+        39,
+        16,
+        8
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        14,
+        21,
+        48
+      ],
+      "id": 41,
+      "opening": [
+        28,
+        21,
+        43,
+        6
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        23,
+        11,
+        33
+      ],
+      "id": 42,
+      "opening": [
+        19,
+        37,
+        17,
+        33
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        10,
+        16,
+        40
+      ],
+      "id": 43,
+      "opening": [
+        45,
+        32,
+        38,
+        8
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        23,
+        11,
+        24
+      ],
+      "id": 44,
+      "opening": [
+        29,
+        15,
+        31,
+        24
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        37,
+        10,
+        16
+      ],
+      "id": 45,
+      "opening": [
+        33,
+        22,
+        28,
+        30
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        31,
+        10,
+        15
+      ],
+      "id": 46,
+      "opening": [
+        17,
+        10,
+        31,
+        15
+      ],
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        12,
+        13,
+        27
+      ],
+      "id": 47,
+      "opening": [
+        43,
+        41,
+        40,
+        27
+      ],
+      "split": "ARENA"
+    }
+  ],
+  "models": {
+    "101": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 82.3,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.72,
+            "timestamp": "2026-07-13 22:49:57",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "training_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+    },
+    "102": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 54.9,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.64,
+            "timestamp": "2026-07-13 23:27:53",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "training_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+    },
+    "103": {
+      "bytes": 4203527,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "105": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/gen_5.pt",
+      "role": "103 unpromoted trained gen5 (related checkpoint)",
+      "sha256": "a430602a889eba3f568c0a515c8a10dd3bb74d6b6b9adade5c00f0b22b91604b",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "41": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_41/gen_2.pt",
+      "original_seed": 41,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_41_gen2.pt",
+      "promotion": false,
+      "sha256": "d058771b43e948a9dec121be72bc0aa4228b2bdd9d1b52e55ccdc36626ca471b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 0.0,
+        "delta_elo": 0.0,
+        "elo_gap": 0.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.2897,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.2821,
+        "loss_ema": 4.2821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9269,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.633,
+        "pos_per_s": 6.3,
+        "published_elo": 0.0,
+        "replay": 298,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4094,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 200797,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.16899844548079057,
+          "extended_refresh_active_total": 31962,
+          "extended_refresh_eligible_total": 189126,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.36779248237609863,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4159732460975647,
+                "p95": 0.499844965338707
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6964949285984039,
+          "mean_p_flip": 0.36779248237609863,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.17965474207885562,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 40.9,
+          "mean_selection_effective_prior_l1_sum": 20.977019189999996,
+          "mean_selection_penalty_abs_sum": 10.620640669999998,
+          "mean_selection_root_selects": 2007.97,
+          "mean_voc_expand": -0.002033718860766385,
+          "mean_voc_focus": 0.02625431322058823,
+          "mean_voc_merge": 0.05439751913337197,
+          "mean_voc_total": 0.0595108026266098,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.15917568489569067,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.5,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.16,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.18,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.181,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.282,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 15.684,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.16,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 298,
+          "rolling_cycle_s": 20.18,
+          "rolling_games": 19,
+          "rolling_positions": 298,
+          "rolling_positions_per_s": 7.384,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.4,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.3552,
+        "value_std": 0.5149
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_41",
+          "--seed",
+          "41",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:30:22",
+        "returncode": 0,
+        "seed": 41,
+        "started_at": "2026-07-08 20:29:21"
+      }
+    },
+    "42": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_42/gen_2.pt",
+      "original_seed": 42,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_42_gen2.pt",
+      "promotion": false,
+      "sha256": "75d85209040f4e9047b6157ea5aece756bbe78cbef76bc92d515661189bd334f",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.3656,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.3543,
+        "loss_ema": 4.3543,
+        "lr": 0.0101,
+        "new_pos": 101,
+        "p_loss": 3.9202,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.589,
+        "pos_per_s": 5.4,
+        "published_elo": -167.5,
+        "replay": 266,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.3797,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 176682,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.3324768022840828,
+          "extended_refresh_active_total": 55896,
+          "extended_refresh_eligible_total": 168120,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.44832869589328767,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4995744377374649,
+                "p95": 0.4999823793768883
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6751197075843811,
+          "mean_p_flip": 0.44832869589328767,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.1390875223092735,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.78,
+          "mean_selection_effective_prior_l1_sum": 29.018208809999997,
+          "mean_selection_penalty_abs_sum": 5.909404700000001,
+          "mean_selection_root_selects": 1766.82,
+          "mean_voc_expand": -0.0018288146399208934,
+          "mean_voc_focus": 0.03310010064922594,
+          "mean_voc_merge": 0.046275470304008054,
+          "mean_voc_total": 0.050557230021804574,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.3163649947363059,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.263,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 19.325,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.241,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 101,
+          "last_cycle_s": 16.547,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.0,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.263,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 266,
+          "rolling_cycle_s": 19.325,
+          "rolling_games": 19,
+          "rolling_positions": 266,
+          "rolling_positions_per_s": 6.882,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 18.6,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.4341,
+        "value_std": 0.7186
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_42",
+          "--seed",
+          "42",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:31:20",
+        "returncode": 0,
+        "seed": 42,
+        "started_at": "2026-07-08 20:30:22"
+      }
+    },
+    "43": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_43/gen_2.pt",
+      "original_seed": 43,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_43_gen2.pt",
+      "promotion": false,
+      "sha256": "4a1fd820002fdfa62e2693febded77a4d4d5884a85a0b1a18f88a5f7c248374b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.5981,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.5821,
+        "loss_ema": 4.5821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9666,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.861,
+        "pos_per_s": 6.2,
+        "published_elo": -167.5,
+        "replay": 278,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4388,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 208929,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.005928749419267644,
+          "extended_refresh_active_total": 1123,
+          "extended_refresh_eligible_total": 189416,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.4317223697900772,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.49357300996780396,
+                "p95": 0.49951691478490834
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6634199434518814,
+          "mean_p_flip": 0.4317223697900772,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.06438421737169847,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.25,
+          "mean_selection_effective_prior_l1_sum": 2.5870308900000003,
+          "mean_selection_penalty_abs_sum": 3.32809432,
+          "mean_selection_root_selects": 2089.29,
+          "mean_voc_expand": -0.0007750782075714472,
+          "mean_voc_focus": 0.009553292178634295,
+          "mean_voc_merge": 0.019333062698042268,
+          "mean_voc_total": 0.02254601239255862,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.005375031709336665,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.13,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.034,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.122,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.94,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.632,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.13,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 278,
+          "rolling_cycle_s": 20.034,
+          "rolling_games": 19,
+          "rolling_positions": 278,
+          "rolling_positions_per_s": 6.938,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.8,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.6156,
+        "value_std": 0.8035
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_43",
+          "--seed",
+          "43",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:32:20",
+        "returncode": 0,
+        "seed": 43,
+        "started_at": "2026-07-08 20:31:20"
+      }
+    }
+  },
+  "prior_families": 2484,
+  "prior_locks": [
+    {
+      "path": "docs/research/quartz_kinetic33_20261126/PLAN.json",
+      "sha256": "58877f6bc469438a8759dd1a7a60ccdef5782eaef82686180a0fa3c9363c680b"
+    },
+    {
+      "path": "docs/research/quartz_kinetic38_nnlock_20261126/PLAN.json",
+      "sha256": "aedf701de9d8e5598654e8f9880c0561f887a09bd2facbdd769d855286ec0d50"
+    },
+    {
+      "path": "docs/research/quartz_kinetic39_voc_20261126/PLAN.json",
+      "sha256": "64511e71fac2e3b53cfd566828b2779c045d8d18ed2db59ea9543a32437491df"
+    },
+    {
+      "path": "docs/research/quartz_kinetic40_budget_20261126/PLAN.json",
+      "sha256": "59590c12ce52b301ca5c83dcaa4caa68a4449a419d2a93ad3df3275d072a1a90"
+    },
+    {
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    }
+  ],
+  "rapfi_identity": {
+    "actual_binary": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic40_budget_backups/mcts_demo",
+    "actual_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+    "binary": "e12746f178f59fcfeac97740848ecf5ddeb28dd00cafef39e506ed91eea817f2",
+    "bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "source_head": "c0214d5414960c3e3f941eadf0a645e5f16e5e7a",
+    "upstream": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62"
+  },
+  "rapfi_jobs": [
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "91db4accfd2c611778f45e151f4ea8d858db54548d3abb713f042171008a0672",
+      "id": 0,
+      "opening": [
+        126,
+        158,
+        68,
+        159,
+        139,
+        115
+      ],
+      "seed": 5846154619127829197,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ce2fea740e1dc52e8018670c839950fa1e18a0effcc22428cdb8732584008887",
+      "id": 1,
+      "opening": [
+        87,
+        122,
+        51,
+        68,
+        127,
+        172
+      ],
+      "seed": 8650527526272997138,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1d22f487dd2ce28962dda5dd6e05d125f2b36445d251fa533c187d5c39863add",
+      "id": 2,
+      "opening": [
+        68,
+        95,
+        99,
+        79,
+        141,
+        156
+      ],
+      "seed": 271644259139104097,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "2049043a8ef091fb2045e8c5bff2596e750e15afcbb0f9816380d7e9d1e130d2",
+      "id": 3,
+      "opening": [
+        190,
+        70,
+        71,
+        48,
+        176,
+        54
+      ],
+      "seed": 6403230307571593628,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "8a841d647dc6206ddf24eedb27e2a4d8febef8f87786d45e9b9a191638873b0e",
+      "id": 4,
+      "opening": [
+        99,
+        154,
+        128,
+        160,
+        65,
+        159
+      ],
+      "seed": 9083137629172491253,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "9f29e4c00de352f5bd5b7b151007bbb74cf2f443d5338225830ea3165585a65f",
+      "id": 5,
+      "opening": [
+        129,
+        146,
+        175,
+        187,
+        53,
+        172
+      ],
+      "seed": 3712287049997180806,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d3b612758c32b7501e440dc669a92bd0e0dfb2f5a43ed91f4aab02f1b45ea242",
+      "id": 6,
+      "opening": [
+        82,
+        69,
+        94,
+        144,
+        139,
+        142
+      ],
+      "seed": 8268846371870299431,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "8a85106e4778effa39aed971583e8f7fddcf24220702440179f8b8bb54bee7d3",
+      "id": 7,
+      "opening": [
+        48,
+        175,
+        173,
+        152,
+        41,
+        35
+      ],
+      "seed": 4614764077078448266,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f4510b20573b3f1e1f1314fca7d7415117023d7cc7aebf6ab0ae6fce89fa0bdf",
+      "id": 8,
+      "opening": [
+        128,
+        109,
+        113,
+        160,
+        154,
+        111
+      ],
+      "seed": 713485979383858597,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f02c64026bf68c0381ea24956694d0c689feb29c389e5859c0bc1d4822bb5041",
+      "id": 9,
+      "opening": [
+        97,
+        87,
+        72,
+        36,
+        130,
+        186
+      ],
+      "seed": 8110201104568956321,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6c199a81f6b3bc47c514dc4255ba4017f612fc6c0f19c1c7e30d21a6b6ac31f4",
+      "id": 10,
+      "opening": [
+        81,
+        94,
+        124,
+        113,
+        139,
+        67
+      ],
+      "seed": 5837000254769687209,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3c8ba9735e82f6b43059a089fd930121e505baeaa498387ccd6bdbf03864f333",
+      "id": 11,
+      "opening": [
+        87,
+        117,
+        190,
+        170,
+        177,
+        145
+      ],
+      "seed": 770569697576605934,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "982b6ec9e31be90ad7e90d5c10c715b3762009fe1cb5763d8b72b61a2374d5a9",
+      "id": 12,
+      "opening": [
+        126,
+        142,
+        81,
+        139,
+        111,
+        85
+      ],
+      "seed": 6938712524095809231,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "33f39996dad92f066efc9a4b36e082a0a8627dc72c784a0b443ba3f0c73351aa",
+      "id": 13,
+      "opening": [
+        125,
+        39,
+        41,
+        117,
+        69,
+        155
+      ],
+      "seed": 4555110711109790254,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "14af622ebb7481b62d6d073fb02d6e19f1ffb23a1e66d1e0cc05a9f042b7133d",
+      "id": 14,
+      "opening": [
+        100,
+        114,
+        128,
+        79,
+        97,
+        125
+      ],
+      "seed": 9153892894446959078,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d1d05453a4192e2dcc3faa33cb9b5c0c03a7d7af69a9514a0236447cb402353a",
+      "id": 15,
+      "opening": [
+        137,
+        50,
+        52,
+        172,
+        184,
+        116
+      ],
+      "seed": 1739469042723197150,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "4014e1d35a521a7b724b4081d2f5de919b896a6b3d1e1cdceba3a5df9ce3f65b",
+      "id": 16,
+      "opening": [
+        145,
+        143,
+        84,
+        114,
+        124,
+        141
+      ],
+      "seed": 5340262560700088677,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "00d12e60a50d5e18ec714b62b5a51ddc901613caaf1b6fd871a6cbd9f19f413c",
+      "id": 17,
+      "opening": [
+        49,
+        98,
+        130,
+        172,
+        116,
+        52
+      ],
+      "seed": 721121865654973079,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "4215082ddf587632b3a924c6aa51e380ec20f8261289fc076d7cfc465ab0b8c1",
+      "id": 18,
+      "opening": [
+        95,
+        140,
+        154,
+        130,
+        85,
+        159
+      ],
+      "seed": 7909056135511698703,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6e9262b9f3810d712e74aa05e4ecb635449844c27d78ed1f609488cde3f1bc3d",
+      "id": 19,
+      "opening": [
+        57,
+        159,
+        78,
+        82,
+        158,
+        37
+      ],
+      "seed": 90337431210120413,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "970ada3572942ae5a6bb9d5f149b6148c85672b64838b5f701078d6a391ff413",
+      "id": 20,
+      "opening": [
+        98,
+        140,
+        96,
+        66,
+        79,
+        111
+      ],
+      "seed": 4136049365163772738,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "aa21622e456eb50e2beb1b60273e4b768e51e44cebb31ee935105919f3b916eb",
+      "id": 21,
+      "opening": [
+        138,
+        57,
+        157,
+        49,
+        51,
+        168
+      ],
+      "seed": 8890830809636056487,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "01a32dc93710fee3de67166c4f8f2e170de5ad10f3dde0ee09c51976f1878128",
+      "id": 22,
+      "opening": [
+        158,
+        99,
+        109,
+        85,
+        145,
+        70
+      ],
+      "seed": 5122290182397531930,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d6477205a5c0525d97e580595aa30fa1b1f6bfcfcd7f9d3b51e0be72c7fbf9ba",
+      "id": 23,
+      "opening": [
+        50,
+        139,
+        192,
+        157,
+        167,
+        86
+      ],
+      "seed": 3720060059397717704,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "0f3c9441e6adb22324751342879fa0f4bd0511bcdd3522c8118acc2333ca1c7f",
+      "id": 24,
+      "opening": [
+        70,
+        145,
+        66,
+        98,
+        96,
+        141
+      ],
+      "seed": 8208691658089484487,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f77c87e84564d26aff60ccd71c02be753d7d0694fbe2cdb2ebb5f05d1deeaf59",
+      "id": 25,
+      "opening": [
+        49,
+        157,
+        95,
+        97,
+        84,
+        94
+      ],
+      "seed": 3143847522189065148,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "cca2c184c9ef0c04d40c69bbc5e680e2928a24ec0bfcfd40dcfb5eaab04a4724",
+      "id": 26,
+      "opening": [
+        115,
+        126,
+        64,
+        125,
+        97,
+        85
+      ],
+      "seed": 2863454346939683173,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d3df97160aa53820948f6c97afb6639f53d631ca5160ea346549bbb3fac96a8e",
+      "id": 27,
+      "opening": [
+        173,
+        95,
+        127,
+        125,
+        97,
+        50
+      ],
+      "seed": 1007351118505928584,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "9ee063d6cb7e645bc61ad2816d616eaacea041c696ffae69c4f4b10897c3ddd8",
+      "id": 28,
+      "opening": [
+        79,
+        125,
+        140,
+        154,
+        68,
+        67
+      ],
+      "seed": 533462183386797770,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f94787c8aec36cd294a61ff8066054b78343ffcb09d5889ce024887550b84684",
+      "id": 29,
+      "opening": [
+        50,
+        49,
+        109,
+        41,
+        191,
+        80
+      ],
+      "seed": 2181083760499678104,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "9c2574a814721a4bc86e39a8a1f62923a94fbeb669f2073f2993dfdc084753c3",
+      "id": 30,
+      "opening": [
+        66,
+        96,
+        95,
+        160,
+        145,
+        83
+      ],
+      "seed": 4506241197291103032,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0d4f863355b09cfffacb3c231b16589e0dc7c8c052ae0b64033dda876ba6def2",
+      "id": 31,
+      "opening": [
+        98,
+        122,
+        63,
+        87,
+        188,
+        42
+      ],
+      "seed": 8923846550684852704,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "0fbb1ba11fb51be5ae779c2c58934123ce47415cb3723f6a60cab66e0cf76bfe",
+      "id": 32,
+      "opening": [
+        141,
+        67,
+        69,
+        84,
+        99,
+        143
+      ],
+      "seed": 7992484009603834707,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "57f10ee1aa3998a7e8d0da22b49aa94bf169cf84766fb72d931d246f6d18f86b",
+      "id": 33,
+      "opening": [
+        94,
+        49,
+        64,
+        122,
+        36,
+        67
+      ],
+      "seed": 3527960153272239655,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "652043dcbb9fecfd4226d0f42e4ab976c7a0469667684006207e03507f4aca68",
+      "id": 34,
+      "opening": [
+        85,
+        65,
+        109,
+        97,
+        159,
+        70
+      ],
+      "seed": 554048578467554881,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "95f990a07506260c8a33e61db60a79cf88b6add9fde8764eb261a7e0e02afcec",
+      "id": 35,
+      "opening": [
+        140,
+        138,
+        81,
+        177,
+        190,
+        112
+      ],
+      "seed": 8264748384866682381,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3fe28ddde373c6b51d905612f8705512463a122bbcc27cbaaf4abee094866220",
+      "id": 36,
+      "opening": [
+        156,
+        70,
+        160,
+        140,
+        66,
+        85
+      ],
+      "seed": 1377218656758447186,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f29c9e7fcb7faba5fead578061319db8786618ae8a153c853f0ff116ee774f08",
+      "id": 37,
+      "opening": [
+        183,
+        53,
+        72,
+        77,
+        185,
+        80
+      ],
+      "seed": 3707956610383212603,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3ffb0d170eba389e34d1b7397e3cf1b311cbe1393aa3102d3e353490ed6a671e",
+      "id": 38,
+      "opening": [
+        130,
+        96,
+        126,
+        66,
+        140,
+        110
+      ],
+      "seed": 6897290418141466266,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "19e6af1a63a12ecdb931502d22efcae29e09dca2bac7740f9cc6df19173e2822",
+      "id": 39,
+      "opening": [
+        184,
+        139,
+        40,
+        41,
+        128,
+        126
+      ],
+      "seed": 517309116687307937,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "da41c4f204aa443bae30fdd47f65692482b6f97880152c17922a92c9c8639cc3",
+      "id": 40,
+      "opening": [
+        70,
+        129,
+        144,
+        127,
+        159,
+        109
+      ],
+      "seed": 3066075290924151842,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "8038275c59112622c9b1667d24d87166575925d82a208849470adb24660e2961",
+      "id": 41,
+      "opening": [
+        47,
+        115,
+        114,
+        37,
+        129,
+        123
+      ],
+      "seed": 1241547979192075319,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "876bb1aaf1627615d2915fc52827cc55a56c1f8f9e0e03dd9d2293a051f8176d",
+      "id": 42,
+      "opening": [
+        155,
+        100,
+        82,
+        110,
+        98,
+        128
+      ],
+      "seed": 5592758749333628054,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "58fe2a62c74870351b657f02d0830a3a615e230d9ba0099a7c4f141150c0e971",
+      "id": 43,
+      "opening": [
+        79,
+        113,
+        64,
+        109,
+        94,
+        68
+      ],
+      "seed": 4546618623923049868,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "62083e36975a975873d122d27cb56e06ade3d9be9274d424e5fe14b7e8ebc862",
+      "id": 44,
+      "opening": [
+        85,
+        82,
+        109,
+        156,
+        124,
+        98
+      ],
+      "seed": 5323771608727746891,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "8df103a374a718206c95922ce9625f32d73e6ae8e51595d3d32918b1f7635ca5",
+      "id": 45,
+      "opening": [
+        71,
+        70,
+        155,
+        93,
+        129,
+        35
+      ],
+      "seed": 4016738188114380207,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0089e2a4f568e159266b20015e508ac20ff00a70f2c68bc1f134fd59c54c7658",
+      "id": 46,
+      "opening": [
+        129,
+        145,
+        113,
+        64,
+        111,
+        94
+      ],
+      "seed": 7230247815340823064,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "92531eafed7c1fd9b0a26cfc00e98d828dd9fab1f2bc1e45e043f55340a8b0bf",
+      "id": 47,
+      "opening": [
+        130,
+        78,
+        102,
+        56,
+        141,
+        40
+      ],
+      "seed": 4748061699596896965,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1d54525b9a02d925ab38b520c87c941254d1d031cb71124ad1a9755224fde604",
+      "id": 48,
+      "opening": [
+        81,
+        110,
+        85,
+        128,
+        83,
+        64
+      ],
+      "seed": 6533996533585233667,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "bce01013d8f728b7a241a187530b706173af18af2b3325a6c2f2ddfac75f19c5",
+      "id": 49,
+      "opening": [
+        95,
+        126,
+        35,
+        168,
+        115,
+        185
+      ],
+      "seed": 1661317297907838622,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3db867a69ed4964582b92d56485d249743bdac64213892d963469a744b5d3d33",
+      "id": 50,
+      "opening": [
+        70,
+        98,
+        96,
+        79,
+        139,
+        158
+      ],
+      "seed": 3574171534490703728,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "bd6b31f3574f9fa83ec39ce517b40c2928a91bc7af48b4cc0c66272325631828",
+      "id": 51,
+      "opening": [
+        189,
+        124,
+        142,
+        93,
+        182,
+        98
+      ],
+      "seed": 2872459403055286825,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "bb6f6456ac1e43268c538c39d57ee8e2f881e279d1e453a4cf3640345c7eb3bf",
+      "id": 52,
+      "opening": [
+        155,
+        142,
+        145,
+        67,
+        70,
+        130
+      ],
+      "seed": 1594468840693369412,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ab68b16ed459b3b1922b27a3d6c38648921b4226a2bf7c000848e857668f8dc1",
+      "id": 53,
+      "opening": [
+        177,
+        37,
+        184,
+        71,
+        190,
+        170
+      ],
+      "seed": 2827872121367655364,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "e1ca89691155c6385bde4dcfe1d462d14392d6bc8942c90e4288849f120281f5",
+      "id": 54,
+      "opening": [
+        124,
+        68,
+        128,
+        142,
+        70,
+        115
+      ],
+      "seed": 4782590004243553287,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a9ff0df8ea08d077a12d34d2f584fb2d7c02e4a156f211d06452aca0cebf57b5",
+      "id": 55,
+      "opening": [
+        82,
+        158,
+        53,
+        108,
+        62,
+        83
+      ],
+      "seed": 3958667496413841555,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "49ca7e3bad5fa29fd1e290eed4ea18e536bdf73648143183476b31a84a3e4860",
+      "id": 56,
+      "opening": [
+        111,
+        97,
+        113,
+        154,
+        157,
+        110
+      ],
+      "seed": 2832281914701351026,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "eddce68a0bb23e2320fd96eff4737f034156b022108e77e523513eddc38d4e2e",
+      "id": 57,
+      "opening": [
+        39,
+        143,
+        67,
+        158,
+        186,
+        142
+      ],
+      "seed": 1907092977479565772,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "0240fe919ad658c74b65acbed50b553a36e6fcbcab9ece3e3448b33c80892d75",
+      "id": 58,
+      "opening": [
+        109,
+        99,
+        98,
+        94,
+        110,
+        97
+      ],
+      "seed": 6300172320671531042,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c9a57177250f97d4a22d1c4c46f94c2d93779f71b5ee959e32c81c1dce2aa375",
+      "id": 59,
+      "opening": [
+        96,
+        80,
+        42,
+        54,
+        49,
+        143
+      ],
+      "seed": 8629041906025890493,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "78f808b4ba3ffcd1581dfe46e1cf059beef063e0f3311330c5d649478d519959",
+      "id": 60,
+      "opening": [
+        110,
+        80,
+        79,
+        68,
+        96,
+        154
+      ],
+      "seed": 2061330581888353073,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "829fc87ceb87daf888fd8d3e02dae56280d062afb7048bf78743778daa769abd",
+      "id": 61,
+      "opening": [
+        162,
+        101,
+        56,
+        108,
+        38,
+        93
+      ],
+      "seed": 7442501288966442768,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b7ac65b987c8b644133718d91656afd9cb71ab2f06cbcbc8c01a8c25ea959384",
+      "id": 62,
+      "opening": [
+        129,
+        99,
+        143,
+        81,
+        141,
+        112
+      ],
+      "seed": 4669364815507312840,
+      "split": "ARENA"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "56bb6b9b5200101f30d001ed017826ff5c411bcbfe43084f094a143c8c030a39",
+      "id": 63,
+      "opening": [
+        108,
+        102,
+        144,
+        142,
+        138,
+        101
+      ],
+      "seed": 2119971880976018802,
+      "split": "ARENA"
+    }
+  ],
+  "rapfi_k37_plan_sha256": "0a8f4e7b6cae131770596a0ff6c03db8774e948835a052efc9b9bd8f6335819e",
+  "rapfi_prior": 3190,
+  "rapfi_prior_locks": [
+    {
+      "added": 1,
+      "path": "docs/research/quartz_rapfi09_20261125/PAIR_PLAN.json",
+      "sha256": "92ffcd09ad9e449fbe73ae059ea8afa0b60bd771c4265d223d7294a531291108"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi10_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "60b69e9d8bea7b3d1c18332302e05d84b6d1328d7c391e75d81e8acfe1079f6c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_rapfi11_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "ff92c03c1f87b19c7307e2b95d613b30573a0e8147f1a5ad1f4c5422442f1b2c"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi12_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "db9c59fac9c1607167213de64e3f8de25356d30f5a7b5b22846606ccf2da362c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic14_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "1ef9e539893a238a45a4cd38edd17ec06416e1033125ccdb9ee2e1692dcb99a2"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic15_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "e2b5d01457564fd3aa0de3966fc1dcea30f9917629ce3f6ff0743c32f1544ccd"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic16_20261126/C06_PLAN.json",
+      "sha256": "08a46dfbcef2dd628728ef8e248a089883a6b196bd941b75ed030577a56bf8b8"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic19_20261126/G_PLAN.json",
+      "sha256": "ec1c84d3f7973bb6a0d6432b3e23b9a54a38f33eb19b1583ad3368fa5458d201"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic20_20261126/G_PLAN.json",
+      "sha256": "24c403a543ca933f40d93c47c7a62964e07a1c88ffa486228ef5b3af07a54587"
+    },
+    {
+      "added": 42,
+      "path": "docs/research/quartz_kinetic34_20261126/PLAN.json",
+      "sha256": "1ae4cbf5145d84ca0d727dd043b8540744d1d407ff45fbef5b49271b61266532"
+    },
+    {
+      "added": 256,
+      "path": "docs/research/quartz_kinetic35_20261126/PLAN.json",
+      "sha256": "5e64440dddb6440bdadd427a279aa8353f1e0e948d90e550e436acdc8aeabb9b"
+    },
+    {
+      "added": 416,
+      "path": "docs/research/quartz_kinetic36_20261126/PLAN.json",
+      "sha256": "28c5c83be3ed880d72eb5d0c4ca76f5147561959262de0c37d89c275e2725af0"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic40_budget_20261126/RAPFI_PLAN.json",
+      "sha256": "6325809e81426a1ed6d0d6a356730996ddbb2d43d751e3430e2bba4d815fc9f5"
+    },
+    {
+      "added": 304,
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "added": 240,
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "added": 83,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PAIR_PLAN.json",
+      "sha256": "4d33500d198af513d7c6c38412dde0f9b489cd5f68017954c254bf3129ed3f7c"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_tactical08_20261125/C07_COHORT.json",
+      "sha256": "14107220a3c60c9fe945f945ff2d91baa58a237bce3fa04ee20a81c18e330475"
+    }
+  ],
+  "rapfi_workers": 4,
+  "scope": "48 fresh NN families Q20 vs B32, seven frozen models; 64 Rapfi pairs; native root integration, no live risk fitting",
+  "seed": 2026112747,
+  "tiers": [
+    [
+      3,
+      256
+    ],
+    [
+      5,
+      1024
+    ],
+    [
+      7,
+      4096
+    ]
+  ],
+  "workers": 8
+}
