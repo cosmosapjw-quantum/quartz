@@ -1,0 +1,25 @@
+{
+  "binary_bytes": 7469976,
+  "binary_sha256": "702428982c9dc01045a5cb63fdbd3ad71ea16fcef63e8ca9773c91c5554b8214",
+  "build": "CARGO_BUILD_JOBS=4 CARGO_PROFILE_RELEASE_CODEGEN_UNITS=4 CARGO_PROFILE_RELEASE_LTO=false cargo build --offline --locked --release --bin mcts_demo",
+  "cargo_lock_sha256": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+  "full_test_raw_sha256": "59b2fd791496970ecead0b3f57fe6446550d45fe08af3ccdc9a37b53b4d4e69a",
+  "independent51_sha256": "f14e6906e738fbc232580cb05a7481fe2d792514975bf8e03a714dba8cc4ad74",
+  "independent51_source_sha256": "6b71e8c0cf05b09e58fd8aa883310b18702b7d7dcf6d26031a039d15018c8e6a",
+  "k40_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+  "old_incremental_library_sha256": "e3f92bb23e5ff2f1ae5642bd3b528ba6a296d255d4abcfa1b64af93d16e1aabc",
+  "old_native_binary_sha256": "cfb9c162562cb729bed4d36426afde60300fd1d3a0e0a2dbd6e8dccd4c0432ee",
+  "parent_binary_sha256": "894b35d2e168db7264fb5da70c405256999a92f63a4468d4dd65994d38f58da5",
+  "parent_native_identity_sha256": "013e6cb4f96621bbc44f571ac8e852435da361002754d20a6e357ceac296a28a",
+  "parent_parent_binary_sha256": "686784dd17f6ad8fe74fd56b97ec2c499110f59c3dbe09731e7d25d601e1bd4f",
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "scope": "K53 native fresh-only retained child statistics and Rapfi cold target opt-in, K52 cold path preserved; no generic parallel/training integration",
+  "source_commit": "fa11f5b2090dc03d77a091682231eb6ea7e2a7e0",
+  "source_sha256": {
+    "src/mcts_server.rs": "7317cfcfd7fc9394b8ec133f28ca61d9c8ca0e2f380a53a29496982068152079",
+    "src/mcts_server/k47_nn.rs": "3caad4eea7c0e4a323ddaed78d6f7ead17f8f74e16b2d6da8a9f29a30c67179e",
+    "src/mcts_server/k47_proof.rs": "4afbbd2c7667e0020c4fa1f91691ca0cded7458b85f6527a6167639cdefffab2",
+    "src/mcts_server/rapfi_k36.rs": "671cb0b0c00097e467543ca698597bb693388bbb0b89f1ea22f56f2dd0039635"
+  },
+  "threshold_library_sha256": "4fb4ccfd0e63f9a3eb3a7df82a61ffaaf1a9568115178e4e06ee141423b0b5c4"
+}
