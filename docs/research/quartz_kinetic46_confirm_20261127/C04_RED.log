@@ -1,0 +1,29 @@
+FF
+======================================================================
+FAIL: test_win_and_legal_bounds (__main__.Test.test_win_and_legal_bounds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic46_confirm_20261127/docs/research/quartz_kinetic46_confirm_20261127/test_k46.py", line 9, in test_win_and_legal_bounds
+    z=query(j,256);self.assertEqual(z['bounds'][0],[1,1]);self.assertLessEqual(sum(z['nodes']),1024)
+      ^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic46_confirm_20261127/docs/research/quartz_kinetic46_confirm_20261127/pair46.py", line 13, in query
+    assert rc==r.status==0,'native pair receipt missing or invalid'
+           ^^^^^^^^^^^^^^^
+AssertionError: native pair receipt missing or invalid
+
+======================================================================
+FAIL: test_zero_budget_unknown (__main__.Test.test_zero_budget_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic46_confirm_20261127/docs/research/quartz_kinetic46_confirm_20261127/test_k46.py", line 6, in test_zero_budget_unknown
+    z=query(j,0);self.assertEqual(z['bounds'],j['input']);self.assertEqual(z['ask'],[-1]*4);self.assertEqual(sum(z['nodes']),0)
+      ^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic46_confirm_20261127/docs/research/quartz_kinetic46_confirm_20261127/pair46.py", line 13, in query
+    assert rc==r.status==0,'native pair receipt missing or invalid'
+           ^^^^^^^^^^^^^^^
+AssertionError: native pair receipt missing or invalid
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=2)
