@@ -1,0 +1,883 @@
+{
+  "arena": {
+    "NN_LOW": {
+      "101": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.611766236406368,
+            0.698078936010663
+          ],
+          "CPU_reduction": [
+            0.6394801249591376,
+            0.723516271170026
+          ],
+          "NN_game_reduction": [
+            0.6200326619488297,
+            0.7048160173160174
+          ],
+          "NN_reduction": [
+            0.6466202555714657,
+            0.7298340835943812
+          ],
+          "score": [
+            0.71875,
+            0.8541666666666666
+          ],
+          "wall_game_reduction": [
+            0.6114081689896345,
+            0.6983787469743672
+          ],
+          "wall_reduction": [
+            0.6389446373915173,
+            0.7238163076814808
+          ]
+        },
+        "all_gate": true,
+        "counts": {
+          "Bcpu": 17092189557,
+          "Bmoves": 328,
+          "Bnn": 5082,
+          "Bwall": 17117330811,
+          "Qcpu": 5893491759,
+          "Qmoves": 356,
+          "Qnn": 1715,
+          "Qwall": 5901083479,
+          "attempts": 166,
+          "cert": 59,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 96,
+          "losses": 20,
+          "proof_wall": 22542761,
+          "queries": 27638,
+          "replacement": 36,
+          "score2": 152,
+          "wins": 76
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.6189383341735205,
+          "CPU_reduction": 0.6466728964780938,
+          "NN_game_reduction": 0.6268398268398269,
+          "NN_reduction": 0.6539539083398733,
+          "score": 0.7291666666666666,
+          "wall_game_reduction": 0.6186803615214628,
+          "wall_reduction": 0.6463548900558009
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.6551938685593177,
+          "CPU_reduction": 0.6823134519310567,
+          "NN_game_reduction": 0.662534435261708,
+          "NN_reduction": 0.6890766706905624,
+          "score": 0.7916666666666666,
+          "wall_game_reduction": 0.6552567953405548,
+          "wall_reduction": 0.6823714294148933
+        }
+      },
+      "102": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.49371391783179963,
+            0.5679580595808875
+          ],
+          "CPU_reduction": [
+            0.523586010593822,
+            0.598665662084591
+          ],
+          "NN_game_reduction": [
+            0.49560117302052786,
+            0.5643761559254517
+          ],
+          "NN_reduction": [
+            0.5254408281624697,
+            0.5959448456527896
+          ],
+          "score": [
+            0.7083333333333334,
+            0.8541666666666666
+          ],
+          "wall_game_reduction": [
+            0.49293688341610653,
+            0.5682412903087046
+          ],
+          "wall_reduction": [
+            0.5231214751921912,
+            0.5989573064979479
+          ]
+        },
+        "all_gate": true,
+        "counts": {
+          "Bcpu": 21730230107,
+          "Bmoves": 387,
+          "Bnn": 6237,
+          "Bwall": 21765862180,
+          "Qcpu": 10165072753,
+          "Qmoves": 414,
+          "Qnn": 2922,
+          "Qwall": 10187253793,
+          "attempts": 222,
+          "cert": 77,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 96,
+          "losses": 21,
+          "proof_wall": 29177748,
+          "queries": 34519,
+          "replacement": 41,
+          "score2": 150,
+          "wins": 75
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.49985745696879225,
+          "CPU_reduction": 0.5305476166654666,
+          "NN_game_reduction": 0.5019703764098382,
+          "NN_reduction": 0.5318473237600907,
+          "score": 0.71875,
+          "wall_game_reduction": 0.4990661691423395,
+          "wall_reduction": 0.529915111413741
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.5322151351850846,
+          "CPU_reduction": 0.5627228437599703,
+          "NN_game_reduction": 0.5315055315055315,
+          "NN_reduction": 0.5620595185812576,
+          "score": 0.78125,
+          "wall_game_reduction": 0.5319618534403492,
+          "wall_reduction": 0.5624860803898917
+        }
+      },
+      "103": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.4128826149659409,
+            0.4797745022104032
+          ],
+          "CPU_reduction": [
+            0.451020632150679,
+            0.5187819744857121
+          ],
+          "NN_game_reduction": [
+            0.4292929292929293,
+            0.48722764838467314
+          ],
+          "NN_reduction": [
+            0.46612568298538615,
+            0.5255938286221696
+          ],
+          "score": [
+            0.8020833333333334,
+            0.9270833333333334
+          ],
+          "wall_game_reduction": [
+            0.41232165801706155,
+            0.4787183022999587
+          ],
+          "wall_reduction": [
+            0.4500513877701181,
+            0.5178169408711331
+          ]
+        },
+        "all_gate": true,
+        "counts": {
+          "Bcpu": 28991231732,
+          "Bmoves": 473,
+          "Bnn": 8448,
+          "Bwall": 29060308507,
+          "Qcpu": 15993031322,
+          "Qmoves": 508,
+          "Qnn": 4557,
+          "Qwall": 16056272594,
+          "attempts": 311,
+          "cert": 94,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 96,
+          "losses": 13,
+          "proof_wall": 44102516,
+          "queries": 48917,
+          "replacement": 37,
+          "score2": 166,
+          "wins": 83
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.41962159820068556,
+          "CPU_reduction": 0.45753656285739386,
+          "NN_game_reduction": 0.43533930857874514,
+          "NN_reduction": 0.4718751827674479,
+          "score": 0.8125,
+          "wall_game_reduction": 0.41887379319737483,
+          "wall_reduction": 0.4567467735110411
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.4483493674969601,
+          "CPU_reduction": 0.48635679296468926,
+          "NN_game_reduction": 0.46058238636363635,
+          "NN_reduction": 0.4977469857283465,
+          "score": 0.8645833333333334,
+          "wall_game_reduction": 0.4474844411878012,
+          "wall_reduction": 0.48555145803509836
+        }
+      },
+      "105": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.45313853556985206,
+            0.533299130704453
+          ],
+          "CPU_reduction": [
+            0.48196559958762497,
+            0.5659413699898522
+          ],
+          "NN_game_reduction": [
+            0.46795387503352104,
+            0.5411764705882354
+          ],
+          "NN_reduction": [
+            0.4965704015180422,
+            0.5729580484725301
+          ],
+          "score": [
+            0.7083333333333334,
+            0.8541666666666666
+          ],
+          "wall_game_reduction": [
+            0.45518321225121217,
+            0.5342245660860994
+          ],
+          "wall_reduction": [
+            0.48380498217132595,
+            0.5666132428911328
+          ]
+        },
+        "all_gate": true,
+        "counts": {
+          "Bcpu": 23684282990,
+          "Bmoves": 418,
+          "Bnn": 6831,
+          "Bwall": 23804260227,
+          "Qcpu": 12008192893,
+          "Qmoves": 445,
+          "Qnn": 3385,
+          "Qwall": 12034025849,
+          "attempts": 255,
+          "cert": 88,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 96,
+          "losses": 21,
+          "proof_wall": 35918512,
+          "queries": 47734,
+          "replacement": 28,
+          "score2": 150,
+          "wins": 75
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.45942077280688365,
+          "CPU_reduction": 0.48928282063151274,
+          "NN_game_reduction": 0.4742158426368953,
+          "NN_reduction": 0.5033291192583227,
+          "score": 0.71875,
+          "wall_game_reduction": 0.4613488332982407,
+          "wall_reduction": 0.49105352230467103
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.49298896242414814,
+          "CPU_reduction": 0.5237514298725706,
+          "NN_game_reduction": 0.504464939247548,
+          "NN_reduction": 0.5345311114729776,
+          "score": 0.78125,
+          "wall_game_reduction": 0.4944591541916351,
+          "wall_reduction": 0.525132418993491
+        }
+      },
+      "41": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.4018844715241785,
+            0.4803491271107091
+          ],
+          "CPU_reduction": [
+            0.4411322678248093,
+            0.5178384957907095
+          ],
+          "NN_game_reduction": [
+            0.4299754299754299,
+            0.4757709251101322
+          ],
+          "NN_reduction": [
+            0.46569607505103694,
+            0.5147050500858343
+          ],
+          "score": [
+            0.8020833333333334,
+            0.9270833333333334
+          ],
+          "wall_game_reduction": [
+            0.40241370532133336,
+            0.480509427012323
+          ],
+          "wall_reduction": [
+            0.44175044230134386,
+            0.5182019752467373
+          ]
+        },
+        "all_gate": true,
+        "counts": {
+          "Bcpu": 13843480000,
+          "Bmoves": 476,
+          "Bnn": 8316,
+          "Bwall": 13846044755,
+          "Qcpu": 7740069701,
+          "Qmoves": 511,
+          "Qnn": 4557,
+          "Qwall": 7733644631,
+          "attempts": 322,
+          "cert": 105,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 96,
+          "losses": 13,
+          "proof_wall": 39189333,
+          "queries": 43184,
+          "replacement": 27,
+          "score2": 166,
+          "wins": 83
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.40803667328465243,
+          "CPU_reduction": 0.446522100793889,
+          "NN_game_reduction": 0.4331550802139037,
+          "NN_reduction": 0.46945287163929283,
+          "score": 0.8125,
+          "wall_game_reduction": 0.4088274189946848,
+          "wall_reduction": 0.4471416316727217
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.44088699510527696,
+          "CPU_reduction": 0.4791824063994361,
+          "NN_game_reduction": 0.452020202020202,
+          "NN_reduction": 0.4895530648955305,
+          "score": 0.8645833333333334,
+          "wall_game_reduction": 0.4414545982016075,
+          "wall_reduction": 0.47971113257136033
+        }
+      },
+      "42": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.42858416227351825,
+            0.5003840393276262
+          ],
+          "CPU_reduction": [
+            0.462909686988218,
+            0.5416526323065125
+          ],
+          "NN_game_reduction": [
+            0.45637277295568757,
+            0.5169769989047097
+          ],
+          "NN_reduction": [
+            0.48924108503505037,
+            0.5561598224195339
+          ],
+          "score": [
+            0.71875,
+            0.8645833333333334
+          ],
+          "wall_game_reduction": [
+            0.4280136230918621,
+            0.5010810509573171
+          ],
+          "wall_reduction": [
+            0.46265880829181016,
+            0.5423774756424875
+          ]
+        },
+        "all_gate": true,
+        "counts": {
+          "Bcpu": 9388773674,
+          "Bmoves": 362,
+          "Bnn": 5808,
+          "Bwall": 9387391351,
+          "Qcpu": 5021193670,
+          "Qmoves": 390,
+          "Qnn": 2982,
+          "Qwall": 5018678634,
+          "attempts": 210,
+          "cert": 68,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 96,
+          "losses": 20,
+          "proof_wall": 26924879,
+          "queries": 30073,
+          "replacement": 35,
+          "score2": 152,
+          "wins": 76
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.4351705572881609,
+          "CPU_reduction": 0.47063775247888373,
+          "NN_game_reduction": 0.46126033057851235,
+          "NN_reduction": 0.4955373356707151,
+          "score": 0.7291666666666666,
+          "wall_game_reduction": 0.4347901425220365,
+          "wall_reduction": 0.4701397648286839
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.465191744486821,
+          "CPU_reduction": 0.5035882346262288,
+          "NN_game_reduction": 0.48657024793388426,
+          "NN_reduction": 0.5234318711591439,
+          "score": 0.7916666666666666,
+          "wall_game_reduction": 0.46538090867327264,
+          "wall_reduction": 0.5037638177941659
+        }
+      },
+      "43": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.4864226749533599,
+            0.5512636278067418
+          ],
+          "CPU_reduction": [
+            0.5259705341294498,
+            0.5887584968405801
+          ],
+          "NN_game_reduction": [
+            0.485941893158388,
+            0.5503273945485001
+          ],
+          "NN_reduction": [
+            0.5246348429212566,
+            0.5868270079435128
+          ],
+          "score": [
+            0.8020833333333334,
+            0.9270833333333334
+          ],
+          "wall_game_reduction": [
+            0.4855345000781248,
+            0.5513012057371582
+          ],
+          "wall_reduction": [
+            0.5252257089693757,
+            0.5886608240700835
+          ]
+        },
+        "all_gate": true,
+        "counts": {
+          "Bcpu": 10455284130,
+          "Bmoves": 404,
+          "Bnn": 6699,
+          "Bwall": 10467905451,
+          "Qcpu": 5017984233,
+          "Qmoves": 439,
+          "Qnn": 3225,
+          "Qwall": 5027191486,
+          "attempts": 239,
+          "cert": 85,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 96,
+          "losses": 13,
+          "proof_wall": 27127085,
+          "queries": 33683,
+          "replacement": 28,
+          "score2": 166,
+          "wins": 83
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.4918296275154116,
+          "CPU_reduction": 0.5311686683836838,
+          "NN_game_reduction": 0.49130902938009535,
+          "NN_reduction": 0.5303885371692101,
+          "score": 0.8125,
+          "wall_game_reduction": 0.49135293241121547,
+          "wall_reduction": 0.5304401481416916
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.5200528105590565,
+          "CPU_reduction": 0.5583173928607262,
+          "NN_game_reduction": 0.5185848634124497,
+          "NN_reduction": 0.556966480224669,
+          "score": 0.8645833333333334,
+          "wall_game_reduction": 0.5197519208085939,
+          "wall_reduction": 0.5580404920425329
+        }
+      },
+      "all": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.4879848282537085,
+            0.5242966544023875
+          ],
+          "CPU_reduction": [
+            0.5217669753382514,
+            0.5605308282705963
+          ],
+          "NN_game_reduction": [
+            0.4914781114958263,
+            0.5246981576275945
+          ],
+          "NN_reduction": [
+            0.5245390869108086,
+            0.5609675771801181
+          ],
+          "score": [
+            0.7663690476190477,
+            0.8705357142857143
+          ],
+          "wall_game_reduction": [
+            0.48802656799872846,
+            0.5245026098894109
+          ],
+          "wall_reduction": [
+            0.5217234586382936,
+            0.5606256720514003
+          ]
+        },
+        "all_gate": true,
+        "counts": {
+          "Bcpu": 125185472190,
+          "Bmoves": 2848,
+          "Bnn": 47421,
+          "Bwall": 125449103282,
+          "Qcpu": 61839036331,
+          "Qmoves": 3063,
+          "Qnn": 23343,
+          "Qwall": 61958150466,
+          "attempts": 1725,
+          "cert": 576,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 672,
+          "losses": 121,
+          "proof_wall": 224982834,
+          "queries": 265748,
+          "replacement": 232,
+          "score2": 1102,
+          "wins": 551
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.4908208983255996,
+          "CPU_reduction": 0.5247595851985509,
+          "NN_game_reduction": 0.4942162092797302,
+          "NN_reduction": 0.5276252541775984,
+          "score": 0.7752976190476191,
+          "wall_game_reduction": 0.4908117139495606,
+          "wall_reduction": 0.524730705834599
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.5060206647849367,
+          "CPU_reduction": 0.5406943693462289,
+          "NN_game_reduction": 0.5077497311317771,
+          "NN_reduction": 0.5423020679932422,
+          "score": 0.8199404761904762,
+          "wall_game_reduction": 0.5061092598906601,
+          "wall_reduction": 0.5407767457292196
+        }
+      },
+      "new": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.45032772345710137,
+            0.49353865403584285
+          ],
+          "CPU_reduction": [
+            0.48814283638199973,
+            0.5329726849854498
+          ],
+          "NN_game_reduction": [
+            0.46378066378066374,
+            0.5020610516934046
+          ],
+          "NN_reduction": [
+            0.5000897513586188,
+            0.5414803503658349
+          ],
+          "score": [
+            0.7847222222222222,
+            0.8958333333333334
+          ],
+          "wall_game_reduction": [
+            0.4502867948285615,
+            0.4939037200666523
+          ],
+          "wall_reduction": [
+            0.48812063420449003,
+            0.5332742430215676
+          ]
+        },
+        "all_gate": true,
+        "counts": {
+          "Bcpu": 33687537804,
+          "Bmoves": 1242,
+          "Bnn": 20823,
+          "Bwall": 33701341557,
+          "Qcpu": 17779247604,
+          "Qmoves": 1340,
+          "Qnn": 10764,
+          "Qwall": 17779514751,
+          "attempts": 771,
+          "cert": 258,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 288,
+          "losses": 46,
+          "proof_wall": 93241297,
+          "queries": 106940,
+          "replacement": 90,
+          "score2": 484,
+          "wins": 242
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.45385827960819536,
+          "CPU_reduction": 0.49202639478469723,
+          "NN_game_reduction": 0.4668587896253602,
+          "NN_reduction": 0.5036058074620875,
+          "score": 0.7916666666666666,
+          "wall_game_reduction": 0.4540551624037117,
+          "wall_reduction": 0.49208892983621266
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.47223071904385594,
+          "CPU_reduction": 0.5108287709346784,
+          "NN_game_reduction": 0.4830716035153436,
+          "NN_reduction": 0.5208768146015349,
+          "score": 0.8402777777777778,
+          "wall_game_reduction": 0.4724389614897371,
+          "wall_reduction": 0.5110217837091444
+        }
+      },
+      "old": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.4970763168256279,
+            0.5400344202803156
+          ],
+          "CPU_reduction": [
+            0.5286907269054733,
+            0.5739973202701836
+          ],
+          "NN_game_reduction": [
+            0.5075927817500852,
+            0.5473045473045473
+          ],
+          "NN_reduction": [
+            0.5382874437953946,
+            0.5811434848135446
+          ],
+          "score": [
+            0.75,
+            0.8567708333333334
+          ],
+          "wall_game_reduction": [
+            0.497275852479821,
+            0.5401025609827992
+          ],
+          "wall_reduction": [
+            0.5288337448317317,
+            0.5741165647695214
+          ]
+        },
+        "all_gate": true,
+        "counts": {
+          "Bcpu": 91497934386,
+          "Bmoves": 1606,
+          "Bnn": 26598,
+          "Bwall": 91747761725,
+          "Qcpu": 44059788727,
+          "Qmoves": 1723,
+          "Qnn": 12579,
+          "Qwall": 44178635715,
+          "attempts": 954,
+          "cert": 318,
+          "draws": 0,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 384,
+          "losses": 75,
+          "proof_wall": 131741537,
+          "queries": 158808,
+          "replacement": 142,
+          "score2": 618,
+          "wins": 309
+        },
+        "gate": {
+          "CPU": true,
+          "NN": true,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.5004079605873086,
+          "CPU_reduction": 0.5324139185561916,
+          "NN_game_reduction": 0.51091602171653,
+          "NN_reduction": 0.5419878338538626,
+          "score": 0.7604166666666666,
+          "wall_game_reduction": 0.5004982432642633,
+          "wall_reduction": 0.5324611779801449
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.5184613836075677,
+          "CPU_reduction": 0.5511601753184874,
+          "NN_game_reduction": 0.5270697044890593,
+          "NN_reduction": 0.5591839497443002,
+          "score": 0.8046875,
+          "wall_game_reduction": 0.5184772371077699,
+          "wall_reduction": 0.5511749522896567
+        }
+      }
+    },
+    "R_ARENA": {
+      "Rapfi": {
+        "CI": {
+          "CPU_game_reduction": [
+            0.05886967195386705,
+            0.11716548005399685
+          ],
+          "CPU_reduction": [
+            0.059465533688028316,
+            0.11922967944565255
+          ],
+          "NN_game_reduction": [
+            0.14406446774827109,
+            0.2103894989704873
+          ],
+          "NN_reduction": [
+            0.1445526836032932,
+            0.21219819786099214
+          ],
+          "score": [
+            0.5,
+            0.5390625
+          ],
+          "wall_game_reduction": [
+            0.06090962263329314,
+            0.11951970070464935
+          ],
+          "wall_reduction": [
+            0.06153047731249095,
+            0.12148552387298606
+          ]
+        },
+        "all_gate": false,
+        "counts": {
+          "Bcpu": 35382399133,
+          "Bmoves": 1660,
+          "Bnn": 153456,
+          "Bwall": 34896582289,
+          "Qcpu": 32467174068,
+          "Qmoves": 1662,
+          "Qnn": 126610,
+          "Qwall": 31944196667,
+          "attempts": 1385,
+          "cert": 173,
+          "draws": 2,
+          "exact_attempt": 0,
+          "exact_complete": 0,
+          "exact_nodes": 0,
+          "games": 128,
+          "losses": 61,
+          "proof_wall": 1738427324,
+          "queries": 1551344,
+          "replacement": 86,
+          "score2": 132,
+          "wins": 65
+        },
+        "gate": {
+          "CPU": true,
+          "NN": false,
+          "score": true
+        },
+        "lower95": {
+          "CPU_game_reduction": 0.062144148673771604,
+          "CPU_reduction": 0.06279835264177469,
+          "NN_game_reduction": 0.14904195621201988,
+          "NN_reduction": 0.14945761554648618,
+          "score": 0.5,
+          "wall_game_reduction": 0.06426457336862879,
+          "wall_reduction": 0.06491462047714314
+        },
+        "metrics": {
+          "CPU_game_reduction": 0.08239195578688352,
+          "CPU_reduction": 0.08349617726006398,
+          "NN_game_reduction": 0.17494265457199454,
+          "NN_reduction": 0.17593550336312336,
+          "score": 0.515625,
+          "wall_game_reduction": 0.08460386170626921,
+          "wall_reduction": 0.08570542143947468
+        }
+      }
+    }
+  },
+  "locks": {
+    "NN_LOW": "e5b133282b517de1e0fadc0d0f4439c3644115f8181f1484f1657fc31970573c",
+    "R_ARENA": "fd05f9b05d03755ba75edcd49ecdc0ce313a2eb654c57ba66a963690eb05cddd"
+  },
+  "plan_sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04",
+  "scope": "fresh same-evaluator native Q20/B32 and Rapfi Q128/B128, 8000 family bootstrap, physical per-move and per-game costs; proof_wall is native internal wall not CPU"
+}
