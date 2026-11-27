@@ -1,0 +1,46 @@
+{
+  "audit": {
+    "common": 1103,
+    "edges": 863180,
+    "proof_queries": 2298016,
+    "proof_receipts": 2442,
+    "votes": 4356
+  },
+  "counts": {
+    "common": 1103,
+    "games": 256,
+    "moves": 5818,
+    "nn": 426448
+  },
+  "independent": {
+    "bound_cells": 482886,
+    "new_loss_facts": 170453,
+    "new_win_facts": 121,
+    "partial_cert": 359,
+    "partial_receipts": 2442,
+    "queries": 2298016
+  },
+  "natural_exact": [],
+  "per_seed": {
+    "0": {
+      "Bcpu": 56625573150,
+      "Bmoves": 2911,
+      "Bnn": 260827,
+      "Bwall": 55799888596,
+      "Qcpu": 42714867733,
+      "Qmoves": 2907,
+      "Qnn": 165621,
+      "Qwall": 41941615274,
+      "attempts": 2442,
+      "cert": 359,
+      "draws": 2,
+      "games": 256,
+      "losses": 131,
+      "proof_wall": 3303672358,
+      "queries": 2298016,
+      "replacement": 167,
+      "score2": 248,
+      "wins": 123
+    }
+  }
+}
