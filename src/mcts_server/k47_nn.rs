@@ -123,3 +123,15 @@ pub(super) fn inspect(line:&str)->Value{
         }else{pf::probe(&b,r.n,r.depth,r.cap)}
     };f().unwrap_or_else(|e|json!({"error":e}))
 }
+
+fn k48_extend(_atlas:bool,_mask:Option<u8>,_z:usize)->bool{false}
+#[cfg(test)]
+mod k48_tests {
+    use super::*;
+    #[test]fn k48_extension_contract(){
+        assert!(k48_extend(true,None,3));
+        assert!(k48_extend(false,Some(8),3));
+        assert!(!k48_extend(false,Some(8),7));
+        assert!(!k48_extend(false,None,0));
+    }
+}
