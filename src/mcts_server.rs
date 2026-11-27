@@ -75,6 +75,8 @@ mod four_axis_local_cpu_server;
 mod gomoku_long_cpu_server;
 #[path = "mcts_server/rapfi_shared_cpu_server.rs"]
 mod rapfi_shared_cpu_server;
+#[path = "mcts_server/k47_proof.rs"]
+mod k47_proof;
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
