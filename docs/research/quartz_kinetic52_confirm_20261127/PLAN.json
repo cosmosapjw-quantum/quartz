@@ -1,0 +1,4974 @@
+{
+  "NI_margin": 0.05,
+  "NN_target": 0.3,
+  "bootstrap_replicates": 8000,
+  "bootstrap_seed": 202611275200,
+  "historical_target_lock_sha256": "9852750f940ab1c794b62a50630092261d250339b450ea890b1248dc574aa17c",
+  "jobs": [
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        18,
+        39
+      ],
+      "id": 0,
+      "opening": [
+        9,
+        15,
+        40,
+        18
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        23,
+        12,
+        41
+      ],
+      "id": 1,
+      "opening": [
+        23,
+        41,
+        1,
+        12
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        17,
+        26,
+        40
+      ],
+      "id": 2,
+      "opening": [
+        36,
+        12,
+        23,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        5,
+        33
+      ],
+      "id": 3,
+      "opening": [
+        24,
+        1,
+        11,
+        29
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        38,
+        16,
+        22
+      ],
+      "id": 4,
+      "opening": [
+        38,
+        30,
+        10,
+        22
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        31,
+        8,
+        42
+      ],
+      "id": 5,
+      "opening": [
+        25,
+        36,
+        21,
+        48
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        12,
+        15
+      ],
+      "id": 6,
+      "opening": [
+        9,
+        15,
+        22,
+        12
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        13,
+        37,
+        48
+      ],
+      "id": 7,
+      "opening": [
+        1,
+        6,
+        35,
+        33
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        10,
+        11,
+        38
+      ],
+      "id": 8,
+      "opening": [
+        40,
+        19,
+        26,
+        22
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        37,
+        0,
+        26
+      ],
+      "id": 9,
+      "opening": [
+        11,
+        6,
+        39,
+        22
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        10,
+        36
+      ],
+      "id": 10,
+      "opening": [
+        12,
+        40,
+        29,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        26,
+        9,
+        13
+      ],
+      "id": 11,
+      "opening": [
+        22,
+        39,
+        40,
+        35
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        17,
+        30
+      ],
+      "id": 12,
+      "opening": [
+        17,
+        18,
+        22,
+        23
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        39,
+        9,
+        27
+      ],
+      "id": 13,
+      "opening": [
+        47,
+        21,
+        9,
+        39
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        22,
+        29
+      ],
+      "id": 14,
+      "opening": [
+        26,
+        10,
+        17,
+        9
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        23,
+        10,
+        42
+      ],
+      "id": 15,
+      "opening": [
+        3,
+        42,
+        23,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        39,
+        10,
+        15
+      ],
+      "id": 16,
+      "opening": [
+        11,
+        19,
+        37,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        19,
+        36,
+        38
+      ],
+      "id": 17,
+      "opening": [
+        11,
+        36,
+        48,
+        22
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        38,
+        31,
+        37
+      ],
+      "id": 18,
+      "opening": [
+        26,
+        19,
+        15,
+        25
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "GLOBAL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        19,
+        30,
+        44
+      ],
+      "id": 19,
+      "opening": [
+        33,
+        30,
+        11,
+        28
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        17,
+        25
+      ],
+      "id": 20,
+      "opening": [
+        15,
+        31,
+        10,
+        23
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        29,
+        34,
+        35
+      ],
+      "id": 21,
+      "opening": [
+        37,
+        43,
+        34,
+        2
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        25,
+        19,
+        40
+      ],
+      "id": 22,
+      "opening": [
+        31,
+        37,
+        15,
+        40
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        14,
+        2,
+        18
+      ],
+      "id": 23,
+      "opening": [
+        46,
+        18,
+        41,
+        34
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        24,
+        16,
+        38
+      ],
+      "id": 24,
+      "opening": [
+        24,
+        16,
+        23,
+        26
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        17,
+        16,
+        35
+      ],
+      "id": 25,
+      "opening": [
+        15,
+        5,
+        23,
+        16
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        23,
+        25,
+        26
+      ],
+      "id": 26,
+      "opening": [
+        15,
+        31,
+        17,
+        38
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        20,
+        32,
+        36
+      ],
+      "id": 27,
+      "opening": [
+        34,
+        8,
+        44,
+        18
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        10,
+        12
+      ],
+      "id": 28,
+      "opening": [
+        17,
+        10,
+        11,
+        8
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        32,
+        4,
+        46
+      ],
+      "id": 29,
+      "opening": [
+        30,
+        34,
+        20,
+        28
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "GLOBAL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        25,
+        12,
+        33
+      ],
+      "id": 30,
+      "opening": [
+        30,
+        11,
+        17,
+        8
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        16,
+        18,
+        30
+      ],
+      "id": 31,
+      "opening": [
+        40,
+        30,
+        32,
+        18
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        17,
+        26,
+        30
+      ],
+      "id": 32,
+      "opening": [
+        23,
+        10,
+        30,
+        32
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "GLOBAL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        9,
+        16,
+        43
+      ],
+      "id": 33,
+      "opening": [
+        5,
+        18,
+        11,
+        47
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        31,
+        19,
+        23
+      ],
+      "id": 34,
+      "opening": [
+        15,
+        37,
+        25,
+        17
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        9,
+        15,
+        25
+      ],
+      "id": 35,
+      "opening": [
+        11,
+        19,
+        4,
+        23
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        19,
+        18,
+        36
+      ],
+      "id": 36,
+      "opening": [
+        37,
+        12,
+        8,
+        30
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        3,
+        18
+      ],
+      "id": 37,
+      "opening": [
+        18,
+        16,
+        29,
+        21
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        25,
+        26,
+        31
+      ],
+      "id": 38,
+      "opening": [
+        25,
+        26,
+        8,
+        31
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        32,
+        2,
+        36
+      ],
+      "id": 39,
+      "opening": [
+        40,
+        34,
+        16,
+        36
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        17,
+        11,
+        25
+      ],
+      "id": 40,
+      "opening": [
+        25,
+        31,
+        12,
+        33
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        17,
+        22,
+        25
+      ],
+      "id": 41,
+      "opening": [
+        40,
+        38,
+        25,
+        17
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        16,
+        11,
+        19
+      ],
+      "id": 42,
+      "opening": [
+        22,
+        29,
+        16,
+        37
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        15,
+        28,
+        33
+      ],
+      "id": 43,
+      "opening": [
+        3,
+        33,
+        15,
+        28
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        39,
+        16,
+        29
+      ],
+      "id": 44,
+      "opening": [
+        11,
+        18,
+        37,
+        33
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        37,
+        13,
+        29
+      ],
+      "id": 45,
+      "opening": [
+        11,
+        35,
+        45,
+        19
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        25,
+        19,
+        36
+      ],
+      "id": 46,
+      "opening": [
+        23,
+        40,
+        12,
+        15
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "GLOBAL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        3,
+        28,
+        36
+      ],
+      "id": 47,
+      "opening": [
+        45,
+        8,
+        44,
+        14
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        26,
+        25,
+        29
+      ],
+      "id": 48,
+      "opening": [
+        26,
+        15,
+        37,
+        25
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        9,
+        26,
+        40
+      ],
+      "id": 49,
+      "opening": [
+        15,
+        38,
+        14,
+        40
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "GLOBAL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        11,
+        15
+      ],
+      "id": 50,
+      "opening": [
+        29,
+        37,
+        38,
+        15
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        39,
+        21,
+        31
+      ],
+      "id": 51,
+      "opening": [
+        33,
+        25,
+        14,
+        3
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        18,
+        19,
+        39
+      ],
+      "id": 52,
+      "opening": [
+        36,
+        11,
+        32,
+        33
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        16,
+        32,
+        41
+      ],
+      "id": 53,
+      "opening": [
+        45,
+        16,
+        32,
+        7
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        9,
+        16
+      ],
+      "id": 54,
+      "opening": [
+        12,
+        11,
+        22,
+        18
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        23,
+        13,
+        20
+      ],
+      "id": 55,
+      "opening": [
+        3,
+        20,
+        23,
+        13
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        31,
+        8,
+        15
+      ],
+      "id": 56,
+      "opening": [
+        25,
+        40,
+        23,
+        39
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        20,
+        14,
+        29
+      ],
+      "id": 57,
+      "opening": [
+        13,
+        9,
+        46,
+        4
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        11,
+        18
+      ],
+      "id": 58,
+      "opening": [
+        30,
+        11,
+        10,
+        18
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        40,
+        2,
+        32
+      ],
+      "id": 59,
+      "opening": [
+        8,
+        2,
+        40,
+        32
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        22,
+        17,
+        31
+      ],
+      "id": 60,
+      "opening": [
+        26,
+        17,
+        10,
+        31
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        32,
+        17,
+        22
+      ],
+      "id": 61,
+      "opening": [
+        1,
+        17,
+        32,
+        22
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "GLOBAL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        10,
+        25,
+        40
+      ],
+      "id": 62,
+      "opening": [
+        38,
+        23,
+        40,
+        8
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        16,
+        26,
+        48
+      ],
+      "id": 63,
+      "opening": [
+        30,
+        26,
+        38,
+        6
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        18,
+        22,
+        38
+      ],
+      "id": 64,
+      "opening": [
+        18,
+        38,
+        32,
+        22
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        36,
+        5,
+        46
+      ],
+      "id": 65,
+      "opening": [
+        47,
+        2,
+        12,
+        43
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        12,
+        23,
+        31
+      ],
+      "id": 66,
+      "opening": [
+        36,
+        25,
+        8,
+        17
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        23,
+        21,
+        29
+      ],
+      "id": 67,
+      "opening": [
+        31,
+        45,
+        28,
+        39
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        17,
+        24,
+        37
+      ],
+      "id": 68,
+      "opening": [
+        36,
+        9,
+        31,
+        24
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        4,
+        30,
+        37
+      ],
+      "id": 69,
+      "opening": [
+        1,
+        30,
+        4,
+        37
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        18,
+        17,
+        19
+      ],
+      "id": 70,
+      "opening": [
+        29,
+        9,
+        16,
+        23
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        33,
+        5,
+        23
+      ],
+      "id": 71,
+      "opening": [
+        19,
+        41,
+        37,
+        17
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        24,
+        9,
+        31
+      ],
+      "id": 72,
+      "opening": [
+        25,
+        23,
+        24,
+        19
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        25,
+        28,
+        29
+      ],
+      "id": 73,
+      "opening": [
+        41,
+        44,
+        17,
+        37
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        18,
+        40
+      ],
+      "id": 74,
+      "opening": [
+        40,
+        8,
+        10,
+        18
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        19,
+        32,
+        39
+      ],
+      "id": 75,
+      "opening": [
+        41,
+        15,
+        11,
+        16
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        10,
+        31,
+        40
+      ],
+      "id": 76,
+      "opening": [
+        38,
+        17,
+        40,
+        8
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "GLOBAL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        14,
+        4,
+        24
+      ],
+      "id": 77,
+      "opening": [
+        46,
+        24,
+        34,
+        20
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "GLOBAL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        11,
+        23,
+        33
+      ],
+      "id": 78,
+      "opening": [
+        12,
+        25,
+        9,
+        29
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        23,
+        16,
+        48
+      ],
+      "id": 79,
+      "opening": [
+        25,
+        18,
+        17,
+        42
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        19,
+        22
+      ],
+      "id": 80,
+      "opening": [
+        9,
+        22,
+        32,
+        19
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "CONTROL",
+        "GLOBAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        19,
+        8,
+        41
+      ],
+      "id": 81,
+      "opening": [
+        6,
+        12,
+        15,
+        35
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        19,
+        37,
+        40
+      ],
+      "id": 82,
+      "opening": [
+        12,
+        39,
+        15,
+        36
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        25,
+        39,
+        43
+      ],
+      "id": 83,
+      "opening": [
+        23,
+        47,
+        18,
+        37
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        10,
+        12,
+        19
+      ],
+      "id": 84,
+      "opening": [
+        38,
+        36,
+        40,
+        29
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        38,
+        6,
+        19
+      ],
+      "id": 85,
+      "opening": [
+        10,
+        33,
+        44,
+        48
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        23,
+        11,
+        29
+      ],
+      "id": 86,
+      "opening": [
+        17,
+        9,
+        25,
+        33
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        15,
+        5,
+        9
+      ],
+      "id": 87,
+      "opening": [
+        45,
+        39,
+        33,
+        43
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "TARGET",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        33,
+        23,
+        37
+      ],
+      "id": 88,
+      "opening": [
+        19,
+        23,
+        36,
+        9
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        17,
+        12,
+        22
+      ],
+      "id": 89,
+      "opening": [
+        4,
+        8,
+        17,
+        26
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "TARGET",
+        "GLOBAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        31,
+        15,
+        32
+      ],
+      "id": 90,
+      "opening": [
+        25,
+        37,
+        23,
+        18
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "GLOBAL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        37,
+        39,
+        44
+      ],
+      "id": 91,
+      "opening": [
+        29,
+        15,
+        41,
+        28
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "GLOBAL",
+        "TARGET"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        30,
+        11,
+        32
+      ],
+      "id": 92,
+      "opening": [
+        16,
+        30,
+        26,
+        33
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        26,
+        7,
+        43
+      ],
+      "id": 93,
+      "opening": [
+        38,
+        7,
+        6,
+        5
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "GLOBAL",
+        "CONTROL",
+        "TARGET"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        9,
+        15,
+        30
+      ],
+      "id": 94,
+      "opening": [
+        12,
+        11,
+        19,
+        16
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "TARGET",
+        "GLOBAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        11,
+        14,
+        17
+      ],
+      "id": 95,
+      "opening": [
+        33,
+        25,
+        13,
+        4
+      ],
+      "split": "ARENA"
+    }
+  ],
+  "models": {
+    "101": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 82.3,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.72,
+            "timestamp": "2026-07-13 22:49:57",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "training_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+    },
+    "102": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 54.9,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.64,
+            "timestamp": "2026-07-13 23:27:53",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "training_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+    },
+    "103": {
+      "bytes": 4203527,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "105": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/gen_5.pt",
+      "role": "103 unpromoted trained gen5 (related checkpoint)",
+      "sha256": "a430602a889eba3f568c0a515c8a10dd3bb74d6b6b9adade5c00f0b22b91604b",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "41": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_41/gen_2.pt",
+      "original_seed": 41,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_41_gen2.pt",
+      "promotion": false,
+      "sha256": "d058771b43e948a9dec121be72bc0aa4228b2bdd9d1b52e55ccdc36626ca471b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 0.0,
+        "delta_elo": 0.0,
+        "elo_gap": 0.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.2897,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.2821,
+        "loss_ema": 4.2821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9269,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.633,
+        "pos_per_s": 6.3,
+        "published_elo": 0.0,
+        "replay": 298,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4094,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 200797,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.16899844548079057,
+          "extended_refresh_active_total": 31962,
+          "extended_refresh_eligible_total": 189126,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.36779248237609863,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4159732460975647,
+                "p95": 0.499844965338707
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6964949285984039,
+          "mean_p_flip": 0.36779248237609863,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.17965474207885562,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 40.9,
+          "mean_selection_effective_prior_l1_sum": 20.977019189999996,
+          "mean_selection_penalty_abs_sum": 10.620640669999998,
+          "mean_selection_root_selects": 2007.97,
+          "mean_voc_expand": -0.002033718860766385,
+          "mean_voc_focus": 0.02625431322058823,
+          "mean_voc_merge": 0.05439751913337197,
+          "mean_voc_total": 0.0595108026266098,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.15917568489569067,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.5,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.16,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.18,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.181,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.282,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 15.684,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.16,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 298,
+          "rolling_cycle_s": 20.18,
+          "rolling_games": 19,
+          "rolling_positions": 298,
+          "rolling_positions_per_s": 7.384,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.4,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.3552,
+        "value_std": 0.5149
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_41",
+          "--seed",
+          "41",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:30:22",
+        "returncode": 0,
+        "seed": 41,
+        "started_at": "2026-07-08 20:29:21"
+      }
+    },
+    "42": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_42/gen_2.pt",
+      "original_seed": 42,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_42_gen2.pt",
+      "promotion": false,
+      "sha256": "75d85209040f4e9047b6157ea5aece756bbe78cbef76bc92d515661189bd334f",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.3656,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.3543,
+        "loss_ema": 4.3543,
+        "lr": 0.0101,
+        "new_pos": 101,
+        "p_loss": 3.9202,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.589,
+        "pos_per_s": 5.4,
+        "published_elo": -167.5,
+        "replay": 266,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.3797,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 176682,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.3324768022840828,
+          "extended_refresh_active_total": 55896,
+          "extended_refresh_eligible_total": 168120,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.44832869589328767,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4995744377374649,
+                "p95": 0.4999823793768883
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6751197075843811,
+          "mean_p_flip": 0.44832869589328767,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.1390875223092735,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.78,
+          "mean_selection_effective_prior_l1_sum": 29.018208809999997,
+          "mean_selection_penalty_abs_sum": 5.909404700000001,
+          "mean_selection_root_selects": 1766.82,
+          "mean_voc_expand": -0.0018288146399208934,
+          "mean_voc_focus": 0.03310010064922594,
+          "mean_voc_merge": 0.046275470304008054,
+          "mean_voc_total": 0.050557230021804574,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.3163649947363059,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.263,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 19.325,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.241,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 101,
+          "last_cycle_s": 16.547,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.0,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.263,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 266,
+          "rolling_cycle_s": 19.325,
+          "rolling_games": 19,
+          "rolling_positions": 266,
+          "rolling_positions_per_s": 6.882,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 18.6,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.4341,
+        "value_std": 0.7186
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_42",
+          "--seed",
+          "42",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:31:20",
+        "returncode": 0,
+        "seed": 42,
+        "started_at": "2026-07-08 20:30:22"
+      }
+    },
+    "43": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_43/gen_2.pt",
+      "original_seed": 43,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_43_gen2.pt",
+      "promotion": false,
+      "sha256": "4a1fd820002fdfa62e2693febded77a4d4d5884a85a0b1a18f88a5f7c248374b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.5981,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.5821,
+        "loss_ema": 4.5821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9666,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.861,
+        "pos_per_s": 6.2,
+        "published_elo": -167.5,
+        "replay": 278,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4388,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 208929,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.005928749419267644,
+          "extended_refresh_active_total": 1123,
+          "extended_refresh_eligible_total": 189416,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.4317223697900772,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.49357300996780396,
+                "p95": 0.49951691478490834
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6634199434518814,
+          "mean_p_flip": 0.4317223697900772,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.06438421737169847,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.25,
+          "mean_selection_effective_prior_l1_sum": 2.5870308900000003,
+          "mean_selection_penalty_abs_sum": 3.32809432,
+          "mean_selection_root_selects": 2089.29,
+          "mean_voc_expand": -0.0007750782075714472,
+          "mean_voc_focus": 0.009553292178634295,
+          "mean_voc_merge": 0.019333062698042268,
+          "mean_voc_total": 0.02254601239255862,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.005375031709336665,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.13,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.034,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.122,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.94,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.632,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.13,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 278,
+          "rolling_cycle_s": 20.034,
+          "rolling_games": 19,
+          "rolling_positions": 278,
+          "rolling_positions_per_s": 6.938,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.8,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.6156,
+        "value_std": 0.8035
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_43",
+          "--seed",
+          "43",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:32:20",
+        "returncode": 0,
+        "seed": 43,
+        "started_at": "2026-07-08 20:31:20"
+      }
+    }
+  },
+  "prior_families": 2916,
+  "prior_locks": [
+    {
+      "path": "docs/research/quartz_kinetic33_20261126/PLAN.json",
+      "sha256": "58877f6bc469438a8759dd1a7a60ccdef5782eaef82686180a0fa3c9363c680b"
+    },
+    {
+      "path": "docs/research/quartz_kinetic38_nnlock_20261126/PLAN.json",
+      "sha256": "aedf701de9d8e5598654e8f9880c0561f887a09bd2facbdd769d855286ec0d50"
+    },
+    {
+      "path": "docs/research/quartz_kinetic39_voc_20261126/PLAN.json",
+      "sha256": "64511e71fac2e3b53cfd566828b2779c045d8d18ed2db59ea9543a32437491df"
+    },
+    {
+      "path": "docs/research/quartz_kinetic40_budget_20261126/PLAN.json",
+      "sha256": "59590c12ce52b301ca5c83dcaa4caa68a4449a419d2a93ad3df3275d072a1a90"
+    },
+    {
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    }
+  ],
+  "rapfi_identity": {
+    "actual_binary": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic40_budget_backups/mcts_demo",
+    "actual_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+    "binary": "e12746f178f59fcfeac97740848ecf5ddeb28dd00cafef39e506ed91eea817f2",
+    "bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "source_head": "c0214d5414960c3e3f941eadf0a645e5f16e5e7a",
+    "upstream": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62"
+  },
+  "rapfi_jobs": [
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "02680bad4e817aa56aa301f44595b6453d7320e2087069ad0b3d0889e60fddb6",
+      "id": 0,
+      "opening": [
+        149,
+        26,
+        35,
+        103,
+        88,
+        147
+      ],
+      "seed": 4388701846445148624,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "4abcb8f9349f8f26f3d6418f832b4bdcbc27037a9073a3497e5e4266ef571745",
+      "id": 1,
+      "opening": [
+        19,
+        223,
+        167,
+        32,
+        217,
+        42
+      ],
+      "seed": 2055979523733584016,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a4c06f3a4c9ebf0ff4b4adbbb0f10a07c403c9a65c317236536150702dd22c3b",
+      "id": 2,
+      "opening": [
+        196,
+        117,
+        22,
+        151,
+        4,
+        177
+      ],
+      "seed": 8576180007382418576,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "89e6d9c3e8b12a5e420423225135ed75316a0ff3791049c730450f487cb768b0",
+      "id": 3,
+      "opening": [
+        219,
+        33,
+        132,
+        216,
+        200,
+        167
+      ],
+      "seed": 7071271821918378179,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "7554e0694b4f545378fcdcac99b8e0404af8b786a9b615092a34ca1ffd8a1524",
+      "id": 4,
+      "opening": [
+        200,
+        46,
+        193,
+        0,
+        32,
+        75
+      ],
+      "seed": 6184233146464100097,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "6d51bbb024ab88f5b12dbcf486f2f6692b95b92ef30b8fc1b6d4df11cb91eecc",
+      "id": 5,
+      "opening": [
+        220,
+        77,
+        1,
+        72,
+        188,
+        121
+      ],
+      "seed": 4082090350731315344,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a0a625620c8f59bfb5e6e1a5c2b952443cad6745ee7faf60378557b1246e8030",
+      "id": 6,
+      "opening": [
+        198,
+        219,
+        149,
+        216,
+        118,
+        2
+      ],
+      "seed": 8199436263674983532,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0472abfa8b775f9eb042acf95857d565da25f99d130104fc56588325eabd864a",
+      "id": 7,
+      "opening": [
+        0,
+        43,
+        204,
+        15,
+        25,
+        223
+      ],
+      "seed": 1864906188402464631,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1dab63912b8664313b02f3405439cb9ff2d061e0116f3bd8c8e19b34bf4b8a17",
+      "id": 8,
+      "opening": [
+        151,
+        58,
+        5,
+        203,
+        136,
+        90
+      ],
+      "seed": 8383066240952413728,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "abf722b34fe926768e7877ebd9823d28c3535c73b88474c9253e2f8fc786ff1e",
+      "id": 9,
+      "opening": [
+        118,
+        59,
+        18,
+        107,
+        22,
+        24
+      ],
+      "seed": 6428083340875305295,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "cfc09c9dea0fe8aac7137ad92144c916f0c3c5eda3ddf6718021b16e8d871aae",
+      "id": 10,
+      "opening": [
+        212,
+        151,
+        165,
+        202,
+        177,
+        132
+      ],
+      "seed": 7676188463761091959,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b2563294e30bebcf8aa466013f84cfe95ab16dc7cbd6ca946c21e7cda1dd9af8",
+      "id": 11,
+      "opening": [
+        31,
+        200,
+        211,
+        177,
+        179,
+        74
+      ],
+      "seed": 7715080865184638047,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a95213f276dcf051593dfac7eaee313f21157ae9997ab132f23cdb03b33cc426",
+      "id": 12,
+      "opening": [
+        106,
+        194,
+        197,
+        214,
+        203,
+        192
+      ],
+      "seed": 8254366176250386980,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "fdf5e7f74aa39964620f4d3d7b2b4a204e35f1febb420e91cddf66a5862dd9d0",
+      "id": 13,
+      "opening": [
+        61,
+        177,
+        9,
+        211,
+        10,
+        46
+      ],
+      "seed": 637330202431393446,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ea757b86275452f2e8bcc9e2fd1d69fa5e6d710081792a30b451d20f57c454bb",
+      "id": 14,
+      "opening": [
+        16,
+        212,
+        42,
+        122,
+        199,
+        147
+      ],
+      "seed": 1815656786974209679,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "aca1b7ff8c40b6a732f8a054ef596e5896d5ede7416eeffc810cae07a1fa94c9",
+      "id": 15,
+      "opening": [
+        120,
+        190,
+        47,
+        46,
+        76,
+        106
+      ],
+      "seed": 4341082301680695218,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "2fa5dde99c18c99a25b97ea2a7c4feda4f39238820bbe864c34b03604fd619ce",
+      "id": 16,
+      "opening": [
+        105,
+        217,
+        204,
+        181,
+        209,
+        179
+      ],
+      "seed": 4026582030243154272,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "675e6a2133d3c15b52817f1cbb12c96fd0613ea2b1e8d1190a025ff06885c5ba",
+      "id": 17,
+      "opening": [
+        21,
+        17,
+        7,
+        14,
+        187,
+        209
+      ],
+      "seed": 6371944365792066050,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f5a77cc73efd34ea6752a7ccc308fbbe864180d509f9597a4d21de5872ac56d1",
+      "id": 18,
+      "opening": [
+        0,
+        8,
+        46,
+        9,
+        33,
+        209
+      ],
+      "seed": 6555387166883106446,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f302ff5071273cc149c67812d54dc52ca60c69c9a465003f0c6f0ba2a3c05cce",
+      "id": 19,
+      "opening": [
+        59,
+        87,
+        62,
+        187,
+        20,
+        24
+      ],
+      "seed": 6907225740830384918,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "e1f10ffb57ffd7e06b01e9b810ee6cd4666e2090dfc97ca13dcfa47230ca0d20",
+      "id": 20,
+      "opening": [
+        106,
+        46,
+        206,
+        31,
+        217,
+        187
+      ],
+      "seed": 5314293840113911863,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "10b4f690578e48ec33ddcf120feac7e86043885666f1a2e05ca3ce10d951f150",
+      "id": 21,
+      "opening": [
+        59,
+        206,
+        5,
+        194,
+        106,
+        205
+      ],
+      "seed": 261182401593846661,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "c9aaeaebcd540eb972fa0a3b501215aab319b303ac232c3e1d1ea4f5a08fc4bd",
+      "id": 22,
+      "opening": [
+        223,
+        39,
+        163,
+        76,
+        17,
+        177
+      ],
+      "seed": 1859507907166435218,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "e882460d24e58b414d27e03b779cfb6f825b48b63f9fec9a32fc2a514e17379a",
+      "id": 23,
+      "opening": [
+        19,
+        103,
+        75,
+        177,
+        41,
+        9
+      ],
+      "seed": 8725248627360639958,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "bc476f3d33bb04b2f95342dd760b362748eaa944ddbd1094d8af925eafd38d44",
+      "id": 24,
+      "opening": [
+        149,
+        191,
+        12,
+        44,
+        87,
+        59
+      ],
+      "seed": 5049028761006480932,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "cb6d31a2187e28367a7cd159ba9cefcb4eab7e51438697313fdbe8bbc3ecb56a",
+      "id": 25,
+      "opening": [
+        32,
+        134,
+        37,
+        5,
+        193,
+        195
+      ],
+      "seed": 3870549005570640476,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "cbada2e487d2b74ffe9c70a190d6a7e9adaaf95a21fa7211c09f2b9773f44067",
+      "id": 26,
+      "opening": [
+        19,
+        206,
+        2,
+        41,
+        5,
+        18
+      ],
+      "seed": 2465731506218978427,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f45a24a85f6476202c19b973338104f7ac2c00fd3452843dc049ae581c56023f",
+      "id": 27,
+      "opening": [
+        208,
+        117,
+        105,
+        31,
+        43,
+        186
+      ],
+      "seed": 8477665059273803358,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "883830f5f324231159081b27f8d33470d4bc7a9c53a1280847293741bade5947",
+      "id": 28,
+      "opening": [
+        107,
+        21,
+        203,
+        121,
+        212,
+        22
+      ],
+      "seed": 1092478320504317128,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "e55a5673f6eba8cfaa74695b7a6f9622123bbd79c8b9f555bbebf979bbf154cb",
+      "id": 29,
+      "opening": [
+        195,
+        183,
+        7,
+        215,
+        197,
+        90
+      ],
+      "seed": 677652320459843363,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "487c4527c9232dbee5ca60f65db4a983d3828ac65df10488596e9fa8e18047a5",
+      "id": 30,
+      "opening": [
+        45,
+        211,
+        76,
+        87,
+        162,
+        119
+      ],
+      "seed": 1019079058611518722,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ee79b71b2b01f0bb51053d333d380e5a559e7bd80fb22fd9545a8fffe61f78b1",
+      "id": 31,
+      "opening": [
+        216,
+        210,
+        34,
+        19,
+        58,
+        31
+      ],
+      "seed": 8526288049049795533,
+      "split": "CAL",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "b671c35dcdb13083abf9fb511bde12c81337135a28fc4ae25079132390b9e4d9",
+      "id": 32,
+      "opening": [
+        147,
+        178,
+        6,
+        166,
+        204,
+        1
+      ],
+      "seed": 5203418412082658368,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "65a9973a6575a36deea415b02c405a056d5985e03ca4f85845ce181afc45343d",
+      "id": 33,
+      "opening": [
+        72,
+        16,
+        31,
+        15,
+        177,
+        33
+      ],
+      "seed": 8095323217485255161,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d5281ab347ac7e0c89b5dd7acd6bbed5eb8ea4305f17de24188c6c0846b2fb97",
+      "id": 34,
+      "opening": [
+        147,
+        207,
+        217,
+        33,
+        106,
+        23
+      ],
+      "seed": 3915296862724987625,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "b69219147020faa6f0d4e0a3c16d10dcbbff09af937e1d125e4e751f7769efba",
+      "id": 35,
+      "opening": [
+        19,
+        210,
+        182,
+        150,
+        25,
+        135
+      ],
+      "seed": 7440268268939928761,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a0cddcaedaeca1d3564ff955367fea786b0820f9432ce5aa056f56a9119b9f4e",
+      "id": 36,
+      "opening": [
+        222,
+        197,
+        182,
+        189,
+        47,
+        205
+      ],
+      "seed": 1342466256691911464,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "8d0b9b8cc8dde0e644c4cad356934d13d670b8ea6e0c1f56243e5e67a0188f4a",
+      "id": 37,
+      "opening": [
+        217,
+        20,
+        14,
+        41,
+        213,
+        26
+      ],
+      "seed": 4147085895392637028,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "201a61a4561c1e0020b1fd4755671f8143a4f1eac68cf9bc75545f20b7f14476",
+      "id": 38,
+      "opening": [
+        10,
+        38,
+        196,
+        167,
+        90,
+        179
+      ],
+      "seed": 4736369231278181734,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "51e83db18b36aa51d0b9a0e7c3861533e94c2e89c1eaf9413c8e14c1859e8e24",
+      "id": 39,
+      "opening": [
+        212,
+        19,
+        218,
+        46,
+        147,
+        150
+      ],
+      "seed": 4230571568951037413,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "5fe457f440026d82bc48a0a8c2ede7615a2e4763e7f98f2d0e5368d71ed0650f",
+      "id": 40,
+      "opening": [
+        3,
+        17,
+        148,
+        222,
+        117,
+        60
+      ],
+      "seed": 8659549201171621853,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f7ddc7baee516f3254b6988226190b975dd9c8ee389972907cf52c17cf1e0834",
+      "id": 41,
+      "opening": [
+        202,
+        213,
+        36,
+        14,
+        45,
+        33
+      ],
+      "seed": 925914002242481401,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "28f115911f7a2260a0cbd02c547ffb6312301fb75c3500b3ba840c5c51fc7d37",
+      "id": 42,
+      "opening": [
+        31,
+        103,
+        185,
+        195,
+        165,
+        135
+      ],
+      "seed": 5520302033304959393,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "00c237df889e7ac1c34b56c4abc529c0d43cc7d2713797b2a11b5452952a5cba",
+      "id": 43,
+      "opening": [
+        13,
+        87,
+        152,
+        178,
+        23,
+        183
+      ],
+      "seed": 2455651754586207674,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9767859c79b14f3b478c25b3c83ceb0c01818ac80b37bed4690b51dbde6e55f1",
+      "id": 44,
+      "opening": [
+        163,
+        196,
+        90,
+        208,
+        2,
+        180
+      ],
+      "seed": 2775839089833532840,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "cdeb311d3e4811c7b9d8650bbb540a0d8f7c18ebbdb757a76edf9d13246f218d",
+      "id": 45,
+      "opening": [
+        205,
+        44,
+        102,
+        187,
+        22,
+        12
+      ],
+      "seed": 2839512844557509043,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "37cee2822f307396ef5cffd85aa7d9e136efbde2a9a560039b66cae4d7e40951",
+      "id": 46,
+      "opening": [
+        23,
+        216,
+        150,
+        203,
+        164,
+        76
+      ],
+      "seed": 6361529431819050858,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "8fb628c4b2007a4d6f00df504a067ffed123cf811eecb1e4954a310a30fd31c2",
+      "id": 47,
+      "opening": [
+        221,
+        41,
+        224,
+        8,
+        209,
+        15
+      ],
+      "seed": 3692461010809699080,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c35d5e7cc8ae41286c12d03ad9ea275465c93895b80781fcf74d65fca2759ce0",
+      "id": 48,
+      "opening": [
+        60,
+        76,
+        45,
+        197,
+        121,
+        177
+      ],
+      "seed": 7930970455279993046,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a43b9cf9a5b2751c5021dd73a8cf445b12649be2fad8959bf08783968db4f78e",
+      "id": 49,
+      "opening": [
+        200,
+        179,
+        186,
+        218,
+        91,
+        28
+      ],
+      "seed": 3468647842722100467,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "e790de5bd1935634cee3800a8d0b81e8823b841b07d1b59fc47d83cf951410b5",
+      "id": 50,
+      "opening": [
+        25,
+        39,
+        32,
+        195,
+        165,
+        37
+      ],
+      "seed": 3004790652047574860,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f85b8c9101fb6bf1f8be8b8bd24960eb313346ee59371fd9836a25a16b6b1cc8",
+      "id": 51,
+      "opening": [
+        0,
+        36,
+        37,
+        133,
+        185,
+        8
+      ],
+      "seed": 8690358995975464677,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "37720061a800315df1080fc866baca0fb161d4afeb711b86c63a45bde77dbee6",
+      "id": 52,
+      "opening": [
+        194,
+        15,
+        219,
+        61,
+        192,
+        2
+      ],
+      "seed": 7640605219824639507,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "65e11d2070063b94aaffe9f61e7e8b974fa2c7098aff7181747f9e229803342f",
+      "id": 53,
+      "opening": [
+        191,
+        90,
+        121,
+        105,
+        215,
+        224
+      ],
+      "seed": 7407953105946492461,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3d148eea57813f4d4184c3d86851e5b11b93371186a6278c8e758ed240031143",
+      "id": 54,
+      "opening": [
+        15,
+        17,
+        206,
+        27,
+        13,
+        7
+      ],
+      "seed": 3507821303833949162,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "723a7fdbede831158a699b987664bf293393153a8d59d1ac93f3edfb033ccc25",
+      "id": 55,
+      "opening": [
+        76,
+        73,
+        38,
+        201,
+        26,
+        90
+      ],
+      "seed": 7561593340412766312,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "17a3b0bffcdb2722ed42a34a436ce7eee9cc0d9eb0125e28aa3b3456b8a21a30",
+      "id": 56,
+      "opening": [
+        223,
+        31,
+        221,
+        88,
+        107,
+        19
+      ],
+      "seed": 7599764119603426296,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ca091807dc1de912682aaf8ce12d8a918ca68a77e09e8fcb1095fd1159048036",
+      "id": 57,
+      "opening": [
+        62,
+        200,
+        132,
+        211,
+        197,
+        134
+      ],
+      "seed": 8720324277025790504,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "fcc9213bce4baea6feff64d64c98baaf453c45264306821596aaf53a16a09634",
+      "id": 58,
+      "opening": [
+        219,
+        5,
+        75,
+        22,
+        165,
+        88
+      ],
+      "seed": 2606147290099344527,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "49dde763c7b76d721d650ca0710bfe43605cb9178395c8e9784c69838ede8645",
+      "id": 59,
+      "opening": [
+        40,
+        182,
+        105,
+        214,
+        17,
+        106
+      ],
+      "seed": 3354529748990627622,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "4d5009b4ac4ce084da579a581a4bfe1d72cfddab86e3c80840518444b2bc4c3c",
+      "id": 60,
+      "opening": [
+        0,
+        2,
+        150,
+        106,
+        45,
+        25
+      ],
+      "seed": 4686147679664949816,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "da66d66197b2be4500a9ef19ce02c59d54be018d6bc4b791ab3a20c140f79e3b",
+      "id": 61,
+      "opening": [
+        47,
+        192,
+        91,
+        132,
+        202,
+        8
+      ],
+      "seed": 4621857278692290279,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "0f5ce1079a2f532919c79fd586495e3d782153c39e9cd7d5fd6589597a0cccd2",
+      "id": 62,
+      "opening": [
+        3,
+        31,
+        190,
+        187,
+        189,
+        211
+      ],
+      "seed": 6617989543864322571,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "301cb0ef84ec98a287fb0aec6135ce059e7f470d558d4c1b49e9cef4b99a70e0",
+      "id": 63,
+      "opening": [
+        219,
+        134,
+        216,
+        23,
+        132,
+        19
+      ],
+      "seed": 43836126603019937,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "597f97858852fddc6e230dfede6a834b7af92f4c8942431abd31e73d182f463c",
+      "id": 64,
+      "opening": [
+        150,
+        185,
+        28,
+        179,
+        74,
+        166
+      ],
+      "seed": 3744673126006792383,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1a15f9f66d39e156e6c68715b45104dd72e049de00d3a202c9dee98edd012d6f",
+      "id": 65,
+      "opening": [
+        19,
+        133,
+        59,
+        211,
+        45,
+        15
+      ],
+      "seed": 396089754592734037,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ef524d8ac05d1c3f3ca0880b322a43ea518ea23ff75bc93b2f640245b8e62f08",
+      "id": 66,
+      "opening": [
+        134,
+        222,
+        22,
+        180,
+        41,
+        188
+      ],
+      "seed": 1866557767159583351,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f9770cf570d7e4238a2d2eee635812b013964b36839bc2c0937b5e85eb694a8b",
+      "id": 67,
+      "opening": [
+        62,
+        74,
+        32,
+        201,
+        119,
+        197
+      ],
+      "seed": 6438668942198586914,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3606dc87ca13c8ebe7c5a479a76d3f7d6c27533dbb33d1b2d14b43ade9d6a9c9",
+      "id": 68,
+      "opening": [
+        39,
+        222,
+        186,
+        26,
+        27,
+        107
+      ],
+      "seed": 9090844133029329197,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "312119311dc52ab36bd7e7716b461db8c43d09b07fdc13158896feac09cfd2d9",
+      "id": 69,
+      "opening": [
+        148,
+        43,
+        17,
+        7,
+        107,
+        181
+      ],
+      "seed": 2621284988582723150,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b7ace4c130c270064c66cd2dee8b8ad9c8a50c2f16802c70f892b13e1fcc2207",
+      "id": 70,
+      "opening": [
+        184,
+        150,
+        202,
+        15,
+        203,
+        223
+      ],
+      "seed": 4193532839423311299,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "e1637d96570248dbe7526f47068e247a4826d30cc6c1fdc766afecbb2723d71e",
+      "id": 71,
+      "opening": [
+        219,
+        196,
+        120,
+        88,
+        203,
+        89
+      ],
+      "seed": 6854009130090794688,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "e47092727ab9c93deb4827591c0f63ec5e26c8661b6e4539f1e4e7c276b90957",
+      "id": 72,
+      "opening": [
+        190,
+        118,
+        22,
+        9,
+        201,
+        7
+      ],
+      "seed": 8140673840456495356,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c802d77665946cf59cb184140f3cdcf3700929a95a9e89665d0f562050f34cda",
+      "id": 73,
+      "opening": [
+        188,
+        72,
+        215,
+        147,
+        6,
+        193
+      ],
+      "seed": 4200219988809656584,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "15618a48c66894364b337831fe93a1f140c5e8bffc29f46ac047490fe65d8f79",
+      "id": 74,
+      "opening": [
+        210,
+        7,
+        179,
+        4,
+        119,
+        167
+      ],
+      "seed": 7348327696193516488,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b30e9d6a6d7c4e510a447b87360ebf0f29976aab52f413f10a40ab46593cc636",
+      "id": 75,
+      "opening": [
+        149,
+        193,
+        36,
+        32,
+        163,
+        74
+      ],
+      "seed": 1894789597560305899,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "87c887057ed50da5de5190e1c378b7e981cc210e74cb59e58896e4c8f539a447",
+      "id": 76,
+      "opening": [
+        35,
+        33,
+        209,
+        39,
+        28,
+        21
+      ],
+      "seed": 3644206125273050745,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "be0dc18a4658e00e2de056459e005531ebe790561f3418430cf5a81872571c2f",
+      "id": 77,
+      "opening": [
+        58,
+        60,
+        75,
+        76,
+        77,
+        89
+      ],
+      "seed": 8313281397106781448,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "bdaf8f13931013240edf04c9e4caa06ccb14f3358e367f587c066697930f878c",
+      "id": 78,
+      "opening": [
+        19,
+        72,
+        180,
+        177,
+        104,
+        132
+      ],
+      "seed": 8196024807127930735,
+      "split": "TEST",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "48128d07ba3ab837416c5424f6b79c3fd53c602c26a8256841cdd2bd5b2a4dce",
+      "id": 79,
+      "opening": [
+        59,
+        213,
+        167,
+        210,
+        30,
+        31
+      ],
+      "seed": 1121134464062257790,
+      "split": "TEST",
+      "stratum": "outer"
+    }
+  ],
+  "rapfi_k37_plan_sha256": "0a8f4e7b6cae131770596a0ff6c03db8774e948835a052efc9b9bd8f6335819e",
+  "rapfi_prior": 3638,
+  "rapfi_prior_locks": [
+    {
+      "added": 1,
+      "path": "docs/research/quartz_rapfi09_20261125/PAIR_PLAN.json",
+      "sha256": "92ffcd09ad9e449fbe73ae059ea8afa0b60bd771c4265d223d7294a531291108"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi10_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "60b69e9d8bea7b3d1c18332302e05d84b6d1328d7c391e75d81e8acfe1079f6c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_rapfi11_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "ff92c03c1f87b19c7307e2b95d613b30573a0e8147f1a5ad1f4c5422442f1b2c"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi12_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "db9c59fac9c1607167213de64e3f8de25356d30f5a7b5b22846606ccf2da362c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic14_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "1ef9e539893a238a45a4cd38edd17ec06416e1033125ccdb9ee2e1692dcb99a2"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic15_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "e2b5d01457564fd3aa0de3966fc1dcea30f9917629ce3f6ff0743c32f1544ccd"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic16_20261126/C06_PLAN.json",
+      "sha256": "08a46dfbcef2dd628728ef8e248a089883a6b196bd941b75ed030577a56bf8b8"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic19_20261126/G_PLAN.json",
+      "sha256": "ec1c84d3f7973bb6a0d6432b3e23b9a54a38f33eb19b1583ad3368fa5458d201"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic20_20261126/G_PLAN.json",
+      "sha256": "24c403a543ca933f40d93c47c7a62964e07a1c88ffa486228ef5b3af07a54587"
+    },
+    {
+      "added": 42,
+      "path": "docs/research/quartz_kinetic34_20261126/PLAN.json",
+      "sha256": "1ae4cbf5145d84ca0d727dd043b8540744d1d407ff45fbef5b49271b61266532"
+    },
+    {
+      "added": 256,
+      "path": "docs/research/quartz_kinetic35_20261126/PLAN.json",
+      "sha256": "5e64440dddb6440bdadd427a279aa8353f1e0e948d90e550e436acdc8aeabb9b"
+    },
+    {
+      "added": 416,
+      "path": "docs/research/quartz_kinetic36_20261126/PLAN.json",
+      "sha256": "28c5c83be3ed880d72eb5d0c4ca76f5147561959262de0c37d89c275e2725af0"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic40_budget_20261126/RAPFI_PLAN.json",
+      "sha256": "6325809e81426a1ed6d0d6a356730996ddbb2d43d751e3430e2bba4d815fc9f5"
+    },
+    {
+      "added": 304,
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "added": 240,
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "added": 83,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PAIR_PLAN.json",
+      "sha256": "4d33500d198af513d7c6c38412dde0f9b489cd5f68017954c254bf3129ed3f7c"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "added": 32,
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_tactical08_20261125/C07_COHORT.json",
+      "sha256": "14107220a3c60c9fe945f945ff2d91baa58a237bce3fa04ee20a81c18e330475"
+    }
+  ],
+  "rapfi_workers": 4,
+  "scope": "96 fresh NN families three arms;32 outer CAL families and48 outer TEST families",
+  "seed": 2026112752,
+  "tiers": [
+    [
+      3,
+      256
+    ],
+    [
+      5,
+      1024
+    ],
+    [
+      7,
+      4096
+    ]
+  ],
+  "workers": 8
+}
