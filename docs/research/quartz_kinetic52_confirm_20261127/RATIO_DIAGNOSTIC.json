@@ -1,0 +1,196 @@
+{
+  "all": {
+    "global": {
+      "delta_Q": {
+        "CI": [
+          -0.00144248106743599,
+          0.0009721715882853323
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": -0.0002457304337142155,
+        "zero_resamples": 0
+      },
+      "delta_total": {
+        "CI": [
+          -0.0013542271232346683,
+          0.0008658008658008658
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": -0.00022067747986317997,
+        "zero_resamples": 0
+      },
+      "local_nn": {
+        "CI": [
+          -0.001613849765258216,
+          0.0010703363914373089
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": -0.000273224043715847,
+        "zero_resamples": 0
+      }
+    },
+    "target": {
+      "delta_Q": {
+        "CI": [
+          0.0007922674694977025,
+          0.00481681506349438
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.002722734835879595,
+        "zero_resamples": 0
+      },
+      "delta_total": {
+        "CI": [
+          0.0009252833680314596,
+          0.005830317651789305
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.0030758714969241286,
+        "zero_resamples": 0
+      },
+      "local_nn": {
+        "CI": [
+          0.0007196315486470927,
+          0.004296455424274973
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.0024596884394643345,
+        "zero_resamples": 0
+      }
+    }
+  },
+  "new": {
+    "global": {
+      "delta_Q": {
+        "CI": [
+          -0.0010964912280701754,
+          0.0016877637130801688
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.0002658160552897395,
+        "zero_resamples": 0
+      },
+      "delta_total": {
+        "CI": [
+          -0.001092001092001092,
+          0.0016489988221436984
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.000259000259000259,
+        "zero_resamples": 0
+      },
+      "local_nn": {
+        "CI": [
+          -0.001122334455667789,
+          0.0017301038062283738
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.000275027502750275,
+        "zero_resamples": 0
+      }
+    },
+    "target": {
+      "delta_Q": {
+        "CI": [
+          -0.0002768549280177187,
+          0.005054759898904802
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.002292920607623961,
+        "zero_resamples": 0
+      },
+      "delta_total": {
+        "CI": [
+          -0.00027078256160303275,
+          0.005611672278338945
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.0023148148148148147,
+        "zero_resamples": 0
+      },
+      "local_nn": {
+        "CI": [
+          -0.0002670940170940171,
+          0.004690949227373068
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.0022002200220022,
+        "zero_resamples": 0
+      }
+    }
+  },
+  "old": {
+    "global": {
+      "delta_Q": {
+        "CI": [
+          -0.002744352966012244,
+          0.0013708019191226869
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": -0.0006854009595613434,
+        "zero_resamples": 0
+      },
+      "delta_total": {
+        "CI": [
+          -0.0025591810620601407,
+          0.0011574074074074073
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": -0.0005767012687427913,
+        "zero_resamples": 0
+      },
+      "local_nn": {
+        "CI": [
+          -0.003273809523809524,
+          0.0015822784810126582
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": -0.0008143322475570033,
+        "zero_resamples": 0
+      }
+    },
+    "target": {
+      "delta_Q": {
+        "CI": [
+          0.0006186204763377668,
+          0.006123106670963584
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.0032030749519538757,
+        "zero_resamples": 0
+      },
+      "delta_total": {
+        "admit_ratio": false,
+        "nonpositive_resamples": 7,
+        "point": 0.004173622704507512,
+        "zero_resamples": 0
+      },
+      "local_nn": {
+        "CI": [
+          0.0005257623554153522,
+          0.0051440329218107
+        ],
+        "admit_ratio": true,
+        "nonpositive_resamples": 0,
+        "point": 0.0027159152634437804,
+        "zero_resamples": 0
+      }
+    }
+  }
+}
