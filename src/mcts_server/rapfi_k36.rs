@@ -6,7 +6,9 @@ struct Request36{cmd:String,history:Vec<u16>,cap:Option<u32>,horizons:Option<[u3
 fn valid_cap(h:u32)->bool{matches!(h,80|96|112|128|256)}
 fn inner(line:&str)->Result<Value,String>{
     let started=Instant::now();let q:Request36=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    if q.cmd!="research_rapfi_k36"||q.history.len()>224{return Err("bad K36 request".into());}
+    let hybrid=q.cmd=="research_rapfi_k47";
+    if hybrid&&(q.cap!=Some(128)||!q.lock||q.horizons.is_some()){return Err("K47 Rapfi requires locked128".into());}
+    if (!hybrid&&q.cmd!="research_rapfi_k36")||q.history.len()>224{return Err("bad K36 request".into());}
     if q.cap.is_some()==q.horizons.is_some()||q.cap.is_some_and(|h|!valid_cap(h))||q.horizons.is_some_and(|hs|hs.iter().any(|h|!valid_cap(*h)))||q.horizons.is_some()&&!q.lock{return Err("bad K36 options".into());}
     let(mut cap,locked,threads)=(q.cap.unwrap_or(256),q.lock,1usize);
     let eval=session().lock().unwrap().as_ref().cloned().ok_or("session not open")?;
@@ -17,10 +19,25 @@ fn inner(line:&str)->Result<Value,String>{
     let proof_us=t.elapsed().as_micros();
     let mut out=json!({"schema":"quartz_rapfi_k36_v1","history":q.history,"request_mask":0,"table":Value::Null,"requested_cap":q.cap,"horizons":q.horizons,"locked":locked,"seed":q.seed,"cap":cap,"threads":threads,
         "player":s.current_player(),"proof":proof,"proof_us":proof_us});
+    if hybrid{out["partial"]=Value::Null;out["original_move"]=Value::Null;out["replacement"]=json!(false);}
     if let Some(m)=proof["gate"].as_u64(){
         out["best"]=json!(m);out["cause"]=proof["kind"].clone();out["visits"]=json!(0);out["NN_calls"]=json!(0);
         out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["prefix"]=Value::Null;out["waves"]=json!([]);out["result"]=Value::Null;
         out["hooks"]=Value::Null;out["cap"]=json!(q.cap.unwrap_or(128));out["probe"]=Value::Null;out["probe_wave"]=Value::Null;out["bin"]=Value::Null;out["selected_mask"]=Value::Null;out["bridge_wait_ns"]=json!(0);out["eval_ipc_ns"]=json!(0);out["whole_us"]=json!(started.elapsed().as_micros());return Ok(out)
+    }
+    if hybrid{
+        let p=if s.current_player()==1{1}else{2};
+        let b:Vec<u8>=s.board_as_12().iter().map(|&x|if x==0{0}else if x==p{1}else{2}).collect();
+        let part=crate::mcts_server::k47_proof::combined(&b,15)?;
+        if !part["cold"]["receipt"]["gate"].is_null(){return Err("K34/K47 common gate mismatch".into());}
+        out["partial"]=part;
+        if let Some(m)=out["partial"]["cert"].as_u64(){
+            out["best"]=json!(m);out["cause"]=json!("PARTIAL47");out["visits"]=json!(0);out["NN_calls"]=json!(0);
+            out["root_eval"]=Value::Null;out["initial"]=Value::Null;out["prefix"]=Value::Null;out["probe"]=Value::Null;out["result"]=Value::Null;
+            out["waves"]=json!([]);out["hooks"]=Value::Null;out["bin"]=Value::Null;out["selected_mask"]=Value::Null;
+            out["bridge_wait_ns"]=json!(0);out["eval_ipc_ns"]=json!(0);out["certificate_checks"]=json!(0);
+            out["whole_us"]=json!(started.elapsed().as_micros());return Ok(out)
+        }
     }
     eval.0.lock().unwrap().reset()?;
     let mut cfg=gomoku15_quartz(GomokuVariant::Freestyle).with_seed(q.seed);
@@ -67,7 +84,15 @@ fn inner(line:&str)->Result<Value,String>{
     let (calls,ipc,wait,first)={let b=eval.0.lock().unwrap();(b.calls,b.elapsed_ns,b.wait_ns,b.first.as_ref().ok_or("missing root NN")?.json())};
     assert_eq!(calls,engine.evaluator_call_count());assert!(calls<=cap as u64);
     let visits=result["root_n"].as_u64().unwrap();assert!(visits<=cap as u64);
-    out["best"]=json!(best);out["cause"]=json!(cause);out["NN_calls"]=json!(calls);out["visits"]=json!(visits);
+    let mut chosen=best;
+    if hybrid{
+        let candidates=result["candidates"].as_array().ok_or("missing candidates")?;
+        let edges=result["edges"].as_array().ok_or("missing edges")?;
+        let vs:Vec<(u16,u32)>=candidates.iter().enumerate().map(|(i,c)|(c[0].as_u64().unwrap() as u16,edges.get(i).map(|e|{assert_eq!(e["move"],c[0]);e["n"].as_u64().unwrap() as u32}).unwrap_or(0))).collect();
+        chosen=crate::mcts_server::k47_proof::replace(best as u16,&vs,&out["partial"]["bounds"],15) as u64;
+        out["original_move"]=json!(best);out["replacement"]=json!(chosen!=best);
+    }
+    out["best"]=json!(chosen);out["cause"]=json!(cause);out["NN_calls"]=json!(calls);out["visits"]=json!(visits);
     out["root_eval"]=first;out["initial"]=init;out["prefix"]=prefix;out["waves"]=json!(waves);out["result"]=result;
     out["hooks"]=hook.k25_report(q.trace);out["eval_ipc_ns"]=json!(ipc);out["bridge_wait_ns"]=json!(wait);out["whole_us"]=json!(started.elapsed().as_micros());
     Ok(out)

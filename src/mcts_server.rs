@@ -77,6 +77,8 @@ mod gomoku_long_cpu_server;
 mod rapfi_shared_cpu_server;
 #[path = "mcts_server/k47_proof.rs"]
 mod k47_proof;
+#[path = "mcts_server/k47_nn.rs"]
+mod k47_nn;
 
 /// Bounded, CPU-only real QUARTZ MCTS for *standard gravity Connect4*.
 /// This research-only endpoint intentionally does not consume the external
@@ -2767,7 +2769,13 @@ pub fn serve() {
             continue;
         }
 
-        if cmd=="research_rapfi_k36"{
+        if cmd=="research_gomoku7_k47"||cmd=="research_k47_proof"{
+            let r=if cmd=="research_gomoku7_k47"{k47_nn::handle(&line)}else{k47_nn::inspect(&line)};
+            emit_stdout_json_value(&r);
+            if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
+            continue;
+        }
+        if cmd=="research_rapfi_k36"||cmd=="research_rapfi_k47"{
             emit_stdout_json_value(&rapfi_shared_cpu_server::handle_k36(&line));
             if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
             continue;
