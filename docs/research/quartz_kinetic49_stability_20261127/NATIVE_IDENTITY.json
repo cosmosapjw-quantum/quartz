@@ -1,0 +1,22 @@
+{
+  "binary_bytes": 7391456,
+  "binary_sha256": "686784dd17f6ad8fe74fd56b97ec2c499110f59c3dbe09731e7d25d601e1bd4f",
+  "build": "CARGO_BUILD_JOBS=4 CARGO_PROFILE_RELEASE_CODEGEN_UNITS=4 CARGO_PROFILE_RELEASE_LTO=false cargo build --offline --locked --release --bin mcts_demo",
+  "cargo_lock_sha256": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+  "full_test_raw_sha256": "331b8e920c6f8ce6f78540d602344ef9ffb8fcd690f014dcbd959378bf2546a4",
+  "k40_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+  "old_incremental_library_sha256": "e3f92bb23e5ff2f1ae5642bd3b528ba6a296d255d4abcfa1b64af93d16e1aabc",
+  "old_native_binary_sha256": "cfb9c162562cb729bed4d36426afde60300fd1d3a0e0a2dbd6e8dccd4c0432ee",
+  "parent_native_identity_sha256": "7f7af61340f335aa713942186bb604399788f95ceea036e12f14a5fdba5e9df6",
+  "reused_binary_sha256": "686784dd17f6ad8fe74fd56b97ec2c499110f59c3dbe09731e7d25d601e1bd4f",
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "scope": "unchanged K48 binary, exact same native source; no rebuild, Python teacher and experiment code only",
+  "source_commit": "a711e140caf3f4e536fcffb08711e64e466948ab",
+  "source_sha256": {
+    "src/mcts_server.rs": "21e73dbf7a4c8fec9bf346bc82bd4bcdde9f481d3d90b62038f0cbe9b9c48673",
+    "src/mcts_server/k47_nn.rs": "b31ff915de73c1562a0e184192ca7fab394b2c6334477eae50c72b79c77e0305",
+    "src/mcts_server/k47_proof.rs": "4afbbd2c7667e0020c4fa1f91691ca0cded7458b85f6527a6167639cdefffab2",
+    "src/mcts_server/rapfi_k36.rs": "0a3e6875a5d82003fa2d146f735ea12eec6b663893b85d5dfa5059dc06722e20"
+  },
+  "threshold_library_sha256": "4fb4ccfd0e63f9a3eb3a7df82a61ffaaf1a9568115178e4e06ee141423b0b5c4"
+}
