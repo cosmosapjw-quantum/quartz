@@ -1,0 +1,15 @@
+test zobrist_tt_parallel_verify::v2_virtual_loss_balance ... ok
+test tests::q_p_flip_eq ... ok
+test zobrist_tt_parallel_verify::v1_zobrist_collision_rate ... ok
+test mcts_server::tests::test_engine_session_exposes_resident_root_and_evaluator_accounting ... ok
+test mcts_server::tests::test_cog03_actual_masked_root_reopening_cpu_endpoint ... ok
+test mcts_server::tests::test_cog02_resident_model_cache_and_active_stop ... ok
+test mcts_server::tests::test_research_connect4_cpu_probe_tiny_recognizer_weighted_mode ... ok
+test zobrist_tt_parallel_verify::v3_parallel_vs_sequential ... ok
+test mcts_server::tests::test_engine_session_multi_engine_matches_serial_reference ... ok
+test zobrist_tt_parallel_verify::v5_stress_parallel ... ok
+test tests::q_gomoku_no_crash ... ok
+test gomocup_brain::tests::test_board_done_returns_valid_move ... ok
+test gomocup_brain::tests::test_yxboard_done_returns_valid_move ... ok
+
+test result: ok. 660 passed; 0 failed; 89 ignored; 0 measured; 0 filtered out; finished in 0.84s
