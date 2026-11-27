@@ -1,0 +1,120 @@
+{
+  "counts": {
+    "H32_receipts": 360,
+    "changed": 180,
+    "cold_checks": 14,
+    "cold_extra_nn": 1329,
+    "hypothetical_cold_nn": 81525,
+    "rows": 754,
+    "teacher_calls": 360,
+    "teacher_nn": 46321
+  },
+  "files": [
+    {
+      "counts": {
+        "H32_receipts": 24,
+        "changed": 12,
+        "cold_checks": 2,
+        "cold_extra_nn": 194,
+        "hypothetical_cold_nn": 5384,
+        "rows": 71,
+        "teacher_calls": 24,
+        "teacher_nn": 3070
+      },
+      "file": "HIST_101.jsonl.gz",
+      "sha256": "a512d103b4ca3247bed01218c15e9e27ee895ffb44905159b1a225845e04f109"
+    },
+    {
+      "counts": {
+        "H32_receipts": 76,
+        "changed": 38,
+        "cold_checks": 2,
+        "cold_extra_nn": 194,
+        "hypothetical_cold_nn": 17249,
+        "rows": 85,
+        "teacher_calls": 76,
+        "teacher_nn": 9801
+      },
+      "file": "HIST_102.jsonl.gz",
+      "sha256": "3d17be5d18d6b7670e9ee0f1551a8be81dba0393902fcf475bf41fd9fd05a823"
+    },
+    {
+      "counts": {
+        "H32_receipts": 86,
+        "changed": 43,
+        "cold_checks": 2,
+        "cold_extra_nn": 194,
+        "hypothetical_cold_nn": 19460,
+        "rows": 134,
+        "teacher_calls": 86,
+        "teacher_nn": 11061
+      },
+      "file": "HIST_103.jsonl.gz",
+      "sha256": "b42ee07c6176b93d5ff9bad25e5639efd925ed2558d3aa1ae4bdf670ded220c7"
+    },
+    {
+      "counts": {
+        "H32_receipts": 32,
+        "changed": 16,
+        "cold_checks": 2,
+        "cold_extra_nn": 194,
+        "hypothetical_cold_nn": 7264,
+        "rows": 114,
+        "teacher_calls": 32,
+        "teacher_nn": 4128
+      },
+      "file": "HIST_105.jsonl.gz",
+      "sha256": "b9acdedf59ae35d93e446282c7e37c1e7cea45c5e21cf81fa6634452d209a9f4"
+    },
+    {
+      "counts": {
+        "H32_receipts": 88,
+        "changed": 44,
+        "cold_checks": 2,
+        "cold_extra_nn": 194,
+        "hypothetical_cold_nn": 19969,
+        "rows": 139,
+        "teacher_calls": 88,
+        "teacher_nn": 11348
+      },
+      "file": "HIST_41.jsonl.gz",
+      "sha256": "f2e439046a7639f9fcfb7cd2c86e53f3ea9553af1c3b754cd4fd5bb7dc4963dd"
+    },
+    {
+      "counts": {
+        "H32_receipts": 6,
+        "changed": 3,
+        "cold_checks": 2,
+        "cold_extra_nn": 194,
+        "hypothetical_cold_nn": 1362,
+        "rows": 83,
+        "teacher_calls": 6,
+        "teacher_nn": 774
+      },
+      "file": "HIST_42.jsonl.gz",
+      "sha256": "91e8872407455f5631eb44f279d323e613d41fdb5f3bf07352525daf43a5a33a"
+    },
+    {
+      "counts": {
+        "H32_receipts": 48,
+        "changed": 24,
+        "cold_checks": 2,
+        "cold_extra_nn": 165,
+        "hypothetical_cold_nn": 10837,
+        "rows": 128,
+        "teacher_calls": 48,
+        "teacher_nn": 6139
+      },
+      "file": "HIST_43.jsonl.gz",
+      "sha256": "1d1d1085c299903d91c78bdb3471232dfd8c63f20fc76d932fb0bfbbc947cb58"
+    }
+  ],
+  "historical_locks": {
+    "CAL": "f252797f44da9c3424a504f931b1f5192faffb0fb7f4fddf4092b3d91d3c5013",
+    "TEST": "560ba518752ef6a2a24d5c1707fa4aaafbc4c1411596a261315ca336134258c9",
+    "TRAIN": "d6d68425c55a4eeaac5b9ea395e3c7f5b61dac37a9e1f0effd0a209eec0e93d3"
+  },
+  "scope": "K48 archived source roots; nested H32/64/128 and one cold parity child per eligible seed; no new games",
+  "source": "b09513476dc5256d4e7c54468160fc7da0bc88b7b971abe442e0ec16c109cc0b",
+  "teacher": "a7283bb8ca52e895a98288acb8b6d27b7c26fde0325ab2e960d455be76e7a4c8"
+}
