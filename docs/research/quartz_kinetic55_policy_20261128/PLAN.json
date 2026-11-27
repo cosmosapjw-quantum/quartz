@@ -8,6 +8,7 @@
     {
       "arm_order": [
         "COLD",
+        "MIX",
         "SELECT",
         "CONTROL",
         "REUSE"
@@ -33,6 +34,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "REUSE",
         "COLD",
         "SELECT",
@@ -61,6 +63,7 @@
       "arm_order": [
         "REUSE",
         "COLD",
+        "MIX",
         "CONTROL",
         "SELECT"
       ],
@@ -87,6 +90,7 @@
       "arm_order": [
         "COLD",
         "REUSE",
+        "MIX",
         "SELECT",
         "CONTROL"
       ],
@@ -112,6 +116,7 @@
     {
       "arm_order": [
         "CONTROL",
+        "MIX",
         "COLD",
         "REUSE",
         "SELECT"
@@ -137,6 +142,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "COLD",
         "SELECT",
         "CONTROL",
@@ -166,6 +172,7 @@
         "CONTROL",
         "SELECT",
         "REUSE",
+        "MIX",
         "COLD"
       ],
       "color_order": [
@@ -191,6 +198,7 @@
       "arm_order": [
         "REUSE",
         "CONTROL",
+        "MIX",
         "COLD",
         "SELECT"
       ],
@@ -216,6 +224,7 @@
     {
       "arm_order": [
         "SELECT",
+        "MIX",
         "REUSE",
         "COLD",
         "CONTROL"
@@ -244,7 +253,8 @@
         "SELECT",
         "REUSE",
         "CONTROL",
-        "COLD"
+        "COLD",
+        "MIX"
       ],
       "color_order": [
         1,
@@ -267,6 +277,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "REUSE",
         "CONTROL",
         "COLD",
@@ -293,6 +304,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "CONTROL",
         "REUSE",
         "COLD",
@@ -319,6 +331,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "SELECT",
         "CONTROL",
         "COLD",
@@ -347,6 +360,7 @@
       "arm_order": [
         "REUSE",
         "CONTROL",
+        "MIX",
         "COLD",
         "SELECT"
       ],
@@ -371,6 +385,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "COLD",
         "SELECT",
         "REUSE",
@@ -398,6 +413,7 @@
     {
       "arm_order": [
         "SELECT",
+        "MIX",
         "CONTROL",
         "REUSE",
         "COLD"
@@ -423,6 +439,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "COLD",
         "REUSE",
         "SELECT",
@@ -452,7 +469,8 @@
         "CONTROL",
         "SELECT",
         "COLD",
-        "REUSE"
+        "REUSE",
+        "MIX"
       ],
       "color_order": [
         -1,
@@ -477,6 +495,7 @@
       "arm_order": [
         "REUSE",
         "SELECT",
+        "MIX",
         "COLD",
         "CONTROL"
       ],
@@ -504,6 +523,7 @@
         "CONTROL",
         "SELECT",
         "REUSE",
+        "MIX",
         "COLD"
       ],
       "color_order": [
@@ -530,7 +550,8 @@
         "REUSE",
         "SELECT",
         "CONTROL",
-        "COLD"
+        "COLD",
+        "MIX"
       ],
       "color_order": [
         -1,
@@ -555,6 +576,7 @@
       "arm_order": [
         "REUSE",
         "CONTROL",
+        "MIX",
         "SELECT",
         "COLD"
       ],
@@ -579,6 +601,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "SELECT",
         "CONTROL",
         "COLD",
@@ -608,6 +631,7 @@
         "SELECT",
         "CONTROL",
         "COLD",
+        "MIX",
         "REUSE"
       ],
       "color_order": [
@@ -632,6 +656,7 @@
     {
       "arm_order": [
         "COLD",
+        "MIX",
         "CONTROL",
         "REUSE",
         "SELECT"
@@ -657,6 +682,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "CONTROL",
         "SELECT",
         "COLD",
@@ -684,6 +710,7 @@
     {
       "arm_order": [
         "REUSE",
+        "MIX",
         "CONTROL",
         "SELECT",
         "COLD"
@@ -709,6 +736,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "CONTROL",
         "COLD",
         "SELECT",
@@ -736,6 +764,7 @@
     {
       "arm_order": [
         "REUSE",
+        "MIX",
         "CONTROL",
         "COLD",
         "SELECT"
@@ -762,6 +791,7 @@
     {
       "arm_order": [
         "REUSE",
+        "MIX",
         "SELECT",
         "CONTROL",
         "COLD"
@@ -789,6 +819,7 @@
       "arm_order": [
         "COLD",
         "REUSE",
+        "MIX",
         "SELECT",
         "CONTROL"
       ],
@@ -814,6 +845,7 @@
     {
       "arm_order": [
         "CONTROL",
+        "MIX",
         "REUSE",
         "SELECT",
         "COLD"
@@ -842,6 +874,7 @@
         "SELECT",
         "CONTROL",
         "REUSE",
+        "MIX",
         "COLD"
       ],
       "color_order": [
@@ -867,6 +900,7 @@
       "arm_order": [
         "SELECT",
         "REUSE",
+        "MIX",
         "CONTROL",
         "COLD"
       ],
@@ -894,6 +928,7 @@
         "REUSE",
         "COLD",
         "SELECT",
+        "MIX",
         "CONTROL"
       ],
       "color_order": [
@@ -918,6 +953,7 @@
     {
       "arm_order": [
         "REUSE",
+        "MIX",
         "CONTROL",
         "COLD",
         "SELECT"
@@ -946,6 +982,7 @@
         "SELECT",
         "CONTROL",
         "REUSE",
+        "MIX",
         "COLD"
       ],
       "color_order": [
@@ -970,6 +1007,7 @@
     {
       "arm_order": [
         "COLD",
+        "MIX",
         "REUSE",
         "CONTROL",
         "SELECT"
@@ -998,6 +1036,7 @@
         "SELECT",
         "REUSE",
         "COLD",
+        "MIX",
         "CONTROL"
       ],
       "color_order": [
@@ -1022,6 +1061,7 @@
     {
       "arm_order": [
         "CONTROL",
+        "MIX",
         "SELECT",
         "REUSE",
         "COLD"
@@ -1050,6 +1090,7 @@
         "SELECT",
         "COLD",
         "REUSE",
+        "MIX",
         "CONTROL"
       ],
       "color_order": [
@@ -1075,6 +1116,7 @@
       "arm_order": [
         "COLD",
         "REUSE",
+        "MIX",
         "SELECT",
         "CONTROL"
       ],
@@ -1100,6 +1142,7 @@
     {
       "arm_order": [
         "CONTROL",
+        "MIX",
         "REUSE",
         "SELECT",
         "COLD"
@@ -1128,7 +1171,8 @@
         "SELECT",
         "REUSE",
         "CONTROL",
-        "COLD"
+        "COLD",
+        "MIX"
       ],
       "color_order": [
         -1,
@@ -1154,6 +1198,7 @@
         "REUSE",
         "CONTROL",
         "COLD",
+        "MIX",
         "SELECT"
       ],
       "color_order": [
@@ -1178,6 +1223,7 @@
     {
       "arm_order": [
         "REUSE",
+        "MIX",
         "SELECT",
         "CONTROL",
         "COLD"
@@ -1204,6 +1250,7 @@
     {
       "arm_order": [
         "SELECT",
+        "MIX",
         "CONTROL",
         "REUSE",
         "COLD"
@@ -1232,6 +1279,7 @@
         "REUSE",
         "CONTROL",
         "COLD",
+        "MIX",
         "SELECT"
       ],
       "color_order": [
@@ -1258,7 +1306,8 @@
         "CONTROL",
         "REUSE",
         "COLD",
-        "SELECT"
+        "SELECT",
+        "MIX"
       ],
       "color_order": [
         -1,
@@ -1284,7 +1333,8 @@
         "SELECT",
         "CONTROL",
         "REUSE",
-        "COLD"
+        "COLD",
+        "MIX"
       ],
       "color_order": [
         1,
@@ -1309,6 +1359,7 @@
       "arm_order": [
         "SELECT",
         "COLD",
+        "MIX",
         "CONTROL",
         "REUSE"
       ],
@@ -1334,6 +1385,7 @@
     {
       "arm_order": [
         "SELECT",
+        "MIX",
         "CONTROL",
         "COLD",
         "REUSE"
@@ -1360,6 +1412,7 @@
     {
       "arm_order": [
         "SELECT",
+        "MIX",
         "COLD",
         "CONTROL",
         "REUSE"
@@ -1386,6 +1439,7 @@
     {
       "arm_order": [
         "SELECT",
+        "MIX",
         "REUSE",
         "CONTROL",
         "COLD"
@@ -1412,6 +1466,7 @@
     {
       "arm_order": [
         "REUSE",
+        "MIX",
         "COLD",
         "CONTROL",
         "SELECT"
@@ -1439,6 +1494,7 @@
       "arm_order": [
         "CONTROL",
         "REUSE",
+        "MIX",
         "SELECT",
         "COLD"
       ],
@@ -1463,6 +1519,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "COLD",
         "SELECT",
         "CONTROL",
@@ -1492,7 +1549,8 @@
         "CONTROL",
         "COLD",
         "REUSE",
-        "SELECT"
+        "SELECT",
+        "MIX"
       ],
       "color_order": [
         1,
@@ -1516,6 +1574,7 @@
     {
       "arm_order": [
         "SELECT",
+        "MIX",
         "COLD",
         "CONTROL",
         "REUSE"
@@ -1543,6 +1602,7 @@
       "arm_order": [
         "REUSE",
         "CONTROL",
+        "MIX",
         "COLD",
         "SELECT"
       ],
@@ -1570,6 +1630,7 @@
         "COLD",
         "CONTROL",
         "REUSE",
+        "MIX",
         "SELECT"
       ],
       "color_order": [
@@ -1593,6 +1654,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "CONTROL",
         "COLD",
         "REUSE",
@@ -1619,6 +1681,7 @@
     },
     {
       "arm_order": [
+        "MIX",
         "REUSE",
         "SELECT",
         "CONTROL",
@@ -1646,6 +1709,7 @@
     {
       "arm_order": [
         "CONTROL",
+        "MIX",
         "SELECT",
         "REUSE",
         "COLD"
@@ -5157,7 +5221,7 @@
     }
   ],
   "rapfi_workers": 6,
-  "scope": "64 fresh NN families four cached arms;64 compact and64 tactical Rapfi families",
+  "scope": "64 fresh NN families five cached arms;64 compact and64 tactical Rapfi families",
   "seed": 2026112855,
   "tiers": [
     [

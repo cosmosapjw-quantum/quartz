@@ -20,10 +20,12 @@ def family(h,n=7):
 def complete_arms(a,rng):
     missing=set(("CONTROL","COLD","REUSE","MULTI"))-set(a);assert len(missing)==1
     a.insert(rng.randrange(4),missing.pop());return a
+def insert_mix(a,rng):
+    a.insert(rng.randrange(5),"MIX");return a
 def plan():
     paths=[D.parent/f/'PLAN.json' for f in ('quartz_kinetic33_20261126','quartz_kinetic38_nnlock_20261126','quartz_kinetic39_voc_20261126','quartz_kinetic40_budget_20261126','quartz_kinetic41_exact_20261126','quartz_kinetic42_threshold_20261127','quartz_kinetic43_partial_20261127','quartz_kinetic44_incremental_20261127','quartz_kinetic45_sequential_20261127','quartz_kinetic46_confirm_20261127','quartz_kinetic47_native_20261127','quartz_kinetic48_voc_20261127','quartz_kinetic49_stability_20261127','quartz_kinetic50_intervention_20261127','quartz_kinetic51_targeted_20261127','quartz_kinetic52_confirm_20261127','quartz_kinetic53_reuse_20261127','quartz_kinetic54_cache_20261127')]
     old=[json.loads(p.read_text()) for p in paths];seen={family(j['opening']) for x in old for j in x['jobs']}
-    prior=len(seen);rng=random.Random(SEED);arm_rng=random.Random(SEED+5301);jobs=[];models=old[-1]['models']
+    prior=len(seen);rng=random.Random(SEED);arm_rng=random.Random(SEED+5301);mix_rng=random.Random(SEED+5501);jobs=[];models=old[-1]['models']
     for m in models.values():assert sha(pathlib.Path(m['path']))==m['sha256']
     assert len({x['sha256'] for x in models.values()})==7
     for split,N in [('ARENA',64)]:
@@ -32,7 +34,7 @@ def plan():
             while True:
                 h=rng.sample(cells,4);f=family(h)
                 if f not in seen:break
-            seen.add(f);jobs.append(dict(id=len(jobs),split=split,opening=h,family=f,color_order=rng.sample([1,-1],2),arm_order=arm_rng.sample(['CONTROL','COLD','REUSE','SELECT'],4)))
+            seen.add(f);jobs.append(dict(id=len(jobs),split=split,opening=h,family=f,color_order=rng.sample([1,-1],2),arm_order=insert_mix(arm_rng.sample(['CONTROL','COLD','REUSE','SELECT'],4),mix_rng)))
     # Existing Rapfi historical discovery excludes its own K37 plan; include it explicitly.
     sys.path.insert(0,str(D.parent/'quartz_kinetic37_20261126'))
     import experiment as e
@@ -62,8 +64,8 @@ def plan():
     native=pathlib.Path.home()/'Dropbox/personal_projects/quartz_kinetic40_budget_backups/mcts_demo'
     assert sha(native)==ni['binary_sha256']
     identity=e.identity();identity.update(actual_binary=str(native),actual_binary_sha256=sha(native))
-    assert all(set(j['arm_order'])=={'CONTROL','COLD','REUSE','SELECT'} for j in jobs)
+    assert all(set(j['arm_order'])=={'CONTROL','COLD','REUSE','SELECT','MIX'} for j in jobs)
     assert len(jobs)==64 and len(rjobs)==128
-    save('PLAN.json',dict(seed=SEED,models=models,jobs=jobs,prior_families=prior,prior_locks=[dict(path=str(p.relative_to(ROOT)),sha256=sha(p)) for p in paths],rapfi_jobs=rjobs,historical_target_lock_sha256=sha(paths[-1].parent/'NN_LOCK.json'),rapfi_prior=n0,rapfi_prior_locks=locks,rapfi_k37_plan_sha256=sha(e.D/'PLAN.json'),rapfi_identity=identity,tiers=TIERS,workers=WORKERS,rapfi_workers=6,bootstrap_replicates=8000,bootstrap_seed=202611285500,NI_margin=.05,NN_target=.30,scope='64 fresh NN families four cached arms;64 compact and64 tactical Rapfi families'))
+    save('PLAN.json',dict(seed=SEED,models=models,jobs=jobs,prior_families=prior,prior_locks=[dict(path=str(p.relative_to(ROOT)),sha256=sha(p)) for p in paths],rapfi_jobs=rjobs,historical_target_lock_sha256=sha(paths[-1].parent/'NN_LOCK.json'),rapfi_prior=n0,rapfi_prior_locks=locks,rapfi_k37_plan_sha256=sha(e.D/'PLAN.json'),rapfi_identity=identity,tiers=TIERS,workers=WORKERS,rapfi_workers=6,bootstrap_replicates=8000,bootstrap_seed=202611285500,NI_margin=.05,NN_target=.30,scope='64 fresh NN families five cached arms;64 compact and64 tactical Rapfi families'))
     print('PLAN',len(jobs),'Rapfi',len(rjobs),'prior',prior,n0)
 if __name__=='__main__':plan()
