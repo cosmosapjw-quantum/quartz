@@ -1,0 +1,5920 @@
+{
+  "NI_margin": 0.05,
+  "NN_target": 0.3,
+  "bootstrap_replicates": 8000,
+  "bootstrap_seed": 202611275400,
+  "historical_target_lock_sha256": "b0a315323c3a27198105821549256b17b9c3f373150cbaa35392a1c154b8127a",
+  "jobs": [
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        31,
+        9,
+        37
+      ],
+      "id": 0,
+      "opening": [
+        22,
+        29,
+        25,
+        33
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        10,
+        15,
+        25
+      ],
+      "id": 1,
+      "opening": [
+        38,
+        25,
+        36,
+        29
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONDITIONAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        9,
+        15,
+        36
+      ],
+      "id": 2,
+      "opening": [
+        15,
+        9,
+        8,
+        12
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        12,
+        25,
+        30
+      ],
+      "id": 3,
+      "opening": [
+        8,
+        23,
+        5,
+        32
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        16,
+        9,
+        33
+      ],
+      "id": 4,
+      "opening": [
+        26,
+        19,
+        18,
+        37
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        10,
+        27,
+        28
+      ],
+      "id": 5,
+      "opening": [
+        12,
+        21,
+        10,
+        34
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "CONDITIONAL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        19,
+        17,
+        36
+      ],
+      "id": 6,
+      "opening": [
+        29,
+        23,
+        9,
+        40
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        40,
+        0,
+        34
+      ],
+      "id": 7,
+      "opening": [
+        36,
+        44,
+        20,
+        6
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        10,
+        24,
+        25
+      ],
+      "id": 8,
+      "opening": [
+        12,
+        31,
+        26,
+        24
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        24,
+        16,
+        25
+      ],
+      "id": 9,
+      "opening": [
+        21,
+        31,
+        24,
+        16
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONDITIONAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        16,
+        18,
+        38
+      ],
+      "id": 10,
+      "opening": [
+        32,
+        22,
+        40,
+        18
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        12,
+        7,
+        11
+      ],
+      "id": 11,
+      "opening": [
+        14,
+        1,
+        36,
+        29
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        23,
+        8,
+        11
+      ],
+      "id": 12,
+      "opening": [
+        17,
+        33,
+        25,
+        12
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        28,
+        31,
+        40
+      ],
+      "id": 13,
+      "opening": [
+        7,
+        25,
+        4,
+        40
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        10,
+        26,
+        29
+      ],
+      "id": 14,
+      "opening": [
+        38,
+        26,
+        37,
+        15
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        31,
+        22,
+        46
+      ],
+      "id": 15,
+      "opening": [
+        23,
+        28,
+        27,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        38,
+        23,
+        29
+      ],
+      "id": 16,
+      "opening": [
+        9,
+        23,
+        38,
+        29
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        10,
+        11,
+        18
+      ],
+      "id": 17,
+      "opening": [
+        10,
+        16,
+        5,
+        9
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        12,
+        30
+      ],
+      "id": 18,
+      "opening": [
+        36,
+        16,
+        33,
+        40
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        12,
+        30,
+        43
+      ],
+      "id": 19,
+      "opening": [
+        4,
+        32,
+        8,
+        47
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONDITIONAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        17,
+        29,
+        38
+      ],
+      "id": 20,
+      "opening": [
+        15,
+        11,
+        23,
+        26
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        39,
+        3,
+        4
+      ],
+      "id": 21,
+      "opening": [
+        33,
+        21,
+        14,
+        28
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        32,
+        29,
+        37
+      ],
+      "id": 22,
+      "opening": [
+        29,
+        33,
+        18,
+        39
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        15,
+        5,
+        28
+      ],
+      "id": 23,
+      "opening": [
+        11,
+        41,
+        13,
+        2
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "CONDITIONAL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        8,
+        9
+      ],
+      "id": 24,
+      "opening": [
+        10,
+        9,
+        30,
+        8
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        18,
+        27,
+        36
+      ],
+      "id": 25,
+      "opening": [
+        16,
+        3,
+        35,
+        40
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "CONDITIONAL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        11,
+        15,
+        19
+      ],
+      "id": 26,
+      "opening": [
+        36,
+        29,
+        39,
+        33
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        40,
+        15,
+        26
+      ],
+      "id": 27,
+      "opening": [
+        8,
+        39,
+        34,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        23,
+        11,
+        30
+      ],
+      "id": 28,
+      "opening": [
+        31,
+        19,
+        33,
+        30
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        16,
+        6,
+        25
+      ],
+      "id": 29,
+      "opening": [
+        16,
+        25,
+        2,
+        6
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "CONDITIONAL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        9,
+        23,
+        29
+      ],
+      "id": 30,
+      "opening": [
+        29,
+        39,
+        36,
+        31
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "CONDITIONAL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        16,
+        19,
+        47
+      ],
+      "id": 31,
+      "opening": [
+        30,
+        33,
+        36,
+        5
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "CONDITIONAL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        24,
+        10,
+        38
+      ],
+      "id": 32,
+      "opening": [
+        24,
+        26,
+        15,
+        22
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        22,
+        6,
+        38
+      ],
+      "id": 33,
+      "opening": [
+        45,
+        48,
+        22,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        24,
+        29,
+        39
+      ],
+      "id": 34,
+      "opening": [
+        24,
+        37,
+        26,
+        15
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        11,
+        12,
+        29
+      ],
+      "id": 35,
+      "opening": [
+        11,
+        12,
+        2,
+        29
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONDITIONAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        22,
+        10,
+        36
+      ],
+      "id": 36,
+      "opening": [
+        9,
+        36,
+        22,
+        10
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        40,
+        9,
+        27
+      ],
+      "id": 37,
+      "opening": [
+        4,
+        21,
+        36,
+        11
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        16,
+        36
+      ],
+      "id": 38,
+      "opening": [
+        33,
+        30,
+        37,
+        8
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        10,
+        36,
+        39
+      ],
+      "id": 39,
+      "opening": [
+        20,
+        8,
+        26,
+        29
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONDITIONAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        25,
+        17,
+        40
+      ],
+      "id": 40,
+      "opening": [
+        17,
+        23,
+        36,
+        12
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONDITIONAL",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        38,
+        32,
+        33
+      ],
+      "id": 41,
+      "opening": [
+        26,
+        39,
+        15,
+        32
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        12,
+        36
+      ],
+      "id": 42,
+      "opening": [
+        25,
+        8,
+        19,
+        40
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONDITIONAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        4,
+        6,
+        43
+      ],
+      "id": 43,
+      "opening": [
+        4,
+        6,
+        0,
+        43
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        30,
+        23,
+        37
+      ],
+      "id": 44,
+      "opening": [
+        32,
+        33,
+        29,
+        31
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        20,
+        17,
+        18
+      ],
+      "id": 45,
+      "opening": [
+        44,
+        23,
+        14,
+        30
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "CONDITIONAL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        24,
+        9,
+        29
+      ],
+      "id": 46,
+      "opening": [
+        26,
+        37,
+        24,
+        33
+      ],
+      "split": "ARENA"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONDITIONAL",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        34,
+        31,
+        32
+      ],
+      "id": 47,
+      "opening": [
+        41,
+        16,
+        2,
+        23
+      ],
+      "split": "ARENA"
+    }
+  ],
+  "models": {
+    "101": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 82.3,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.72,
+            "timestamp": "2026-07-13 22:49:57",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "training_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+    },
+    "102": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 54.9,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.64,
+            "timestamp": "2026-07-13 23:27:53",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "training_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+    },
+    "103": {
+      "bytes": 4203527,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "105": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/gen_5.pt",
+      "role": "103 unpromoted trained gen5 (related checkpoint)",
+      "sha256": "a430602a889eba3f568c0a515c8a10dd3bb74d6b6b9adade5c00f0b22b91604b",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "41": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_41/gen_2.pt",
+      "original_seed": 41,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_41_gen2.pt",
+      "promotion": false,
+      "sha256": "d058771b43e948a9dec121be72bc0aa4228b2bdd9d1b52e55ccdc36626ca471b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 0.0,
+        "delta_elo": 0.0,
+        "elo_gap": 0.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.2897,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.2821,
+        "loss_ema": 4.2821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9269,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.633,
+        "pos_per_s": 6.3,
+        "published_elo": 0.0,
+        "replay": 298,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4094,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 200797,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.16899844548079057,
+          "extended_refresh_active_total": 31962,
+          "extended_refresh_eligible_total": 189126,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.36779248237609863,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4159732460975647,
+                "p95": 0.499844965338707
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6964949285984039,
+          "mean_p_flip": 0.36779248237609863,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.17965474207885562,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 40.9,
+          "mean_selection_effective_prior_l1_sum": 20.977019189999996,
+          "mean_selection_penalty_abs_sum": 10.620640669999998,
+          "mean_selection_root_selects": 2007.97,
+          "mean_voc_expand": -0.002033718860766385,
+          "mean_voc_focus": 0.02625431322058823,
+          "mean_voc_merge": 0.05439751913337197,
+          "mean_voc_total": 0.0595108026266098,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.15917568489569067,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.5,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.16,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.18,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.181,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.282,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 15.684,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.16,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 298,
+          "rolling_cycle_s": 20.18,
+          "rolling_games": 19,
+          "rolling_positions": 298,
+          "rolling_positions_per_s": 7.384,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.4,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.3552,
+        "value_std": 0.5149
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_41",
+          "--seed",
+          "41",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:30:22",
+        "returncode": 0,
+        "seed": 41,
+        "started_at": "2026-07-08 20:29:21"
+      }
+    },
+    "42": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_42/gen_2.pt",
+      "original_seed": 42,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_42_gen2.pt",
+      "promotion": false,
+      "sha256": "75d85209040f4e9047b6157ea5aece756bbe78cbef76bc92d515661189bd334f",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.3656,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.3543,
+        "loss_ema": 4.3543,
+        "lr": 0.0101,
+        "new_pos": 101,
+        "p_loss": 3.9202,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.589,
+        "pos_per_s": 5.4,
+        "published_elo": -167.5,
+        "replay": 266,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.3797,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 176682,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.3324768022840828,
+          "extended_refresh_active_total": 55896,
+          "extended_refresh_eligible_total": 168120,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.44832869589328767,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4995744377374649,
+                "p95": 0.4999823793768883
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6751197075843811,
+          "mean_p_flip": 0.44832869589328767,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.1390875223092735,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.78,
+          "mean_selection_effective_prior_l1_sum": 29.018208809999997,
+          "mean_selection_penalty_abs_sum": 5.909404700000001,
+          "mean_selection_root_selects": 1766.82,
+          "mean_voc_expand": -0.0018288146399208934,
+          "mean_voc_focus": 0.03310010064922594,
+          "mean_voc_merge": 0.046275470304008054,
+          "mean_voc_total": 0.050557230021804574,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.3163649947363059,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.263,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 19.325,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.241,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 101,
+          "last_cycle_s": 16.547,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.0,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.263,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 266,
+          "rolling_cycle_s": 19.325,
+          "rolling_games": 19,
+          "rolling_positions": 266,
+          "rolling_positions_per_s": 6.882,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 18.6,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.4341,
+        "value_std": 0.7186
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_42",
+          "--seed",
+          "42",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:31:20",
+        "returncode": 0,
+        "seed": 42,
+        "started_at": "2026-07-08 20:30:22"
+      }
+    },
+    "43": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_43/gen_2.pt",
+      "original_seed": 43,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_43_gen2.pt",
+      "promotion": false,
+      "sha256": "4a1fd820002fdfa62e2693febded77a4d4d5884a85a0b1a18f88a5f7c248374b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.5981,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.5821,
+        "loss_ema": 4.5821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9666,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.861,
+        "pos_per_s": 6.2,
+        "published_elo": -167.5,
+        "replay": 278,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4388,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 208929,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.005928749419267644,
+          "extended_refresh_active_total": 1123,
+          "extended_refresh_eligible_total": 189416,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.4317223697900772,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.49357300996780396,
+                "p95": 0.49951691478490834
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6634199434518814,
+          "mean_p_flip": 0.4317223697900772,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.06438421737169847,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.25,
+          "mean_selection_effective_prior_l1_sum": 2.5870308900000003,
+          "mean_selection_penalty_abs_sum": 3.32809432,
+          "mean_selection_root_selects": 2089.29,
+          "mean_voc_expand": -0.0007750782075714472,
+          "mean_voc_focus": 0.009553292178634295,
+          "mean_voc_merge": 0.019333062698042268,
+          "mean_voc_total": 0.02254601239255862,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.005375031709336665,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.13,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.034,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.122,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.94,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.632,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.13,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 278,
+          "rolling_cycle_s": 20.034,
+          "rolling_games": 19,
+          "rolling_positions": 278,
+          "rolling_positions_per_s": 6.938,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.8,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.6156,
+        "value_std": 0.8035
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_43",
+          "--seed",
+          "43",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:32:20",
+        "returncode": 0,
+        "seed": 43,
+        "started_at": "2026-07-08 20:31:20"
+      }
+    }
+  },
+  "prior_families": 3060,
+  "prior_locks": [
+    {
+      "path": "docs/research/quartz_kinetic33_20261126/PLAN.json",
+      "sha256": "58877f6bc469438a8759dd1a7a60ccdef5782eaef82686180a0fa3c9363c680b"
+    },
+    {
+      "path": "docs/research/quartz_kinetic38_nnlock_20261126/PLAN.json",
+      "sha256": "aedf701de9d8e5598654e8f9880c0561f887a09bd2facbdd769d855286ec0d50"
+    },
+    {
+      "path": "docs/research/quartz_kinetic39_voc_20261126/PLAN.json",
+      "sha256": "64511e71fac2e3b53cfd566828b2779c045d8d18ed2db59ea9543a32437491df"
+    },
+    {
+      "path": "docs/research/quartz_kinetic40_budget_20261126/PLAN.json",
+      "sha256": "59590c12ce52b301ca5c83dcaa4caa68a4449a419d2a93ad3df3275d072a1a90"
+    },
+    {
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    },
+    {
+      "path": "docs/research/quartz_kinetic52_confirm_20261127/PLAN.json",
+      "sha256": "2e0bd886f5403dc13589921f06dbf0aace2335e2372b624ba9cf651f16c1d9b9"
+    },
+    {
+      "path": "docs/research/quartz_kinetic53_reuse_20261127/PLAN.json",
+      "sha256": "2d789f1b5cd87fd647de2a31f7a9f2119f66f542843cf15c9a471862c3f4b5c9"
+    }
+  ],
+  "rapfi_identity": {
+    "actual_binary": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic40_budget_backups/mcts_demo",
+    "actual_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+    "binary": "e12746f178f59fcfeac97740848ecf5ddeb28dd00cafef39e506ed91eea817f2",
+    "bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "source_head": "c0214d5414960c3e3f941eadf0a645e5f16e5e7a",
+    "upstream": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62"
+  },
+  "rapfi_jobs": [
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "8db3d3b465b1cfee2dbef786cc76bed916df93cf6f61903a5b4e831bb7d80a01",
+      "id": 0,
+      "opening": [
+        223,
+        87,
+        194,
+        25,
+        0,
+        37
+      ],
+      "seed": 8682186474533491346,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ed5205ed9f0a80c3c1cbffdb056ab8180d1c92e37c5dc1d3340932bbf4c4364e",
+      "id": 1,
+      "opening": [
+        203,
+        15,
+        212,
+        92,
+        207,
+        31
+      ],
+      "seed": 7886024641877654138,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3e995a32205861fbf4b4c269c62ec075d3b025e5e42c30f42748dfb65ef4ef83",
+      "id": 2,
+      "opening": [
+        1,
+        29,
+        25,
+        16,
+        72,
+        74
+      ],
+      "seed": 3273620046272676599,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "b366b36a004c79168580a4edb2f88867deae7d3bd4f41cfbf7e873a5b8946e97",
+      "id": 3,
+      "opening": [
+        33,
+        44,
+        180,
+        31,
+        12,
+        8
+      ],
+      "seed": 6415379178673849134,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a87619a0716cfeff68390403f6697c83f5f1b57fe11739eb3e04f43fa9d87485",
+      "id": 4,
+      "opening": [
+        33,
+        147,
+        14,
+        42,
+        166,
+        213
+      ],
+      "seed": 9208016953707253380,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b96b7372aecacd22b258e80a3b6f84d775a8e2988110ac6826a6c9c4488e9914",
+      "id": 5,
+      "opening": [
+        188,
+        57,
+        4,
+        180,
+        17,
+        18
+      ],
+      "seed": 5676208711382618568,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "bcb1cee058ea5a07780358534bd3c9cd718bedc6e0c7850b4f16667fa2e8e85d",
+      "id": 6,
+      "opening": [
+        61,
+        149,
+        29,
+        179,
+        24,
+        219
+      ],
+      "seed": 7713675734773912429,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "14796ed25a257b7da6df0b1e0b35946f8eb6313147e1a12af62cb5b38f94b6d2",
+      "id": 7,
+      "opening": [
+        102,
+        194,
+        220,
+        40,
+        47,
+        179
+      ],
+      "seed": 3511969008952435796,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ee213a1df61e347c8504780cc241903c111ee14447c827104be12aaed941f848",
+      "id": 8,
+      "opening": [
+        166,
+        200,
+        20,
+        136,
+        207,
+        35
+      ],
+      "seed": 6708877801286728732,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ea136353b2189d241843f714dfc96f61f9ace5b311fdad03a3de8751ddbcd69b",
+      "id": 9,
+      "opening": [
+        203,
+        217,
+        5,
+        13,
+        88,
+        222
+      ],
+      "seed": 8765603813371569519,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ea50dcd79dbf672ed87bbaa6026d5e4afca18597ee8f375836dce8e39ea92a73",
+      "id": 10,
+      "opening": [
+        1,
+        35,
+        121,
+        207,
+        223,
+        162
+      ],
+      "seed": 2414502096335631160,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1c68c9f332f05cc3e7ab20cacc41b3807e1050ab0799d2a73820fe298789cbea",
+      "id": 11,
+      "opening": [
+        210,
+        25,
+        62,
+        10,
+        15,
+        207
+      ],
+      "seed": 8151595364322839564,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "8dd3f207d13bee392d33b040b7175984c6e6db141c2feb9a8e8a197cbfe36d45",
+      "id": 12,
+      "opening": [
+        203,
+        34,
+        148,
+        166,
+        29,
+        89
+      ],
+      "seed": 8752288973914430279,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ef855e25c765006d17d0f0dfbe8168d559ce271a416d536c1050d302490a984a",
+      "id": 13,
+      "opening": [
+        89,
+        137,
+        209,
+        187,
+        35,
+        200
+      ],
+      "seed": 5300548273254743963,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d399f44f5230f0cab1804ea51f429a441e70af7f45532a06889ccd6aea4e8423",
+      "id": 14,
+      "opening": [
+        206,
+        28,
+        220,
+        205,
+        200,
+        208
+      ],
+      "seed": 4979076489571570773,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "e8b4d131041d45b33ce11e5286cd574921e8b6da46ea41ef370e290f7e2c8531",
+      "id": 15,
+      "opening": [
+        205,
+        105,
+        165,
+        220,
+        212,
+        30
+      ],
+      "seed": 2326029376568382576,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "bacb9dc2850558c860af6c135e533f94194873d9902cd3761ae04d93989cce13",
+      "id": 16,
+      "opening": [
+        23,
+        137,
+        186,
+        213,
+        119,
+        62
+      ],
+      "seed": 9013866865535903461,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a5b20b4044cf29695dda9b4f15f7ef6f11125b329f9792c04aae613780ba40e1",
+      "id": 17,
+      "opening": [
+        198,
+        87,
+        205,
+        185,
+        89,
+        33
+      ],
+      "seed": 5525656893803781070,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "5e1f786f06e6e96c5d65b424766d3ef94e06791d2421880f985b280f07fcffbe",
+      "id": 18,
+      "opening": [
+        37,
+        107,
+        188,
+        74,
+        60,
+        150
+      ],
+      "seed": 3089573904600701151,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "079701665104f74595cd7467d6a2f5d6c5138e63e6d34f59712864e4f087eca2",
+      "id": 19,
+      "opening": [
+        122,
+        58,
+        203,
+        209,
+        14,
+        164
+      ],
+      "seed": 6078072040103719393,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "fd2da48d9ec71afc46b1508e2a8a5e7949d3caabae74aedadc133eff63016bd3",
+      "id": 20,
+      "opening": [
+        151,
+        1,
+        214,
+        212,
+        8,
+        205
+      ],
+      "seed": 536998830979046099,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "cae4dd8220b7108b0b08a2dfbceeed72b44190b571cec862da789650ac54fb19",
+      "id": 21,
+      "opening": [
+        24,
+        88,
+        222,
+        25,
+        148,
+        102
+      ],
+      "seed": 4651585869250106121,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d406392ccb74cf1950cfebf977484b68bbfcd0e6ae32c88fd0b93c2a3d812c09",
+      "id": 22,
+      "opening": [
+        2,
+        187,
+        29,
+        193,
+        8,
+        36
+      ],
+      "seed": 8125028827566927528,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "908b53cbba4087cfa41e175610f296b8c173e2baefe5354a7a87a55453965817",
+      "id": 23,
+      "opening": [
+        206,
+        162,
+        219,
+        193,
+        25,
+        72
+      ],
+      "seed": 6715381882365125781,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f2b0e1714c8109093ec80356396aad2a164f99507cefdd834e98c7e25c305519",
+      "id": 24,
+      "opening": [
+        119,
+        184,
+        136,
+        102,
+        117,
+        187
+      ],
+      "seed": 4930750983290401186,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "690fa38e4d14280e3dfaeea855aa7145da937da62b692756cb82fbc35759afa4",
+      "id": 25,
+      "opening": [
+        197,
+        92,
+        8,
+        134,
+        21,
+        119
+      ],
+      "seed": 2893447367180504156,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "2f5c0c4554b02967fc42f44c90ec6cd1d36e898d98ce97f8fff2968300f48a1d",
+      "id": 26,
+      "opening": [
+        200,
+        210,
+        106,
+        147,
+        18,
+        215
+      ],
+      "seed": 8578976209663294245,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "4c72d64c6c089c48f8c37752f3e0378bc1ee412834a64ea488f992572f3326d3",
+      "id": 27,
+      "opening": [
+        21,
+        210,
+        22,
+        58,
+        200,
+        104
+      ],
+      "seed": 5851267037197386596,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9fd26809149b569e539030a79c553b690cb93fa10b7992096a3a977a32470e20",
+      "id": 28,
+      "opening": [
+        201,
+        183,
+        8,
+        16,
+        25,
+        7
+      ],
+      "seed": 1668873299316220083,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c920183519a3a130bf7aaa267b0dcb9e766492246181847efb239dcd2672ada5",
+      "id": 29,
+      "opening": [
+        12,
+        214,
+        13,
+        35,
+        16,
+        121
+      ],
+      "seed": 3063811938170798272,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "8ea3cfab954031e3798732ec91845a751e2928e0f85a9ed89b583ec7091b679a",
+      "id": 30,
+      "opening": [
+        210,
+        23,
+        29,
+        12,
+        0,
+        38
+      ],
+      "seed": 5442345677545507824,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "658cfec0a59cb0cca75b2e31d6c7ceabce978dc9dc8f4e5bf88715e32fb5a064",
+      "id": 31,
+      "opening": [
+        178,
+        39,
+        202,
+        192,
+        120,
+        223
+      ],
+      "seed": 727406496834604411,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "25273642d2ef58f0c0925df99e3cf6dba43af452a89b85087a447418b1f2c3b0",
+      "id": 32,
+      "opening": [
+        58,
+        21,
+        202,
+        120,
+        166,
+        193
+      ],
+      "seed": 2966867187745547094,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d8cfb14c41d068487a0192f62c707e6941ba3d7efba32f5cc3578dda289a3b9f",
+      "id": 33,
+      "opening": [
+        181,
+        35,
+        147,
+        185,
+        148,
+        20
+      ],
+      "seed": 6974591682427887813,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b58fd04dfcc1382cf7e1c219261c16f3c6e05e9824b0ae1154a52bfc90f8b454",
+      "id": 34,
+      "opening": [
+        204,
+        9,
+        39,
+        25,
+        62,
+        220
+      ],
+      "seed": 6076309827578188935,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3a29b667dd66f51efec5748e868e50d3d4b1ecb3436de280ea6104dd8ebbcbf8",
+      "id": 35,
+      "opening": [
+        220,
+        22,
+        117,
+        203,
+        106,
+        137
+      ],
+      "seed": 5385379278920324829,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "fa432da2dd9bd72cdcc96e20e0e0b3eff31fb0cad3f9406796c95ac7aa539be5",
+      "id": 36,
+      "opening": [
+        219,
+        92,
+        39,
+        206,
+        152,
+        195
+      ],
+      "seed": 1406447140090272045,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "97896d4ef99e8c80d4f1762b236c158cbabaa93645502eab05dcb9216844d597",
+      "id": 37,
+      "opening": [
+        16,
+        62,
+        107,
+        32,
+        118,
+        27
+      ],
+      "seed": 4495097754335042597,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "abff521b68142b668a053f0c901b0231fe3fa4c0e5d2653f84b2281eabe1ec41",
+      "id": 38,
+      "opening": [
+        60,
+        193,
+        192,
+        181,
+        119,
+        166
+      ],
+      "seed": 4957905371553120037,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "4ee195bc6d1c1e27b8b039e0a72fe146e6062a4d83e78b3002c12bfa6ac628bf",
+      "id": 39,
+      "opening": [
+        22,
+        214,
+        106,
+        107,
+        211,
+        24
+      ],
+      "seed": 5225209240265255998,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "03ebde68af98e5eb6ef95f9cc516a8b9ef785d8dd7c34be2a81d549d0c582dfe",
+      "id": 40,
+      "opening": [
+        105,
+        196,
+        40,
+        214,
+        89,
+        191
+      ],
+      "seed": 3917027285443106291,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "804a98a5d8cf103f2b71a8b2ad6691c21f07c8091b83a06d50130e536dceb2bf",
+      "id": 41,
+      "opening": [
+        119,
+        8,
+        136,
+        44,
+        34,
+        189
+      ],
+      "seed": 6539113308756056832,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "552845317c19494e0898dccc8740e5775082e12c767a803798655bebf40829a8",
+      "id": 42,
+      "opening": [
+        28,
+        178,
+        204,
+        23,
+        134,
+        120
+      ],
+      "seed": 3014892976696681200,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a2dcc300b009afb6353c2ff833ccaaab1ad7d8f9ac648e1087b711e19ea5b707",
+      "id": 43,
+      "opening": [
+        29,
+        40,
+        102,
+        118,
+        103,
+        32
+      ],
+      "seed": 754986435786086266,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ecb49fcb28389bbeb73c7df11d0850e225795304cd3217bce3d54f9be2357381",
+      "id": 44,
+      "opening": [
+        57,
+        210,
+        3,
+        188,
+        185,
+        211
+      ],
+      "seed": 7885314953508115292,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "86a4e92d95268dc1cbd210b05df09e130e4a2c5d8739a562521bef2b58783599",
+      "id": 45,
+      "opening": [
+        224,
+        149,
+        167,
+        222,
+        44,
+        21
+      ],
+      "seed": 5366938165523274529,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "000e97c79548c44ac40ae5e7e27cb5fd9527625740b6375ba5f94da4410b79ba",
+      "id": 46,
+      "opening": [
+        90,
+        20,
+        11,
+        220,
+        27,
+        37
+      ],
+      "seed": 4890614067909564413,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ea674da8ee6143a184c0252b93e7eb30a306d8339bb97a76541bfd9e55902ee0",
+      "id": 47,
+      "opening": [
+        16,
+        58,
+        187,
+        2,
+        23,
+        221
+      ],
+      "seed": 926097056149793968,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "e1d3fa7f34d05ca0014b3d05cf85fdecacaebf51120847fd11b2ee42384e71a4",
+      "id": 48,
+      "opening": [
+        151,
+        57,
+        185,
+        121,
+        88,
+        16
+      ],
+      "seed": 6869079251517980787,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "bcba59ef8ef9d109e5ce0737f9df6b37372b542719eb1a38bd8dfc631b635546",
+      "id": 49,
+      "opening": [
+        29,
+        42,
+        221,
+        28,
+        34,
+        184
+      ],
+      "seed": 5530480479692453019,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "87f01ea33a22b0913adfeb3e9e37f84fc4b1f7e0414ae58e99ba64f2d77321c0",
+      "id": 50,
+      "opening": [
+        215,
+        217,
+        5,
+        31,
+        147,
+        200
+      ],
+      "seed": 4602726136280302369,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "e1a1acd1622bd510cb5166e076bfac88b74e55a09e2bfdc4b7c38a2b954ac4a7",
+      "id": 51,
+      "opening": [
+        57,
+        197,
+        104,
+        223,
+        132,
+        183
+      ],
+      "seed": 8957274598171049710,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "181ad7f734dd49d202ab91c9c25be16ec4d5fd26d3f3569811005de33ced7cf7",
+      "id": 52,
+      "opening": [
+        220,
+        224,
+        21,
+        181,
+        62,
+        19
+      ],
+      "seed": 8551155124736206224,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "167910d9449041a4a801b0149f39046dddb42aa2a8ba9017e08485f40c8a43ad",
+      "id": 53,
+      "opening": [
+        20,
+        151,
+        187,
+        26,
+        74,
+        60
+      ],
+      "seed": 6925390691470745891,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9525981702808b689c341a8d69726fb246df363f147f40fb194156f10b7b95a2",
+      "id": 54,
+      "opening": [
+        37,
+        164,
+        163,
+        31,
+        34,
+        41
+      ],
+      "seed": 2469302112760057746,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f1ecf4935ea1458c96188ec91fad15be5b410e211dcf3500cfbd841546bf9bbe",
+      "id": 55,
+      "opening": [
+        91,
+        9,
+        17,
+        177,
+        203,
+        34
+      ],
+      "seed": 6043202794636189017,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "71e31fb809d2850024f853171d3c1c43a12eeb4cd1d45a14726d8b210695e1f7",
+      "id": 56,
+      "opening": [
+        151,
+        102,
+        26,
+        22,
+        45,
+        177
+      ],
+      "seed": 626463636596491509,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a5133dcfed1b273a62b27a1c738359c3b57dcf916dc3ab9b3e5e43f699ecfabb",
+      "id": 57,
+      "opening": [
+        92,
+        212,
+        205,
+        72,
+        223,
+        90
+      ],
+      "seed": 6801998717379431804,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f476165f2d67d355edfb940dd7a1eb639e63105767ea7b97c1f30140f8733b1d",
+      "id": 58,
+      "opening": [
+        217,
+        103,
+        151,
+        219,
+        1,
+        136
+      ],
+      "seed": 7884613639339176311,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "087ef051eb9d3c7242cf684f64b142ca730811d22907c8acedb931f3ef7ca3ca",
+      "id": 59,
+      "opening": [
+        220,
+        136,
+        74,
+        47,
+        193,
+        61
+      ],
+      "seed": 3073127596072665903,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c7e345a0c86fdcb61019f00dad66a67cd01b4df01981be53268eec4b40a48f74",
+      "id": 60,
+      "opening": [
+        89,
+        21,
+        37,
+        32,
+        191,
+        117
+      ],
+      "seed": 7017438809256201966,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "26f3da1a1170d91bc3f6341f88e34cbdcd4b96db572d1d0f35e4f77964983186",
+      "id": 61,
+      "opening": [
+        7,
+        136,
+        30,
+        19,
+        215,
+        167
+      ],
+      "seed": 4784278876949804364,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "239cfaff960b966b3f78894f2a737e27ef9f3d22b9401681cf77ef2b5387f6fe",
+      "id": 62,
+      "opening": [
+        87,
+        12,
+        89,
+        212,
+        223,
+        213
+      ],
+      "seed": 643184413813813778,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "208aa6fc98ca8f4e2eb654b85074ee333048cf3543754e15908364414040fa8d",
+      "id": 63,
+      "opening": [
+        219,
+        4,
+        88,
+        12,
+        220,
+        195
+      ],
+      "seed": 1865840834511894607,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a7a00409d1311ba6b3b6f8adca4a85bbe343c33f808b746987f9fa5c40ffdb42",
+      "id": 64,
+      "opening": [
+        213,
+        104,
+        30,
+        200,
+        43,
+        47
+      ],
+      "seed": 5873964646856566023,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "4e4861244d6397c3896b40cb2c6a1d250d60e56ef3f48dd911286e2a2ed2f5fa",
+      "id": 65,
+      "opening": [
+        222,
+        134,
+        217,
+        177,
+        206,
+        87
+      ],
+      "seed": 9210332840377755525,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b8dae63e20773877213772dcda6e3783c672d111de5724f1aa0891aed8c93dcf",
+      "id": 66,
+      "opening": [
+        0,
+        165,
+        58,
+        203,
+        32,
+        223
+      ],
+      "seed": 6965379356695989331,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b4d3ab06a7ba945c933c45671c734ac231e93bf619c4f0ea74cdda56da808f82",
+      "id": 67,
+      "opening": [
+        87,
+        166,
+        132,
+        29,
+        102,
+        10
+      ],
+      "seed": 76547317080818620,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "5cf1ec5653f411f0611616a210b0a94d00f5210496137bc5d8cf4fe782d1f213",
+      "id": 68,
+      "opening": [
+        90,
+        89,
+        206,
+        1,
+        92,
+        177
+      ],
+      "seed": 5825858798939545699,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d265bd592955c267498a0d33ce2499d944289dbe908e4ab573e870300de17fac",
+      "id": 69,
+      "opening": [
+        60,
+        165,
+        102,
+        210,
+        200,
+        189
+      ],
+      "seed": 4081174461567986397,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3ffb757968404b007bac4f53cd07ee3f00e1fec7997bf1695ba76639e3187aad",
+      "id": 70,
+      "opening": [
+        17,
+        32,
+        165,
+        31,
+        182,
+        73
+      ],
+      "seed": 8274550137440661233,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "be0ace23ba66e71d47a1bc4d3f335d014ae970aac6c3eb77994092b5d85c446c",
+      "id": 71,
+      "opening": [
+        9,
+        59,
+        215,
+        76,
+        118,
+        15
+      ],
+      "seed": 8437093197345503645,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "70186e3b98e0dad368d7b84a569aa6cd708c0ef48466b63fab8cef810d64510d",
+      "id": 72,
+      "opening": [
+        183,
+        25,
+        206,
+        1,
+        181,
+        187
+      ],
+      "seed": 5344942584891027903,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0da3455ce0573e5321a876249329b74da58ab9efdf24b55918868a46de77e717",
+      "id": 73,
+      "opening": [
+        105,
+        1,
+        194,
+        132,
+        148,
+        199
+      ],
+      "seed": 3688080090318609233,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "00796fa4d53e4102e0f0253d37ab2fb88e34a8a59f8a4bf93842cdf77913a5dd",
+      "id": 74,
+      "opening": [
+        21,
+        152,
+        92,
+        201,
+        34,
+        202
+      ],
+      "seed": 8298893051468655261,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "353b224360a02a84819dfe56b974e08b58127a6d621c7940586c47d23317d363",
+      "id": 75,
+      "opening": [
+        102,
+        200,
+        38,
+        196,
+        206,
+        219
+      ],
+      "seed": 1186178924368375939,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "cfc46387bd1fa673d6dafffbf2ac461c87f3d5975bdc2f2f002082cee252a94b",
+      "id": 76,
+      "opening": [
+        150,
+        12,
+        184,
+        29,
+        7,
+        32
+      ],
+      "seed": 3350318314488979654,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "194114c4f639151bd26e4a669348926c846007f09cff7021260eba9ea9512bc0",
+      "id": 77,
+      "opening": [
+        117,
+        198,
+        11,
+        23,
+        210,
+        26
+      ],
+      "seed": 7601149111837836657,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d13ac6a6624d78f2efdc5dad26b2a0e4c4caebd80d657ae0bf6e010aeb322998",
+      "id": 78,
+      "opening": [
+        1,
+        184,
+        224,
+        12,
+        194,
+        197
+      ],
+      "seed": 8818621335337863734,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "cf7f09656225625fcf12cb3c793842d51a9f482cf2f1de896af041c62e57cde6",
+      "id": 79,
+      "opening": [
+        18,
+        4,
+        12,
+        58,
+        33,
+        178
+      ],
+      "seed": 508027727407216898,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3c3bce6804c85518a6224d9bcd8d28798a1a18028a9f7c2ef809a73353fab75e",
+      "id": 80,
+      "opening": [
+        31,
+        21,
+        45,
+        222,
+        7,
+        203
+      ],
+      "seed": 3736921400012577792,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ee5869639fb7aeea2e80a24bd60ab6513a35a4cb6a8d3e3e7fb1f68c89b575cd",
+      "id": 81,
+      "opening": [
+        40,
+        90,
+        167,
+        183,
+        199,
+        21
+      ],
+      "seed": 1572878436559773128,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "40b999a969c2ef1a7b5a9b47e5ec9ebd49142e22f07a909f404f040deb96c7b3",
+      "id": 82,
+      "opening": [
+        20,
+        220,
+        132,
+        15,
+        204,
+        215
+      ],
+      "seed": 372024752929950642,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "4ce24ccf5e5a165d76d868c58ba04286321f11fc2bf3f4c5177236a8750b8dd0",
+      "id": 83,
+      "opening": [
+        102,
+        27,
+        221,
+        89,
+        136,
+        41
+      ],
+      "seed": 5710627382533484861,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "05e7994f4325dc3c8608a6c2f647280388c2367474b6a9966c3da9af80376d0d",
+      "id": 84,
+      "opening": [
+        33,
+        62,
+        0,
+        23,
+        92,
+        117
+      ],
+      "seed": 3237562827522952262,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "8518a6e2dd8a63a7f4c5a48b1146d288accddb425a5cb7e0cc8dbcb935bf0f76",
+      "id": 85,
+      "opening": [
+        8,
+        211,
+        29,
+        88,
+        42,
+        11
+      ],
+      "seed": 3007035193573921386,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "b6257d03583e96fbb83b82b63c7924a1cad715951733d9f420a03a164cea1cea",
+      "id": 86,
+      "opening": [
+        196,
+        107,
+        148,
+        12,
+        7,
+        102
+      ],
+      "seed": 7793594877146280686,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "5004362ee5fd8d17bd3c1d3dafc35b4ea8fad41adf0a8d36c9b3f4a1cfca6e1c",
+      "id": 87,
+      "opening": [
+        188,
+        36,
+        187,
+        215,
+        203,
+        40
+      ],
+      "seed": 8448117895497754289,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3f12ed4822ec2c2288e0879833452b2477265cbef8a7ffa8b76d5c701997e326",
+      "id": 88,
+      "opening": [
+        162,
+        76,
+        92,
+        105,
+        135,
+        9
+      ],
+      "seed": 1694017248911650231,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "cb3943d9a243dc0da9a64de0b9ccd66215548c7563d1c1cd301acf53becadaf6",
+      "id": 89,
+      "opening": [
+        167,
+        151,
+        29,
+        74,
+        89,
+        36
+      ],
+      "seed": 2366757906595529322,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "8944f93302197f8bd70b38295c7defdca19849418113a683c28f5af4078fc45f",
+      "id": 90,
+      "opening": [
+        9,
+        205,
+        5,
+        177,
+        163,
+        185
+      ],
+      "seed": 6687496554434588988,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "234155b131d98162ccdd5a112fce76e26af0d1945ee0e083db4663ebac5ca4d9",
+      "id": 91,
+      "opening": [
+        102,
+        196,
+        106,
+        7,
+        88,
+        92
+      ],
+      "seed": 7846748809372194333,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ea8f0804bb07d697e936a75266ecc0a01d632a602b35b8d3c0c2882ee165dec6",
+      "id": 92,
+      "opening": [
+        198,
+        206,
+        2,
+        16,
+        27,
+        165
+      ],
+      "seed": 214681945317252297,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "9f3dbd50a6d8ba952c7410f75651e1f6b80d2e7fd4712784ccdddb6f1752d9a7",
+      "id": 93,
+      "opening": [
+        77,
+        33,
+        211,
+        217,
+        105,
+        221
+      ],
+      "seed": 758799636453556377,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "cf0b0b12a56a4c37ca4045adab1d7a1b7d7d22964d2681b04d8178da9bc4c189",
+      "id": 94,
+      "opening": [
+        151,
+        29,
+        182,
+        47,
+        75,
+        189
+      ],
+      "seed": 780965719922205638,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "44c16aa97847bdee8231fc5a8256756fbd6caae16b1243b00a3582ed936cd0b9",
+      "id": 95,
+      "opening": [
+        194,
+        135,
+        217,
+        198,
+        212,
+        8
+      ],
+      "seed": 4509108944968103729,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0593ea3715ca5edd633a7f8ea4d197344b0d9731a747796f746d4a84d8d0e535",
+      "id": 96,
+      "opening": [
+        47,
+        76,
+        211,
+        103,
+        224,
+        137
+      ],
+      "seed": 2058562238986834509,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0ea3fd0f6259184e75ee8c6647cb67d021f6c1d55d05c5aa50e7d9b5e6718fbb",
+      "id": 97,
+      "opening": [
+        89,
+        192,
+        28,
+        151,
+        221,
+        13
+      ],
+      "seed": 6293276574458144799,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "72d93300b1952dc40884b3d0ea185768a231aedd456930b9d35a96c29f2e5f60",
+      "id": 98,
+      "opening": [
+        23,
+        195,
+        1,
+        90,
+        12,
+        92
+      ],
+      "seed": 9207909769569369513,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "dd3debbe1bde7025fa435ba6d823c8da5d5bfa385964043a1b5dfc5c41b02b3e",
+      "id": 99,
+      "opening": [
+        136,
+        122,
+        210,
+        192,
+        162,
+        120
+      ],
+      "seed": 1338028127390368850,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "75e5af43fcd852965718c8d0e632bcc958cccd2ba7a9283a9f381468fdea58b1",
+      "id": 100,
+      "opening": [
+        19,
+        209,
+        187,
+        162,
+        8,
+        218
+      ],
+      "seed": 2677640821617592974,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "64a78544b9c4c852408f901f2cad2db9f826cd61834971427fa0a237813d45e3",
+      "id": 101,
+      "opening": [
+        197,
+        39,
+        211,
+        190,
+        16,
+        213
+      ],
+      "seed": 8107221842077189805,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "35dcfb45f2e23c877591d71dc2515cd2061b14cd13044d40bd780f653bc141be",
+      "id": 102,
+      "opening": [
+        208,
+        5,
+        190,
+        137,
+        17,
+        211
+      ],
+      "seed": 7728562295470373051,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "56471c2c3593b1e8516d4666114dc982c405cb8cb5f37c3ac4856074b6233a1f",
+      "id": 103,
+      "opening": [
+        104,
+        42,
+        200,
+        16,
+        10,
+        150
+      ],
+      "seed": 625223906603843063,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "980e7fc95920aad9f615ab749584bafeafd370f94bf86d5aadda3ebb72856108",
+      "id": 104,
+      "opening": [
+        61,
+        184,
+        3,
+        178,
+        36,
+        117
+      ],
+      "seed": 6248417662077276181,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "461ba220cf6140221aaa9495c2af827896b8c1e4f88a79e1b1a843f11b2df3c4",
+      "id": 105,
+      "opening": [
+        47,
+        134,
+        164,
+        179,
+        188,
+        25
+      ],
+      "seed": 3002330764747394925,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "420bcd5f50e4a677998f9c927ffb910a3412999c696e7793246ebde68316fbd7",
+      "id": 106,
+      "opening": [
+        3,
+        209,
+        103,
+        162,
+        191,
+        221
+      ],
+      "seed": 1697282314553796937,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "7d6d830c825182d23994d01bc34ff6dddab03676a39c4f19aa82969fbf66ab6e",
+      "id": 107,
+      "opening": [
+        137,
+        202,
+        74,
+        199,
+        7,
+        148
+      ],
+      "seed": 4055672812349863359,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "397fc3ca33a6d4488e5dda4b98d3786a768182be4f95998c35da10c2d9a9edf8",
+      "id": 108,
+      "opening": [
+        14,
+        211,
+        13,
+        89,
+        60,
+        4
+      ],
+      "seed": 2275961134587827799,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "18186bc9dc5f154bd0827c242e1f06299f27bdc1f2d56d67706e5d05f40d3ba9",
+      "id": 109,
+      "opening": [
+        37,
+        24,
+        76,
+        185,
+        184,
+        119
+      ],
+      "seed": 2391313532067301129,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "fea2c0d9ce337aba341753a758d70d6c69380c34a1e33fbdd64a83d418b5a96c",
+      "id": 110,
+      "opening": [
+        1,
+        25,
+        103,
+        11,
+        42,
+        5
+      ],
+      "seed": 6739467153803342358,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d82342c3ee25151d1a26e9169bbca5ba53a3c89e1a7b007872f19aaf74039e26",
+      "id": 111,
+      "opening": [
+        194,
+        165,
+        2,
+        211,
+        164,
+        31
+      ],
+      "seed": 4845970518891015896,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ebfeee0caeb293c3f74e1cd9df38ba614b0378f725af6521f4360e3d64536743",
+      "id": 112,
+      "opening": [
+        210,
+        208,
+        185,
+        203,
+        215,
+        90
+      ],
+      "seed": 2239264893851375910,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "293d842dc3175b1a965d98bbe7ace994265fc2d2d155d10f80a336d205814ce2",
+      "id": 113,
+      "opening": [
+        90,
+        13,
+        106,
+        21,
+        60,
+        201
+      ],
+      "seed": 6959832990036737551,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "57c5302bf22f1aa2beabab76527ca5218fd8ffea01d698ed0bff503f878e7a7b",
+      "id": 114,
+      "opening": [
+        25,
+        223,
+        23,
+        37,
+        117,
+        28
+      ],
+      "seed": 2814004139875638171,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d62fa1988d2ed8323183d0c7c324804c3f5ba5ee0e37350b76f93be3293087c1",
+      "id": 115,
+      "opening": [
+        89,
+        137,
+        202,
+        207,
+        12,
+        4
+      ],
+      "seed": 9208514853356221761,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "00eeee1a370a9cc89f7d5a7c9b02cebef80f782ca43046fbf7e6a2e4aaa633da",
+      "id": 116,
+      "opening": [
+        202,
+        191,
+        9,
+        43,
+        38,
+        135
+      ],
+      "seed": 2980245577790998402,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "c1e712d3faac3f010091b489fad35e71d78967bdafc661ef07403cfec89df15d",
+      "id": 117,
+      "opening": [
+        118,
+        4,
+        200,
+        133,
+        183,
+        44
+      ],
+      "seed": 7479736666711213357,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "5ab2c6d166856a9bf7f313888db39a5e5a1b4f98b1f23e20c4fa3dcdaa957fe0",
+      "id": 118,
+      "opening": [
+        162,
+        28,
+        219,
+        167,
+        102,
+        212
+      ],
+      "seed": 4893344672700587951,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "fbc451c33a8f1dd9f5352d023082ce5d756e9cf5158cf5291b484c5994283f86",
+      "id": 119,
+      "opening": [
+        22,
+        47,
+        10,
+        46,
+        87,
+        218
+      ],
+      "seed": 4035624418545066467,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3d30fcd8d782b730693eb9e91f6db4f0c43e5b96cb5e195ea8a639586db21887",
+      "id": 120,
+      "opening": [
+        90,
+        73,
+        199,
+        152,
+        2,
+        13
+      ],
+      "seed": 436106658818769592,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a5123c1b7f585cb365f04f0e494d34f5c34a1a85409208790b1a6b803a3c65bc",
+      "id": 121,
+      "opening": [
+        103,
+        46,
+        30,
+        62,
+        9,
+        197
+      ],
+      "seed": 5952356144515522625,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "80e553e327b05da764eff6089f4966b9b55c34050f1b20e409ace090ad837333",
+      "id": 122,
+      "opening": [
+        102,
+        58,
+        220,
+        18,
+        205,
+        163
+      ],
+      "seed": 8062879589390091228,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "8b41ecf0dbc38d4fa89a68169b4fb293044c060f93a664a61e2959094a90921d",
+      "id": 123,
+      "opening": [
+        218,
+        17,
+        72,
+        75,
+        88,
+        210
+      ],
+      "seed": 8218377038126374779,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "489f80198f5f5af6755b90d9b15d5529066bd8263368fcb661e39bce85e0162d",
+      "id": 124,
+      "opening": [
+        184,
+        201,
+        19,
+        57,
+        206,
+        18
+      ],
+      "seed": 3356117051506689560,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "74ceddac95fb487ff1e0952a6c11f40934f9d5c0c166bbe6db64984c786c944a",
+      "id": 125,
+      "opening": [
+        23,
+        10,
+        38,
+        8,
+        122,
+        41
+      ],
+      "seed": 8574486498469451580,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "331b7ea67e01f3ba5126d20d9157104a253e3782ae19ced848f40a83b5bc9464",
+      "id": 126,
+      "opening": [
+        148,
+        208,
+        150,
+        62,
+        199,
+        216
+      ],
+      "seed": 5698504880966983865,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "c7b553c2f4dc965171f775ac752855c52f8a525c39432533fc73aedb7b7a8908",
+      "id": 127,
+      "opening": [
+        105,
+        26,
+        61,
+        7,
+        180,
+        4
+      ],
+      "seed": 6026875643617025081,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3f0a872d9daad33c8bf7178fe385815a74104466a4ac033be40283957a095306",
+      "id": 128,
+      "opening": [
+        17,
+        5,
+        72,
+        199,
+        185,
+        90
+      ],
+      "seed": 2020567149702055545,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f14947679e5bb9a0ed576353add7805bec4ba24b8a5faa1613638c2876b9f658",
+      "id": 129,
+      "opening": [
+        10,
+        22,
+        216,
+        196,
+        3,
+        105
+      ],
+      "seed": 2858675377504804648,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0ca4b80206b55090bec1a2e5e0829c92355fedaa08b49b5477949e654ef38ca1",
+      "id": 130,
+      "opening": [
+        106,
+        119,
+        211,
+        77,
+        44,
+        35
+      ],
+      "seed": 2298423908228256158,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "6c935d5c8ac70cf6a04de95d41e64872498c9bf41a4c1b1773bbd3b5933730d6",
+      "id": 131,
+      "opening": [
+        213,
+        17,
+        21,
+        25,
+        193,
+        72
+      ],
+      "seed": 7432415146923100160,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b9a8318eae252c24e7e6b3e0cccf4ac5e1621a3658f27749e7720f999174b476",
+      "id": 132,
+      "opening": [
+        136,
+        210,
+        34,
+        20,
+        182,
+        91
+      ],
+      "seed": 489554593950546533,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "de03473a1a45f5e10d339348f99be7df01ce8ba2dcbab7893090113b32dc7ca5",
+      "id": 133,
+      "opening": [
+        43,
+        29,
+        166,
+        167,
+        45,
+        72
+      ],
+      "seed": 5184153537853645525,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "049d1875c9a9a1fe5fe616a75b2f00d67431f46caeb03cfe698d295faee1dd33",
+      "id": 134,
+      "opening": [
+        132,
+        92,
+        208,
+        223,
+        117,
+        37
+      ],
+      "seed": 8440440888540206405,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "4e126e716ce878dd071ff12dca838d61e9200d63133b551714d6b734bc69cb23",
+      "id": 135,
+      "opening": [
+        77,
+        87,
+        204,
+        73,
+        31,
+        91
+      ],
+      "seed": 2104197656337993290,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ae02b048f6cfccdda8c75979c2ee70600c3dd594759feefb0b9f781d52dd8cee",
+      "id": 136,
+      "opening": [
+        219,
+        148,
+        196,
+        177,
+        1,
+        217
+      ],
+      "seed": 8273862022994968506,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ed402500fc87f6584af6556d394c041773e01336fb27a04b3f7279c356dc4a4a",
+      "id": 137,
+      "opening": [
+        37,
+        147,
+        2,
+        200,
+        217,
+        222
+      ],
+      "seed": 7839089769493548720,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "e5e5a567629ec596685cc8326f208171da182b15ba7d72b25b83dbaf4736689a",
+      "id": 138,
+      "opening": [
+        147,
+        11,
+        42,
+        181,
+        218,
+        17
+      ],
+      "seed": 6615841995778220034,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "e15afcd8af25dfaa785785ddc96f4ee300d3aa8150704ad5fae04b17319b3df6",
+      "id": 139,
+      "opening": [
+        118,
+        8,
+        10,
+        198,
+        92,
+        163
+      ],
+      "seed": 7826978333478423663,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "bccafdc6d156adf0f524850152ca61edfd994506203c589027b6e0ffa1aa6ffd",
+      "id": 140,
+      "opening": [
+        14,
+        8,
+        179,
+        1,
+        180,
+        18
+      ],
+      "seed": 7474327842036856399,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9ec569a8f988295c0aef5e421fc6c2a38692a9111b4b33c8ff87fb381e2a8954",
+      "id": 141,
+      "opening": [
+        16,
+        89,
+        0,
+        26,
+        134,
+        13
+      ],
+      "seed": 6397516457646290713,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "5cf86a40ad664072b167e6ed605966eb50661759303aee0b16cc4a045c69c6c1",
+      "id": 142,
+      "opening": [
+        197,
+        14,
+        29,
+        12,
+        38,
+        75
+      ],
+      "seed": 3617889296644368921,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "80851231eea1e05f7d6eda2129f11d2854586e776bfa85f6a53644eec6b4491b",
+      "id": 143,
+      "opening": [
+        88,
+        214,
+        87,
+        18,
+        216,
+        148
+      ],
+      "seed": 1671191146498192837,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "eb4fe90b8f5c9aff15e06035da606a5811d3f8248484b3698afb22ef473efc78",
+      "id": 144,
+      "opening": [
+        216,
+        19,
+        195,
+        5,
+        20,
+        4
+      ],
+      "seed": 1037314242093005763,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "70f2ca1d0db3805ced2ee8929241b0b34233ffbfbed3900e2a5a90d89ce0ab73",
+      "id": 145,
+      "opening": [
+        16,
+        0,
+        205,
+        87,
+        20,
+        183
+      ],
+      "seed": 7613613031691398207,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "528922abd2a3c455243f1577f9c6a5a4331e9fa6ecd46a4cac317a960ca31db8",
+      "id": 146,
+      "opening": [
+        179,
+        166,
+        72,
+        167,
+        208,
+        41
+      ],
+      "seed": 7435254075851326544,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "32e41ae3a58343c2c8018d9f0985b524d007575008a94dc8eef51527d3f7951d",
+      "id": 147,
+      "opening": [
+        202,
+        59,
+        151,
+        147,
+        224,
+        150
+      ],
+      "seed": 564532606226307724,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "37ccb14641b3ab0ec5aa6adcde8838c51cf146c7b2f5bd0ff8878fa10993583e",
+      "id": 148,
+      "opening": [
+        189,
+        219,
+        57,
+        9,
+        204,
+        42
+      ],
+      "seed": 3973477294364184189,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "850fd12d1773e7895cf0b53e0d6cfb77eadb0d7e7525b472f07b963dfca3673c",
+      "id": 149,
+      "opening": [
+        184,
+        121,
+        16,
+        36,
+        151,
+        74
+      ],
+      "seed": 4709523038703178659,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ac3fff750271bd65c9dc2cb1a6d1edd00a2598e28fb27ab2b4ae689c99867b9c",
+      "id": 150,
+      "opening": [
+        20,
+        7,
+        44,
+        39,
+        25,
+        211
+      ],
+      "seed": 8643029390199451069,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "5d1da8c4951e73b7b26cf18193204648c279ea71869cbad86db4367985cbbbae",
+      "id": 151,
+      "opening": [
+        72,
+        30,
+        189,
+        43,
+        19,
+        203
+      ],
+      "seed": 7603552313222644867,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f7ce84dc5300cc16e7d09de3118893b94d630208aca56ed0fc820b1e70c81c07",
+      "id": 152,
+      "opening": [
+        217,
+        193,
+        62,
+        187,
+        203,
+        103
+      ],
+      "seed": 3325826320934965916,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0a2460693b9b66dc6cdcef684ad4ef8d09390fbc346221828c5571d6ebbb36df",
+      "id": 153,
+      "opening": [
+        181,
+        7,
+        19,
+        12,
+        208,
+        22
+      ],
+      "seed": 1541195681102481379,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "1a38f7b4a8f876eae8d568abf23c51263b2c6a4dd11228d71b62ea39b6ef9815",
+      "id": 154,
+      "opening": [
+        207,
+        61,
+        147,
+        182,
+        118,
+        0
+      ],
+      "seed": 1382825045624252671,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f1c4dc7bab40385bba228acec1d1ecae3f2dff42b36f3dd2e602dc3c8c40b431",
+      "id": 155,
+      "opening": [
+        183,
+        59,
+        14,
+        198,
+        150,
+        196
+      ],
+      "seed": 3263434685556318722,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "33b3a0fbbf38f2cd10589eaa517647d96f92a309384a8e13997f6d220805b32b",
+      "id": 156,
+      "opening": [
+        195,
+        42,
+        47,
+        77,
+        196,
+        19
+      ],
+      "seed": 1051229453064481585,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "367976bca555d858d24fec2bdc3e9d699dd2bf2adccd378b40a22f1401500282",
+      "id": 157,
+      "opening": [
+        23,
+        195,
+        194,
+        223,
+        150,
+        192
+      ],
+      "seed": 3400816943210526180,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "181e521f4f1ff0b338c90901de9af7ab72612d4396dbc8f58cf648d3042d6085",
+      "id": 158,
+      "opening": [
+        193,
+        37,
+        8,
+        210,
+        150,
+        74
+      ],
+      "seed": 7117969460544498573,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "bd147086726f9bee9c52cc020bc76e1092de5b6e5ccb71b7669f49f6daf8d884",
+      "id": 159,
+      "opening": [
+        32,
+        180,
+        40,
+        119,
+        24,
+        39
+      ],
+      "seed": 7655692510870953645,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "214553b5915a147b267e3cd7e656c5690df92cda375199bfee329e8d98f1f88d",
+      "id": 160,
+      "opening": [
+        119,
+        118,
+        180,
+        120,
+        222,
+        215
+      ],
+      "seed": 3734006275440599230,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d7eb61153d3e6a8d665e82d79c16bc194305d40d52fe30c83d2f008e3df6fe80",
+      "id": 161,
+      "opening": [
+        187,
+        31,
+        162,
+        20,
+        223,
+        183
+      ],
+      "seed": 7892937860130549903,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1c1365f318498dc7025fd82bdce513e2173369c31be78d8bf03838102e51ffae",
+      "id": 162,
+      "opening": [
+        77,
+        148,
+        15,
+        3,
+        136,
+        195
+      ],
+      "seed": 7225189430078483186,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d2de75d3148ff8846833f02a60d3f1069a02b6962d69fbc02d25aa6954d3b16f",
+      "id": 163,
+      "opening": [
+        87,
+        44,
+        184,
+        209,
+        162,
+        215
+      ],
+      "seed": 3094908326923931069,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6e6d2b4dbf7beb5d188c7c71d42197f82ad1f869a31b8345e96346468fc7eb62",
+      "id": 164,
+      "opening": [
+        199,
+        62,
+        181,
+        6,
+        42,
+        207
+      ],
+      "seed": 9156368010986967611,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a161e98050b471b39366319a804a41835c218014bc61d24f8860dfd57c9a6245",
+      "id": 165,
+      "opening": [
+        164,
+        195,
+        118,
+        199,
+        31,
+        21
+      ],
+      "seed": 8771854994974833140,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "5714cca96b3c358356001d471e22bd99899cd7b3acb43d8118939c390283c023",
+      "id": 166,
+      "opening": [
+        177,
+        198,
+        217,
+        189,
+        162,
+        186
+      ],
+      "seed": 3693627485346742546,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "19ba67428ec19a5772d95dc49cd5356775464fef4cb28384a47b071c173b9d1e",
+      "id": 167,
+      "opening": [
+        117,
+        43,
+        35,
+        147,
+        91,
+        40
+      ],
+      "seed": 3443855341718884129,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "601e608037916871c28dd00a4c1d611894f2a61bf77f001b20ae55e3285da2db",
+      "id": 168,
+      "opening": [
+        14,
+        162,
+        57,
+        91,
+        37,
+        199
+      ],
+      "seed": 8811532859928252833,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9a6c158e0791f31a9b97e4084e8a5287655c4846900511e02e656f4126dfc294",
+      "id": 169,
+      "opening": [
+        137,
+        43,
+        211,
+        35,
+        44,
+        14
+      ],
+      "seed": 4380824571358883505,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "beab277b8ac7aadc194265421493ed43094a99ead1f965176a7b7aa5bb4424d6",
+      "id": 170,
+      "opening": [
+        17,
+        13,
+        200,
+        40,
+        191,
+        21
+      ],
+      "seed": 8523958947542194198,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "398abbe4bf5315d83d9154c8f1e822aaa051ed3301ddd0072b7fdea9f363aa62",
+      "id": 171,
+      "opening": [
+        152,
+        23,
+        47,
+        188,
+        223,
+        13
+      ],
+      "seed": 6183483549851530890,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "2578378455a198a2922945265bda399db3a7f056a2db400fa87681e0eabeb097",
+      "id": 172,
+      "opening": [
+        165,
+        181,
+        222,
+        43,
+        87,
+        35
+      ],
+      "seed": 1926793804940903785,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "214a09b06b389ea3fa5a63102feb476ac4a1fad053fe78cc9470c70fb841dc88",
+      "id": 173,
+      "opening": [
+        222,
+        183,
+        3,
+        90,
+        206,
+        213
+      ],
+      "seed": 1034935054176791097,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "12649f31b836cb5bf65505d654a04aa932d6f8947dc98db2b46103c3692e627d",
+      "id": 174,
+      "opening": [
+        91,
+        200,
+        30,
+        18,
+        36,
+        59
+      ],
+      "seed": 1423087732626157866,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "7e5c8e093ecdeb2f908d8d6639b171b999f070ac28d74396136fe91a6b5bb056",
+      "id": 175,
+      "opening": [
+        183,
+        34,
+        10,
+        22,
+        222,
+        15
+      ],
+      "seed": 1813181752663136359,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a2d200ddb630e2261d7063079e9dc20d1b1bc4bdb871f588b05479adbbfc120b",
+      "id": 176,
+      "opening": [
+        120,
+        147,
+        12,
+        21,
+        20,
+        194
+      ],
+      "seed": 7874281465520167900,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "4fa81de5fe38a2644481fa9d916e848213941fa13a1cc3c6785aca68ad3fec3b",
+      "id": 177,
+      "opening": [
+        165,
+        41,
+        35,
+        211,
+        197,
+        90
+      ],
+      "seed": 2380511865632605825,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6a4940e1387a2a14098cd8b78829b66fa9b4f33e3d349f0fa9984725bc5cab85",
+      "id": 178,
+      "opening": [
+        162,
+        10,
+        39,
+        152,
+        41,
+        221
+      ],
+      "seed": 3683862621964796315,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ba5dc7db077fa5e2ccabf001314fb8b55508f067123c9ff0ae59f80e2556951a",
+      "id": 179,
+      "opening": [
+        208,
+        104,
+        8,
+        59,
+        184,
+        32
+      ],
+      "seed": 7166717381893800071,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "52a7b48e32ed31e866f03103a2f69b3482e3e8eed0d0dfc5d51e1d10d997af56",
+      "id": 180,
+      "opening": [
+        166,
+        120,
+        75,
+        191,
+        193,
+        42
+      ],
+      "seed": 8486004399250976934,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "899b66ec9a68f7089483ba65768189ef467fd63b89bcd5ccebc19bd36d43c634",
+      "id": 181,
+      "opening": [
+        104,
+        62,
+        5,
+        92,
+        212,
+        137
+      ],
+      "seed": 8707965932973923593,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "bc8769a230c1836431187dc1764e334cc902893e6994ac5d448cb7f30ba2a4cc",
+      "id": 182,
+      "opening": [
+        206,
+        4,
+        210,
+        30,
+        26,
+        190
+      ],
+      "seed": 1796144640892852767,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "444b5987e1c394e5fe0c01ae6751472ba6caa2a396d0e22b9177bd9a0d0eb283",
+      "id": 183,
+      "opening": [
+        211,
+        214,
+        23,
+        16,
+        74,
+        148
+      ],
+      "seed": 1980894395264415135,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "8b592876ebcead9b98146dbbbf7d7b1e9af9d5a58b00df3cb574ce10cd493d24",
+      "id": 184,
+      "opening": [
+        58,
+        7,
+        150,
+        182,
+        57,
+        105
+      ],
+      "seed": 5607686238072792875,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a6b84efacc0002da17195becb6a2a8a33302a0cdfd0ccc744075d0484c4a016e",
+      "id": 185,
+      "opening": [
+        0,
+        211,
+        107,
+        200,
+        60,
+        221
+      ],
+      "seed": 5321145597595510092,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "be4210ad93bfde426e3b1413138606941ad333bf5864fa5c6b45b113d353556b",
+      "id": 186,
+      "opening": [
+        2,
+        18,
+        135,
+        11,
+        201,
+        221
+      ],
+      "seed": 1182523451096927965,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d663be01d4e4a75d6f3b1be35fe6fb0f44485c4dd3fa493663c4cde756e61188",
+      "id": 187,
+      "opening": [
+        137,
+        10,
+        203,
+        200,
+        178,
+        30
+      ],
+      "seed": 791523727165430032,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3f35dd7a9d9f4acbfeac6a070627429a0bbed1932123d62759286ba592ee212b",
+      "id": 188,
+      "opening": [
+        180,
+        134,
+        32,
+        216,
+        92,
+        43
+      ],
+      "seed": 5605295628326833877,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "1caf5aa88e2461d839183434858619f9dfb4020f91a5d11c96946f1f631dd3af",
+      "id": 189,
+      "opening": [
+        62,
+        29,
+        73,
+        148,
+        104,
+        166
+      ],
+      "seed": 2269469708626432503,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "c8c95946969a8ba1845bb8a81e299693dbb863457d06aa2907bd88e5c2b9d565",
+      "id": 190,
+      "opening": [
+        181,
+        35,
+        204,
+        75,
+        72,
+        58
+      ],
+      "seed": 1123365250956625399,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "81dfd7b674f7524ff557f3460616c9bc548a91d53928e5fbd52b1be61dc650ee",
+      "id": 191,
+      "opening": [
+        30,
+        137,
+        90,
+        41,
+        34,
+        136
+      ],
+      "seed": 4522465565580668184,
+      "split": "ARENA",
+      "stratum": "outer"
+    }
+  ],
+  "rapfi_k37_plan_sha256": "0a8f4e7b6cae131770596a0ff6c03db8774e948835a052efc9b9bd8f6335819e",
+  "rapfi_prior": 3782,
+  "rapfi_prior_locks": [
+    {
+      "added": 1,
+      "path": "docs/research/quartz_rapfi09_20261125/PAIR_PLAN.json",
+      "sha256": "92ffcd09ad9e449fbe73ae059ea8afa0b60bd771c4265d223d7294a531291108"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi10_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "60b69e9d8bea7b3d1c18332302e05d84b6d1328d7c391e75d81e8acfe1079f6c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_rapfi11_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "ff92c03c1f87b19c7307e2b95d613b30573a0e8147f1a5ad1f4c5422442f1b2c"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi12_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "db9c59fac9c1607167213de64e3f8de25356d30f5a7b5b22846606ccf2da362c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic14_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "1ef9e539893a238a45a4cd38edd17ec06416e1033125ccdb9ee2e1692dcb99a2"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic15_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "e2b5d01457564fd3aa0de3966fc1dcea30f9917629ce3f6ff0743c32f1544ccd"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic16_20261126/C06_PLAN.json",
+      "sha256": "08a46dfbcef2dd628728ef8e248a089883a6b196bd941b75ed030577a56bf8b8"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic19_20261126/G_PLAN.json",
+      "sha256": "ec1c84d3f7973bb6a0d6432b3e23b9a54a38f33eb19b1583ad3368fa5458d201"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic20_20261126/G_PLAN.json",
+      "sha256": "24c403a543ca933f40d93c47c7a62964e07a1c88ffa486228ef5b3af07a54587"
+    },
+    {
+      "added": 42,
+      "path": "docs/research/quartz_kinetic34_20261126/PLAN.json",
+      "sha256": "1ae4cbf5145d84ca0d727dd043b8540744d1d407ff45fbef5b49271b61266532"
+    },
+    {
+      "added": 256,
+      "path": "docs/research/quartz_kinetic35_20261126/PLAN.json",
+      "sha256": "5e64440dddb6440bdadd427a279aa8353f1e0e948d90e550e436acdc8aeabb9b"
+    },
+    {
+      "added": 416,
+      "path": "docs/research/quartz_kinetic36_20261126/PLAN.json",
+      "sha256": "28c5c83be3ed880d72eb5d0c4ca76f5147561959262de0c37d89c275e2725af0"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic40_budget_20261126/RAPFI_PLAN.json",
+      "sha256": "6325809e81426a1ed6d0d6a356730996ddbb2d43d751e3430e2bba4d815fc9f5"
+    },
+    {
+      "added": 304,
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "added": 240,
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "added": 83,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PAIR_PLAN.json",
+      "sha256": "4d33500d198af513d7c6c38412dde0f9b489cd5f68017954c254bf3129ed3f7c"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "added": 32,
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    },
+    {
+      "added": 80,
+      "path": "docs/research/quartz_kinetic52_confirm_20261127/PLAN.json",
+      "sha256": "2e0bd886f5403dc13589921f06dbf0aace2335e2372b624ba9cf651f16c1d9b9"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic53_reuse_20261127/PLAN.json",
+      "sha256": "2d789f1b5cd87fd647de2a31f7a9f2119f66f542843cf15c9a471862c3f4b5c9"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_tactical08_20261125/C07_COHORT.json",
+      "sha256": "14107220a3c60c9fe945f945ff2d91baa58a237bce3fa04ee20a81c18e330475"
+    }
+  ],
+  "rapfi_workers": 6,
+  "scope": "48 fresh NN families three cached arms and fixed 8-family uncached replay;192 fresh Rapfi outer families two arms",
+  "seed": 2026112754,
+  "tiers": [
+    [
+      3,
+      256
+    ],
+    [
+      5,
+      1024
+    ],
+    [
+      7,
+      4096
+    ]
+  ],
+  "workers": 8
+}
