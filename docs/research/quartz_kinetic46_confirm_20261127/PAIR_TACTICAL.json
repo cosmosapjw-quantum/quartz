@@ -1,0 +1,106 @@
+{
+  "counts": {
+    "checks": 10,
+    "confirmed": 2,
+    "censored": 8,
+    "nodes": 17283171,
+    "cpu_ns": 14134773536
+  },
+  "rows": [
+    {
+      "id": 30,
+      "k": 3,
+      "expected": 0,
+      "value": -1,
+      "nodes": 2000000,
+      "hits": 1192188,
+      "cpu_ns": 1571707792
+    },
+    {
+      "id": 31,
+      "k": 2,
+      "expected": 1,
+      "value": -1,
+      "nodes": 2000000,
+      "hits": 1395272,
+      "cpu_ns": 1611977438
+    },
+    {
+      "id": 31,
+      "k": 3,
+      "expected": 1,
+      "value": -1,
+      "nodes": 2000000,
+      "hits": 1561247,
+      "cpu_ns": 1599353403
+    },
+    {
+      "id": 32,
+      "k": 2,
+      "expected": 1,
+      "value": -1,
+      "nodes": 2000000,
+      "hits": 1633309,
+      "cpu_ns": 1624559409
+    },
+    {
+      "id": 32,
+      "k": 3,
+      "expected": 1,
+      "value": -1,
+      "nodes": 2000000,
+      "hits": 1657924,
+      "cpu_ns": 1694506131
+    },
+    {
+      "id": 33,
+      "k": 2,
+      "expected": 0,
+      "value": 0,
+      "nodes": 1283165,
+      "hits": 1052988,
+      "cpu_ns": 993738104
+    },
+    {
+      "id": 101,
+      "k": 2,
+      "expected": 1,
+      "value": -1,
+      "nodes": 2000000,
+      "hits": 1785080,
+      "cpu_ns": 1676446855
+    },
+    {
+      "id": 101,
+      "k": 3,
+      "expected": 1,
+      "value": -1,
+      "nodes": 2000000,
+      "hits": 1896165,
+      "cpu_ns": 1764660337
+    },
+    {
+      "id": 121,
+      "k": 2,
+      "expected": 0,
+      "value": -1,
+      "nodes": 2000000,
+      "hits": 2010280,
+      "cpu_ns": 1597801364
+    },
+    {
+      "id": 138,
+      "k": 2,
+      "expected": 0,
+      "value": 0,
+      "nodes": 6,
+      "hits": 0,
+      "cpu_ns": 22703
+    }
+  ],
+  "cap": 2000000,
+  "source_sha256": "14ae3b6535987300438f445ef9663345bf4c569565e6edf6e065971ec516583f",
+  "binary_sha256": "590feae62cc533200bd672068460d6afb847d5996a311b1f612e436fcae0759c",
+  "primary_lock_sha256": "d869a5dd2fdfbd9ea27c1d9c643afd72fffd644c40d3ba660d34004d3ba8fd8b",
+  "scope": "diagnosed follow-up after terminal-only cap: independent coordinate terminal, separately enumerated completion windows, exact forced-response lemma, reverse move order; no dead-window shortcut"
+}
