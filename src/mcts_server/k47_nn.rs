@@ -15,20 +15,31 @@ type EvalValue54=(Vec<f64>,f64);
 #[derive(Default)]
 struct ExactCache54{data:std::collections::HashMap<EvalKey54,EvalValue54>}
 impl ExactCache54{
-    fn lookup(&self,_key:&EvalKey54)->Option<EvalValue54>{None}
+    fn lookup(&self,key:&EvalKey54)->Option<EvalValue54>{self.data.get(key).cloned()}
     fn insert(&mut self,key:EvalKey54,v:EvalValue54){self.data.insert(key,v);}
 }
-struct External{calls:u32,trace:Vec<Value>,traced:bool}
+struct External{calls:u32,physical:u32,trace:Vec<Value>,traced:bool,cache:Option<ExactCache54>,keys:Vec<Value>,hits:Vec<u32>}
 impl External{
     fn eval(&mut self,a:u64,b:u64,p:i8,legal:&[u16])->Result<(Vec<f64>,f64),String>{
-        let id=self.calls+1;
-        emit_stdout_json_value(&json!({"type":"k47_eval","id":id,"a":a,"b":b,"p":p,"legal":legal}));
-        let Some(ServerCommandInput::Json(s))=read_stdin_command() else{return Err("missing evaluator response".into())};
-        let r:EvalReply=serde_json::from_str(&s).map_err(|e|e.to_string())?;
-        if r.cmd!="k47_eval_reply"||r.id!=id||r.a!=a||r.b!=b||r.p!=p||r.prior.len()!=legal.len()||r.prior.iter().any(|x|!x.is_finite()||*x<0.0)||(r.prior.iter().sum::<f64>()-1.0).abs()>1e-9||!r.value.is_finite()||!(-1.0..=1.0).contains(&r.value){return Err("invalid evaluator response".into())}
+        let key=(a,b,p,legal.to_vec());
+        let cached=self.cache.as_ref().and_then(|c|c.lookup(&key));
+        let (prior,value)=if let Some(v)=cached{
+            self.hits.push(self.calls);v
+        }else{
+            let id=self.physical+1;
+            emit_stdout_json_value(&json!({"type":"k47_eval","id":id,"a":a,"b":b,"p":p,"legal":legal}));
+            let Some(ServerCommandInput::Json(s))=read_stdin_command() else{return Err("missing evaluator response".into())};
+            let r:EvalReply=serde_json::from_str(&s).map_err(|e|e.to_string())?;
+            if r.cmd!="k47_eval_reply"||r.id!=id||r.a!=a||r.b!=b||r.p!=p||r.prior.len()!=legal.len()||r.prior.iter().any(|x|!x.is_finite()||*x<0.0)||(r.prior.iter().sum::<f64>()-1.0).abs()>1e-9||!r.value.is_finite()||!(-1.0..=1.0).contains(&r.value){return Err("invalid evaluator response".into())}
+            self.physical+=1;
+            let v=(r.prior,r.value);
+            if let Some(c)=&mut self.cache{c.insert(key,v.clone());}
+            v
+        };
         self.calls+=1;
-        if self.traced{self.trace.push(json!({"a":a,"b":b,"p":p,"legal":legal,"prior":r.prior,"value":r.value}));}
-        Ok((r.prior,r.value))
+        if self.cache.is_some(){self.keys.push(json!([a,b,p]));}
+        if self.traced{self.trace.push(json!({"a":a,"b":b,"p":p,"legal":legal,"prior":prior,"value":value}));}
+        Ok((prior,value))
     }
 }
 struct Edge{m:u16,prior:f64,n:u32,w:f64,child:Option<Box<Node>>}
@@ -99,7 +110,7 @@ fn inner(line:&str)->Result<Value,String>{
         out["move"]=part["cert"].clone();out["kind"]=json!("PARTIAL47");out["proof"]=json!(if part["exact"]["complete"]==true{"EXACT42"}else{"INTERVAL"});
         out["partial"]=part;
     }else{
-        let mut ev=External{calls:0,trace:vec![],traced:q.trace};let mut root=Node::new(a,bb,p);
+        let mut ev=External{calls:0,physical:0,trace:vec![],traced:q.trace,cache:if q.cache{Some(ExactCache54::default())}else{None},keys:vec![],hits:vec![]};let mut root=Node::new(a,bb,p);
         let (_,term)=root.expand(&mut ev)?;assert!(!term);
         let mut n=0;let mut terminal=0;
         let snap=|root:&Node,ev:&External,n:u32,terminal:u32,cap:u32|->Value{
@@ -134,8 +145,17 @@ fn inner(line:&str)->Result<Value,String>{
             }
         }
         if k48{out["physical_nn"]=json!(ev.calls);out["mask"]=json!(q.mask);out["atlas"]=json!(q.atlas)}
-        out["partial"]=if q.quartz{part.take()}else{Value::Null};if q.trace{out["eval_trace"]=json!(ev.trace)}
+        out["partial"]=if q.quartz{part.take()}else{Value::Null};
+        if q.cache{
+            let root=out["root_nn"].as_u64().unwrap_or(ev.calls as u64);
+            let root_hits=ev.hits.iter().filter(|&&i|(i as u64)<root).count() as u64;
+            assert_eq!(ev.calls as usize,ev.keys.len());assert_eq!(ev.calls,ev.physical+ev.hits.len() as u32);
+            out["physical_nn"]=json!(ev.physical);
+            out["cache_receipt"]=json!({"logical":ev.calls,"physical":ev.physical,"hits":ev.hits.len(),"hit_indices":ev.hits,"keys":ev.keys,"root_logical":root,"root_physical":root-root_hits});
+        }
+        if q.trace{out["eval_trace"]=json!(ev.trace)}
     }
+    if q.cache&&out.get("cache_receipt").is_none(){out["physical_nn"]=json!(0);out["cache_receipt"]=json!({"logical":0,"physical":0,"hits":0,"hit_indices":[],"keys":[],"root_logical":0,"root_physical":0});}
     if q.trace&&out.get("eval_trace").is_none(){out["eval_trace"]=json!([])}
     out["whole_ns"]=json!(started.elapsed().as_nanos() as u64);Ok(out)
 }
