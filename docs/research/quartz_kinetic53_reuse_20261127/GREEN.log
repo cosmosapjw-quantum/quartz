@@ -1,0 +1,14 @@
+     |
+8232 | ...fn cog03_resident13_real_CPU_endpoint_retains_root_and_counter_statistics() {
+     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `cog03_resident13_real_cpu_endpoint_retains_root_and_counter_statistics`
+     |
+     = note: `#[warn(non_snake_case)]` (part of `#[warn(nonstandard_style)]`) on by default
+
+warning: `mcts_demo` (bin "mcts_demo" test) generated 62 warnings (run `cargo fix --bin "mcts_demo" -p mcts_demo --tests` to apply 27 suggestions)
+    Finished `release` profile [optimized] target(s) in 36.98s
+     Running unittests src/main.rs (/home/cosmosapjw/quantum/research/quartz_kinetic53_reuse_target_20261127/cargo/release/deps/mcts_demo-bf101c8e5fd7d611)
+
+running 1 test
+test mcts_server::k47_nn::k53_tests::k53_mean_sign_and_tie ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 745 filtered out; finished in 0.00s
