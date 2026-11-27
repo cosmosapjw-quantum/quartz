@@ -150,3 +150,14 @@ mod k48_tests {
         assert!(!k48_extend(false,None,0));
     }
 }
+
+fn k52_candidate(_a:u16,_votes:&[(u16,u32)],_bounds:&Value)->Option<u16>{None}
+#[cfg(test)]
+mod k52_tests{
+    use super::*;
+    #[test]fn k52_rival_and_dominance(){
+        let votes=vec![(1,5),(2,5),(3,7),(4,8)];
+        assert_eq!(k52_candidate(4,&votes,&json!([[1,-1,1],[2,-1,1],[3,-1,-1],[4,-1,1]])),Some(1));
+        assert_eq!(k52_candidate(4,&votes,&json!([[1,-1,0],[2,-1,-1],[3,-1,-1],[4,0,1]])),None);
+    }
+}
