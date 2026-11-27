@@ -2825,7 +2825,10 @@ impl<G:GameState> FrozenExactEval55<G>{
 }
 impl<G:GameState> Evaluator<G> for FrozenExactEval55<G>{
     fn evaluate(&self,g:&G)->EvalResult<G::Move>{
-        let mut s=self.state.lock().unwrap();s.logical+=1;s.forwarded+=1;self.inner.evaluate(g)
+        let k=(self.key)(g);let mut s=self.state.lock().unwrap();s.logical+=1;
+        if let Some(v)=s.cache.get(&k).cloned(){s.hits+=1;return v}
+        let v=self.inner.evaluate(g);s.forwarded+=1;
+        if s.cache.len()<self.capacity{s.cache.insert(k,v.clone());}v
     }
 }
 #[cfg(test)]

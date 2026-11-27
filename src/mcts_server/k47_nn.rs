@@ -91,8 +91,9 @@ pub(super) fn parse_history(h:&[u16],n:usize)->Result<Vec<u8>,String>{
 pub(super) fn oriented(b:&[u8],p:u8)->Vec<u8>{b.iter().map(|&x|if x==0{0}else if x==p{1}else{2}).collect()}
 fn inner(line:&str)->Result<Value,String>{
     let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53;let k48=q.cmd=="research_gomoku7_k48"||k52;
+    let k55=q.cmd=="research_gomoku7_k55";let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53||k55;let k48=q.cmd=="research_gomoku7_k48"||k52;
     if (k52&&(q.atlas||q.mask!=Some(0)))||!(q.cmd=="research_gomoku7_k47"||k48)||(!q.quartz&&q.cap!=32)||(q.quartz&&q.cap!=20&&q.cap!=32)||(!k48&&(q.atlas||q.mask.is_some()))||(k48&&(!q.quartz||q.cap!=20||q.atlas==q.mask.is_some())){return Err("invalid K47/K48 NN request".into())}
+    if k55!=q.table.is_some()||q.table.is_some_and(|t|t.iter().any(|&x|x>2)){return Err("invalid K55 operation table".into())}
     let started=Instant::now();let b=parse_history(&q.history,7)?;
     let p=1-2*(q.history.len()%2) as i8;let ob=oriented(&b,if p==1{1}else{2});
     let mut a=0;let mut bb=0;for (m,&x) in b.iter().enumerate(){if x==1{a|=1u64<<m}else if x==2{bb|=1u64<<m}}
@@ -140,8 +141,15 @@ fn inner(line:&str)->Result<Value,String>{
         if k52{
             out["root_nn"]=json!(ev.calls);
             if matches!(out["bin"].as_u64(),Some(3|7)){
-                let t=if k53{k53_target(&mut root,&out["low"],&part["bounds"],&mut ev)?}else{k52_target(&root,&out["low"],&part["bounds"],&mut ev)?};
-                out["move"]=t["chosen"].clone();out["target"]=t;out["nn"]=json!(ev.calls);
+                let op=if let Some(table)=q.table{
+                    let cell=k55_cell(out["bin"].as_u64().unwrap(),q.history.len());
+                    let op=table[cell];
+                    out["selection"]=json!({"cell":cell,"op":op,"table":table});op
+                }else if k53{2}else{1};
+                if op!=0{
+                    let t=if op==2{k53_target(&mut root,&out["low"],&part["bounds"],&mut ev)?}else{k52_target(&root,&out["low"],&part["bounds"],&mut ev)?};
+                    out["move"]=t["chosen"].clone();out["target"]=t;out["nn"]=json!(ev.calls);
+                }
             }
         }
         if k48{out["physical_nn"]=json!(ev.calls);out["mask"]=json!(q.mask);out["atlas"]=json!(q.atlas)}
@@ -294,7 +302,7 @@ mod k54_tests{
 }
 
 
-fn k55_cell(_bin:u64,_ply:usize)->usize{0}
+fn k55_cell(bin:u64,ply:usize)->usize{assert!(matches!(bin,3|7));2*usize::from(bin==7)+usize::from(ply>8)}
 #[cfg(test)]
 mod k55_tests{
     use super::*;
