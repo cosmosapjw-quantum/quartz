@@ -1,0 +1,22 @@
+{
+  "build": "g++ -std=c++17 -O3 -Wall -Wextra -fPIC -shared SOURCE -o LIBRARY",
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "libraries": {
+    "independent46.so": "30687d9043e2df83afb68ac1466463405689acb393d411cac2021a2e3cd2aa7f",
+    "independent46_tactical.so": "590feae62cc533200bd672068460d6afb847d5996a311b1f612e436fcae0759c",
+    "pair46.so": "33f1e802f064d1e267f46110efa95e0195f46a6fb5b2a1994af837e37bd591ce"
+  },
+  "old_incremental_library_sha256": "e3f92bb23e5ff2f1ae5642bd3b528ba6a296d255d4abcfa1b64af93d16e1aabc",
+  "rapfi_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+  "scope": "K44 cold proof and K42 late solver unchanged; pair46 offline targeted threshold only; native research wrapper not general Rust integration",
+  "source_commit": "0944194cd8da12cfbbdb2486f2a9456b692aac52",
+  "source_sha256": {
+    "hybrid46.py": "78d5359a0c350fd90c12ac44db5466df4342cd6cb7bc9cb4e9c04ff4d0f0b1d4",
+    "inc46.py": "d54cb1d224c76ae5d006e1a23e131251bffede9dcadd2c41a88ab1c0b7a4126d",
+    "independent46.cpp": "758c61ef0c7772d83407ff3a921f3ac530f4f3c110d101e9d92b985a5b1febe7",
+    "independent46_tactical.cpp": "14ae3b6535987300438f445ef9663345bf4c569565e6edf6e065971ec516583f",
+    "k46_engine.py": "95f7757542bc81a8249a2133abe53da73c584b3b9675e9bdae8de84caac86dec",
+    "pair46.cpp": "fc36c41a4af0aabf7641bff678ae5962a48f0ddb742a61ab8020cf7b91e99c06"
+  },
+  "threshold_library_sha256": "4fb4ccfd0e63f9a3eb3a7df82a61ffaaf1a9568115178e4e06ee141423b0b5c4"
+}
