@@ -2805,3 +2805,57 @@ mod tests {
         payload
     }
 }
+
+// Explicit opt-in synchronous memoizer. Caller owns complete input identity and immutable evaluator contract.
+pub struct FrozenExactEval55<G:GameState>{
+    identity:String,
+    inner:std::sync::Arc<dyn Evaluator<G>+Send+Sync>,
+    key:Box<dyn Fn(&G)->Vec<u8>+Send+Sync>,
+    capacity:usize,
+    state:Mutex<ExactEvalState55<G::Move>>,
+}
+struct ExactEvalState55<M>{cache:std::collections::HashMap<Vec<u8>,EvalResult<M>>,logical:u64,forwarded:u64,hits:u64}
+impl<G:GameState> FrozenExactEval55<G>{
+    pub fn new(identity:String,inner:std::sync::Arc<dyn Evaluator<G>+Send+Sync>,key:Box<dyn Fn(&G)->Vec<u8>+Send+Sync>,capacity:usize)->Self{
+        assert!(!identity.trim().is_empty());
+        Self{identity,inner,key,capacity,state:Mutex::new(ExactEvalState55{cache:std::collections::HashMap::new(),logical:0,forwarded:0,hits:0})}
+    }
+    pub fn identity(&self)->&str{&self.identity}
+    pub fn counts(&self)->(u64,u64,u64,usize){let s=self.state.lock().unwrap();(s.logical,s.forwarded,s.hits,s.cache.len())}
+}
+impl<G:GameState> Evaluator<G> for FrozenExactEval55<G>{
+    fn evaluate(&self,g:&G)->EvalResult<G::Move>{
+        let mut s=self.state.lock().unwrap();s.logical+=1;s.forwarded+=1;self.inner.evaluate(g)
+    }
+}
+#[cfg(test)]
+mod k55_cache_tests{
+    use super::*;
+    use crate::games::gomoku::Gomoku;
+    use crate::mcts::{MctsEngine,MctsConfig,search::FixedIterations};
+    use std::sync::Arc;
+    fn key(g:&Gomoku)->Vec<u8>{
+        let mut k=vec![g.current_player() as u8];
+        k.extend_from_slice(&(g.num_actions() as u64).to_le_bytes());
+        for x in g.encode_planes(){k.extend_from_slice(&x.to_bits().to_le_bytes());}
+        for m in g.legal_moves(){k.extend_from_slice(&m.to_le_bytes());}k
+    }
+    #[test]fn k55_complete_key_capacity_and_real_sync_search(){
+        let a=Gomoku::new(7).apply_move(16).apply_move(17).apply_move(23).apply_move(24);
+        let b=Gomoku::new(7).apply_move(23).apply_move(17).apply_move(16).apply_move(24);
+        assert_eq!(a.hash(),b.hash());assert_ne!(key(&a),key(&b));
+        let e=Arc::new(FrozenExactEval55::new("fixed-uniform:test:generation0".to_string(),Arc::new(UniformEval),Box::new(key),1));
+        let x=e.evaluate(&a);let y=e.evaluate(&a);assert_eq!(x.policy,y.policy);assert_eq!(x.value,y.value);
+        e.evaluate(&b);e.evaluate(&b);assert_eq!(e.counts(),(4,3,1,1));
+        let cached=Arc::new(FrozenExactEval55::new("fixed-uniform:test:generation0".to_string(),Arc::new(UniformEval),Box::new(key),256));
+        let cfg=MctsConfig::default().with_tt_enabled(false);
+        let plain=MctsEngine::new(a.clone(),Arc::new(UniformEval),cfg.clone());
+        plain.run(&mut FixedIterations::new(20));let p=plain.four_axis_snapshot();
+        let first=MctsEngine::new(a.clone(),cached.clone(),cfg.clone());first.run(&mut FixedIterations::new(20));
+        let n=cached.counts();assert_eq!(first.four_axis_snapshot(),p);
+        let second=MctsEngine::new(a,cached.clone(),cfg);second.run(&mut FixedIterations::new(20));
+        assert_eq!(second.four_axis_snapshot(),p);
+        let z=cached.counts();assert_eq!(z.1,n.1);assert_eq!(z.0-n.0,z.2-n.2);assert!(z.2>0);
+        eprintln!("K55 generic sync exact cache: first={:?} second={:?} logical_engine={}",n,z,second.evaluator_call_count());
+    }
+}

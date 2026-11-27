@@ -6,7 +6,7 @@ use serde::Deserialize;
 use serde_json::{json,Value};
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool}
+struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool,#[serde(default)]table:Option<[u8;4]>}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct EvalReply{cmd:String,id:u32,a:u64,b:u64,p:i8,prior:Vec<f64>,value:f64}
@@ -290,5 +290,16 @@ mod k54_tests{
         assert!(c.lookup(&(1,2,1,vec![3,4])).is_none());
         assert!(c.lookup(&(1,2,-1,vec![4,3])).is_none());
         assert!(c.lookup(&(2,1,-1,vec![3,4])).is_none());
+    }
+}
+
+
+fn k55_cell(_bin:u64,_ply:usize)->usize{0}
+#[cfg(test)]
+mod k55_tests{
+    use super::*;
+    #[test]fn k55_cell_indices(){
+        assert_eq!(k55_cell(3,8),0);assert_eq!(k55_cell(3,9),1);
+        assert_eq!(k55_cell(7,8),2);assert_eq!(k55_cell(7,9),3);
     }
 }
