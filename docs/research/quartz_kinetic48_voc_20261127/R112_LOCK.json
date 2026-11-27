@@ -1,0 +1,55 @@
+{
+  "binary": "686784dd17f6ad8fe74fd56b97ec2c499110f59c3dbe09731e7d25d601e1bd4f",
+  "bridge": "54edf558d11b0d0e5e742a9ead00130ddccd6fd056ec8ec2ef2cbfec19f7a4e5",
+  "counts": {
+    "common": 233,
+    "games": 64,
+    "moves": 1160,
+    "nn": 85747
+  },
+  "files": [
+    {
+      "counts": {
+        "common": 43,
+        "games": 16,
+        "moves": 242,
+        "nn": 18541
+      },
+      "file": "R112_0_1.jsonl.gz",
+      "sha256": "e2ff14e3bf1882b69f76534e119cb7f6fb8ef9ed86800b0da5a6c644dd7638c4"
+    },
+    {
+      "counts": {
+        "common": 65,
+        "games": 16,
+        "moves": 284,
+        "nn": 20114
+      },
+      "file": "R112_0_2.jsonl.gz",
+      "sha256": "918f001edcfdf9758a278af0790bed899a658eb7b11eebf92f49893de4ffc66e"
+    },
+    {
+      "counts": {
+        "common": 61,
+        "games": 16,
+        "moves": 324,
+        "nn": 24704
+      },
+      "file": "R112_0_3.jsonl.gz",
+      "sha256": "2d2f195d14f578cbb5d887989a78c742e00cef618ac90d8d6b33c41a1b1f936d"
+    },
+    {
+      "counts": {
+        "common": 64,
+        "games": 16,
+        "moves": 310,
+        "nn": 22388
+      },
+      "file": "R112_0_0.jsonl.gz",
+      "sha256": "5ce0b8d0789f7772c5a50cb08dd81cc876e3497a4091ed35c3ef107427a4b19c"
+    }
+  ],
+  "mask_or_cap": 112,
+  "plan": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde",
+  "source": "ad02f89b2ab6270991fba229a5cc43ef4d9913817a2d285b45be19d24aa22774"
+}
