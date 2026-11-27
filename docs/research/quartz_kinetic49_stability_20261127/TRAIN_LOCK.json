@@ -1,0 +1,411 @@
+{
+  "binary": "686784dd17f6ad8fe74fd56b97ec2c499110f59c3dbe09731e7d25d601e1bd4f",
+  "bridge": "66cff3ceaed4167eddae5aa5f9f34af0bbbcba6551d1671c47fcd8af3b694ff3",
+  "counts": {
+    "atlas_roots": 577,
+    "common": 1327,
+    "extra_nn": 6774,
+    "games": 336,
+    "moves": 2873,
+    "nn": 35149,
+    "teacher_calls": 224,
+    "teacher_nn": 28762
+  },
+  "files": [
+    {
+      "counts": {
+        "atlas_roots": 14,
+        "common": 42,
+        "extra_nn": 168,
+        "games": 12,
+        "moves": 78,
+        "nn": 880,
+        "teacher_calls": 14,
+        "teacher_nn": 1806
+      },
+      "file": "TRAIN_102_2.jsonl.gz",
+      "sha256": "d8bf7f3589f3a5659f56c9b386fcb14ec618ad66908388bb2ced5fa442cfec55"
+    },
+    {
+      "counts": {
+        "atlas_roots": 20,
+        "common": 44,
+        "extra_nn": 240,
+        "games": 12,
+        "moves": 96,
+        "nn": 1195,
+        "teacher_calls": 12,
+        "teacher_nn": 1548
+      },
+      "file": "TRAIN_102_3.jsonl.gz",
+      "sha256": "e295334fefb9c419f1cbfe64d5482ebc75fa870cea928b2251bedca94bde472c"
+    },
+    {
+      "counts": {
+        "atlas_roots": 19,
+        "common": 50,
+        "extra_nn": 186,
+        "games": 12,
+        "moves": 106,
+        "nn": 1227,
+        "teacher_calls": 12,
+        "teacher_nn": 1515
+      },
+      "file": "TRAIN_101_1.jsonl.gz",
+      "sha256": "87d50b32d073d6f8990bc57004d691d65b48ae390c28e82479c4289b54496203"
+    },
+    {
+      "counts": {
+        "atlas_roots": 30,
+        "common": 45,
+        "extra_nn": 360,
+        "games": 12,
+        "moves": 120,
+        "nn": 1882,
+        "teacher_calls": 2,
+        "teacher_nn": 258
+      },
+      "file": "TRAIN_43_3.jsonl.gz",
+      "sha256": "92dab670b47ec744d34dd262b79d0de266e17cf03301bdc3fcb41d0923dd57c8"
+    },
+    {
+      "counts": {
+        "atlas_roots": 21,
+        "common": 47,
+        "extra_nn": 252,
+        "games": 12,
+        "moves": 103,
+        "nn": 1266,
+        "teacher_calls": 14,
+        "teacher_nn": 1806
+      },
+      "file": "TRAIN_103_0.jsonl.gz",
+      "sha256": "1442b2b726a03e0fdac4fac439aa180bde2744345bb8ea4f6ebaa1de58b11d00"
+    },
+    {
+      "counts": {
+        "atlas_roots": 20,
+        "common": 44,
+        "extra_nn": 240,
+        "games": 12,
+        "moves": 94,
+        "nn": 1179,
+        "teacher_calls": 14,
+        "teacher_nn": 1804
+      },
+      "file": "TRAIN_41_0.jsonl.gz",
+      "sha256": "9148bf66d4714a545849c8ceda44b2cd1a615d8fa691a58abe274b20115c4752"
+    },
+    {
+      "counts": {
+        "atlas_roots": 31,
+        "common": 54,
+        "extra_nn": 372,
+        "games": 12,
+        "moves": 134,
+        "nn": 1770,
+        "teacher_calls": 4,
+        "teacher_nn": 482
+      },
+      "file": "TRAIN_43_1.jsonl.gz",
+      "sha256": "487ed4c2b404c5a4e96ddc8ecbf12001773796d2a6d43f4be64b7aabc8398a20"
+    },
+    {
+      "counts": {
+        "atlas_roots": 24,
+        "common": 46,
+        "extra_nn": 288,
+        "games": 12,
+        "moves": 103,
+        "nn": 1360,
+        "teacher_calls": 8,
+        "teacher_nn": 1032
+      },
+      "file": "TRAIN_43_2.jsonl.gz",
+      "sha256": "41f6be2e96ba36c68e3186162d349824a33f6f4683b75cb00621b097523aff65"
+    },
+    {
+      "counts": {
+        "atlas_roots": 7,
+        "common": 40,
+        "extra_nn": 84,
+        "games": 12,
+        "moves": 64,
+        "nn": 543,
+        "teacher_calls": 0,
+        "teacher_nn": 0
+      },
+      "file": "TRAIN_42_0.jsonl.gz",
+      "sha256": "da7f2fd92c52f8e28101f96245297f00f3a80f9cf3ffeacf779d94d6523a1449"
+    },
+    {
+      "counts": {
+        "atlas_roots": 17,
+        "common": 47,
+        "extra_nn": 204,
+        "games": 12,
+        "moves": 94,
+        "nn": 1050,
+        "teacher_calls": 0,
+        "teacher_nn": 0
+      },
+      "file": "TRAIN_42_3.jsonl.gz",
+      "sha256": "84b16d0d5f5454d2f4724dbac84a1576111cc22ebce66dd58aad6ecce9f69035"
+    },
+    {
+      "counts": {
+        "atlas_roots": 40,
+        "common": 58,
+        "extra_nn": 480,
+        "games": 12,
+        "moves": 162,
+        "nn": 2391,
+        "teacher_calls": 16,
+        "teacher_nn": 2064
+      },
+      "file": "TRAIN_103_1.jsonl.gz",
+      "sha256": "23941c8bf925031a8b8e8ca7169b54dd027463defdcef7776d1a544464cba82d"
+    },
+    {
+      "counts": {
+        "atlas_roots": 15,
+        "common": 39,
+        "extra_nn": 126,
+        "games": 12,
+        "moves": 73,
+        "nn": 795,
+        "teacher_calls": 0,
+        "teacher_nn": 0
+      },
+      "file": "TRAIN_101_3.jsonl.gz",
+      "sha256": "e09a7721ca84c945a9e74222e95571252d18fbf12e2809eb936d284652faa571"
+    },
+    {
+      "counts": {
+        "atlas_roots": 39,
+        "common": 63,
+        "extra_nn": 468,
+        "games": 12,
+        "moves": 165,
+        "nn": 2271,
+        "teacher_calls": 28,
+        "teacher_nn": 3612
+      },
+      "file": "TRAIN_41_1.jsonl.gz",
+      "sha256": "da141683298ef6a269466b4bb7311e58df317278c479dc3c2a37fdea99f303db"
+    },
+    {
+      "counts": {
+        "atlas_roots": 29,
+        "common": 41,
+        "extra_nn": 348,
+        "games": 12,
+        "moves": 106,
+        "nn": 1665,
+        "teacher_calls": 2,
+        "teacher_nn": 258
+      },
+      "file": "TRAIN_42_1.jsonl.gz",
+      "sha256": "8d2e41c659b3cf4500155bd0132fa0398097ef60cb74ffaadf721feea8e7c010"
+    },
+    {
+      "counts": {
+        "atlas_roots": 3,
+        "common": 37,
+        "extra_nn": 30,
+        "games": 12,
+        "moves": 51,
+        "nn": 318,
+        "teacher_calls": 0,
+        "teacher_nn": 0
+      },
+      "file": "TRAIN_101_0.jsonl.gz",
+      "sha256": "fe9fad00912725237f14abc11fa9c453334a30376289bd42374114520f831e39"
+    },
+    {
+      "counts": {
+        "atlas_roots": 13,
+        "common": 45,
+        "extra_nn": 156,
+        "games": 12,
+        "moves": 89,
+        "nn": 900,
+        "teacher_calls": 0,
+        "teacher_nn": 0
+      },
+      "file": "TRAIN_42_2.jsonl.gz",
+      "sha256": "75689a7ffec544e47e6e1003985ddea1d5f086eb096e1d124490fc0ee7f96cc2"
+    },
+    {
+      "counts": {
+        "atlas_roots": 8,
+        "common": 41,
+        "extra_nn": 96,
+        "games": 12,
+        "moves": 70,
+        "nn": 661,
+        "teacher_calls": 8,
+        "teacher_nn": 1009
+      },
+      "file": "TRAIN_102_0.jsonl.gz",
+      "sha256": "5a123dab43499aa7bceccb4525d51e8b44f4001c02579a1a6022fcaf6fba532e"
+    },
+    {
+      "counts": {
+        "atlas_roots": 13,
+        "common": 40,
+        "extra_nn": 108,
+        "games": 12,
+        "moves": 77,
+        "nn": 828,
+        "teacher_calls": 0,
+        "teacher_nn": 0
+      },
+      "file": "TRAIN_101_2.jsonl.gz",
+      "sha256": "4dfc4963ab1c4518f5d469a598bd80d08a4a0229fe6abf77a72874dceccb1ace"
+    },
+    {
+      "counts": {
+        "atlas_roots": 20,
+        "common": 54,
+        "extra_nn": 240,
+        "games": 12,
+        "moves": 111,
+        "nn": 1233,
+        "teacher_calls": 2,
+        "teacher_nn": 258
+      },
+      "file": "TRAIN_105_2.jsonl.gz",
+      "sha256": "77e64ac766531e84ed4d6a1e196deeff17cd28f39c4998f47a3d0a97a7ac3758"
+    },
+    {
+      "counts": {
+        "atlas_roots": 24,
+        "common": 55,
+        "extra_nn": 288,
+        "games": 12,
+        "moves": 121,
+        "nn": 1395,
+        "teacher_calls": 14,
+        "teacher_nn": 1794
+      },
+      "file": "TRAIN_41_2.jsonl.gz",
+      "sha256": "5d4dd884e3cd12902c988366a7b7f7378c04f6819855c0e15d0a9be855c2154d"
+    },
+    {
+      "counts": {
+        "atlas_roots": 5,
+        "common": 38,
+        "extra_nn": 60,
+        "games": 12,
+        "moves": 56,
+        "nn": 399,
+        "teacher_calls": 0,
+        "teacher_nn": 0
+      },
+      "file": "TRAIN_105_0.jsonl.gz",
+      "sha256": "c67d150354d18842b11c4c4977b51b93b9e38b1c49bae5ab77730351a3f55ec8"
+    },
+    {
+      "counts": {
+        "atlas_roots": 12,
+        "common": 45,
+        "extra_nn": 145,
+        "games": 12,
+        "moves": 77,
+        "nn": 811,
+        "teacher_calls": 4,
+        "teacher_nn": 486
+      },
+      "file": "TRAIN_43_0.jsonl.gz",
+      "sha256": "a868fe6d799a48efd0197b161873c9f36c2907a0eef76dc8832d4f2f5e4a6148"
+    },
+    {
+      "counts": {
+        "atlas_roots": 21,
+        "common": 49,
+        "extra_nn": 252,
+        "games": 12,
+        "moves": 110,
+        "nn": 1291,
+        "teacher_calls": 18,
+        "teacher_nn": 2322
+      },
+      "file": "TRAIN_102_1.jsonl.gz",
+      "sha256": "76d77bb3d4746619caf1cf9e72be7af3bd0d7f677cac754a4d93e7ee9f097256"
+    },
+    {
+      "counts": {
+        "atlas_roots": 29,
+        "common": 54,
+        "extra_nn": 348,
+        "games": 12,
+        "moves": 130,
+        "nn": 1665,
+        "teacher_calls": 14,
+        "teacher_nn": 1806
+      },
+      "file": "TRAIN_103_3.jsonl.gz",
+      "sha256": "bb3d9d5accc77f6a9a9bec3dbb9ddfc80f1a9b6a34bb7c35b03b3abadf64c795"
+    },
+    {
+      "counts": {
+        "atlas_roots": 30,
+        "common": 62,
+        "extra_nn": 359,
+        "games": 12,
+        "moves": 139,
+        "nn": 1653,
+        "teacher_calls": 12,
+        "teacher_nn": 1548
+      },
+      "file": "TRAIN_41_3.jsonl.gz",
+      "sha256": "aad79ea2e502630fc320fd9f7d29c3826e8e10d7f9458aabc00032d470b5c323"
+    },
+    {
+      "counts": {
+        "atlas_roots": 20,
+        "common": 47,
+        "extra_nn": 240,
+        "games": 12,
+        "moves": 107,
+        "nn": 1325,
+        "teacher_calls": 2,
+        "teacher_nn": 258
+      },
+      "file": "TRAIN_105_1.jsonl.gz",
+      "sha256": "e71be55c135c1187a66e49c3cfa91fab9c80cb3ca8df54a0388eb9a2ffe8c1fb"
+    },
+    {
+      "counts": {
+        "atlas_roots": 27,
+        "common": 55,
+        "extra_nn": 324,
+        "games": 12,
+        "moves": 129,
+        "nn": 1693,
+        "teacher_calls": 6,
+        "teacher_nn": 774
+      },
+      "file": "TRAIN_105_3.jsonl.gz",
+      "sha256": "8c6a4d61ffa081fb9a6cf98156fa19f304a28bfa4a70f736e0ebf7338f9dc271"
+    },
+    {
+      "counts": {
+        "atlas_roots": 26,
+        "common": 45,
+        "extra_nn": 312,
+        "games": 12,
+        "moves": 108,
+        "nn": 1503,
+        "teacher_calls": 18,
+        "teacher_nn": 2322
+      },
+      "file": "TRAIN_103_2.jsonl.gz",
+      "sha256": "d937d68cc9a406cd18d4bcdf9dd47a9431f389d5c327784507ca8b2cbe5ded37"
+    }
+  ],
+  "mask_or_cap": null,
+  "plan": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201",
+  "source": "5b84f2d4aa79178cd1036bbfb4b161658b29586e6ae9842f3a1fbd45478de889"
+}
