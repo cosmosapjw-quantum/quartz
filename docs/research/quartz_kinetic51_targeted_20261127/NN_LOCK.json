@@ -1,0 +1,556 @@
+{
+  "binary": "686784dd17f6ad8fe74fd56b97ec2c499110f59c3dbe09731e7d25d601e1bd4f",
+  "bridge": "42b54459d304a2066ef035c865dd6ff9d724fba315f5b9ed0e60ce96011f5f85",
+  "counts": {
+    "common": 7645,
+    "episodes": 672,
+    "games": 2016,
+    "global_changed": 48,
+    "global_delta2": -4,
+    "global_local_nn": 2400,
+    "global_reached": 200,
+    "moves": 14713,
+    "nn": 164754,
+    "target_changed": 105,
+    "target_delta2": 16,
+    "target_local_nn": 2398,
+    "target_reached": 200
+  },
+  "files": [
+    {
+      "counts": {
+        "common": 238,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 1,
+        "global_delta2": -2,
+        "global_local_nn": 96,
+        "global_reached": 8,
+        "moves": 381,
+        "nn": 3678,
+        "target_changed": 6,
+        "target_delta2": 0,
+        "target_local_nn": 96,
+        "target_reached": 8
+      },
+      "file": "NN_42_0.jsonl.gz",
+      "sha256": "96e480f84773834fa45ea2eda522acf45274627fd4ff86e5e97661dbcaea2f66"
+    },
+    {
+      "counts": {
+        "common": 242,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 2,
+        "global_delta2": 0,
+        "global_local_nn": 48,
+        "global_reached": 4,
+        "moves": 342,
+        "nn": 2130,
+        "target_changed": 2,
+        "target_delta2": 0,
+        "target_local_nn": 48,
+        "target_reached": 4
+      },
+      "file": "NN_103_2.jsonl.gz",
+      "sha256": "2ccecf08cb7f4e4be2f0ba9799efe3676daf831cac185fd3fb8e3a9c547cf86f"
+    },
+    {
+      "counts": {
+        "common": 324,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 3,
+        "global_delta2": 0,
+        "global_local_nn": 180,
+        "global_reached": 15,
+        "moves": 846,
+        "nn": 13074,
+        "target_changed": 4,
+        "target_delta2": 0,
+        "target_local_nn": 180,
+        "target_reached": 15
+      },
+      "file": "NN_41_1.jsonl.gz",
+      "sha256": "967369880a5903466c8a7627ac08e7396974a91e90139ce11bdde3a15ba241bc"
+    },
+    {
+      "counts": {
+        "common": 259,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 12,
+        "global_reached": 1,
+        "moves": 448,
+        "nn": 4119,
+        "target_changed": 1,
+        "target_delta2": 2,
+        "target_local_nn": 12,
+        "target_reached": 1
+      },
+      "file": "NN_43_0.jsonl.gz",
+      "sha256": "960f57bca4149863272fa0ba48f1256539c93e59326287e81443391a6e5f167c"
+    },
+    {
+      "counts": {
+        "common": 255,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 2,
+        "global_delta2": 0,
+        "global_local_nn": 84,
+        "global_reached": 7,
+        "moves": 426,
+        "nn": 3945,
+        "target_changed": 3,
+        "target_delta2": 0,
+        "target_local_nn": 84,
+        "target_reached": 7
+      },
+      "file": "NN_41_0.jsonl.gz",
+      "sha256": "7f460847beaf4bb0ac8f2d458f4160a3e976f4850d8e855f2e9fefc390211f73"
+    },
+    {
+      "counts": {
+        "common": 287,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 1,
+        "global_delta2": -2,
+        "global_local_nn": 192,
+        "global_reached": 16,
+        "moves": 577,
+        "nn": 7002,
+        "target_changed": 10,
+        "target_delta2": 4,
+        "target_local_nn": 192,
+        "target_reached": 16
+      },
+      "file": "NN_42_1.jsonl.gz",
+      "sha256": "26d562503a53cc5f42d55455453c118fd61855a89bb56836badf325034ed6c90"
+    },
+    {
+      "counts": {
+        "common": 219,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 12,
+        "global_reached": 1,
+        "moves": 318,
+        "nn": 2328,
+        "target_changed": 1,
+        "target_delta2": 0,
+        "target_local_nn": 12,
+        "target_reached": 1
+      },
+      "file": "NN_101_0.jsonl.gz",
+      "sha256": "c4ba9235eefc0c0fbe064a4ed4d9c0d7d9069f6605470fdd48525c5acfa5bdf2"
+    },
+    {
+      "counts": {
+        "common": 313,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 96,
+        "global_reached": 8,
+        "moves": 692,
+        "nn": 8556,
+        "target_changed": 5,
+        "target_delta2": 2,
+        "target_local_nn": 96,
+        "target_reached": 8
+      },
+      "file": "NN_105_1.jsonl.gz",
+      "sha256": "7f3d574cb7553daf276276ee00288c3eb591bea71a213604b6e33b6791e5c3cf"
+    },
+    {
+      "counts": {
+        "common": 285,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 1,
+        "global_delta2": 2,
+        "global_local_nn": 216,
+        "global_reached": 18,
+        "moves": 569,
+        "nn": 6651,
+        "target_changed": 5,
+        "target_delta2": 2,
+        "target_local_nn": 216,
+        "target_reached": 18
+      },
+      "file": "NN_42_3.jsonl.gz",
+      "sha256": "73257f248802f45afe9f9de3fcac1717bf9ec37a11558f05701d498d2b4b0c25"
+    },
+    {
+      "counts": {
+        "common": 325,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 6,
+        "global_delta2": -2,
+        "global_local_nn": 216,
+        "global_reached": 18,
+        "moves": 790,
+        "nn": 11166,
+        "target_changed": 10,
+        "target_delta2": 0,
+        "target_local_nn": 216,
+        "target_reached": 18
+      },
+      "file": "NN_103_3.jsonl.gz",
+      "sha256": "a1b0aba514f58c9b25b4d2d26f7ea43d29b92880578e2db705b54eef739f32bc"
+    },
+    {
+      "counts": {
+        "common": 291,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 96,
+        "global_reached": 8,
+        "moves": 596,
+        "nn": 6867,
+        "target_changed": 7,
+        "target_delta2": 2,
+        "target_local_nn": 96,
+        "target_reached": 8
+      },
+      "file": "NN_101_1.jsonl.gz",
+      "sha256": "b8ec69e2839fd16e9bfa646ef77058e98f878ca4b8a1f019e4965e276d96872a"
+    },
+    {
+      "counts": {
+        "common": 314,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 2,
+        "global_delta2": 0,
+        "global_local_nn": 48,
+        "global_reached": 4,
+        "moves": 727,
+        "nn": 9129,
+        "target_changed": 3,
+        "target_delta2": 0,
+        "target_local_nn": 48,
+        "target_reached": 4
+      },
+      "file": "NN_43_1.jsonl.gz",
+      "sha256": "0b2b3dc4597142e2e185568ca010b068be9f140156cefe452d720c4c61c3dad5"
+    },
+    {
+      "counts": {
+        "common": 219,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 24,
+        "global_reached": 2,
+        "moves": 266,
+        "nn": 1128,
+        "target_changed": 1,
+        "target_delta2": 0,
+        "target_local_nn": 24,
+        "target_reached": 2
+      },
+      "file": "NN_101_2.jsonl.gz",
+      "sha256": "7e4b4c4495eefbb728d26785eb3a690fd5294140e3c11982cc1531d1818e4482"
+    },
+    {
+      "counts": {
+        "common": 325,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 84,
+        "global_reached": 7,
+        "moves": 728,
+        "nn": 9468,
+        "target_changed": 4,
+        "target_delta2": 2,
+        "target_local_nn": 84,
+        "target_reached": 7
+      },
+      "file": "NN_105_3.jsonl.gz",
+      "sha256": "f055aed07b56f94b817fec0a92a3c60e1102bb7cf6150b7edd794c2db0834cb2"
+    },
+    {
+      "counts": {
+        "common": 319,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 3,
+        "global_delta2": 0,
+        "global_local_nn": 216,
+        "global_reached": 18,
+        "moves": 805,
+        "nn": 11532,
+        "target_changed": 3,
+        "target_delta2": 0,
+        "target_local_nn": 216,
+        "target_reached": 18
+      },
+      "file": "NN_41_3.jsonl.gz",
+      "sha256": "668c393f9d7a615130d79fd74f15f406ffc2d7527ab7765b84273bd00583b32a"
+    },
+    {
+      "counts": {
+        "common": 302,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 4,
+        "global_delta2": -2,
+        "global_local_nn": 96,
+        "global_reached": 8,
+        "moves": 659,
+        "nn": 8257,
+        "target_changed": 5,
+        "target_delta2": -2,
+        "target_local_nn": 94,
+        "target_reached": 8
+      },
+      "file": "NN_102_1.jsonl.gz",
+      "sha256": "6f535d1407705fdc49822e54e4d3356f7e801bca08449180499d214c16eec7b4"
+    },
+    {
+      "counts": {
+        "common": 323,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 8,
+        "global_delta2": 2,
+        "global_local_nn": 192,
+        "global_reached": 16,
+        "moves": 835,
+        "nn": 12549,
+        "target_changed": 12,
+        "target_delta2": -2,
+        "target_local_nn": 192,
+        "target_reached": 16
+      },
+      "file": "NN_103_1.jsonl.gz",
+      "sha256": "556746f6e4101253986ce5a564d8f430f3d7d7475730a0d008e77433ef98b253"
+    },
+    {
+      "counts": {
+        "common": 306,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 24,
+        "global_reached": 2,
+        "moves": 642,
+        "nn": 7218,
+        "target_changed": 0,
+        "target_delta2": 0,
+        "target_local_nn": 24,
+        "target_reached": 2
+      },
+      "file": "NN_43_3.jsonl.gz",
+      "sha256": "6c80a21bd48bf3990a5a5628057c988180d021cebbdc5f7cf5106fe56f1ffd63"
+    },
+    {
+      "counts": {
+        "common": 285,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 7,
+        "global_delta2": 0,
+        "global_local_nn": 96,
+        "global_reached": 8,
+        "moves": 596,
+        "nn": 7082,
+        "target_changed": 6,
+        "target_delta2": 2,
+        "target_local_nn": 96,
+        "target_reached": 8
+      },
+      "file": "NN_102_3.jsonl.gz",
+      "sha256": "c00d79e0afc352651893a15cf14316d23f057d8d773eb453f31effd35080195d"
+    },
+    {
+      "counts": {
+        "common": 235,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 1,
+        "global_delta2": 0,
+        "global_local_nn": 24,
+        "global_reached": 2,
+        "moves": 378,
+        "nn": 3648,
+        "target_changed": 2,
+        "target_delta2": 0,
+        "target_local_nn": 24,
+        "target_reached": 2
+      },
+      "file": "NN_102_0.jsonl.gz",
+      "sha256": "471e0482d21cd3bdd7d55ae6d35c416e3083a396dbf11026cce85e03548c8871"
+    },
+    {
+      "counts": {
+        "common": 269,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 12,
+        "global_reached": 1,
+        "moves": 446,
+        "nn": 3873,
+        "target_changed": 1,
+        "target_delta2": 0,
+        "target_local_nn": 12,
+        "target_reached": 1
+      },
+      "file": "NN_105_0.jsonl.gz",
+      "sha256": "6c2beb0584d29d097e286a1bfb5e688526fe5c9d740a17b04f40078b28c77e9f"
+    },
+    {
+      "counts": {
+        "common": 273,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 3,
+        "global_delta2": 0,
+        "global_local_nn": 96,
+        "global_reached": 8,
+        "moves": 464,
+        "nn": 4005,
+        "target_changed": 3,
+        "target_delta2": 0,
+        "target_local_nn": 96,
+        "target_reached": 8
+      },
+      "file": "NN_103_0.jsonl.gz",
+      "sha256": "fc0b618e9dfb10892ba5c98a05561f700c41054de721527f0320c176c93af0c6"
+    },
+    {
+      "counts": {
+        "common": 239,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 24,
+        "global_reached": 2,
+        "moves": 328,
+        "nn": 2025,
+        "target_changed": 1,
+        "target_delta2": 0,
+        "target_local_nn": 24,
+        "target_reached": 2
+      },
+      "file": "NN_105_2.jsonl.gz",
+      "sha256": "60a2181a30fb246aaf017d5d87b90509727c1e6bebf683dacbf2a6e56a348ecd"
+    },
+    {
+      "counts": {
+        "common": 272,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 2,
+        "global_delta2": 0,
+        "global_local_nn": 72,
+        "global_reached": 6,
+        "moves": 543,
+        "nn": 5880,
+        "target_changed": 4,
+        "target_delta2": 4,
+        "target_local_nn": 72,
+        "target_reached": 6
+      },
+      "file": "NN_101_3.jsonl.gz",
+      "sha256": "b6662d2b9224a0bbb1f419b84d78329ca7e9115fcc6f77bbdcbf18d99ecfd234"
+    },
+    {
+      "counts": {
+        "common": 234,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 48,
+        "global_reached": 4,
+        "moves": 354,
+        "nn": 2886,
+        "target_changed": 0,
+        "target_delta2": 0,
+        "target_local_nn": 48,
+        "target_reached": 4
+      },
+      "file": "NN_41_2.jsonl.gz",
+      "sha256": "e74a16f337e18470f5db769ae0cb821771f034ac006fc17a3edf1d80110b55a1"
+    },
+    {
+      "counts": {
+        "common": 217,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 48,
+        "global_reached": 4,
+        "moves": 284,
+        "nn": 1851,
+        "target_changed": 3,
+        "target_delta2": 0,
+        "target_local_nn": 48,
+        "target_reached": 4
+      },
+      "file": "NN_42_2.jsonl.gz",
+      "sha256": "cf8f4724c2a7c5c753b7907701fa8d293a30496e6a7fb881bfd8c53ea275dd5f"
+    },
+    {
+      "counts": {
+        "common": 241,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 0,
+        "global_delta2": 0,
+        "global_local_nn": 24,
+        "global_reached": 2,
+        "moves": 344,
+        "nn": 2388,
+        "target_changed": 1,
+        "target_delta2": 0,
+        "target_local_nn": 24,
+        "target_reached": 2
+      },
+      "file": "NN_43_2.jsonl.gz",
+      "sha256": "5bb9030dbb0d2ae86f4d9c1a43ce0f35e93182671dcad7eb006280bbfb24d144"
+    },
+    {
+      "counts": {
+        "common": 234,
+        "episodes": 24,
+        "games": 72,
+        "global_changed": 2,
+        "global_delta2": 0,
+        "global_local_nn": 24,
+        "global_reached": 2,
+        "moves": 329,
+        "nn": 2319,
+        "target_changed": 2,
+        "target_delta2": 0,
+        "target_local_nn": 24,
+        "target_reached": 2
+      },
+      "file": "NN_102_2.jsonl.gz",
+      "sha256": "f7de5565842cb80d52a4ad6d2a8d49e4fb691947351020d4bd9c869028a43f42"
+    }
+  ],
+  "plan": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16",
+  "source": "a32fbcfa9fdd7bd082ad2bfe169e1ecdb551169553894e141018c275b6b8f9d0",
+  "target": "025d3a9156c216d347c7f58e2637e6fc3870d75aa709421c73edbc6c2b6e1b86"
+}
