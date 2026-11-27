@@ -209,3 +209,13 @@ mod k52_tests{
         assert_eq!(k52_candidate(4,&votes,&json!([[1,-1,0],[2,-1,-1],[3,-1,-1],[4,0,1]])),None);
     }
 }
+
+fn k53_new_mean(_samples:&[f64])->f64{0.0}
+#[cfg(test)]
+mod k53_tests{
+    use super::*;
+    #[test]fn k53_mean_sign_and_tie(){
+        assert!((k53_new_mean(&[0.5,0.5,-0.5,1.0,0.5])+0.4).abs()<1e-15);
+        assert_eq!(k53_new_mean(&[1.0,-1.0,0.0,0.0,0.0]),0.0);
+    }
+}
