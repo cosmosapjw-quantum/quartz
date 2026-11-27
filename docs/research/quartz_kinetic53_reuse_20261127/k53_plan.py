@@ -17,10 +17,13 @@ def family(h,n=7):
             out.append(r*n+c)
         z.append(tuple(sorted(out[::2])+sorted(out[1::2])))
     return min(z)
+def complete_arms(a,rng):
+    missing=set(("CONTROL","COLD","REUSE","MULTI"))-set(a);assert len(missing)==1
+    a.insert(rng.randrange(4),missing.pop());return a
 def plan():
     paths=[D.parent/f/'PLAN.json' for f in ('quartz_kinetic33_20261126','quartz_kinetic38_nnlock_20261126','quartz_kinetic39_voc_20261126','quartz_kinetic40_budget_20261126','quartz_kinetic41_exact_20261126','quartz_kinetic42_threshold_20261127','quartz_kinetic43_partial_20261127','quartz_kinetic44_incremental_20261127','quartz_kinetic45_sequential_20261127','quartz_kinetic46_confirm_20261127','quartz_kinetic47_native_20261127','quartz_kinetic48_voc_20261127','quartz_kinetic49_stability_20261127','quartz_kinetic50_intervention_20261127','quartz_kinetic51_targeted_20261127','quartz_kinetic52_confirm_20261127')]
     old=[json.loads(p.read_text()) for p in paths];seen={family(j['opening']) for x in old for j in x['jobs']}
-    prior=len(seen);rng=random.Random(SEED);jobs=[];models=old[-1]['models']
+    prior=len(seen);rng=random.Random(SEED);arm_rng=random.Random(SEED+5301);jobs=[];models=old[-1]['models']
     for m in models.values():assert sha(pathlib.Path(m['path']))==m['sha256']
     assert len({x['sha256'] for x in models.values()})==7
     for split,N in [('ARENA',48)]:
@@ -29,7 +32,7 @@ def plan():
             while True:
                 h=rng.sample(cells,4);f=family(h)
                 if f not in seen:break
-            seen.add(f);jobs.append(dict(id=len(jobs),split=split,opening=h,family=f,color_order=rng.sample([1,-1],2),arm_order=rng.sample(['CONTROL','COLD','REUSE','MULTI'],3)))
+            seen.add(f);jobs.append(dict(id=len(jobs),split=split,opening=h,family=f,color_order=rng.sample([1,-1],2),arm_order=complete_arms(rng.sample(['CONTROL','COLD','REUSE','MULTI'],3),arm_rng)))
     # Existing Rapfi historical discovery excludes its own K37 plan; include it explicitly.
     sys.path.insert(0,str(D.parent/'quartz_kinetic37_20261126'))
     import experiment as e
