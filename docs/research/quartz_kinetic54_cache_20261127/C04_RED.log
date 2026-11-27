@@ -1,0 +1,13 @@
+thread 'mcts_server::k47_nn::k54_tests::k54_exact_cache_full_key' (3921489) panicked at src/mcts_server/k47_nn.rs:269:9:
+assertion `left == right` failed
+  left: None
+ right: Some(([0.25, 0.75], 0.125))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    mcts_server::k47_nn::k54_tests::k54_exact_cache_full_key
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 746 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin mcts_demo`

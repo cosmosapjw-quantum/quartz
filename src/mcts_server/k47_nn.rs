@@ -6,10 +6,18 @@ use serde::Deserialize;
 use serde_json::{json,Value};
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>}
+struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct EvalReply{cmd:String,id:u32,a:u64,b:u64,p:i8,prior:Vec<f64>,value:f64}
+type EvalKey54=(u64,u64,i8,Vec<u16>);
+type EvalValue54=(Vec<f64>,f64);
+#[derive(Default)]
+struct ExactCache54{data:std::collections::HashMap<EvalKey54,EvalValue54>}
+impl ExactCache54{
+    fn lookup(&self,_key:&EvalKey54)->Option<EvalValue54>{None}
+    fn insert(&mut self,key:EvalKey54,v:EvalValue54){self.data.insert(key,v);}
+}
 struct External{calls:u32,trace:Vec<Value>,traced:bool}
 impl External{
     fn eval(&mut self,a:u64,b:u64,p:i8,legal:&[u16])->Result<(Vec<f64>,f64),String>{
@@ -248,5 +256,19 @@ mod k53_tests{
     #[test]fn k53_mean_sign_and_tie(){
         assert!((k53_new_mean(&[0.5,0.5,-0.5,1.0,0.5])+0.4).abs()<1e-15);
         assert_eq!(k53_new_mean(&[1.0,-1.0,0.0,0.0,0.0]),0.0);
+    }
+}
+
+
+#[cfg(test)]
+mod k54_tests{
+    use super::*;
+    #[test]fn k54_exact_cache_full_key(){
+        let mut c=ExactCache54::default();let k=(1,2,-1,vec![3,4]);let v=(vec![0.25,0.75],0.125);
+        assert!(c.lookup(&k).is_none());c.insert(k.clone(),v.clone());
+        assert_eq!(c.lookup(&k),Some(v));
+        assert!(c.lookup(&(1,2,1,vec![3,4])).is_none());
+        assert!(c.lookup(&(1,2,-1,vec![4,3])).is_none());
+        assert!(c.lookup(&(2,1,-1,vec![3,4])).is_none());
     }
 }
