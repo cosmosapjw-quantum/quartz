@@ -1,0 +1,28 @@
+FF
+======================================================================
+FAIL: test_first (__main__.Test.test_first)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic50_intervention_20261127/docs/research/quartz_kinetic50_intervention_20261127/test50.py", line 8, in test_first
+    self.assertEqual(request_mask(0,1,'EXTEND'),255)
+AssertionError: None != 255
+
+======================================================================
+FAIL: test_ordinal (__main__.Test.test_ordinal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic50_intervention_20261127/docs/research/quartz_kinetic50_intervention_20261127/test50.py", line 5, in test_ordinal
+    self.assertEqual([request_mask(i,2,'EXTEND') for i in range(3)],[0,255,None])
+AssertionError: Lists differ: [None, None, None] != [0, 255, None]
+
+First differing element 0:
+None
+0
+
+- [None, None, None]
++ [0, 255, None]
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=2)
