@@ -1,0 +1,153 @@
+{
+  "admitted": false,
+  "cal": {
+    "bins": [
+      {
+        "changed": 0,
+        "cost": 54,
+        "gain": 0.0,
+        "mean": 0.0,
+        "mean_negative": null,
+        "mean_positive": null,
+        "n": 8,
+        "negative": 0,
+        "positive": 0,
+        "visits": 54,
+        "wall_ns": 197134852
+      },
+      {
+        "changed": 0,
+        "cost": 588,
+        "gain": 0.0,
+        "mean": 0.0,
+        "mean_negative": null,
+        "mean_positive": null,
+        "n": 49,
+        "negative": 0,
+        "positive": 0,
+        "visits": 588,
+        "wall_ns": 1557304778
+      },
+      {
+        "changed": 0,
+        "cost": 0,
+        "gain": 0.0,
+        "mean": null,
+        "mean_negative": null,
+        "mean_positive": null,
+        "n": 0,
+        "negative": 0,
+        "positive": 0,
+        "visits": 0,
+        "wall_ns": 0
+      },
+      {
+        "changed": 35,
+        "cost": 1476,
+        "gain": -0.00481307923716183,
+        "mean": -3.913072550538073e-05,
+        "mean_negative": 0.0011100538697699839,
+        "mean_positive": 0.00036989422609034675,
+        "n": 123,
+        "negative": 12,
+        "positive": 23,
+        "visits": 1476,
+        "wall_ns": 3825685617
+      },
+      {
+        "changed": 0,
+        "cost": 12,
+        "gain": 0.0,
+        "mean": 0.0,
+        "mean_negative": null,
+        "mean_positive": null,
+        "n": 2,
+        "negative": 0,
+        "positive": 0,
+        "visits": 12,
+        "wall_ns": 63257776
+      },
+      {
+        "changed": 6,
+        "cost": 120,
+        "gain": 0.00014568911865353584,
+        "mean": 1.4568911865353584e-05,
+        "mean_negative": 0.0002921381965279579,
+        "mean_positive": 0.00034070123607913655,
+        "n": 10,
+        "negative": 3,
+        "positive": 3,
+        "visits": 120,
+        "wall_ns": 232255818
+      },
+      {
+        "changed": 0,
+        "cost": 0,
+        "gain": 0.0,
+        "mean": null,
+        "mean_negative": null,
+        "mean_positive": null,
+        "n": 0,
+        "negative": 0,
+        "positive": 0,
+        "visits": 0,
+        "wall_ns": 0
+      },
+      {
+        "changed": 18,
+        "cost": 552,
+        "gain": -0.08937921779771374,
+        "mean": -0.001943026473863342,
+        "mean_negative": 0.008181014792735712,
+        "mean_positive": 8.74207031970113e-05,
+        "n": 46,
+        "negative": 11,
+        "positive": 7,
+        "visits": 552,
+        "wall_ns": 2020292110
+      }
+    ],
+    "constant_fraction": 0.19700214132762311,
+    "constant_gain": -0.018527383144095133,
+    "excess_gain": -0.0708518346536186,
+    "mean_excess_CI": [
+      -0.0008059863688017685,
+      4.8209491786241415e-06
+    ],
+    "positive_excess": false,
+    "predictive_mse": {
+      "bin": 3.058757841636147e-05,
+      "constant": 2.9539215564886633e-05,
+      "disagreement": 2.9650757345463644e-05
+    },
+    "selected": {
+      "changed": 18,
+      "cost": 552,
+      "gain": -0.08937921779771374,
+      "mean": -0.001943026473863342,
+      "mean_negative": 0.008181014792735712,
+      "mean_positive": 8.74207031970113e-05,
+      "n": 46,
+      "negative": 11,
+      "positive": 7,
+      "visits": 552,
+      "wall_ns": 2020292110
+    },
+    "total": {
+      "changed": 59,
+      "cost": 2802,
+      "gain": -0.09404660791622205,
+      "mean": -0.0003951538147740422,
+      "mean_negative": 0.004007239374881404,
+      "mean_positive": 0.0003073216918392262,
+      "n": 238,
+      "negative": 26,
+      "positive": 33,
+      "visits": 2802,
+      "wall_ns": 7895930951
+    }
+  },
+  "exploratory_mask": 128,
+  "frozen_sha": "e68dfff6a27bc05078bde97a0265870ded38dccf2b536a80fdf84db2a18cd299",
+  "mask": 0
+}
