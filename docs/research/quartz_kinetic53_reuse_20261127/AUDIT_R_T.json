@@ -1,0 +1,54 @@
+{
+  "audit": {
+    "common": 680,
+    "edges": 620363,
+    "proof_queries": 1838662,
+    "proof_receipts": 1760,
+    "rapfi_children": 152,
+    "rapfi_events": 76,
+    "rapfi_local_nn": 912,
+    "rapfi_switch": 29,
+    "votes": 3266,
+    "wave_receipts": 3266,
+    "waves": 37554
+  },
+  "counts": {
+    "changed": 29,
+    "common": 680,
+    "events": 76,
+    "extra": 912,
+    "games": 128,
+    "moves": 4125,
+    "nn": 328715
+  },
+  "independent": {
+    "bound_cells": 333202,
+    "new_loss_facts": 97873,
+    "new_win_facts": 62,
+    "partial_cert": 179,
+    "partial_receipts": 1760,
+    "queries": 1838662
+  },
+  "natural_exact": [],
+  "pair": {},
+  "panels": {
+    "all": {
+      "Bcpu": 67628972152,
+      "Bmoves": 2063,
+      "Bnn": 199087,
+      "Bwall": 119774410057,
+      "Qcpu": 51223656346,
+      "Qmoves": 2062,
+      "Qnn": 129628,
+      "Qwall": 88317513435,
+      "cert": 179,
+      "draws": 2,
+      "games": 128,
+      "losses": 64,
+      "queries": 1838662,
+      "replacement": 82,
+      "score2": 126,
+      "wins": 62
+    }
+  }
+}
