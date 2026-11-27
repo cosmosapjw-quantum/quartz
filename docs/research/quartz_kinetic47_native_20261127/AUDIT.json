@@ -1,0 +1,256 @@
+{
+  "counts": {
+    "common": 2749,
+    "edges": 108523,
+    "independent_bound_cells": 334437,
+    "independent_common": 616,
+    "independent_legal_edges": 483140,
+    "independent_new_loss_facts": 115347,
+    "independent_new_win_facts": 540,
+    "independent_partial_cert": 749,
+    "independent_partial_receipts": 3110,
+    "independent_queries": 1817092,
+    "independent_vote_rows": 2533,
+    "proof_queries": 1817092,
+    "proof_receipts": 3110,
+    "votes": 2586
+  },
+  "modes": {
+    "NN_LOW": {
+      "audit": {
+        "common": 2749,
+        "edges": 108523,
+        "proof_queries": 265748,
+        "proof_receipts": 1725,
+        "votes": 2586
+      },
+      "counts": {
+        "common": 2749,
+        "games": 672,
+        "moves": 5911,
+        "nn": 70764
+      },
+      "independent": {
+        "bound_cells": 70249,
+        "new_loss_facts": 13142,
+        "new_win_facts": 482,
+        "partial_cert": 576,
+        "partial_receipts": 1725,
+        "queries": 265748
+      },
+      "per_seed": {
+        "101": {
+          "Bcpu": 17092189557,
+          "Bmoves": 328,
+          "Bnn": 5082,
+          "Bwall": 17117330811,
+          "Qcpu": 5893491759,
+          "Qmoves": 356,
+          "Qnn": 1715,
+          "Qwall": 5901083479,
+          "attempts": 166,
+          "cert": 59,
+          "draws": 0,
+          "games": 96,
+          "losses": 20,
+          "proof_wall": 22542761,
+          "queries": 27638,
+          "replacement": 36,
+          "score2": 152,
+          "wins": 76
+        },
+        "102": {
+          "Bcpu": 21730230107,
+          "Bmoves": 387,
+          "Bnn": 6237,
+          "Bwall": 21765862180,
+          "Qcpu": 10165072753,
+          "Qmoves": 414,
+          "Qnn": 2922,
+          "Qwall": 10187253793,
+          "attempts": 222,
+          "cert": 77,
+          "draws": 0,
+          "games": 96,
+          "losses": 21,
+          "proof_wall": 29177748,
+          "queries": 34519,
+          "replacement": 41,
+          "score2": 150,
+          "wins": 75
+        },
+        "103": {
+          "Bcpu": 28991231732,
+          "Bmoves": 473,
+          "Bnn": 8448,
+          "Bwall": 29060308507,
+          "Qcpu": 15993031322,
+          "Qmoves": 508,
+          "Qnn": 4557,
+          "Qwall": 16056272594,
+          "attempts": 311,
+          "cert": 94,
+          "draws": 0,
+          "games": 96,
+          "losses": 13,
+          "proof_wall": 44102516,
+          "queries": 48917,
+          "replacement": 37,
+          "score2": 166,
+          "wins": 83
+        },
+        "105": {
+          "Bcpu": 23684282990,
+          "Bmoves": 418,
+          "Bnn": 6831,
+          "Bwall": 23804260227,
+          "Qcpu": 12008192893,
+          "Qmoves": 445,
+          "Qnn": 3385,
+          "Qwall": 12034025849,
+          "attempts": 255,
+          "cert": 88,
+          "draws": 0,
+          "games": 96,
+          "losses": 21,
+          "proof_wall": 35918512,
+          "queries": 47734,
+          "replacement": 28,
+          "score2": 150,
+          "wins": 75
+        },
+        "41": {
+          "Bcpu": 13843480000,
+          "Bmoves": 476,
+          "Bnn": 8316,
+          "Bwall": 13846044755,
+          "Qcpu": 7740069701,
+          "Qmoves": 511,
+          "Qnn": 4557,
+          "Qwall": 7733644631,
+          "attempts": 322,
+          "cert": 105,
+          "draws": 0,
+          "games": 96,
+          "losses": 13,
+          "proof_wall": 39189333,
+          "queries": 43184,
+          "replacement": 27,
+          "score2": 166,
+          "wins": 83
+        },
+        "42": {
+          "Bcpu": 9388773674,
+          "Bmoves": 362,
+          "Bnn": 5808,
+          "Bwall": 9387391351,
+          "Qcpu": 5021193670,
+          "Qmoves": 390,
+          "Qnn": 2982,
+          "Qwall": 5018678634,
+          "attempts": 210,
+          "cert": 68,
+          "draws": 0,
+          "games": 96,
+          "losses": 20,
+          "proof_wall": 26924879,
+          "queries": 30073,
+          "replacement": 35,
+          "score2": 152,
+          "wins": 76
+        },
+        "43": {
+          "Bcpu": 10455284130,
+          "Bmoves": 404,
+          "Bnn": 6699,
+          "Bwall": 10467905451,
+          "Qcpu": 5017984233,
+          "Qmoves": 439,
+          "Qnn": 3225,
+          "Qwall": 5027191486,
+          "attempts": 239,
+          "cert": 85,
+          "draws": 0,
+          "games": 96,
+          "losses": 13,
+          "proof_wall": 27127085,
+          "queries": 33683,
+          "replacement": 28,
+          "score2": 166,
+          "wins": 83
+        }
+      }
+    },
+    "R_ARENA": {
+      "audit": {
+        "proof_queries": 1551344,
+        "proof_receipts": 1385
+      },
+      "counts": {
+        "common": 616,
+        "games": 128,
+        "moves": 3322,
+        "nn": 280066
+      },
+      "independent": {
+        "bound_cells": 264188,
+        "common": 616,
+        "legal_edges": 483140,
+        "new_loss_facts": 102205,
+        "new_win_facts": 58,
+        "partial_cert": 173,
+        "partial_receipts": 1385,
+        "queries": 1551344,
+        "vote_rows": 2533
+      },
+      "per_seed": {
+        "0": {
+          "Bcpu": 35382399133,
+          "Bmoves": 1660,
+          "Bnn": 153456,
+          "Bwall": 34896582289,
+          "Qcpu": 32467174068,
+          "Qmoves": 1662,
+          "Qnn": 126610,
+          "Qwall": 31944196667,
+          "attempts": 1385,
+          "cert": 173,
+          "draws": 2,
+          "games": 128,
+          "losses": 61,
+          "proof_wall": 1738427324,
+          "queries": 1551344,
+          "replacement": 86,
+          "score2": 132,
+          "wins": 65
+        }
+      }
+    }
+  },
+  "natural_exact": {
+    "complete": 0,
+    "roots": 0
+  },
+  "parity": {
+    "NN_requests": 112,
+    "NN_rows": 2500,
+    "Rapfi_requests": 96,
+    "Rapfi_rows": 10518,
+    "late_complete": 377,
+    "late_truth": 240,
+    "proof_requests": 2873
+  },
+  "risk": {
+    "cpu_ns": 107542036378,
+    "negative": 297,
+    "nn": 34814,
+    "roots": 2349,
+    "teacher_calls": 1056
+  },
+  "scope": "independent coordinate/integer forcing, chronological votes, all raw cost and game aggregates; independent risk receipt and proof parity archive audit; bootstrap separately",
+  "total": {
+    "games": 800,
+    "moves": 9233,
+    "nn": 350830
+  }
+}
