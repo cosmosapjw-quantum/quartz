@@ -1,0 +1,53 @@
+{
+  "counts": {
+    "EARLY": {
+      "censored_queries": 935,
+      "completed_queries": 10,
+      "cpu_ns": 54554769020,
+      "hits": 59702097,
+      "nodes": 93657920,
+      "nonnegative_lower": 284,
+      "observations": 379,
+      "point_gain": 6,
+      "rows": 379,
+      "strict_negative": 0,
+      "strict_positive": 4,
+      "sum_gain2_hi_after": 752,
+      "sum_gain2_hi_before": 758,
+      "sum_gain2_lo_after": -183,
+      "sum_gain2_lo_before": -190,
+      "tightened": 7,
+      "tightened_observations": 7,
+      "width_after": 935,
+      "width_before": 948
+    },
+    "LATE": {
+      "censored_queries": 0,
+      "completed_queries": 1144,
+      "cpu_ns": 173282859,
+      "hits": 261176,
+      "nodes": 568856,
+      "nonnegative_lower": 322,
+      "observations": 384,
+      "point_gain": 384,
+      "rows": 384,
+      "strict_negative": 62,
+      "strict_positive": 49,
+      "sum_gain2_hi_after": -9,
+      "sum_gain2_hi_before": 768,
+      "sum_gain2_lo_after": -9,
+      "sum_gain2_lo_before": -768,
+      "tightened": 384,
+      "tightened_observations": 384,
+      "truth_known": 377,
+      "truth_point": 377,
+      "width_after": 0,
+      "width_before": 1536
+    }
+  },
+  "file": "PAIR_RESULT.jsonl.gz",
+  "library": "33f1e802f064d1e267f46110efa95e0195f46a6fb5b2a1994af837e37bd591ce",
+  "plan": "4d33500d198af513d7c6c38412dde0f9b489cd5f68017954c254bf3129ed3f7c",
+  "sha256": "97d33dc0038f6233e503d8902a1f80fdf6bbcb98b819aee09563c3eba36ddbf6",
+  "source": "fc36c41a4af0aabf7641bff678ae5962a48f0ddb742a61ab8020cf7b91e99c06"
+}
