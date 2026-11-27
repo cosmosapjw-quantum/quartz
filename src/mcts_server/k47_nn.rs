@@ -6,7 +6,7 @@ use serde::Deserialize;
 use serde_json::{json,Value};
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool}
+struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct EvalReply{cmd:String,id:u32,a:u64,b:u64,p:i8,prior:Vec<f64>,value:f64}
@@ -72,7 +72,8 @@ pub(super) fn parse_history(h:&[u16],n:usize)->Result<Vec<u8>,String>{
 pub(super) fn oriented(b:&[u8],p:u8)->Vec<u8>{b.iter().map(|&x|if x==0{0}else if x==p{1}else{2}).collect()}
 fn inner(line:&str)->Result<Value,String>{
     let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    if q.cmd!="research_gomoku7_k47"||(!q.quartz&&q.cap!=32)||(q.quartz&&q.cap!=20&&q.cap!=32){return Err("invalid K47 NN request".into())}
+    let k48=q.cmd=="research_gomoku7_k48";
+    if !(q.cmd=="research_gomoku7_k47"||k48)||(!q.quartz&&q.cap!=32)||(q.quartz&&q.cap!=20&&q.cap!=32)||(!k48&&(q.atlas||q.mask.is_some()))||(k48&&(!q.quartz||q.cap!=20||q.atlas==q.mask.is_some())){return Err("invalid K47/K48 NN request".into())}
     let started=Instant::now();let b=parse_history(&q.history,7)?;
     let p=1-2*(q.history.len()%2) as i8;let ob=oriented(&b,if p==1{1}else{2});
     let mut a=0;let mut bb=0;for (m,&x) in b.iter().enumerate(){if x==1{a|=1u64<<m}else if x==2{bb|=1u64<<m}}
@@ -93,17 +94,31 @@ fn inner(line:&str)->Result<Value,String>{
         let mut ev=External{calls:0,trace:vec![],traced:q.trace};let mut root=Node::new(a,bb,p);
         let (_,term)=root.expand(&mut ev)?;assert!(!term);
         let mut n=0;let mut terminal=0;
-        while n<q.cap{
-            if q.quartz&&distance(root.edges.as_ref().unwrap())>q.cap-n{break}
-            let (_,t)=root.visit(&mut ev)?;n+=1;terminal+=u32::from(t);
+        let snap=|root:&Node,ev:&External,n:u32,terminal:u32,cap:u32|->Value{
+            let es=root.edges.as_ref().unwrap();
+            assert_eq!(es.iter().map(|e|e.n).sum::<u32>(),n);assert_eq!(ev.calls,1+n-terminal);
+            let m=es[leader(es)].m;let votes:Vec<_>=es.iter().map(|e|(e.m,e.n)).collect();
+            let mut pi=0;for i in 1..es.len(){if es[i].prior>es[pi].prior{pi=i}}
+            let mv=if q.quartz{pf::replace(m,&votes,&part["bounds"],7)}else{m};
+            json!({"move":mv,"original_move":m,"replacement":mv!=m,"kind":if n<cap{"VOTE_LOCK"}else{"CAP"},"proof":"UNRESOLVED","nn":ev.calls,"visits":n,"terminal_leaves":terminal,"votes":votes,"distance":distance(es),"prior_best":es[pi].m,"cap":cap})
+        };
+        let mut horizon=q.cap;
+        loop{
+            while n<horizon{
+                if q.quartz&&distance(root.edges.as_ref().unwrap())>horizon-n{break}
+                let (_,t)=root.visit(&mut ev)?;n+=1;terminal+=u32::from(t);
+            }
+            if !k48||horizon==32{break}
+            let low=snap(&root,&ev,n,terminal,20);
+            let z=usize::from(low["distance"].as_u64().unwrap()<=3)+2*usize::from(low["original_move"]!=low["prior_best"])+4*usize::from(part["bounds"].as_array().unwrap().iter().any(|r|r[2]==-1));
+            let extend=k48_extend(q.atlas,q.mask,z);
+            out["low"]=low;out["bin"]=json!(z);out["extended"]=json!(extend);out["low_wall_ns"]=json!(started.elapsed().as_nanos() as u64);
+            if !extend{break}horizon=32;
         }
-        let es=root.edges.as_ref().unwrap();assert_eq!(es.iter().map(|e|e.n).sum::<u32>(),n);assert_eq!(ev.calls,1+n-terminal);
-        let m=es[leader(es)].m;let votes:Vec<_>=es.iter().map(|e|(e.m,e.n)).collect();
-        let mut pi=0;for i in 1..es.len(){if es[i].prior>es[pi].prior{pi=i}}
-        let mv=if q.quartz{pf::replace(m,&votes,&part["bounds"],7)}else{m};
-        out["move"]=json!(mv);out["original_move"]=json!(m);out["replacement"]=json!(mv!=m);
-        out["kind"]=json!(if n<q.cap{"VOTE_LOCK"}else{"CAP"});out["proof"]=json!("UNRESOLVED");out["nn"]=json!(ev.calls);out["visits"]=json!(n);
-        out["terminal_leaves"]=json!(terminal);out["votes"]=json!(votes);out["distance"]=json!(distance(es));out["prior_best"]=json!(es[pi].m);
+        let final_snap=snap(&root,&ev,n,terminal,horizon);
+        let chosen=if q.atlas{out["high"]=final_snap;out["low"].clone()}else{final_snap};
+        for (k,v) in chosen.as_object().unwrap(){out[k]=v.clone()}
+        if k48{out["physical_nn"]=json!(ev.calls);out["mask"]=json!(q.mask);out["atlas"]=json!(q.atlas)}
         out["partial"]=if q.quartz{part.take()}else{Value::Null};if q.trace{out["eval_trace"]=json!(ev.trace)}
     }
     if q.trace&&out.get("eval_trace").is_none(){out["eval_trace"]=json!([])}
@@ -124,7 +139,7 @@ pub(super) fn inspect(line:&str)->Value{
     };f().unwrap_or_else(|e|json!({"error":e}))
 }
 
-fn k48_extend(_atlas:bool,_mask:Option<u8>,_z:usize)->bool{false}
+fn k48_extend(atlas:bool,mask:Option<u8>,z:usize)->bool{atlas||mask.is_some_and(|m|(m>>z)&1==1)}
 #[cfg(test)]
 mod k48_tests {
     use super::*;

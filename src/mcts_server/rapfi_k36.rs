@@ -6,8 +6,8 @@ struct Request36{cmd:String,history:Vec<u16>,cap:Option<u32>,horizons:Option<[u3
 fn valid_cap(h:u32)->bool{matches!(h,80|96|112|128|256)}
 fn inner(line:&str)->Result<Value,String>{
     let started=Instant::now();let q:Request36=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    let hybrid=q.cmd=="research_rapfi_k47";
-    if hybrid&&(q.cap!=Some(128)||!q.lock||q.horizons.is_some()){return Err("K47 Rapfi requires locked128".into());}
+    let hybrid=matches!(q.cmd.as_str(),"research_rapfi_k47"|"research_rapfi_k48");
+    if hybrid&&((q.cmd=="research_rapfi_k47"&&q.cap!=Some(128))||(q.cmd=="research_rapfi_k48"&&!q.cap.is_some_and(|v|matches!(v,80|96|112|128)))||!q.lock||q.horizons.is_some()){return Err("K47 Rapfi requires locked128".into());}
     if (!hybrid&&q.cmd!="research_rapfi_k36")||q.history.len()>224{return Err("bad K36 request".into());}
     if q.cap.is_some()==q.horizons.is_some()||q.cap.is_some_and(|h|!valid_cap(h))||q.horizons.is_some_and(|hs|hs.iter().any(|h|!valid_cap(*h)))||q.horizons.is_some()&&!q.lock{return Err("bad K36 options".into());}
     let(mut cap,locked,threads)=(q.cap.unwrap_or(256),q.lock,1usize);

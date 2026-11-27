@@ -2769,13 +2769,13 @@ pub fn serve() {
             continue;
         }
 
-        if cmd=="research_gomoku7_k47"||cmd=="research_k47_proof"{
-            let r=if cmd=="research_gomoku7_k47"{k47_nn::handle(&line)}else{k47_nn::inspect(&line)};
+        if matches!(cmd,"research_gomoku7_k47"|"research_gomoku7_k48"|"research_k47_proof"){
+            let r=if cmd!="research_k47_proof"{k47_nn::handle(&line)}else{k47_nn::inspect(&line)};
             emit_stdout_json_value(&r);
             if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
             continue;
         }
-        if cmd=="research_rapfi_k36"||cmd=="research_rapfi_k47"{
+        if matches!(cmd,"research_rapfi_k36"|"research_rapfi_k47"|"research_rapfi_k48"){
             emit_stdout_json_value(&rapfi_shared_cpu_server::handle_k36(&line));
             if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
             continue;
