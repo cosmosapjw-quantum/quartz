@@ -1,0 +1,439 @@
+{
+  "binary": "686784dd17f6ad8fe74fd56b97ec2c499110f59c3dbe09731e7d25d601e1bd4f",
+  "bridge": "2a5a538493d3fee6360ff8965597600a6d6e52b7c275b46f97f1fd6af1e03e04",
+  "counts": {
+    "changed": 57,
+    "common": 5344,
+    "delta2": -4,
+    "games": 1344,
+    "local_nn": 4375,
+    "moves": 11430,
+    "nn": 143423,
+    "pairs": 672,
+    "reached": 378
+  },
+  "files": [
+    {
+      "counts": {
+        "changed": 1,
+        "common": 221,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 216,
+        "moves": 488,
+        "nn": 6407,
+        "pairs": 24,
+        "reached": 18
+      },
+      "file": "TRAIN_105_1.jsonl.gz",
+      "sha256": "ee152b300c545931e5b94fbf70e2ffe7ea7416af4c2d8b34856b71e7f1423e54"
+    },
+    {
+      "counts": {
+        "changed": 0,
+        "common": 178,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 144,
+        "moves": 346,
+        "nn": 4038,
+        "pairs": 24,
+        "reached": 12
+      },
+      "file": "TRAIN_43_0.jsonl.gz",
+      "sha256": "d7f4c21756e114b13a8f063e28be416407997b6fa3a5bfd26c5393f3fa2cda65"
+    },
+    {
+      "counts": {
+        "changed": 4,
+        "common": 224,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 192,
+        "moves": 532,
+        "nn": 6969,
+        "pairs": 24,
+        "reached": 16
+      },
+      "file": "TRAIN_103_1.jsonl.gz",
+      "sha256": "489223969c4d5e684754a842e25060ccd86a63d48eb270e8034efac5dd3ad54c"
+    },
+    {
+      "counts": {
+        "changed": 0,
+        "common": 182,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 192,
+        "moves": 404,
+        "nn": 5280,
+        "pairs": 24,
+        "reached": 16
+      },
+      "file": "TRAIN_42_3.jsonl.gz",
+      "sha256": "8f8c7ed9c605ff1a8179511875d74ed827c2e552e5f03ae54901e077ca0ede6d"
+    },
+    {
+      "counts": {
+        "changed": 1,
+        "common": 162,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 84,
+        "moves": 280,
+        "nn": 2634,
+        "pairs": 24,
+        "reached": 10
+      },
+      "file": "TRAIN_101_0.jsonl.gz",
+      "sha256": "9d3351f8590b214117fb2f3ffa59376bc2759b135fd00eb1078c8620ce8ec890"
+    },
+    {
+      "counts": {
+        "changed": 3,
+        "common": 177,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 156,
+        "moves": 368,
+        "nn": 4576,
+        "pairs": 24,
+        "reached": 13
+      },
+      "file": "TRAIN_102_3.jsonl.gz",
+      "sha256": "fa99e6523949d8bf0d0fc11a727536cc1d3dab50e6240fb28040f9376672e6f1"
+    },
+    {
+      "counts": {
+        "changed": 4,
+        "common": 233,
+        "delta2": 2,
+        "games": 48,
+        "local_nn": 204,
+        "moves": 591,
+        "nn": 8296,
+        "pairs": 24,
+        "reached": 17
+      },
+      "file": "TRAIN_41_1.jsonl.gz",
+      "sha256": "f55fddf3e523c77f4946343f24b9558dddf1272be36981ab0346ed08147e639a"
+    },
+    {
+      "counts": {
+        "changed": 0,
+        "common": 198,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 144,
+        "moves": 384,
+        "nn": 4458,
+        "pairs": 24,
+        "reached": 12
+      },
+      "file": "TRAIN_105_0.jsonl.gz",
+      "sha256": "97fecad74729ee1c556933e25204c632cafbd7e1651ebe1353ea86c38f1236d4"
+    },
+    {
+      "counts": {
+        "changed": 6,
+        "common": 202,
+        "delta2": -2,
+        "games": 48,
+        "local_nn": 192,
+        "moves": 441,
+        "nn": 5678,
+        "pairs": 24,
+        "reached": 16
+      },
+      "file": "TRAIN_102_1.jsonl.gz",
+      "sha256": "37efcd928aa659b82ad4fbb6c225f9bfec4e74a81d1b55164a20489829d5bf9a"
+    },
+    {
+      "counts": {
+        "changed": 1,
+        "common": 186,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 132,
+        "moves": 392,
+        "nn": 4950,
+        "pairs": 24,
+        "reached": 15
+      },
+      "file": "TRAIN_101_1.jsonl.gz",
+      "sha256": "1bdd750ee31a4ff67548ad401a9fba1991ea8d460e4dc1504568fd6b911389f8"
+    },
+    {
+      "counts": {
+        "changed": 1,
+        "common": 154,
+        "delta2": -2,
+        "games": 48,
+        "local_nn": 120,
+        "moves": 265,
+        "nn": 2901,
+        "pairs": 24,
+        "reached": 10
+      },
+      "file": "TRAIN_42_2.jsonl.gz",
+      "sha256": "31bd4df2e956083674d76dcd405c6cc9f56fb4aae2fc9b24ecbfcc740bc4184a"
+    },
+    {
+      "counts": {
+        "changed": 2,
+        "common": 178,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 132,
+        "moves": 386,
+        "nn": 5022,
+        "pairs": 24,
+        "reached": 11
+      },
+      "file": "TRAIN_103_2.jsonl.gz",
+      "sha256": "05a8e55f3cfd6f54ed3ef285a37da42e013e473d3b4df40a651e6047751eb3c3"
+    },
+    {
+      "counts": {
+        "changed": 5,
+        "common": 179,
+        "delta2": -2,
+        "games": 48,
+        "local_nn": 132,
+        "moves": 369,
+        "nn": 4461,
+        "pairs": 24,
+        "reached": 11
+      },
+      "file": "TRAIN_103_0.jsonl.gz",
+      "sha256": "25177e19730a21768909395dd7d4fd7164ad98776891ad368d3139c0f072288d"
+    },
+    {
+      "counts": {
+        "changed": 4,
+        "common": 166,
+        "delta2": 4,
+        "games": 48,
+        "local_nn": 96,
+        "moves": 276,
+        "nn": 2483,
+        "pairs": 24,
+        "reached": 8
+      },
+      "file": "TRAIN_102_2.jsonl.gz",
+      "sha256": "54746d47e21f2f8271c838958e3dfabe05c50054f519c709c9cc8770149e12a0"
+    },
+    {
+      "counts": {
+        "changed": 1,
+        "common": 204,
+        "delta2": 2,
+        "games": 48,
+        "local_nn": 144,
+        "moves": 443,
+        "nn": 5292,
+        "pairs": 24,
+        "reached": 17
+      },
+      "file": "TRAIN_101_3.jsonl.gz",
+      "sha256": "2105fbc51fff70fce0779a8d162f74790e9c0a7284ace9e86e6b3278dd3fcc87"
+    },
+    {
+      "counts": {
+        "changed": 2,
+        "common": 220,
+        "delta2": -2,
+        "games": 48,
+        "local_nn": 228,
+        "moves": 609,
+        "nn": 9201,
+        "pairs": 24,
+        "reached": 19
+      },
+      "file": "TRAIN_41_3.jsonl.gz",
+      "sha256": "3d556e5b463a477ae43db8c7f865a9e105f8bedc7a093d9ff7d37d1f7191e945"
+    },
+    {
+      "counts": {
+        "changed": 0,
+        "common": 168,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 78,
+        "moves": 274,
+        "nn": 2424,
+        "pairs": 24,
+        "reached": 8
+      },
+      "file": "TRAIN_101_2.jsonl.gz",
+      "sha256": "92baff8af3fde6bfdce791aa2062727335efcf0be9e87a879459d4d692bd6e24"
+    },
+    {
+      "counts": {
+        "changed": 1,
+        "common": 158,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 120,
+        "moves": 308,
+        "nn": 3792,
+        "pairs": 24,
+        "reached": 10
+      },
+      "file": "TRAIN_42_0.jsonl.gz",
+      "sha256": "54332efb80d249474393cee986a1a4d766a4902c579e1c6cfb2f61bc94fc882f"
+    },
+    {
+      "counts": {
+        "changed": 2,
+        "common": 179,
+        "delta2": 2,
+        "games": 48,
+        "local_nn": 132,
+        "moves": 375,
+        "nn": 4602,
+        "pairs": 24,
+        "reached": 11
+      },
+      "file": "TRAIN_41_0.jsonl.gz",
+      "sha256": "598de2fb79b5c34816ed161b5ad26411604f7d396eccc9b69ae90585f79fab92"
+    },
+    {
+      "counts": {
+        "changed": 4,
+        "common": 175,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 132,
+        "moves": 332,
+        "nn": 3802,
+        "pairs": 24,
+        "reached": 11
+      },
+      "file": "TRAIN_102_0.jsonl.gz",
+      "sha256": "6437fd9f287ec74ed22c1230fab08f20ab473f3c28835a3e1919911e643cfbdc"
+    },
+    {
+      "counts": {
+        "changed": 1,
+        "common": 213,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 205,
+        "moves": 488,
+        "nn": 6238,
+        "pairs": 24,
+        "reached": 17
+      },
+      "file": "TRAIN_43_3.jsonl.gz",
+      "sha256": "a185ff932964abce7bf0b85c49a4d274f1f394b1d0a2a55e866401cfec83b7ac"
+    },
+    {
+      "counts": {
+        "changed": 4,
+        "common": 188,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 132,
+        "moves": 380,
+        "nn": 4440,
+        "pairs": 24,
+        "reached": 11
+      },
+      "file": "TRAIN_41_2.jsonl.gz",
+      "sha256": "4fb9f7d26753e2856b26eb0c133ffc696d1342320ee5d405a107064f081fdefe"
+    },
+    {
+      "counts": {
+        "changed": 2,
+        "common": 206,
+        "delta2": -4,
+        "games": 48,
+        "local_nn": 192,
+        "moves": 498,
+        "nn": 7272,
+        "pairs": 24,
+        "reached": 16
+      },
+      "file": "TRAIN_43_1.jsonl.gz",
+      "sha256": "8e662d3aa35d5bb103e92edf9e87dc5812a2a2284c769144316cdc490a120795"
+    },
+    {
+      "counts": {
+        "changed": 2,
+        "common": 174,
+        "delta2": -2,
+        "games": 48,
+        "local_nn": 180,
+        "moves": 377,
+        "nn": 4965,
+        "pairs": 24,
+        "reached": 15
+      },
+      "file": "TRAIN_42_1.jsonl.gz",
+      "sha256": "d2dc82297379104916a9f5dfe0db8256f70ac0f5056128f7c1610de9bd1d8508"
+    },
+    {
+      "counts": {
+        "changed": 3,
+        "common": 229,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 240,
+        "moves": 628,
+        "nn": 9546,
+        "pairs": 24,
+        "reached": 20
+      },
+      "file": "TRAIN_103_3.jsonl.gz",
+      "sha256": "66a1e7ec57424b27ace735f55cb24c8084cb96d56ccea55542b737ad6acc37c6"
+    },
+    {
+      "counts": {
+        "changed": 0,
+        "common": 194,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 132,
+        "moves": 376,
+        "nn": 3806,
+        "pairs": 24,
+        "reached": 11
+      },
+      "file": "TRAIN_43_2.jsonl.gz",
+      "sha256": "82053e81f91d07e9e242befded1a1a4907109d6c6aba2687528913f3cb028b7f"
+    },
+    {
+      "counts": {
+        "changed": 2,
+        "common": 210,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 216,
+        "moves": 484,
+        "nn": 6536,
+        "pairs": 24,
+        "reached": 18
+      },
+      "file": "TRAIN_105_3.jsonl.gz",
+      "sha256": "a3177c76369cff440ca7d187da4fa40d6318bf17e14708021881580cb2264d00"
+    },
+    {
+      "counts": {
+        "changed": 1,
+        "common": 186,
+        "delta2": 0,
+        "games": 48,
+        "local_nn": 108,
+        "moves": 336,
+        "nn": 3354,
+        "pairs": 24,
+        "reached": 9
+      },
+      "file": "TRAIN_105_2.jsonl.gz",
+      "sha256": "734c833dab1d8a1faa5826ca0c2ae9497427a8aae0606a97b21bb2ea0ceea8b6"
+    }
+  ],
+  "plan": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2",
+  "source": "d93aa94d34b2d0ea2b586da8201c853f83e79e36520b06a0b66a5092b5aed7a3"
+}
