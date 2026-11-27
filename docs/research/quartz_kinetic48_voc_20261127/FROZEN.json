@@ -1,0 +1,153 @@
+{
+  "bins": [
+    {
+      "changed": 0,
+      "cost": 60,
+      "gain": 0.0,
+      "mean": 0.0,
+      "mean_negative": null,
+      "mean_positive": null,
+      "n": 9,
+      "negative": 0,
+      "positive": 0,
+      "visits": 60,
+      "wall_ns": 197338713
+    },
+    {
+      "changed": 1,
+      "cost": 781,
+      "gain": 1.597777009010315e-05,
+      "mean": 2.4581184754004844e-07,
+      "mean_negative": null,
+      "mean_positive": 1.597777009010315e-05,
+      "n": 65,
+      "negative": 0,
+      "positive": 1,
+      "visits": 781,
+      "wall_ns": 1873749635
+    },
+    {
+      "changed": 0,
+      "cost": 0,
+      "gain": 0.0,
+      "mean": null,
+      "mean_negative": null,
+      "mean_positive": null,
+      "n": 0,
+      "negative": 0,
+      "positive": 0,
+      "visits": 0,
+      "wall_ns": 0
+    },
+    {
+      "changed": 55,
+      "cost": 2100,
+      "gain": -0.004278367396355391,
+      "mean": -2.4447813693459378e-05,
+      "mean_negative": 0.0007926072788587401,
+      "mean_positive": 0.0002699611790027549,
+      "n": 175,
+      "negative": 18,
+      "positive": 37,
+      "visits": 2100,
+      "wall_ns": 5474141179
+    },
+    {
+      "changed": 0,
+      "cost": 24,
+      "gain": 0.0,
+      "mean": 0.0,
+      "mean_negative": null,
+      "mean_positive": null,
+      "n": 4,
+      "negative": 0,
+      "positive": 0,
+      "visits": 24,
+      "wall_ns": 79840077
+    },
+    {
+      "changed": 6,
+      "cost": 336,
+      "gain": 0.0004637644160538912,
+      "mean": 1.6563014859067543e-05,
+      "mean_negative": 5.733186844736338e-05,
+      "mean_positive": 0.00014460703823715448,
+      "n": 28,
+      "negative": 2,
+      "positive": 4,
+      "visits": 336,
+      "wall_ns": 786706762
+    },
+    {
+      "changed": 0,
+      "cost": 0,
+      "gain": 0.0,
+      "mean": null,
+      "mean_negative": null,
+      "mean_positive": null,
+      "n": 0,
+      "negative": 0,
+      "positive": 0,
+      "visits": 0,
+      "wall_ns": 0
+    },
+    {
+      "changed": 24,
+      "cost": 840,
+      "gain": 0.091285169902724,
+      "mean": 0.0013040738557532,
+      "mean_negative": 0.0007235079923240897,
+      "mean_positive": 0.008330605484217756,
+      "n": 70,
+      "negative": 12,
+      "positive": 12,
+      "visits": 840,
+      "wall_ns": 2202793672
+    }
+  ],
+  "budget": 1035,
+  "disagree": [
+    {
+      "changed": 7,
+      "cost": 1201,
+      "gain": 0.00047974218614399433,
+      "mean": 4.5258696806037205e-06,
+      "mean_negative": 5.733186844736338e-05,
+      "mean_positive": 0.00011888118460774421,
+      "n": 106,
+      "negative": 2,
+      "positive": 5,
+      "visits": 1201,
+      "wall_ns": 2937635187
+    },
+    {
+      "changed": 79,
+      "cost": 2940,
+      "gain": 0.08700680250636861,
+      "mean": 0.0003551298061484433,
+      "mean_negative": 0.00076496756424488,
+      "mean_positive": 0.0022439965190554083,
+      "n": 245,
+      "negative": 30,
+      "positive": 49,
+      "visits": 2940,
+      "wall_ns": 7676934851
+    }
+  ],
+  "mask": 128,
+  "scope": "TRAIN-only binary allocation; no use of CAL or TEST",
+  "train": {
+    "changed": 86,
+    "cost": 4141,
+    "gain": 0.0874865446925126,
+    "mean": 0.0002492494150783835,
+    "mean_negative": 0.0007207403332575352,
+    "mean_positive": 0.0020472265806806248,
+    "n": 351,
+    "negative": 32,
+    "positive": 54,
+    "visits": 4141,
+    "wall_ns": 10614570038
+  },
+  "train_lock": "d6d68425c55a4eeaac5b9ea395e3c7f5b61dac37a9e1f0effd0a209eec0e93d3"
+}
