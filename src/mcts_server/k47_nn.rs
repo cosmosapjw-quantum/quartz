@@ -72,8 +72,8 @@ pub(super) fn parse_history(h:&[u16],n:usize)->Result<Vec<u8>,String>{
 pub(super) fn oriented(b:&[u8],p:u8)->Vec<u8>{b.iter().map(|&x|if x==0{0}else if x==p{1}else{2}).collect()}
 fn inner(line:&str)->Result<Value,String>{
     let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    let k48=q.cmd=="research_gomoku7_k48";
-    if !(q.cmd=="research_gomoku7_k47"||k48)||(!q.quartz&&q.cap!=32)||(q.quartz&&q.cap!=20&&q.cap!=32)||(!k48&&(q.atlas||q.mask.is_some()))||(k48&&(!q.quartz||q.cap!=20||q.atlas==q.mask.is_some())){return Err("invalid K47/K48 NN request".into())}
+    let k52=q.cmd=="research_gomoku7_k52";let k48=q.cmd=="research_gomoku7_k48"||k52;
+    if (k52&&(q.atlas||q.mask!=Some(0)))||!(q.cmd=="research_gomoku7_k47"||k48)||(!q.quartz&&q.cap!=32)||(q.quartz&&q.cap!=20&&q.cap!=32)||(!k48&&(q.atlas||q.mask.is_some()))||(k48&&(!q.quartz||q.cap!=20||q.atlas==q.mask.is_some())){return Err("invalid K47/K48 NN request".into())}
     let started=Instant::now();let b=parse_history(&q.history,7)?;
     let p=1-2*(q.history.len()%2) as i8;let ob=oriented(&b,if p==1{1}else{2});
     let mut a=0;let mut bb=0;for (m,&x) in b.iter().enumerate(){if x==1{a|=1u64<<m}else if x==2{bb|=1u64<<m}}
@@ -118,6 +118,13 @@ fn inner(line:&str)->Result<Value,String>{
         let final_snap=snap(&root,&ev,n,terminal,horizon);
         let chosen=if q.atlas{out["high"]=final_snap;out["low"].clone()}else{final_snap};
         for (k,v) in chosen.as_object().unwrap(){out[k]=v.clone()}
+        if k52{
+            out["root_nn"]=json!(ev.calls);
+            if matches!(out["bin"].as_u64(),Some(3|7)){
+                let t=k52_target(&root,&out["low"],&part["bounds"],&mut ev)?;
+                out["move"]=t["chosen"].clone();out["target"]=t;out["nn"]=json!(ev.calls);
+            }
+        }
         if k48{out["physical_nn"]=json!(ev.calls);out["mask"]=json!(q.mask);out["atlas"]=json!(q.atlas)}
         out["partial"]=if q.quartz{part.take()}else{Value::Null};if q.trace{out["eval_trace"]=json!(ev.trace)}
     }
@@ -151,7 +158,48 @@ mod k48_tests {
     }
 }
 
-fn k52_candidate(_a:u16,_votes:&[(u16,u32)],_bounds:&Value)->Option<u16>{None}
+fn k52_bound(bounds:&Value,m:u16)->(f64,f64){
+    let r=bounds.as_array().unwrap().iter().find(|r|r[0]==m).unwrap();
+    (r[1].as_f64().unwrap(),r[2].as_f64().unwrap())
+}
+fn k52_candidate(a:u16,votes:&[(u16,u32)],bounds:&Value)->Option<u16>{
+    let (b,_)=votes.iter().filter(|(m,_)|*m!=a&&k52_bound(bounds,*m).1!=-1.0).max_by_key(|(m,n)|(*n,std::cmp::Reverse(*m)))?;
+    let (l,u)=k52_bound(bounds,a);assert_ne!(u,-1.0);
+    if l>=k52_bound(bounds,*b).1{None}else{Some(*b)}
+}
+fn k52_child(root:&Node,m:u16,ev:&mut External)->Result<Value,String>{
+    let t=Instant::now();let calls=ev.calls;let bit=1u64<<m;
+    let mut child=if root.p==1{Node::new(root.a|bit,root.b,-1)}else{Node::new(root.a,root.b|bit,1)};
+    let (init,term)=child.expand(ev)?;
+    if term{
+        assert_eq!(ev.calls,calls);
+        return Ok(json!({"raw":-init,"visits":0,"nn":0,"terminal":true,"terminal_leaves":0,"samples":[],"wall_ns":t.elapsed().as_nanos() as u64}))
+    }
+    let mut samples=Vec::with_capacity(5);let mut ends=0u32;
+    for _ in 0..5{let(v,e)=child.visit(ev)?;samples.push(v);ends+=u32::from(e);}
+    let es=child.edges.as_ref().unwrap();assert_eq!(es.iter().map(|e|e.n).sum::<u32>(),5);
+    let sum=samples.iter().sum::<f64>();assert!((sum-es.iter().map(|e|e.w).sum::<f64>()).abs()<1e-12);
+    let edges:Vec<_>=es.iter().map(|e|json!([e.m,e.n,e.w])).collect();
+    assert_eq!(ev.calls-calls,6-ends);
+    Ok(json!({"raw":-sum/5.0,"visits":5,"nn":ev.calls-calls,"terminal":false,"terminal_leaves":ends,"samples":samples,"edges":edges,"wall_ns":t.elapsed().as_nanos() as u64}))
+}
+fn k52_target(root:&Node,low:&Value,bounds:&Value,ev:&mut External)->Result<Value,String>{
+    let t=Instant::now();let calls=ev.calls;
+    let a=low["move"].as_u64().unwrap() as u16;
+    let votes:Vec<_>=root.edges.as_ref().unwrap().iter().map(|e|(e.m,e.n)).collect();
+    let b=k52_candidate(a,&votes,bounds);
+    let mut chosen=a;let mut values=vec![];let mut children=vec![];
+    if let Some(b)=b{
+        for m in [a,b]{
+            let(l,u)=k52_bound(bounds,m);
+            if l==u{children.push(Value::Null);values.push(l)}
+            else{let z=k52_child(root,m,ev)?;values.push(z["raw"].as_f64().unwrap().clamp(l,u));children.push(z);}
+        }
+        if values[1]>values[0]{chosen=b;}
+    }
+    assert!(ev.calls-calls<=12);
+    Ok(json!({"incumbent":a,"rival":b,"chosen":chosen,"children":children,"values":values,"extra_nn":ev.calls-calls,"reason":if b.is_some(){"compared"}else{"no_nondominated_rival"},"wall_ns":t.elapsed().as_nanos() as u64}))
+}
 #[cfg(test)]
 mod k52_tests{
     use super::*;

@@ -6,10 +6,11 @@ struct Request36{cmd:String,history:Vec<u16>,cap:Option<u32>,horizons:Option<[u3
 fn valid_cap(h:u32)->bool{matches!(h,80|96|112|128|256)}
 fn inner(line:&str)->Result<Value,String>{
     let started=Instant::now();let q:Request36=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    let hybrid=matches!(q.cmd.as_str(),"research_rapfi_k47"|"research_rapfi_k48");
-    if hybrid&&((q.cmd=="research_rapfi_k47"&&q.cap!=Some(128))||(q.cmd=="research_rapfi_k48"&&!q.cap.is_some_and(|v|matches!(v,80|96|112|128)))||!q.lock||q.horizons.is_some()){return Err("K47 Rapfi requires locked128".into());}
+    let k52=q.cmd=="research_rapfi_k52";let hybrid=matches!(q.cmd.as_str(),"research_rapfi_k47"|"research_rapfi_k48")||k52;
+    if hybrid&&!k52&&((q.cmd=="research_rapfi_k47"&&q.cap!=Some(128))||(q.cmd=="research_rapfi_k48"&&!q.cap.is_some_and(|v|matches!(v,80|96|112|128)))||!q.lock||q.horizons.is_some()){return Err("K47 Rapfi requires locked128".into());}
     if (!hybrid&&q.cmd!="research_rapfi_k36")||q.history.len()>224{return Err("bad K36 request".into());}
-    if q.cap.is_some()==q.horizons.is_some()||q.cap.is_some_and(|h|!valid_cap(h))||q.horizons.is_some_and(|hs|hs.iter().any(|h|!valid_cap(*h)))||q.horizons.is_some()&&!q.lock{return Err("bad K36 options".into());}
+    if k52&&(!q.lock||!(q.cap.is_some_and(|v|matches!(v,104|112))&&q.horizons.is_none()||q.cap.is_none()&&q.horizons==Some([128,128,128,128,96,96,96,96]))){return Err("invalid K52 Rapfi cap".into());}
+    if q.cap.is_some()==q.horizons.is_some()||q.cap.is_some_and(|h|!valid_cap(h)&&!(k52&&h==104))||q.horizons.is_some_and(|hs|hs.iter().any(|h|!valid_cap(*h)))||q.horizons.is_some()&&!q.lock{return Err("bad K36 options".into());}
     let(mut cap,locked,threads)=(q.cap.unwrap_or(256),q.lock,1usize);
     let eval=session().lock().unwrap().as_ref().cloned().ok_or("session not open")?;
     let mut s=Gomoku15::new(GomokuVariant::Freestyle);
