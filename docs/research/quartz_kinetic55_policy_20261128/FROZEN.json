@@ -1,0 +1,209 @@
+{
+  "candidates": [
+    {
+      "active": 0,
+      "cost": 0,
+      "gain2": 0,
+      "table": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "active": 1,
+      "cost": 382,
+      "gain2": -6,
+      "table": [
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "active": 1,
+      "cost": 338,
+      "gain2": -6,
+      "table": [
+        0,
+        0,
+        2,
+        0
+      ]
+    }
+  ],
+  "cap": 1942,
+  "feasible": 3,
+  "fit": {
+    "active": 0,
+    "cost": 0,
+    "gain2": 0,
+    "table": [
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "panels": {
+    "51": {
+      "cells": [
+        {
+          "cold_cost": 1920,
+          "cold_gain2": 12,
+          "n": 160
+        },
+        {
+          "cold_cost": 24,
+          "cold_gain2": 0,
+          "n": 2
+        },
+        {
+          "cold_cost": 418,
+          "cold_gain2": 4,
+          "n": 35
+        },
+        {
+          "cold_cost": 36,
+          "cold_gain2": 0,
+          "n": 3
+        }
+      ],
+      "counts": {
+        "cold_delta2": 16,
+        "episodes": 672
+      },
+      "lock": "9852750f940ab1c794b62a50630092261d250339b450ea890b1248dc574aa17c"
+    },
+    "52": {
+      "cells": [
+        {
+          "cold_cost": 5952,
+          "cold_gain2": 34,
+          "n": 496
+        },
+        {
+          "cold_cost": 132,
+          "cold_gain2": 0,
+          "n": 11
+        },
+        {
+          "cold_cost": 1186,
+          "cold_gain2": 4,
+          "n": 99
+        },
+        {
+          "cold_cost": 48,
+          "cold_gain2": -2,
+          "n": 4
+        }
+      ],
+      "counts": {
+        "cold_delta2": 36,
+        "episodes": 1344
+      },
+      "lock": "79844eaa28e29306ff8d954d060f748684e8d30e7f8a6039c160af306688eaa3"
+    },
+    "53": {
+      "cells": [
+        {
+          "cold_cost": 3396,
+          "cold_gain2": 16,
+          "n": 283,
+          "reuse_cost": 2830,
+          "reuse_gain2": 14
+        },
+        {
+          "cold_cost": 36,
+          "cold_gain2": 0,
+          "n": 3,
+          "reuse_cost": 30,
+          "reuse_gain2": 0
+        },
+        {
+          "cold_cost": 382,
+          "cold_gain2": -6,
+          "n": 32,
+          "reuse_cost": 338,
+          "reuse_gain2": -6
+        },
+        {
+          "cold_cost": 71,
+          "cold_gain2": -4,
+          "n": 6,
+          "reuse_cost": 61,
+          "reuse_gain2": -4
+        }
+      ],
+      "counts": {
+        "cold_delta2": 6,
+        "episodes": 672
+      },
+      "lock": "b0a315323c3a27198105821549256b17b9c3f373150cbaa35392a1c154b8127a"
+    },
+    "54": {
+      "cells": [
+        {
+          "cold_cost": 2796,
+          "cold_gain2": 0,
+          "n": 233
+        },
+        {
+          "cold_cost": 60,
+          "cold_gain2": 0,
+          "n": 5
+        },
+        {
+          "cold_cost": 563,
+          "cold_gain2": -10,
+          "n": 47
+        },
+        {
+          "cold_cost": 24,
+          "cold_gain2": 2,
+          "n": 2
+        }
+      ],
+      "counts": {
+        "cold_delta2": -8,
+        "episodes": 672
+      },
+      "lock": "a4eec72a784650a9e7b05e4c2ca74ea4d6631dec0481687e10d7d73478ee534e"
+    }
+  },
+  "scope": "fit K53 logical local costs only; K51/52/54 cold and K54 second historical diagnostics, not fresh holdouts",
+  "second_cells": [
+    {
+      "gain2": 2,
+      "logical_cost": 1008,
+      "n": 84,
+      "physical_cost": 817
+    },
+    {
+      "gain2": 0,
+      "logical_cost": 12,
+      "n": 1,
+      "physical_cost": 10
+    },
+    {
+      "gain2": 2,
+      "logical_cost": 156,
+      "n": 13,
+      "physical_cost": 130
+    },
+    {
+      "gain2": 2,
+      "logical_cost": 48,
+      "n": 4,
+      "physical_cost": 42
+    }
+  ],
+  "table": [
+    0,
+    0,
+    0,
+    0
+  ]
+}
