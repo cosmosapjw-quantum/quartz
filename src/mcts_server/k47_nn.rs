@@ -72,7 +72,7 @@ pub(super) fn parse_history(h:&[u16],n:usize)->Result<Vec<u8>,String>{
 pub(super) fn oriented(b:&[u8],p:u8)->Vec<u8>{b.iter().map(|&x|if x==0{0}else if x==p{1}else{2}).collect()}
 fn inner(line:&str)->Result<Value,String>{
     let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    let k52=q.cmd=="research_gomoku7_k52";let k48=q.cmd=="research_gomoku7_k48"||k52;
+    let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53;let k48=q.cmd=="research_gomoku7_k48"||k52;
     if (k52&&(q.atlas||q.mask!=Some(0)))||!(q.cmd=="research_gomoku7_k47"||k48)||(!q.quartz&&q.cap!=32)||(q.quartz&&q.cap!=20&&q.cap!=32)||(!k48&&(q.atlas||q.mask.is_some()))||(k48&&(!q.quartz||q.cap!=20||q.atlas==q.mask.is_some())){return Err("invalid K47/K48 NN request".into())}
     let started=Instant::now();let b=parse_history(&q.history,7)?;
     let p=1-2*(q.history.len()%2) as i8;let ob=oriented(&b,if p==1{1}else{2});
@@ -121,7 +121,7 @@ fn inner(line:&str)->Result<Value,String>{
         if k52{
             out["root_nn"]=json!(ev.calls);
             if matches!(out["bin"].as_u64(),Some(3|7)){
-                let t=k52_target(&root,&out["low"],&part["bounds"],&mut ev)?;
+                let t=if k53{k53_target(&mut root,&out["low"],&part["bounds"],&mut ev)?}else{k52_target(&root,&out["low"],&part["bounds"],&mut ev)?};
                 out["move"]=t["chosen"].clone();out["target"]=t;out["nn"]=json!(ev.calls);
             }
         }
@@ -210,7 +210,38 @@ mod k52_tests{
     }
 }
 
-fn k53_new_mean(_samples:&[f64])->f64{0.0}
+fn k53_new_mean(samples:&[f64])->f64{assert_eq!(samples.len(),5);-samples.iter().sum::<f64>()/5.0}
+fn k53_child(root:&mut Node,m:u16,ev:&mut External)->Result<Value,String>{
+    let t=Instant::now();let calls=ev.calls;let bit=1u64<<m;
+    let edge=root.edges.as_mut().unwrap().iter_mut().find(|e|e.m==m).unwrap();
+    let old_root_n=edge.n;
+    let child=edge.child.get_or_insert_with(||Box::new(if root.p==1{Node::new(root.a|bit,root.b,-1)}else{Node::new(root.a,root.b|bit,1)}));
+    let initialized=child.edges.is_none();
+    if initialized{
+        let(init,term)=child.expand(ev)?;
+        if term{return Ok(json!({"raw":-init,"nn":0,"visits":0,"terminal":true,"terminal_leaves":0,"samples":[],"initial_eval":false,"old_root_n":old_root_n,"pre_edges":[],"edges":[],"wall_ns":t.elapsed().as_nanos() as u64}))}
+    }
+    let pre:Vec<_>=child.edges.as_ref().unwrap().iter().map(|e|json!([e.m,e.n,e.w])).collect();
+    let mut samples=Vec::with_capacity(5);let mut ends=0u32;
+    for _ in 0..5{let(v,e)=child.visit(ev)?;samples.push(v);ends+=u32::from(e);}
+    let es=child.edges.as_ref().unwrap();let edges:Vec<_>=es.iter().map(|e|json!([e.m,e.n,e.w])).collect();
+    assert_eq!(ev.calls-calls,u32::from(initialized)+5-ends);
+    Ok(json!({"raw":k53_new_mean(&samples),"nn":ev.calls-calls,"visits":5,"terminal":false,"terminal_leaves":ends,"samples":samples,"initial_eval":initialized,"old_root_n":old_root_n,"pre_edges":pre,"edges":edges,"wall_ns":t.elapsed().as_nanos() as u64}))
+}
+fn k53_target(root:&mut Node,low:&Value,bounds:&Value,ev:&mut External)->Result<Value,String>{
+    let t=Instant::now();let calls=ev.calls;let a=low["move"].as_u64().unwrap() as u16;
+    let votes:Vec<_>=root.edges.as_ref().unwrap().iter().map(|e|(e.m,e.n)).collect();
+    let b=k52_candidate(a,&votes,bounds);let mut chosen=a;let mut children=vec![];let mut values=vec![];
+    if let Some(b)=b{
+        for m in [a,b]{let(l,u)=k52_bound(bounds,m);
+            if l==u{children.push(Value::Null);values.push(l)}
+            else{let z=k53_child(root,m,ev)?;values.push(z["raw"].as_f64().unwrap().clamp(l,u));children.push(z);}
+        }
+        if values[1]>values[0]{chosen=b;}
+    }
+    assert!(ev.calls-calls<=12);
+    Ok(json!({"incumbent":a,"rival":b,"chosen":chosen,"children":children,"values":values,"extra_nn":ev.calls-calls,"reason":if b.is_some(){"compared"}else{"no_nondominated_rival"},"wall_ns":t.elapsed().as_nanos() as u64}))
+}
 #[cfg(test)]
 mod k53_tests{
     use super::*;
