@@ -1,0 +1,609 @@
+{
+  "counts": {
+    "cap_128": 334,
+    "cap_96": 336,
+    "child_receipts": 1220,
+    "common": 18056,
+    "compared": 610,
+    "edges": 2534587,
+    "global_events": 610,
+    "global_local_nn": 7320,
+    "independent_bound_cells": 1334445,
+    "independent_new_loss_facts": 363811,
+    "independent_new_win_facts": 2851,
+    "independent_partial_cert": 3847,
+    "independent_partial_receipts": 15237,
+    "independent_queries": 5820624,
+    "proof_queries": 5820624,
+    "proof_receipts": 15237,
+    "target_events": 610,
+    "target_local_nn": 7318,
+    "target_switch": 279,
+    "votes": 28942,
+    "wave_receipts": 8940,
+    "waves": 107887
+  },
+  "modes": {
+    "NN": {
+      "audit": {
+        "child_receipts": 1220,
+        "common": 16185,
+        "compared": 610,
+        "edges": 846069,
+        "global_events": 610,
+        "global_local_nn": 7320,
+        "proof_queries": 1596384,
+        "proof_receipts": 10431,
+        "target_events": 610,
+        "target_local_nn": 7318,
+        "target_switch": 279,
+        "votes": 20002
+      },
+      "counts": {
+        "common": 16185,
+        "episodes": 1344,
+        "games": 4032,
+        "global_changed": 161,
+        "global_delta2": -4,
+        "global_local_nn": 7320,
+        "global_reached": 610,
+        "moves": 35345,
+        "nn": 446897,
+        "target_changed": 279,
+        "target_delta2": 36,
+        "target_local_nn": 7318,
+        "target_reached": 610
+      },
+      "independent": {
+        "bound_cells": 425258,
+        "new_loss_facts": 87561,
+        "new_win_facts": 2685,
+        "partial_cert": 3334,
+        "partial_receipts": 10431,
+        "queries": 1596384
+      },
+      "pair": {
+        "global": {
+          "delta_B": 924,
+          "delta_Q": 8139,
+          "delta_total": 9063,
+          "downstream_B": 924,
+          "downstream_Q": 819,
+          "same_history": 1183
+        },
+        "target": {
+          "delta_B": -759,
+          "delta_Q": 6611,
+          "delta_total": 5852,
+          "downstream_B": -759,
+          "downstream_Q": -707,
+          "same_history": 1065
+        }
+      },
+      "panels": {
+        "control_all": {
+          "Bcpu": 333248566391,
+          "Bmoves": 5689,
+          "Bnn": 95964,
+          "Bwall": 366333027734,
+          "Qcpu": 164316487775,
+          "Qmoves": 6086,
+          "Qnn": 48030,
+          "Qwall": 180494654621,
+          "cert": 1118,
+          "draws": 0,
+          "games": 1344,
+          "losses": 275,
+          "queries": 533261,
+          "replacement": 530,
+          "score2": 2138,
+          "wins": 1069
+        },
+        "control_new": {
+          "Bcpu": 107117687051,
+          "Bmoves": 2554,
+          "Bnn": 43164,
+          "Bwall": 119087416830,
+          "Qcpu": 57576992696,
+          "Qmoves": 2734,
+          "Qnn": 22933,
+          "Qwall": 63855535248,
+          "cert": 522,
+          "draws": 0,
+          "games": 576,
+          "losses": 108,
+          "queries": 232880,
+          "replacement": 223,
+          "score2": 936,
+          "wins": 468
+        },
+        "control_old": {
+          "Bcpu": 226130879340,
+          "Bmoves": 3135,
+          "Bnn": 52800,
+          "Bwall": 247245610904,
+          "Qcpu": 106739495079,
+          "Qmoves": 3352,
+          "Qnn": 25097,
+          "Qwall": 116639119373,
+          "cert": 596,
+          "draws": 0,
+          "games": 768,
+          "losses": 167,
+          "queries": 300381,
+          "replacement": 307,
+          "score2": 1202,
+          "wins": 601
+        },
+        "global_all": {
+          "Bcpu": 338777203698,
+          "Bmoves": 5743,
+          "Bnn": 96888,
+          "Bwall": 373300726897,
+          "Qcpu": 193206631268,
+          "Qmoves": 6138,
+          "Qnn": 56169,
+          "Qwall": 212095434213,
+          "cert": 1133,
+          "draws": 0,
+          "games": 1344,
+          "losses": 277,
+          "queries": 540905,
+          "replacement": 544,
+          "score2": 2134,
+          "wins": 1067
+        },
+        "global_new": {
+          "Bcpu": 107733242245,
+          "Bmoves": 2567,
+          "Bnn": 43263,
+          "Bwall": 121279012106,
+          "Qcpu": 67065455636,
+          "Qmoves": 2748,
+          "Qnn": 26695,
+          "Qwall": 75727235615,
+          "cert": 530,
+          "draws": 0,
+          "games": 576,
+          "losses": 107,
+          "queries": 234262,
+          "replacement": 226,
+          "score2": 938,
+          "wins": 469
+        },
+        "global_old": {
+          "Bcpu": 231043961453,
+          "Bmoves": 3176,
+          "Bnn": 53625,
+          "Bwall": 252021714791,
+          "Qcpu": 126141175632,
+          "Qmoves": 3390,
+          "Qnn": 29474,
+          "Qwall": 136368198598,
+          "cert": 603,
+          "draws": 0,
+          "games": 768,
+          "losses": 170,
+          "queries": 306643,
+          "replacement": 318,
+          "score2": 1196,
+          "wins": 598
+        },
+        "target_all": {
+          "Bcpu": 330297537854,
+          "Bmoves": 5637,
+          "Bnn": 95205,
+          "Bwall": 359942265820,
+          "Qcpu": 185903445480,
+          "Qmoves": 6052,
+          "Qnn": 54641,
+          "Qwall": 203441189111,
+          "cert": 1083,
+          "draws": 0,
+          "games": 1344,
+          "losses": 257,
+          "queries": 522218,
+          "replacement": 512,
+          "score2": 2174,
+          "wins": 1087
+        },
+        "target_new": {
+          "Bcpu": 106919569007,
+          "Bmoves": 2530,
+          "Bnn": 43131,
+          "Bwall": 119611805867,
+          "Qcpu": 66192736267,
+          "Qmoves": 2718,
+          "Qnn": 26422,
+          "Qwall": 74048607410,
+          "cert": 498,
+          "draws": 0,
+          "games": 576,
+          "losses": 100,
+          "queries": 228831,
+          "replacement": 216,
+          "score2": 952,
+          "wins": 476
+        },
+        "target_old": {
+          "Bcpu": 223377968847,
+          "Bmoves": 3107,
+          "Bnn": 52074,
+          "Bwall": 240330459953,
+          "Qcpu": 119710709213,
+          "Qmoves": 3334,
+          "Qnn": 28219,
+          "Qwall": 129392581701,
+          "cert": 585,
+          "draws": 0,
+          "games": 768,
+          "losses": 157,
+          "queries": 293387,
+          "replacement": 296,
+          "score2": 1222,
+          "wins": 611
+        }
+      }
+    },
+    "R_CAL_104": {
+      "audit": {
+        "common": 345,
+        "edges": 305800,
+        "proof_queries": 840441,
+        "proof_receipts": 909,
+        "votes": 1692,
+        "wave_receipts": 1692,
+        "waves": 20077
+      },
+      "counts": {
+        "common": 345,
+        "games": 64,
+        "moves": 2128,
+        "nn": 175200
+      },
+      "independent": {
+        "bound_cells": 164936,
+        "new_loss_facts": 46131,
+        "new_win_facts": 37,
+        "partial_cert": 91,
+        "partial_receipts": 909,
+        "queries": 840441
+      },
+      "pair": {},
+      "panels": {
+        "all": {
+          "Bcpu": 34878910662,
+          "Bmoves": 1064,
+          "Bnn": 103812,
+          "Bwall": 36663741300,
+          "Qcpu": 26721412491,
+          "Qmoves": 1064,
+          "Qnn": 71388,
+          "Qwall": 27717042553,
+          "cert": 91,
+          "draws": 2,
+          "games": 64,
+          "losses": 30,
+          "queries": 840441,
+          "replacement": 35,
+          "score2": 66,
+          "wins": 32
+        },
+        "outer": {
+          "Bcpu": 34878910662,
+          "Bmoves": 1064,
+          "Bnn": 103812,
+          "Bwall": 36663741300,
+          "Qcpu": 26721412491,
+          "Qmoves": 1064,
+          "Qnn": 71388,
+          "Qwall": 27717042553,
+          "cert": 91,
+          "draws": 2,
+          "games": 64,
+          "losses": 30,
+          "queries": 840441,
+          "replacement": 35,
+          "score2": 66,
+          "wins": 32
+        }
+      }
+    },
+    "R_CAL_112": {
+      "audit": {
+        "common": 341,
+        "edges": 300618,
+        "proof_queries": 828966,
+        "proof_receipts": 899,
+        "votes": 1661,
+        "wave_receipts": 1661,
+        "waves": 20438
+      },
+      "counts": {
+        "common": 341,
+        "games": 64,
+        "moves": 2096,
+        "nn": 177191
+      },
+      "independent": {
+        "bound_cells": 163523,
+        "new_loss_facts": 46760,
+        "new_win_facts": 39,
+        "partial_cert": 94,
+        "partial_receipts": 899,
+        "queries": 828966
+      },
+      "pair": {},
+      "panels": {
+        "all": {
+          "Bcpu": 33472062034,
+          "Bmoves": 1049,
+          "Bnn": 101524,
+          "Bwall": 38236193022,
+          "Qcpu": 27684050693,
+          "Qmoves": 1047,
+          "Qnn": 75667,
+          "Qwall": 31182780390,
+          "cert": 94,
+          "draws": 2,
+          "games": 64,
+          "losses": 32,
+          "queries": 828966,
+          "replacement": 41,
+          "score2": 62,
+          "wins": 30
+        },
+        "outer": {
+          "Bcpu": 33472062034,
+          "Bmoves": 1049,
+          "Bnn": 101524,
+          "Bwall": 38236193022,
+          "Qcpu": 27684050693,
+          "Qmoves": 1047,
+          "Qnn": 75667,
+          "Qwall": 31182780390,
+          "cert": 94,
+          "draws": 2,
+          "games": 64,
+          "losses": 32,
+          "queries": 828966,
+          "replacement": 41,
+          "score2": 62,
+          "wins": 30
+        }
+      }
+    },
+    "R_CAL_AD": {
+      "audit": {
+        "cap_128": 334,
+        "cap_96": 336,
+        "common": 309,
+        "edges": 285742,
+        "proof_queries": 687078,
+        "proof_receipts": 759,
+        "votes": 1416,
+        "wave_receipts": 1416,
+        "waves": 17453
+      },
+      "counts": {
+        "common": 309,
+        "games": 64,
+        "moves": 1814,
+        "nn": 149111
+      },
+      "independent": {
+        "bound_cells": 153179,
+        "new_loss_facts": 41683,
+        "new_win_facts": 36,
+        "partial_cert": 89,
+        "partial_receipts": 759,
+        "queries": 687078
+      },
+      "pair": {},
+      "panels": {
+        "all": {
+          "Bcpu": 24862825332,
+          "Bmoves": 907,
+          "Bnn": 86731,
+          "Bwall": 36098725281,
+          "Qcpu": 19613428633,
+          "Qmoves": 907,
+          "Qnn": 62380,
+          "Qwall": 28233827779,
+          "cert": 89,
+          "draws": 0,
+          "games": 64,
+          "losses": 32,
+          "queries": 687078,
+          "replacement": 41,
+          "score2": 64,
+          "wins": 32
+        },
+        "outer": {
+          "Bcpu": 24862825332,
+          "Bmoves": 907,
+          "Bnn": 86731,
+          "Bwall": 36098725281,
+          "Qcpu": 19613428633,
+          "Qmoves": 907,
+          "Qnn": 62380,
+          "Qwall": 28233827779,
+          "cert": 89,
+          "draws": 0,
+          "games": 64,
+          "losses": 32,
+          "queries": 687078,
+          "replacement": 41,
+          "score2": 64,
+          "wins": 32
+        }
+      }
+    },
+    "R_TEST_112": {
+      "audit": {
+        "common": 423,
+        "edges": 391223,
+        "proof_queries": 903013,
+        "proof_receipts": 1117,
+        "votes": 2088,
+        "wave_receipts": 2088,
+        "waves": 25856
+      },
+      "counts": {
+        "common": 423,
+        "games": 96,
+        "moves": 2627,
+        "nn": 219489
+      },
+      "independent": {
+        "bound_cells": 209779,
+        "new_loss_facts": 69065,
+        "new_win_facts": 27,
+        "partial_cert": 116,
+        "partial_receipts": 1117,
+        "queries": 903013
+      },
+      "pair": {},
+      "panels": {
+        "all": {
+          "Bcpu": 40056141248,
+          "Bmoves": 1314,
+          "Bnn": 126218,
+          "Bwall": 47927676279,
+          "Qcpu": 32678824166,
+          "Qmoves": 1313,
+          "Qnn": 93271,
+          "Qwall": 39214226534,
+          "cert": 116,
+          "draws": 2,
+          "games": 96,
+          "losses": 48,
+          "queries": 903013,
+          "replacement": 69,
+          "score2": 94,
+          "wins": 46
+        },
+        "outer": {
+          "Bcpu": 40056141248,
+          "Bmoves": 1314,
+          "Bnn": 126218,
+          "Bwall": 47927676279,
+          "Qcpu": 32678824166,
+          "Qmoves": 1313,
+          "Qnn": 93271,
+          "Qwall": 39214226534,
+          "cert": 116,
+          "draws": 2,
+          "games": 96,
+          "losses": 48,
+          "queries": 903013,
+          "replacement": 69,
+          "score2": 94,
+          "wins": 46
+        }
+      }
+    },
+    "R_TEST_96": {
+      "audit": {
+        "common": 453,
+        "edges": 405135,
+        "proof_queries": 964742,
+        "proof_receipts": 1122,
+        "votes": 2083,
+        "wave_receipts": 2083,
+        "waves": 24063
+      },
+      "counts": {
+        "common": 453,
+        "games": 96,
+        "moves": 2659,
+        "nn": 205160
+      },
+      "independent": {
+        "bound_cells": 217770,
+        "new_loss_facts": 72611,
+        "new_win_facts": 27,
+        "partial_cert": 123,
+        "partial_receipts": 1122,
+        "queries": 964742
+      },
+      "pair": {},
+      "panels": {
+        "all": {
+          "Bcpu": 37576448213,
+          "Bmoves": 1331,
+          "Bnn": 125365,
+          "Bwall": 43443542746,
+          "Qcpu": 27453793598,
+          "Qmoves": 1328,
+          "Qnn": 79795,
+          "Qwall": 31897687431,
+          "cert": 123,
+          "draws": 1,
+          "games": 96,
+          "losses": 50,
+          "queries": 964742,
+          "replacement": 77,
+          "score2": 91,
+          "wins": 45
+        },
+        "outer": {
+          "Bcpu": 37576448213,
+          "Bmoves": 1331,
+          "Bnn": 125365,
+          "Bwall": 43443542746,
+          "Qcpu": 27453793598,
+          "Qmoves": 1328,
+          "Qnn": 79795,
+          "Qwall": 31897687431,
+          "cert": 123,
+          "draws": 1,
+          "games": 96,
+          "losses": 50,
+          "queries": 964742,
+          "replacement": 77,
+          "score2": 91,
+          "wins": 45
+        }
+      }
+    }
+  },
+  "natural_exact": {
+    "complete": 0,
+    "roots": 0
+  },
+  "pair": {
+    "global": {
+      "delta_B": 924,
+      "delta_Q": 8139,
+      "delta_total": 9063,
+      "downstream_B": 924,
+      "downstream_Q": 819,
+      "same_history": 1183
+    },
+    "target": {
+      "delta_B": -759,
+      "delta_Q": 6611,
+      "delta_total": 5852,
+      "downstream_B": -759,
+      "downstream_Q": -707,
+      "same_history": 1065
+    }
+  },
+  "scope": "independent coordinate proof, chronological root/child receipts, candidate selection, cost and paired outcome arithmetic; native target and root-dependent cap selection",
+  "total": {
+    "common": 18056,
+    "episodes": 1344,
+    "games": 4416,
+    "global_changed": 161,
+    "global_delta2": -4,
+    "global_local_nn": 7320,
+    "global_reached": 610,
+    "moves": 46669,
+    "nn": 1373048,
+    "target_changed": 279,
+    "target_delta2": 36,
+    "target_local_nn": 7318,
+    "target_reached": 610
+  }
+}
