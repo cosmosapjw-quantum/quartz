@@ -1,0 +1,56 @@
+{
+  "audit": {
+    "child_receipts": 70,
+    "common": 399,
+    "compared": 35,
+    "edges": 16626,
+    "proof_queries": 26757,
+    "proof_receipts": 198,
+    "target_events": 35,
+    "target_local_nn": 420,
+    "target_switch": 22,
+    "votes": 396
+  },
+  "counts": {
+    "cold_events": 35,
+    "cold_extra": 420,
+    "cold_extra_logical": 420,
+    "common": 399,
+    "games": 112,
+    "logical": 9206,
+    "moves": 772,
+    "physical": 9206
+  },
+  "independent": {
+    "bound_cells": 8102,
+    "new_loss_facts": 1458,
+    "new_win_facts": 40,
+    "partial_cert": 51,
+    "partial_receipts": 198,
+    "queries": 26757
+  },
+  "natural_exact": [],
+  "pair": {},
+  "panels": {
+    "all": {
+      "Bcpu": 14835061485,
+      "Blogical": 5775,
+      "Bmoves": 376,
+      "Bnn": 5775,
+      "Bwall": 14895400816,
+      "Qcpu": 9156750843,
+      "Qlogical": 3431,
+      "Qmoves": 396,
+      "Qnn": 3431,
+      "Qwall": 9186283821,
+      "cert": 51,
+      "draws": 0,
+      "games": 112,
+      "losses": 36,
+      "queries": 26757,
+      "replacement": 27,
+      "score2": 152,
+      "wins": 76
+    }
+  }
+}
