@@ -1,0 +1,55 @@
+{
+  "admitted": false,
+  "cost": 3240,
+  "horizons": {
+    "128": {
+      "constant_gain": -0.0,
+      "excess": 0.0,
+      "mean_excess_CI": [
+        0.0,
+        0.0
+      ],
+      "mse": {
+        "bin": 1.7167105885291437e-06,
+        "constant": 1.6450949076263724e-06,
+        "disagreement": 1.653927277945443e-06
+      },
+      "selected_gain": 0.0,
+      "total_gain": -0.024578127468347515
+    },
+    "32": {
+      "constant_gain": -0.0,
+      "excess": 0.0,
+      "mean_excess_CI": [
+        0.0,
+        0.0
+      ],
+      "mse": {
+        "bin": 1.0552692453607765e-06,
+        "constant": 4.042702112589513e-07,
+        "disagreement": 4.936907488427103e-07
+      },
+      "selected_gain": 0.0,
+      "total_gain": -0.0032538860839503303
+    },
+    "64": {
+      "constant_gain": -0.0,
+      "excess": 0.0,
+      "mean_excess_CI": [
+        0.0,
+        0.0
+      ],
+      "mse": {
+        "bin": 2.476078554765677e-07,
+        "constant": 1.9395792886723624e-07,
+        "disagreement": 1.9980827360524416e-07
+      },
+      "selected_gain": 0.0,
+      "total_gain": -0.005081948718707499
+    }
+  },
+  "n": 277,
+  "p": 0.0,
+  "selected": 0,
+  "selected_cost": 0
+}
