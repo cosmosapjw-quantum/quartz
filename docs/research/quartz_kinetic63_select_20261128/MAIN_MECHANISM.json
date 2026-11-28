@@ -1,0 +1,89 @@
+{
+  "arms": {
+    "FREE": {
+      "cells": {
+        "0:1": 145,
+        "1:1": 28,
+        "2:1": 190,
+        "3:1": 334,
+        "4:1": 135,
+        "5:1": 116
+      },
+      "counts": {
+        "common_physical_delta": 0,
+        "common_q_physical_delta": 0,
+        "common_roots": 3405,
+        "common_select_events": 743,
+        "common_select_extra": 0,
+        "delta_both_physical": -1867,
+        "delta_score2": 12,
+        "eligible": 948,
+        "episodes": 672,
+        "equal_history": 447,
+        "extra_physical": 0,
+        "first_divergence": 225,
+        "selected_switch": 334
+      },
+      "ops": {
+        "1": 948
+      }
+    },
+    "SELECT": {
+      "cells": {
+        "0:2": 144,
+        "1:0": 25,
+        "2:0": 189,
+        "3:1": 316,
+        "4:2": 137,
+        "5:0": 115
+      },
+      "counts": {
+        "common_physical_delta": 714,
+        "common_q_physical_delta": 714,
+        "common_roots": 2915,
+        "common_select_events": 664,
+        "common_select_extra": 714,
+        "common_target_events": 180,
+        "common_target_extra": 714,
+        "delta_both_physical": -2080,
+        "delta_score2": 18,
+        "eligible": 926,
+        "episodes": 672,
+        "equal_history": 393,
+        "extra_physical": 1118,
+        "first_divergence": 279,
+        "selected_switch": 430,
+        "target_events": 281,
+        "target_extra_physical": 1118,
+        "target_switch": 114
+      },
+      "ops": {
+        "0": 329,
+        "1": 316,
+        "2": 281
+      }
+    },
+    "TARGET": {
+      "cells": {},
+      "counts": {
+        "common_physical_delta": 2290,
+        "common_q_physical_delta": 2290,
+        "common_roots": 2370,
+        "common_target_events": 581,
+        "common_target_extra": 2290,
+        "delta_both_physical": 3917,
+        "delta_score2": 0,
+        "episodes": 672,
+        "equal_history": 333,
+        "first_divergence": 339,
+        "target_events": 1020,
+        "target_extra_physical": 4038,
+        "target_switch": 646
+      },
+      "ops": {}
+    }
+  },
+  "lock_sha256": "4512aa706e94d4df3aa77c5d4da76487c3c090f8123f23d89c15533bd911554c",
+  "mode": "MAIN",
+  "scope": "common-prefix accounting only; path-dependent downstream costs"
+}

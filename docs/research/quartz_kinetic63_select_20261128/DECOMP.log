@@ -1,0 +1,187 @@
+{
+  "raw": {
+    "n": 430.0,
+    "agree": 262.0,
+    "disagree": 168.0,
+    "target_improves_free": 14.0,
+    "target_harms_free": 10.0,
+    "target_ties_free": 406.0,
+    "free_help": 9.0,
+    "free_harm": 1.0,
+    "target_help": 21.0,
+    "target_harm": 9.0,
+    "free_target_delta": 4.0,
+    "extra": 1700.0,
+    "incremental_net": 0.6,
+    "better_rival": 33.0,
+    "worse_rival": 12.0
+  },
+  "weighted": {
+    "n": {
+      "mean": 1.0,
+      "exact": "1"
+    },
+    "agree": {
+      "mean": 0.6261382113821138,
+      "exact": "15403/24600"
+    },
+    "disagree": {
+      "mean": 0.37386178861788616,
+      "exact": "9197/24600"
+    },
+    "target_improves_free": {
+      "mean": 0.02826219512195122,
+      "exact": "927/32800"
+    },
+    "target_harms_free": {
+      "mean": 0.022459349593495936,
+      "exact": "221/9840"
+    },
+    "target_ties_free": {
+      "mean": 0.9492784552845528,
+      "exact": "93409/98400"
+    },
+    "free_help": {
+      "mean": 0.03695121951219512,
+      "exact": "303/8200"
+    },
+    "free_harm": {
+      "mean": 0.004105691056910569,
+      "exact": "101/24600"
+    },
+    "target_help": {
+      "mean": 0.0570020325203252,
+      "exact": "5609/98400"
+    },
+    "target_harm": {
+      "mean": 0.018353658536585365,
+      "exact": "301/16400"
+    },
+    "free_target_delta": {
+      "mean": 0.005802845528455285,
+      "exact": "571/98400"
+    },
+    "extra": {
+      "mean": 3.953282520325203,
+      "exact": "389003/98400"
+    },
+    "incremental_net": {
+      "mean": -0.002103719512195122,
+      "exact": "-34501/16400000"
+    },
+    "better_rival": {
+      "mean": 0.08690040650406504,
+      "exact": "8551/98400"
+    },
+    "worse_rival": {
+      "mean": 0.02402439024390244,
+      "exact": "197/8200"
+    }
+  },
+  "cells": {
+    "0": {
+      "n": 80.0,
+      "agree": 37.0,
+      "disagree": 43.0,
+      "target_improves_free": 7.0,
+      "target_harms_free": 3.0,
+      "target_ties_free": 70.0,
+      "free_help": 0.0,
+      "free_harm": 0.0,
+      "target_help": 7.0,
+      "target_harm": 3.0,
+      "free_target_delta": 4.0,
+      "extra": 320.0,
+      "incremental_net": 3.36,
+      "better_rival": 14.0,
+      "worse_rival": 4.0
+    },
+    "1": {
+      "n": 30.0,
+      "agree": 18.0,
+      "disagree": 12.0,
+      "target_improves_free": 1.0,
+      "target_harms_free": 2.0,
+      "target_ties_free": 27.0,
+      "free_help": 0.0,
+      "free_harm": 0.0,
+      "target_help": 1.0,
+      "target_harm": 2.0,
+      "free_target_delta": -1.0,
+      "extra": 120.0,
+      "incremental_net": -1.24,
+      "better_rival": 1.0,
+      "worse_rival": 2.0
+    },
+    "2": {
+      "n": 80.0,
+      "agree": 26.0,
+      "disagree": 54.0,
+      "target_improves_free": 1.0,
+      "target_harms_free": 1.0,
+      "target_ties_free": 78.0,
+      "free_help": 0.0,
+      "free_harm": 0.0,
+      "target_help": 1.0,
+      "target_harm": 1.0,
+      "free_target_delta": 0.0,
+      "extra": 320.0,
+      "incremental_net": -0.64,
+      "better_rival": 2.0,
+      "worse_rival": 1.0
+    },
+    "3": {
+      "n": 80.0,
+      "agree": 66.0,
+      "disagree": 14.0,
+      "target_improves_free": 0.0,
+      "target_harms_free": 2.0,
+      "target_ties_free": 78.0,
+      "free_help": 9.0,
+      "free_harm": 1.0,
+      "target_help": 7.0,
+      "target_harm": 1.0,
+      "free_target_delta": -2.0,
+      "extra": 315.0,
+      "incremental_net": -2.63,
+      "better_rival": 9.0,
+      "worse_rival": 1.0
+    },
+    "4": {
+      "n": 80.0,
+      "agree": 53.0,
+      "disagree": 27.0,
+      "target_improves_free": 4.0,
+      "target_harms_free": 1.0,
+      "target_ties_free": 75.0,
+      "free_help": 0.0,
+      "free_harm": 0.0,
+      "target_help": 4.0,
+      "target_harm": 1.0,
+      "free_target_delta": 3.0,
+      "extra": 311.0,
+      "incremental_net": 2.378,
+      "better_rival": 5.0,
+      "worse_rival": 2.0
+    },
+    "5": {
+      "n": 80.0,
+      "agree": 62.0,
+      "disagree": 18.0,
+      "target_improves_free": 1.0,
+      "target_harms_free": 1.0,
+      "target_ties_free": 78.0,
+      "free_help": 0.0,
+      "free_harm": 0.0,
+      "target_help": 1.0,
+      "target_harm": 1.0,
+      "free_target_delta": 0.0,
+      "extra": 314.0,
+      "incremental_net": -0.628,
+      "better_rival": 2.0,
+      "worse_rival": 2.0
+    }
+  },
+  "lock_sha256": "37eaac7f12864635a5abc6d9a90493cc859cc9cbc42ac980b4de3f7505763637",
+  "scope": "fixed H4 occurrence population; estimates not future occupancy"
+}

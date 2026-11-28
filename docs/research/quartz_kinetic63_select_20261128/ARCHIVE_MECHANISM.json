@@ -1,0 +1,89 @@
+{
+  "arms": {
+    "FREE": {
+      "cells": {
+        "0:1": 24,
+        "1:1": 2,
+        "2:1": 6,
+        "3:1": 68,
+        "4:1": 20,
+        "5:1": 6
+      },
+      "counts": {
+        "common_physical_delta": 0,
+        "common_q_physical_delta": 0,
+        "common_roots": 360,
+        "common_select_events": 82,
+        "common_select_extra": 0,
+        "delta_both_physical": 765,
+        "delta_score2": 0,
+        "eligible": 126,
+        "episodes": 96,
+        "equal_history": 50,
+        "extra_physical": 0,
+        "first_divergence": 46,
+        "selected_switch": 68
+      },
+      "ops": {
+        "1": 126
+      }
+    },
+    "SELECT": {
+      "cells": {
+        "0:2": 24,
+        "1:0": 2,
+        "2:0": 6,
+        "3:1": 68,
+        "4:2": 19,
+        "5:0": 8
+      },
+      "counts": {
+        "common_physical_delta": 100,
+        "common_q_physical_delta": 100,
+        "common_roots": 292,
+        "common_select_events": 77,
+        "common_select_extra": 100,
+        "common_target_events": 25,
+        "common_target_extra": 100,
+        "delta_both_physical": 1041,
+        "delta_score2": 0,
+        "eligible": 127,
+        "episodes": 96,
+        "equal_history": 42,
+        "extra_physical": 172,
+        "first_divergence": 54,
+        "selected_switch": 85,
+        "target_events": 43,
+        "target_extra_physical": 172,
+        "target_switch": 17
+      },
+      "ops": {
+        "0": 16,
+        "1": 68,
+        "2": 43
+      }
+    },
+    "TARGET": {
+      "cells": {},
+      "counts": {
+        "common_physical_delta": 323,
+        "common_q_physical_delta": 323,
+        "common_roots": 334,
+        "common_target_events": 81,
+        "common_target_extra": 323,
+        "delta_both_physical": 1313,
+        "delta_score2": 2,
+        "episodes": 96,
+        "equal_history": 46,
+        "first_divergence": 50,
+        "target_events": 124,
+        "target_extra_physical": 492,
+        "target_switch": 80
+      },
+      "ops": {}
+    }
+  },
+  "lock_sha256": "a709db1ea1ba934f14c6dba54307c2f69efb349dfe61b220d4a6966441dfe3fa",
+  "mode": "ARCHIVE",
+  "scope": "common-prefix accounting only; path-dependent downstream costs"
+}
