@@ -1,0 +1,251 @@
+{
+  "cal_all_roots": {
+    "ARCHIVE:EXPAND": {
+      "always_gain": 0.020833333333333332,
+      "always_whole_utility": 0.0185,
+      "counts": {
+        "always_gain2": 2,
+        "always_harm": 1,
+        "always_help": 2,
+        "always_whole_extra": 56,
+        "discord": 23,
+        "gain2": 2,
+        "harm": 1,
+        "help": 2,
+        "oracle_gain2": 4,
+        "root_extra": 46,
+        "roots": 48,
+        "switch": 23,
+        "whole_extra": 56
+      },
+      "gain": 0.020833333333333332,
+      "oracle_gain": 0.041666666666666664,
+      "root_utility": 0.01891666666666667,
+      "whole_utility": 0.0185
+    },
+    "ARCHIVE:FOCUS": {
+      "always_gain": 0.041666666666666664,
+      "always_whole_utility": 0.042166666666666665,
+      "counts": {
+        "always_gain2": 4,
+        "always_harm": 1,
+        "always_help": 3,
+        "always_whole_extra": -12,
+        "discord": 31,
+        "gain2": 0,
+        "harm": 0,
+        "help": 0,
+        "oracle_gain2": 6,
+        "root_extra": 48,
+        "roots": 48,
+        "switch": 0,
+        "whole_extra": 48
+      },
+      "gain": 0.0,
+      "oracle_gain": 0.0625,
+      "root_utility": -0.002,
+      "whole_utility": -0.002
+    },
+    "ARCHIVE:VOTE": {
+      "always_gain": -0.020833333333333332,
+      "always_whole_utility": -0.019375,
+      "counts": {
+        "always_gain2": -2,
+        "always_harm": 3,
+        "always_help": 2,
+        "always_whole_extra": -35,
+        "discord": 31,
+        "gain2": 0,
+        "harm": 0,
+        "help": 0,
+        "oracle_gain2": 4,
+        "root_extra": 0,
+        "roots": 48,
+        "switch": 0,
+        "whole_extra": 0
+      },
+      "gain": 0.0,
+      "oracle_gain": 0.041666666666666664,
+      "root_utility": 0.0,
+      "whole_utility": 0.0
+    },
+    "MAIN:EXPAND": {
+      "always_gain": -0.019230769230769232,
+      "always_whole_utility": -0.022064102564102565,
+      "counts": {
+        "always_gain2": -6,
+        "always_harm": 5,
+        "always_help": 2,
+        "always_whole_extra": 221,
+        "discord": 70,
+        "gain2": -6,
+        "harm": 5,
+        "help": 2,
+        "oracle_gain2": 4,
+        "root_extra": 141,
+        "roots": 156,
+        "switch": 70,
+        "whole_extra": 221
+      },
+      "gain": -0.019230769230769232,
+      "oracle_gain": 0.01282051282051282,
+      "root_utility": -0.021038461538461537,
+      "whole_utility": -0.022064102564102565
+    },
+    "MAIN:FOCUS": {
+      "always_gain": -0.00641025641025641,
+      "always_whole_utility": -0.008089743589743589,
+      "counts": {
+        "always_gain2": -2,
+        "always_harm": 2,
+        "always_help": 1,
+        "always_whole_extra": 131,
+        "discord": 56,
+        "gain2": 0,
+        "harm": 0,
+        "help": 0,
+        "oracle_gain2": 2,
+        "root_extra": 156,
+        "roots": 156,
+        "switch": 0,
+        "whole_extra": 156
+      },
+      "gain": 0.0,
+      "oracle_gain": 0.00641025641025641,
+      "root_utility": -0.002,
+      "whole_utility": -0.002
+    },
+    "MAIN:VOTE": {
+      "always_gain": 0.01282051282051282,
+      "always_whole_utility": 0.012628205128205129,
+      "counts": {
+        "always_gain2": 4,
+        "always_harm": 0,
+        "always_help": 2,
+        "always_whole_extra": 15,
+        "discord": 70,
+        "gain2": 0,
+        "harm": 0,
+        "help": 0,
+        "oracle_gain2": 4,
+        "root_extra": 0,
+        "roots": 156,
+        "switch": 0,
+        "whole_extra": 0
+      },
+      "gain": 0.0,
+      "oracle_gain": 0.01282051282051282,
+      "root_utility": 0.0,
+      "whole_utility": 0.0
+    },
+    "NOVEL:EXPAND": {
+      "always_gain": 0.0,
+      "always_whole_utility": -0.0035151515151515154,
+      "counts": {
+        "always_gain2": 0,
+        "always_harm": 1,
+        "always_help": 1,
+        "always_whole_extra": 58,
+        "discord": 13,
+        "gain2": 0,
+        "harm": 1,
+        "help": 1,
+        "oracle_gain2": 2,
+        "root_extra": 28,
+        "roots": 33,
+        "switch": 13,
+        "whole_extra": 58
+      },
+      "gain": 0.0,
+      "oracle_gain": 0.030303030303030304,
+      "root_utility": -0.001696969696969697,
+      "whole_utility": -0.0035151515151515154
+    },
+    "NOVEL:FOCUS": {
+      "always_gain": 0.030303030303030304,
+      "always_whole_utility": 0.0276969696969697,
+      "counts": {
+        "always_gain2": 2,
+        "always_harm": 0,
+        "always_help": 1,
+        "always_whole_extra": 43,
+        "discord": 17,
+        "gain2": 0,
+        "harm": 0,
+        "help": 0,
+        "oracle_gain2": 2,
+        "root_extra": 33,
+        "roots": 33,
+        "switch": 0,
+        "whole_extra": 33
+      },
+      "gain": 0.0,
+      "oracle_gain": 0.030303030303030304,
+      "root_utility": -0.002,
+      "whole_utility": -0.002
+    },
+    "NOVEL:VOTE": {
+      "always_gain": 0.0,
+      "always_whole_utility": 0.0009090909090909091,
+      "counts": {
+        "always_gain2": 0,
+        "always_harm": 1,
+        "always_help": 1,
+        "always_whole_extra": -15,
+        "discord": 23,
+        "gain2": 0,
+        "harm": 0,
+        "help": 0,
+        "oracle_gain2": 2,
+        "root_extra": 0,
+        "roots": 33,
+        "switch": 0,
+        "whole_extra": 0
+      },
+      "gain": 0.0,
+      "oracle_gain": 0.030303030303030304,
+      "root_utility": 0.0,
+      "whole_utility": 0.0
+    }
+  },
+  "checked_pairs": 1281,
+  "model_sha256": "07b92cb0f7b8769515b0096ed4407dd9eb0d6a51183733aa11f46cd42a465b21",
+  "objective": 0.40145479624987723,
+  "opening_families": 60,
+  "prior_locks": 30,
+  "temperature_nll": [
+    [
+      0.5,
+      0.56193795111838
+    ],
+    [
+      0.75,
+      0.4144479317918396
+    ],
+    [
+      1.0,
+      0.38893061004875273
+    ],
+    [
+      1.25,
+      0.4143742855990538
+    ],
+    [
+      1.5,
+      0.4611650298016493
+    ],
+    [
+      2.0,
+      0.5717503022377145
+    ],
+    [
+      3.0,
+      0.7699720256787808
+    ],
+    [
+      4.0,
+      0.9154324397213931
+    ]
+  ],
+  "train_gradient_norm": 9.976364029789878e-10
+}

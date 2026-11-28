@@ -1,0 +1,73 @@
+{
+  "scope": "post-fit diagnostic, no policy selection, raw conditional AUC among nonzero outcomes",
+  "model_sha256": "07b92cb0f7b8769515b0096ed4407dd9eb0d6a51183733aa11f46cd42a465b21",
+  "data_sha256": "4865c3348c62f55cb5fbec117a1232913dc48314fd9f01e1ce19bdf3c6e81ba2",
+  "groups": {
+    "TRAIN:VOTE": {
+      "n": 380,
+      "positive": 24,
+      "negative": 23,
+      "ties": 333,
+      "gain_min": -0.017512922929133267,
+      "gain_max": -0.012332494561792988,
+      "positive_prediction": 0,
+      "conditional_sign_auc": 0.5452898550724637,
+      "auc_pairs": 552
+    },
+    "TRAIN:FOCUS": {
+      "n": 300,
+      "positive": 15,
+      "negative": 15,
+      "ties": 270,
+      "gain_min": -0.0066845045062588135,
+      "gain_max": -0.0017050955542402073,
+      "positive_prediction": 0,
+      "conditional_sign_auc": 0.4,
+      "auc_pairs": 225
+    },
+    "TRAIN:EXPAND": {
+      "n": 267,
+      "positive": 15,
+      "negative": 7,
+      "ties": 245,
+      "gain_min": 0.016695628781941654,
+      "gain_max": 0.026887497516425798,
+      "positive_prediction": 267,
+      "conditional_sign_auc": 0.3523809523809524,
+      "auc_pairs": 105
+    },
+    "CAL:VOTE": {
+      "n": 124,
+      "positive": 5,
+      "negative": 4,
+      "ties": 115,
+      "gain_min": -0.017512731706258985,
+      "gain_max": -0.012606035652396402,
+      "positive_prediction": 0,
+      "conditional_sign_auc": 1.0,
+      "auc_pairs": 20
+    },
+    "CAL:FOCUS": {
+      "n": 104,
+      "positive": 5,
+      "negative": 3,
+      "ties": 96,
+      "gain_min": -0.00668441262967558,
+      "gain_max": -0.0017394906502548387,
+      "positive_prediction": 0,
+      "conditional_sign_auc": 0.4,
+      "auc_pairs": 15
+    },
+    "CAL:EXPAND": {
+      "n": 106,
+      "positive": 5,
+      "negative": 7,
+      "ties": 94,
+      "gain_min": 0.016718836553793807,
+      "gain_max": 0.026669244652474663,
+      "positive_prediction": 106,
+      "conditional_sign_auc": 0.6857142857142857,
+      "auc_pairs": 35
+    }
+  }
+}

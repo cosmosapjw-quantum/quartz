@@ -1,0 +1,73 @@
+{
+  "data_sha256": "4865c3348c62f55cb5fbec117a1232913dc48314fd9f01e1ce19bdf3c6e81ba2",
+  "groups": {
+    "CAL:EXPAND": {
+      "auc_pairs": 35,
+      "conditional_sign_auc": 0.6857142857142857,
+      "gain_max": 0.026669244652474663,
+      "gain_min": 0.016718836553793807,
+      "n": 106,
+      "negative": 7,
+      "positive": 5,
+      "positive_prediction": 106,
+      "ties": 94
+    },
+    "CAL:FOCUS": {
+      "auc_pairs": 15,
+      "conditional_sign_auc": 0.4,
+      "gain_max": -0.0017394906502548387,
+      "gain_min": -0.00668441262967558,
+      "n": 104,
+      "negative": 3,
+      "positive": 5,
+      "positive_prediction": 0,
+      "ties": 96
+    },
+    "CAL:VOTE": {
+      "auc_pairs": 20,
+      "conditional_sign_auc": 1.0,
+      "gain_max": -0.012606035652396402,
+      "gain_min": -0.017512731706258985,
+      "n": 124,
+      "negative": 4,
+      "positive": 5,
+      "positive_prediction": 0,
+      "ties": 115
+    },
+    "TRAIN:EXPAND": {
+      "auc_pairs": 105,
+      "conditional_sign_auc": 0.3523809523809524,
+      "gain_max": 0.026887497516425798,
+      "gain_min": 0.016695628781941654,
+      "n": 267,
+      "negative": 7,
+      "positive": 15,
+      "positive_prediction": 267,
+      "ties": 245
+    },
+    "TRAIN:FOCUS": {
+      "auc_pairs": 225,
+      "conditional_sign_auc": 0.4,
+      "gain_max": -0.0017050955542402073,
+      "gain_min": -0.0066845045062588135,
+      "n": 300,
+      "negative": 15,
+      "positive": 15,
+      "positive_prediction": 0,
+      "ties": 270
+    },
+    "TRAIN:VOTE": {
+      "auc_pairs": 552,
+      "conditional_sign_auc": 0.5452898550724637,
+      "gain_max": -0.012332494561792988,
+      "gain_min": -0.017512922929133267,
+      "n": 380,
+      "negative": 23,
+      "positive": 24,
+      "positive_prediction": 0,
+      "ties": 333
+    }
+  },
+  "model_sha256": "07b92cb0f7b8769515b0096ed4407dd9eb0d6a51183733aa11f46cd42a465b21",
+  "scope": "post-fit diagnostic, no policy selection, raw conditional AUC among nonzero outcomes"
+}
