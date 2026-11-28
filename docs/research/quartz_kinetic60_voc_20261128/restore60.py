@@ -11,7 +11,7 @@ def main():
     assert git('rev-parse','HEAD^{tree}')==rec['tree'] and not git('status','--porcelain')
     bundle=B/rec['bundle'];assert sha(bundle)==rec['sha256']
     receipts=[json.loads(x) for x in (B/'STAGE_RECEIPTS.jsonl').read_text().splitlines()]
-    exp=[f'R{i:02d}' for i in range(1,11)]+['C01','C02','C03','C04','C05','C05A','C06','C06A','C07','C08','C09','C10']
+    exp=[f'R{i:02d}' for i in range(1,11)]+['C01','C02','C03','C04','C05','C05A','C06','C06A','C07','C08','C09','C10','C10A']
     assert [x['stage'] for x in receipts]==exp
     chain=git('rev-list','--reverse',f'{BASE}..{head}').splitlines()
     assert chain==[x['head'] for x in receipts] and all(x['remote']==x['head'] and x['parent']==p for x,p in zip(receipts,[BASE]+chain[:-1]))
