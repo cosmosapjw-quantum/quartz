@@ -1,0 +1,72 @@
+{
+  "audit": {
+    "common": 889,
+    "edges": 788013,
+    "proof_queries": 2653285,
+    "proof_receipts": 2428,
+    "rapfi_children": 184,
+    "rapfi_events": 92,
+    "rapfi_local_nn": 1104,
+    "rapfi_switch": 25,
+    "votes": 4562,
+    "wave_receipts": 4562,
+    "waves": 52614
+  },
+  "counts": {
+    "changed": 25,
+    "common": 889,
+    "events": 92,
+    "extra": 1104,
+    "games": 192,
+    "moves": 5697,
+    "nn": 458904
+  },
+  "independent": {
+    "bound_cells": 422104,
+    "new_loss_facts": 139781,
+    "new_win_facts": 79,
+    "partial_cert": 246,
+    "partial_receipts": 2428,
+    "queries": 2653285
+  },
+  "natural_exact": [],
+  "pair": {},
+  "panels": {
+    "all": {
+      "Bcpu": 89443817273,
+      "Bmoves": 2849,
+      "Bnn": 280430,
+      "Bwall": 89013496217,
+      "Qcpu": 65824390108,
+      "Qmoves": 2848,
+      "Qnn": 178474,
+      "Qwall": 65335023272,
+      "cert": 246,
+      "draws": 7,
+      "games": 192,
+      "losses": 96,
+      "queries": 2653285,
+      "replacement": 114,
+      "score2": 185,
+      "wins": 89
+    },
+    "compact": {
+      "Bcpu": 89443817273,
+      "Bmoves": 2849,
+      "Bnn": 280430,
+      "Bwall": 89013496217,
+      "Qcpu": 65824390108,
+      "Qmoves": 2848,
+      "Qnn": 178474,
+      "Qwall": 65335023272,
+      "cert": 246,
+      "draws": 7,
+      "games": 192,
+      "losses": 96,
+      "queries": 2653285,
+      "replacement": 114,
+      "score2": 185,
+      "wins": 89
+    }
+  }
+}
