@@ -1,0 +1,96 @@
+{
+  "exact_weighted": {
+    "ARCHIVE": {
+      "A4": {
+        "feasible": "463/14",
+        "logical": "5",
+        "loss_visits": "121/126",
+        "physical": "5",
+        "unvisited_chosen": "4/21",
+        "visited": "311/126"
+      },
+      "L4": {
+        "feasible": "463/14",
+        "logical": "5",
+        "loss_visits": "121/126",
+        "physical": "5",
+        "unvisited_chosen": "4/21",
+        "visited": "311/126"
+      },
+      "M4": {
+        "feasible": "463/14",
+        "logical": "5",
+        "loss_visits": "0",
+        "physical": "5",
+        "unvisited_chosen": "0",
+        "visited": "193/63"
+      },
+      "MA4": {
+        "feasible": "463/14",
+        "logical": "5",
+        "loss_visits": "0",
+        "physical": "5",
+        "unvisited_chosen": "0",
+        "visited": "193/63"
+      },
+      "X4": {
+        "feasible": "463/14",
+        "logical": "5",
+        "loss_visits": "0",
+        "physical": "5",
+        "unvisited_chosen": "0",
+        "visited": "79/21"
+      }
+    },
+    "MAIN": {
+      "A4": {
+        "feasible": "218519/6320",
+        "logical": "5",
+        "loss_visits": "1811/2370",
+        "physical": "5",
+        "unvisited_chosen": "145/948",
+        "visited": "22543/9480"
+      },
+      "L4": {
+        "feasible": "218519/6320",
+        "logical": "5",
+        "loss_visits": "1811/2370",
+        "physical": "5",
+        "unvisited_chosen": "145/948",
+        "visited": "22543/9480"
+      },
+      "M4": {
+        "feasible": "218519/6320",
+        "logical": "5",
+        "loss_visits": "0",
+        "physical": "5",
+        "unvisited_chosen": "0",
+        "visited": "54323/18960"
+      },
+      "MA4": {
+        "feasible": "218519/6320",
+        "logical": "5",
+        "loss_visits": "0",
+        "physical": "5",
+        "unvisited_chosen": "0",
+        "visited": "54323/18960"
+      },
+      "X4": {
+        "feasible": "218519/6320",
+        "logical": "5",
+        "loss_visits": "0",
+        "physical": "5",
+        "unvisited_chosen": "0",
+        "visited": "291151/75840"
+      }
+    }
+  },
+  "families": 48,
+  "lock_sha256": "803cf8b6d0a9c9d7d73203063528685592616dfc970d191a1489dfa392ab3d95",
+  "population": {
+    "ARCHIVE": "126",
+    "MAIN": "948"
+  },
+  "prior_locks": 28,
+  "roots": 554
+}
