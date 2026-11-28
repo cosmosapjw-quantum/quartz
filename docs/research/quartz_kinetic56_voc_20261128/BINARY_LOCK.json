@@ -1,0 +1,16 @@
+{
+  "binary_sha256": "1bbc24d567a0e29cce4d0242f2bf3ffd036af1f85f4694544775062dc82ecfcd",
+  "bytes": 7554448,
+  "old_binary_sha256": "7dc76df8e8295796bc7fa9a3f14ebb6cc3246cda9259e5cb8b1bb1576ecf7e19",
+  "parent_identity_sha256": "37c480e0e1e0c2c2bf0dfb562f6e799cd5573b05987e6e57efd0ca9f99e36626",
+  "source_commit": "d324e9ed3bba010d673b198f4f5b2e7d61c9c64e",
+  "source_sha256": {
+    "src/mcts_server.rs": "76925c55ff553a65320782de5f5400d76bfa7e653eeabd7f3c86a1e74b653264",
+    "src/mcts_server/k47_nn.rs": "e05becabdd8efeafde53f978b0a37319986d4b0b68fcdfbcbd41512c98cd4890",
+    "src/mcts_server/k47_proof.rs": "4afbbd2c7667e0020c4fa1f91691ca0cded7458b85f6527a6167639cdefffab2",
+    "src/mcts_server/rapfi_k36.rs": "671cb0b0c00097e467543ca698597bb693388bbb0b89f1ea22f56f2dd0039635",
+    "src/mcts/eval.rs": "bc29ee4af1730adfc26407139d035c90cb16e66d2215c683b94edef036bc3dd6"
+  },
+  "cargo_lock_sha256": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)"
+}
