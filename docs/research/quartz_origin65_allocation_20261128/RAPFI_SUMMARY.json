@@ -1,0 +1,70 @@
+{
+  "counts": {
+    "Q104": {
+      "Bcpu_ns": 17450474106,
+      "Bmoves": 621,
+      "Bnn": 62044,
+      "Bwall_ns": 17339271900,
+      "Qcpu_ns": 13743227026,
+      "Qmoves": 621,
+      "Qnn": 43454,
+      "Qwall_ns": 13665903974,
+      "draws": 2,
+      "games": 32,
+      "losses": 15,
+      "moves": 1242,
+      "score2": 32,
+      "wins": 15
+    },
+    "Q96": {
+      "Bcpu_ns": 22397388871,
+      "Bmoves": 699,
+      "Bnn": 71552,
+      "Bwall_ns": 22487667598,
+      "Qcpu_ns": 16714719383,
+      "Qmoves": 699,
+      "Qnn": 47526,
+      "Qwall_ns": 16697896561,
+      "draws": 3,
+      "games": 32,
+      "losses": 14,
+      "moves": 1398,
+      "score2": 33,
+      "wins": 15
+    }
+  },
+  "lock_sha256": "ff32dad9432a763f5ce72639e1320de71d0c69185d4f7a3e45d374afa0faac7b",
+  "paired_delta_saving": 0.036157693832952864,
+  "paired_delta_score": 0.015625,
+  "points": {
+    "Q104": {
+      "cpu_saving": 0.212443917424876,
+      "saving": 0.2996260718199988,
+      "score": 0.5
+    },
+    "Q96": {
+      "cpu_saving": 0.25372017786224554,
+      "saving": 0.33578376565295165,
+      "score": 0.515625
+    }
+  },
+  "proof": {
+    "common": 384,
+    "edges": 343055,
+    "proof_queries": 1286049,
+    "proof_receipts": 1150,
+    "votes": 2161,
+    "wave_receipts": 2161,
+    "waves": 25446
+  },
+  "saving_CI": [
+    0.00038451797609440064,
+    0.061476873761392326
+  ],
+  "scope": "exploratory fixed cap Q96 vs Q104, each vs same B128",
+  "score_CI": [
+    0.0,
+    0.046875
+  ],
+  "trajectory_divergences": 9
+}
