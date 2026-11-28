@@ -1,0 +1,126 @@
+{
+  "arms": {
+    "H4": {
+      "cells": {},
+      "counts": {
+        "common_physical_delta": 0,
+        "common_q_physical_delta": 0,
+        "common_roots": 2254,
+        "delta_both_physical": 938,
+        "delta_score2": -16,
+        "episodes": 448,
+        "equal_history": 314,
+        "first_divergence": 134,
+        "improved": 3,
+        "worsened": 11
+      },
+      "ops": {}
+    },
+    "K63": {
+      "cells": {},
+      "counts": {
+        "common_physical_delta": 598,
+        "common_q_physical_delta": 598,
+        "common_roots": 2886,
+        "common_target_events": 150,
+        "common_target_extra": 598,
+        "delta_both_physical": -295,
+        "delta_score2": 4,
+        "episodes": 448,
+        "equal_history": 387,
+        "first_divergence": 61,
+        "improved": 6,
+        "target_events": 167,
+        "target_extra_physical": 666,
+        "worsened": 4
+      },
+      "ops": {}
+    },
+    "ROBUST": {
+      "cells": {
+        "0:0": 80,
+        "1:0": 15,
+        "2:0": 119,
+        "3:0": 192,
+        "4:0": 93,
+        "5:0": 77
+      },
+      "counts": {
+        "changed_free": 0,
+        "common_physical_delta": 0,
+        "common_q_physical_delta": 0,
+        "common_roots": 3379,
+        "common_select_events": 576,
+        "common_select_extra": 0,
+        "delta_both_physical": 0,
+        "delta_score2": 0,
+        "eligible": 576,
+        "episodes": 448,
+        "equal_history": 448,
+        "extra_physical": 0,
+        "improved": 0,
+        "worsened": 0
+      },
+      "ops": {
+        "0": 576
+      }
+    },
+    "T2": {
+      "cells": {
+        "0:1": 101,
+        "1:1": 12,
+        "2:1": 174,
+        "3:1": 196,
+        "4:1": 91,
+        "5:1": 84
+      },
+      "counts": {
+        "changed_free": 313,
+        "common_physical_delta": 833,
+        "common_q_physical_delta": 833,
+        "common_roots": 2047,
+        "common_select_events": 421,
+        "common_select_extra": 833,
+        "common_target_events": 421,
+        "common_target_extra": 833,
+        "delta_both_physical": 4124,
+        "delta_score2": -12,
+        "eligible": 658,
+        "episodes": 448,
+        "equal_history": 289,
+        "extra_physical": 1305,
+        "first_divergence": 159,
+        "improved": 6,
+        "target_events": 658,
+        "target_extra_physical": 1305,
+        "worsened": 12
+      },
+      "ops": {
+        "1": 658
+      }
+    },
+    "T4": {
+      "cells": {},
+      "counts": {
+        "common_physical_delta": 1728,
+        "common_q_physical_delta": 1728,
+        "common_roots": 2190,
+        "common_target_events": 437,
+        "common_target_extra": 1728,
+        "delta_both_physical": 3183,
+        "delta_score2": 0,
+        "episodes": 448,
+        "equal_history": 311,
+        "first_divergence": 137,
+        "improved": 7,
+        "target_events": 610,
+        "target_extra_physical": 2419,
+        "worsened": 7
+      },
+      "ops": {}
+    }
+  },
+  "lock_sha256": "63caee6ae47a1ae60b3b41b70a4c637396ab4842905f4b51dd8847ff2748cc81",
+  "mode": "MAIN",
+  "scope": "common-prefix accounting vs FREE; downstream path-dependent"
+}

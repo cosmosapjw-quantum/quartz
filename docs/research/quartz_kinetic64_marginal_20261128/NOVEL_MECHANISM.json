@@ -1,0 +1,126 @@
+{
+  "arms": {
+    "H4": {
+      "cells": {},
+      "counts": {
+        "common_physical_delta": 0,
+        "common_q_physical_delta": 0,
+        "common_roots": 596,
+        "delta_both_physical": -798,
+        "delta_score2": 4,
+        "episodes": 144,
+        "equal_history": 81,
+        "first_divergence": 63,
+        "improved": 6,
+        "worsened": 4
+      },
+      "ops": {}
+    },
+    "K63": {
+      "cells": {},
+      "counts": {
+        "common_physical_delta": 296,
+        "common_q_physical_delta": 296,
+        "common_roots": 955,
+        "common_target_events": 74,
+        "common_target_extra": 296,
+        "delta_both_physical": 190,
+        "delta_score2": 0,
+        "episodes": 144,
+        "equal_history": 115,
+        "first_divergence": 29,
+        "improved": 1,
+        "target_events": 83,
+        "target_extra_physical": 332,
+        "worsened": 1
+      },
+      "ops": {}
+    },
+    "ROBUST": {
+      "cells": {
+        "0:0": 43,
+        "1:0": 3,
+        "2:0": 11,
+        "3:0": 96,
+        "4:0": 39,
+        "5:0": 18
+      },
+      "counts": {
+        "changed_free": 0,
+        "common_physical_delta": 0,
+        "common_q_physical_delta": 0,
+        "common_roots": 1160,
+        "common_select_events": 210,
+        "common_select_extra": 0,
+        "delta_both_physical": 0,
+        "delta_score2": 0,
+        "eligible": 210,
+        "episodes": 144,
+        "equal_history": 144,
+        "extra_physical": 0,
+        "improved": 0,
+        "worsened": 0
+      },
+      "ops": {
+        "0": 210
+      }
+    },
+    "T2": {
+      "cells": {
+        "0:1": 47,
+        "1:1": 3,
+        "2:1": 10,
+        "3:1": 96,
+        "4:1": 40,
+        "5:1": 18
+      },
+      "counts": {
+        "changed_free": 71,
+        "common_physical_delta": 337,
+        "common_q_physical_delta": 337,
+        "common_roots": 766,
+        "common_select_events": 171,
+        "common_select_extra": 337,
+        "common_target_events": 171,
+        "common_target_extra": 337,
+        "delta_both_physical": 706,
+        "delta_score2": -4,
+        "eligible": 214,
+        "episodes": 144,
+        "equal_history": 93,
+        "extra_physical": 422,
+        "first_divergence": 51,
+        "improved": 3,
+        "target_events": 214,
+        "target_extra_physical": 422,
+        "worsened": 5
+      },
+      "ops": {
+        "1": 214
+      }
+    },
+    "T4": {
+      "cells": {},
+      "counts": {
+        "common_physical_delta": 710,
+        "common_q_physical_delta": 710,
+        "common_roots": 860,
+        "common_target_events": 179,
+        "common_target_extra": 710,
+        "delta_both_physical": 588,
+        "delta_score2": 0,
+        "episodes": 144,
+        "equal_history": 105,
+        "first_divergence": 39,
+        "improved": 2,
+        "target_events": 201,
+        "target_extra_physical": 798,
+        "worsened": 2
+      },
+      "ops": {}
+    }
+  },
+  "lock_sha256": "dc28475f77d0f22dbefbc2559ab6b0639169083de5d491cbf03501d29e5449de",
+  "mode": "NOVEL",
+  "scope": "common-prefix accounting vs FREE; downstream path-dependent"
+}
