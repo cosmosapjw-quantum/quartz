@@ -1,0 +1,64 @@
+{
+  "counts": {
+    "Q80_events": 0,
+    "Q96_events": 0,
+    "episodes": 32,
+    "games": 64,
+    "moves": 2150,
+    "nn": 164283
+  },
+  "executed_source": "9d0f631097c783309975d413cd3647ea747aa8225c1d841587ec4ae3ff6da069",
+  "executed_source_commit": "f38eac27",
+  "files": [
+    {
+      "counts": {
+        "Q80_events": 0,
+        "Q96_events": 0,
+        "episodes": 8,
+        "games": 16,
+        "moves": 639,
+        "nn": 51081
+      },
+      "file": "RAPFI_0.jsonl.gz",
+      "sha256": "0b0a9a44c67a77b8b961bb4def2e3582a9b1b483e29f9ba834dcbf491606fde1"
+    },
+    {
+      "counts": {
+        "Q80_events": 0,
+        "Q96_events": 0,
+        "episodes": 8,
+        "games": 16,
+        "moves": 650,
+        "nn": 51835
+      },
+      "file": "RAPFI_1.jsonl.gz",
+      "sha256": "802fc66c17489a0f06741213c2756535d0087a001f3406c2021830051edc1907"
+    },
+    {
+      "counts": {
+        "Q80_events": 0,
+        "Q96_events": 0,
+        "episodes": 8,
+        "games": 16,
+        "moves": 324,
+        "nn": 19077
+      },
+      "file": "RAPFI_2.jsonl.gz",
+      "sha256": "9ef5010afb569961a2c52ee1ee80162ba8d0b48f4bcccf480a0d0b4dfc5e970f"
+    },
+    {
+      "counts": {
+        "Q80_events": 0,
+        "Q96_events": 0,
+        "episodes": 8,
+        "games": 16,
+        "moves": 537,
+        "nn": 42290
+      },
+      "file": "RAPFI_3.jsonl.gz",
+      "sha256": "3cb8c47fee3f88b11ba021cb813e3cdf63b408ddad95eef5348060bb47141823"
+    }
+  ],
+  "plan": "b90fb972ea0216f34a6766f7181a98ae0771e070761fcb3ef0a86ce8aab0b22a",
+  "status": "reconstructed after original manifest-path error; all shard logs and complete game replay agree"
+}

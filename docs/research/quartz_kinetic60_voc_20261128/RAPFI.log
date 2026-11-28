@@ -1,0 +1,15 @@
+RAPFI SHARD 0 {'games': 16, 'moves': 639, 'nn': 51081, 'Q80_events': 0, 'Q96_events': 0, 'episodes': 8}
+RAPFI SHARD 1 {'games': 16, 'moves': 650, 'nn': 51835, 'Q96_events': 0, 'Q80_events': 0, 'episodes': 8}
+RAPFI SHARD 2 {'games': 16, 'moves': 324, 'nn': 19077, 'Q80_events': 0, 'Q96_events': 0, 'episodes': 8}
+RAPFI SHARD 3 {'games': 16, 'moves': 537, 'nn': 42290, 'Q96_events': 0, 'Q80_events': 0, 'episodes': 8}
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic60_voc_20261128/../quartz_kinetic60_voc_target_20261128/rapfi60.py", line 56, in <module>
+    if __name__=='__main__':make() if sys.argv[1]=='plan' else run()
+                                                               ^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic60_voc_20261128/../quartz_kinetic60_voc_target_20261128/rapfi60.py", line 54, in run
+    (T/'RAPFI_LOCK.json').write_text(json.dumps(dict(files=fs,counts=dict(ct),plan=sha(T/'RAPFI_PLAN.json'),source=sha(D/'rapfi59.py')),indent=2,sort_keys=True)+'\n')
+                                                                                                                   ^^^^^^^^^^^^^^^^^^^
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic60_voc_20261128/docs/research/quartz_kinetic60_voc_20261128/plan60.py", line 10, in sha
+    with open(p,'rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
+         ^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/cosmosapjw/quantum/research/quartz_kinetic60_voc_20261128/docs/research/quartz_kinetic60_voc_20261128/rapfi59.py'
