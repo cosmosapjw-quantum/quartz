@@ -6,7 +6,7 @@ use serde::Deserialize;
 use serde_json::{json,Value};
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool,#[serde(default)]table:Option<[u8;4]>,#[serde(default)]voc:Option<Voc56>}
+struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool,#[serde(default)]table:Option<[u8;4]>,#[serde(default)]voc:Option<Voc56>,#[serde(default)]early:Option<Early57>}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct EvalReply{cmd:String,id:u32,a:u64,b:u64,p:i8,prior:Vec<f64>,value:f64}
@@ -402,4 +402,21 @@ pub(super) fn generic56(line:&str)->Value{
         Ok(json!({"identity":q.identity,"history":q.history,"root_planes":g.encode_planes(),"plain":a,"first":b,"second":c,"plain_calls":n0,"first_counts":c0,"second_counts":c1,"physical":s.0,"trace":s.1}))
     };
     f().unwrap_or_else(|e|json!({"error":e}))
+}
+
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Early57{horizon:u32,op:u8}
+fn k57_event(_n:u32,_h:u32,_d:u32,_rival:bool)->bool{false}
+#[cfg(test)]
+mod k57_tests{
+    use super::*;
+    #[test]fn k57_early_event_lock_boundary(){
+        assert!(k57_event(4,4,3,true));
+        assert!(k57_event(16,16,4,true));
+        assert!(!k57_event(16,16,5,true));
+        assert!(!k57_event(8,12,1,true));
+        assert!(!k57_event(8,8,1,false));
+    }
 }

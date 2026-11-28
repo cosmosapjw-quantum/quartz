@@ -1,0 +1,26 @@
+test mcts_server::k47_nn::k57_tests::k57_early_event_lock_boundary ... FAILED
+test mcts::eval::epoch57_tests::k57_epoch_failure_and_capacity ... FAILED
+
+failures:
+
+---- mcts_server::k47_nn::k57_tests::k57_early_event_lock_boundary stdout ----
+
+thread 'mcts_server::k47_nn::k57_tests::k57_early_event_lock_boundary' (1641982) panicked at src/mcts_server/k47_nn.rs:416:9:
+assertion failed: k57_event(4, 4, 3, true)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- mcts::eval::epoch57_tests::k57_epoch_failure_and_capacity stdout ----
+
+thread 'mcts::eval::epoch57_tests::k57_epoch_failure_and_capacity' (1641981) panicked at src/mcts/eval.rs:2892:9:
+assertion `left == right` failed
+  left: Err("must not call")
+ right: Ok(7)
+
+
+failures:
+    mcts::eval::epoch57_tests::k57_epoch_failure_and_capacity
+    mcts_server::k47_nn::k57_tests::k57_early_event_lock_boundary
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 750 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin mcts_demo`

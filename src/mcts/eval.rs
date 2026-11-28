@@ -2862,3 +2862,39 @@ mod k55_cache_tests{
         eprintln!("K55 generic sync exact cache: first={:?} second={:?} logical_engine={}",n,z,second.evaluator_call_count());
     }
 }
+
+
+// Opt-in synchronous fallible memoization. Caller must supply a complete input key and epoch.
+pub struct EpochMemo57<K,V>{
+    epoch:String,
+    entries:std::collections::HashMap<K,V>,
+    capacity:usize,
+    attempts:u64,forwarded:u64,hits:u64,failed:u64,
+}
+impl<K:Eq+std::hash::Hash,V:Clone> EpochMemo57<K,V>{
+    pub fn new(epoch:String,capacity:usize)->Self{
+        assert!(!epoch.is_empty());Self{epoch,entries:std::collections::HashMap::new(),capacity,attempts:0,forwarded:0,hits:0,failed:0}
+    }
+    pub fn evaluate<E>(&mut self,epoch:&str,key:K,f:impl FnOnce()->Result<V,E>)->Result<V,E>{
+        assert!(!epoch.is_empty());self.attempts+=1;
+        match f(){Ok(v)=>{self.forwarded+=1;Ok(v)},Err(e)=>{self.failed+=1;Err(e)}}
+    }
+    pub fn counts(&self)->(u64,u64,u64,u64,usize){(self.attempts,self.forwarded,self.hits,self.failed,self.entries.len())}
+}
+#[cfg(test)]
+mod epoch57_tests{
+    use super::*;
+    #[test]fn k57_epoch_failure_and_capacity(){
+        let mut c=EpochMemo57::new("model-A:encoder1:fp32".into(),1);
+        assert_eq!(c.evaluate("model-A:encoder1:fp32",1,||Err::<i32,_>("failed")),Err("failed"));
+        assert_eq!(c.counts(),(1,0,0,1,0));
+        assert_eq!(c.evaluate("model-A:encoder1:fp32",1,||Ok::<_,&str>(7)),Ok(7));
+        assert_eq!(c.evaluate("model-A:encoder1:fp32",1,||Err("must not call")),Ok(7));
+        assert_eq!(c.evaluate("model-A:encoder1:fp32",2,||Ok::<_,&str>(8)),Ok(8));
+        assert_eq!(c.counts(),(4,2,1,1,1));
+        assert_eq!(c.evaluate("model-B:encoder1:fp32",1,||Err("failed")),Err("failed"));
+        assert_eq!(c.counts(),(5,2,1,2,0));
+        assert_eq!(c.evaluate("model-B:encoder1:fp32",1,||Ok::<_,&str>(9)),Ok(9));
+        assert_eq!(c.counts(),(6,3,1,2,1));
+    }
+}
