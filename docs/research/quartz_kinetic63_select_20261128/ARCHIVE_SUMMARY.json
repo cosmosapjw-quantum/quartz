@@ -1,0 +1,482 @@
+{
+  "arms": {
+    "FREE": {
+      "counts": {
+        "Bcpu": 17526140801,
+        "Blogical": 5643,
+        "Bmoves": 359,
+        "Bnn": 5643,
+        "Qcpu": 2214541760,
+        "Qlogical": 630,
+        "Qmoves": 383,
+        "Qnn": 630,
+        "draws": 0,
+        "games": 96,
+        "losses": 24,
+        "score2": 144,
+        "switches": 0,
+        "targets": 0,
+        "wins": 72
+      },
+      "lower95": {
+        "b_rate": 13.471518987341772,
+        "cpu_saving": 0.8721165103659494,
+        "q_cost_per_game": 4.739583333333333,
+        "q_rate": 1.410614525139665,
+        "saving": 0.8878124370086676,
+        "score": 0.6770833333333334,
+        "utility": 0.6632291666666666
+      },
+      "point": {
+        "b_rate": 15.71866295264624,
+        "cpu_saving": 0.8815614034639017,
+        "q_cost_per_game": 6.5625,
+        "q_rate": 1.6449086161879896,
+        "saving": 0.8953531466929845,
+        "score": 0.75,
+        "utility": 0.736875
+      }
+    },
+    "H4": {
+      "counts": {
+        "Bcpu": 15797543621,
+        "Blogical": 4983,
+        "Bmoves": 328,
+        "Bnn": 4983,
+        "Qcpu": 1755478920,
+        "Qlogical": 525,
+        "Qmoves": 352,
+        "Qnn": 525,
+        "draws": 0,
+        "games": 96,
+        "losses": 24,
+        "score2": 144,
+        "switches": 0,
+        "targets": 0,
+        "wins": 72
+      },
+      "lower95": {
+        "b_rate": 12.91304347826087,
+        "cpu_saving": 0.8898712585406479,
+        "q_cost_per_game": 3.9583333333333335,
+        "q_rate": 1.2745098039215685,
+        "saving": 0.8971330021443343,
+        "score": 0.6770833333333334,
+        "utility": 0.6672916666666667
+      },
+      "point": {
+        "b_rate": 15.192073170731707,
+        "cpu_saving": 0.8964530679769696,
+        "q_cost_per_game": 5.46875,
+        "q_rate": 1.4914772727272727,
+        "saving": 0.9018252969186142,
+        "score": 0.75,
+        "utility": 0.7390625000000001
+      }
+    },
+    "SELECT": {
+      "counts": {
+        "Bcpu": 18467056698,
+        "Blogical": 5742,
+        "Bmoves": 344,
+        "Bnn": 5742,
+        "Qcpu": 2716904436,
+        "Qlogical": 807,
+        "Qmoves": 368,
+        "Qnn": 807,
+        "draws": 0,
+        "games": 96,
+        "losses": 24,
+        "score2": 144,
+        "switches": 17,
+        "targets": 43,
+        "wins": 72
+      },
+      "lower95": {
+        "b_rate": 14.320754716981131,
+        "cpu_saving": 0.8510530974011763,
+        "q_cost_per_game": 6.083333333333333,
+        "q_rate": 1.8417910447761194,
+        "saving": 0.8572567783094098,
+        "score": 0.6770833333333334,
+        "utility": 0.6633749999999999
+      },
+      "point": {
+        "b_rate": 16.691860465116278,
+        "cpu_saving": 0.8624732106586361,
+        "q_cost_per_game": 8.40625,
+        "q_rate": 2.192934782608696,
+        "saving": 0.868622506928354,
+        "score": 0.75,
+        "utility": 0.7331875
+      }
+    },
+    "TARGET": {
+      "counts": {
+        "Bcpu": 18169370170,
+        "Blogical": 5709,
+        "Bmoves": 345,
+        "Bnn": 5709,
+        "Qcpu": 3860388036,
+        "Qlogical": 1116,
+        "Qmoves": 370,
+        "Qnn": 1112,
+        "draws": 0,
+        "games": 96,
+        "losses": 23,
+        "score2": 146,
+        "switches": 80,
+        "targets": 124,
+        "wins": 73
+      },
+      "lower95": {
+        "b_rate": 14.235294117647058,
+        "cpu_saving": 0.787343452359816,
+        "q_cost_per_game": 8.572916666666666,
+        "q_rate": 2.596875,
+        "saving": 0.8088793641020784,
+        "score": 0.6770833333333334,
+        "utility": 0.6621041666666666
+      },
+      "point": {
+        "b_rate": 16.547826086956523,
+        "cpu_saving": 0.8018890598374252,
+        "q_cost_per_game": 11.583333333333334,
+        "q_rate": 3.0054054054054054,
+        "saving": 0.818380650750593,
+        "score": 0.7604166666666666,
+        "utility": 0.73725
+      }
+    }
+  },
+  "audit_sha256": "dd7c63600e56cfae111b2ed7556f814b3bbb7ba6d56214fd1ae914fe278231f3",
+  "contrasts": {
+    "FREE-H4": {
+      "CI": {
+        "b_rate": [
+          -0.859375,
+          2.0008888606710897
+        ],
+        "cpu_saving": [
+          -0.025924768040142654,
+          -0.003106814603545227
+        ],
+        "q_cost_per_game": [
+          0.20833333333333304,
+          2.03125
+        ],
+        "q_rate": [
+          -0.02645015264764705,
+          0.32649868247694314
+        ],
+        "saving": [
+          -0.014851583104468657,
+          0.0006695839080250732
+        ],
+        "score": [
+          -0.0625,
+          0.0625
+        ],
+        "utility": [
+          -0.06562499999999993,
+          0.06093749999999998
+        ]
+      },
+      "benefit": false,
+      "gates": {
+        "absolute_saving": true,
+        "cpu_positive": true,
+        "relative_saving": true,
+        "score_NI": false,
+        "signed_utility": false
+      },
+      "lower95": {
+        "b_rate": -0.6239482449891192,
+        "cpu_saving": -0.02420290680519066,
+        "q_cost_per_game": 0.36458333333333304,
+        "q_rate": 0.0044365829612016405,
+        "saving": -0.013396074613083342,
+        "score": -0.05208333333333337,
+        "utility": -0.054791666666666794
+      },
+      "pairs": {
+        "diverged": 46,
+        "improved": 3,
+        "worsened": 3
+      },
+      "performance": false,
+      "point": {
+        "b_rate": 0.5265897819145327,
+        "cpu_saving": -0.014891664513067893,
+        "q_cost_per_game": 1.09375,
+        "q_rate": 0.15343134346071685,
+        "saving": -0.006472150225629747,
+        "score": 0.0,
+        "utility": -0.00218750000000012
+      }
+    },
+    "SELECT-FREE": {
+      "CI": {
+        "b_rate": [
+          0.22897528385365717,
+          1.7597588320294975
+        ],
+        "cpu_saving": [
+          -0.03323426831781351,
+          -0.005014024867580402
+        ],
+        "q_cost_per_game": [
+          1.072916666666667,
+          2.656250000000001
+        ],
+        "q_rate": [
+          0.35374378766088377,
+          0.7345492016984083
+        ],
+        "saving": [
+          -0.036015478581203575,
+          -0.018360579373655317
+        ],
+        "score": [
+          -0.03125,
+          0.03125
+        ],
+        "utility": [
+          -0.03533333333333333,
+          0.02718750000000003
+        ]
+      },
+      "benefit": false,
+      "gates": {
+        "absolute_saving": true,
+        "cpu_positive": true,
+        "relative_saving": true,
+        "score_NI": false,
+        "signed_utility": false
+      },
+      "lower95": {
+        "b_rate": 0.3299151343705802,
+        "cpu_saving": -0.03120636422322043,
+        "q_cost_per_game": 1.1875,
+        "q_rate": 0.3833149171270718,
+        "saving": -0.03453486138264894,
+        "score": -0.02083333333333337,
+        "utility": -0.025562499999999932
+      },
+      "performance": false,
+      "point": {
+        "b_rate": 0.9731975124700387,
+        "cpu_saving": -0.019088192805265525,
+        "q_cost_per_game": 1.84375,
+        "q_rate": 0.5480261664207062,
+        "saving": -0.026730639764630526,
+        "score": 0.0,
+        "utility": -0.0036874999999999547
+      }
+    },
+    "SELECT-H4": {
+      "CI": {
+        "b_rate": [
+          0.1101459765954882,
+          2.820233696194947
+        ],
+        "cpu_saving": [
+          -0.04737797415987033,
+          -0.02177523773173995
+        ],
+        "q_cost_per_game": [
+          1.510416666666667,
+          4.5
+        ],
+        "q_rate": [
+          0.3924094978590893,
+          1.0037649165553582
+        ],
+        "saving": [
+          -0.0446978452626019,
+          -0.02132519471197103
+        ],
+        "score": [
+          -0.05208333333333337,
+          0.0625
+        ],
+        "utility": [
+          -0.05931249999999999,
+          0.056624999999999925
+        ]
+      },
+      "benefit": false,
+      "gates": {
+        "absolute_saving": true,
+        "cpu_positive": true,
+        "relative_saving": true,
+        "score_NI": false,
+        "signed_utility": false
+      },
+      "lower95": {
+        "b_rate": 0.3384136938418827,
+        "cpu_saving": -0.0451100007845997,
+        "q_cost_per_game": 1.71875,
+        "q_rate": 0.43903989718067193,
+        "saving": -0.043105562094710836,
+        "score": -0.04166666666666674,
+        "utility": -0.05054166666666671
+      },
+      "pairs": {
+        "diverged": 54,
+        "improved": 3,
+        "worsened": 3
+      },
+      "performance": false,
+      "point": {
+        "b_rate": 1.4997872943845714,
+        "cpu_saving": -0.03397985731833342,
+        "q_cost_per_game": 2.9375,
+        "q_rate": 0.7014575098814231,
+        "saving": -0.03320278999026027,
+        "score": 0.0,
+        "utility": -0.005875000000000075
+      }
+    },
+    "SELECT-TARGET": {
+      "CI": {
+        "b_rate": [
+          -0.33443449048152374,
+          0.6980769230769237
+        ],
+        "cpu_saving": [
+          0.050263677308079124,
+          0.07177329200673066
+        ],
+        "q_cost_per_game": [
+          -4.21875,
+          -2.09375
+        ],
+        "q_rate": [
+          -0.964810670878856,
+          -0.6298507462686564
+        ],
+        "saving": [
+          0.04192586505228191,
+          0.05769282225168404
+        ],
+        "score": [
+          -0.03125,
+          0.0
+        ],
+        "utility": [
+          -0.02589583333333334,
+          0.008166666666666544
+        ]
+      },
+      "benefit": false,
+      "gates": {
+        "absolute_saving": true,
+        "cpu_positive": true,
+        "relative_saving": true,
+        "score_NI": false,
+        "signed_utility": false
+      },
+      "lower95": {
+        "b_rate": -0.27500000000000036,
+        "cpu_saving": 0.05179833077267215,
+        "q_cost_per_game": -4.0625,
+        "q_rate": -0.942668371696505,
+        "saving": 0.04348294386247653,
+        "score": -0.03125,
+        "utility": -0.024562500000000043
+      },
+      "performance": false,
+      "point": {
+        "b_rate": 0.1440343781597555,
+        "cpu_saving": 0.060584150821210936,
+        "q_cost_per_game": -3.177083333333334,
+        "q_rate": -0.8124706227967096,
+        "saving": 0.050241856177761,
+        "score": -0.01041666666666663,
+        "utility": -0.004062499999999969
+      }
+    },
+    "TARGET-H4": {
+      "CI": {
+        "b_rate": [
+          0.08013334979627196,
+          2.5805154292844446
+        ],
+        "cpu_saving": [
+          -0.11180678364201502,
+          -0.0778897084416138
+        ],
+        "q_cost_per_game": [
+          4.104166666666667,
+          8.0625
+        ],
+        "q_rate": [
+          1.202280912364946,
+          1.7831797598395924
+        ],
+        "saving": [
+          -0.0937930509304703,
+          -0.07381020226934232
+        ],
+        "score": [
+          -0.04166666666666663,
+          0.07291666666666663
+        ],
+        "utility": [
+          -0.05324999999999991,
+          0.05733333333333335
+        ]
+      },
+      "benefit": false,
+      "gates": {
+        "absolute_saving": false,
+        "cpu_positive": true,
+        "relative_saving": false,
+        "score_NI": false,
+        "signed_utility": false
+      },
+      "lower95": {
+        "b_rate": 0.29739384590403617,
+        "cpu_saving": -0.10898936381958901,
+        "q_cost_per_game": 4.458333333333333,
+        "q_rate": 1.2534521692212388,
+        "saving": -0.092037148931578,
+        "score": -0.03125,
+        "utility": -0.044354166666666694
+      },
+      "pairs": {
+        "diverged": 50,
+        "improved": 3,
+        "worsened": 2
+      },
+      "performance": false,
+      "point": {
+        "b_rate": 1.3557529162248159,
+        "cpu_saving": -0.09456400813954435,
+        "q_cost_per_game": 6.114583333333334,
+        "q_rate": 1.5139281326781326,
+        "saving": -0.08344464616802127,
+        "score": 0.01041666666666663,
+        "utility": -0.0018125000000001057
+      }
+    }
+  },
+  "independent": {
+    "SELECT-FREE:saving": -0.034364883830820245,
+    "SELECT-FREE:score": -0.020833333333333332,
+    "SELECT-FREE:utility": -0.0256875,
+    "SELECT-H4:saving": -0.04298915552225349,
+    "SELECT-H4:score": -0.041666666666666664,
+    "SELECT-H4:utility": -0.050708333333333334,
+    "SELECT-TARGET:saving": 0.043325809821227274,
+    "SELECT-TARGET:score": -0.03125,
+    "SELECT-TARGET:utility": -0.024770833333333332
+  },
+  "mode": "ARCHIVE",
+  "promotion": false,
+  "retention": {
+    "saving_positive": true,
+    "score_NI": false
+  }
+}
