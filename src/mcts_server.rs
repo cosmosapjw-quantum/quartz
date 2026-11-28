@@ -2774,7 +2774,7 @@ pub fn serve() {
             if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
             continue;
         }
-        if matches!(cmd,"research_gomoku7_k47"|"research_gomoku7_k48"|"research_gomoku7_k52"|"research_gomoku7_k53"|"research_gomoku7_k55"|"research_gomoku7_k56"|"research_k47_proof"){
+        if matches!(cmd,"research_gomoku7_k47"|"research_gomoku7_k48"|"research_gomoku7_k52"|"research_gomoku7_k53"|"research_gomoku7_k55"|"research_gomoku7_k56"|"research_gomoku7_k57"|"research_k47_proof"){
             let r=if cmd!="research_k47_proof"{k47_nn::handle(&line)}else{k47_nn::inspect(&line)};
             emit_stdout_json_value(&r);
             if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}

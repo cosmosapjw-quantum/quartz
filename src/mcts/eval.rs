@@ -2877,7 +2877,9 @@ impl<K:Eq+std::hash::Hash,V:Clone> EpochMemo57<K,V>{
     }
     pub fn evaluate<E>(&mut self,epoch:&str,key:K,f:impl FnOnce()->Result<V,E>)->Result<V,E>{
         assert!(!epoch.is_empty());self.attempts+=1;
-        match f(){Ok(v)=>{self.forwarded+=1;Ok(v)},Err(e)=>{self.failed+=1;Err(e)}}
+        if self.epoch!=epoch{self.entries.clear();self.epoch=epoch.to_owned();}
+        if let Some(v)=self.entries.get(&key).cloned(){self.hits+=1;return Ok(v)}
+        match f(){Ok(v)=>{self.forwarded+=1;if self.entries.len()<self.capacity{self.entries.insert(key,v.clone());}Ok(v)},Err(e)=>{self.failed+=1;Err(e)}}
     }
     pub fn counts(&self)->(u64,u64,u64,u64,usize){(self.attempts,self.forwarded,self.hits,self.failed,self.entries.len())}
 }
