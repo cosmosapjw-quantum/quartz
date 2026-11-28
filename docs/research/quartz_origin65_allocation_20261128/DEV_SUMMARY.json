@@ -1,0 +1,178 @@
+{
+  "ARCHIVE": {
+    "arms": {
+      "A4": {
+        "feasible": 33.07142857142857,
+        "logical": 5.0,
+        "loss_visits": 0.9603174603174603,
+        "mass": 0.08269374810908006,
+        "physical": 5.0,
+        "raw_all_loss": 24,
+        "raw_loss_visits": 121,
+        "raw_unvisited_chosen": 24,
+        "unvisited_chosen": 0.19047619047619047,
+        "visited": 2.4682539682539684
+      },
+      "L4": {
+        "feasible": 33.07142857142857,
+        "logical": 5.0,
+        "loss_visits": 0.9603174603174603,
+        "mass": 0.08269374810908006,
+        "physical": 5.0,
+        "raw_all_loss": 24,
+        "raw_loss_visits": 121,
+        "raw_unvisited_chosen": 24,
+        "unvisited_chosen": 0.19047619047619047,
+        "visited": 2.4682539682539684
+      },
+      "M4": {
+        "feasible": 33.07142857142857,
+        "logical": 5.0,
+        "loss_visits": 0.0,
+        "mass": 0.26540143528229204,
+        "physical": 5.0,
+        "raw_all_loss": 0,
+        "raw_loss_visits": 0,
+        "raw_unvisited_chosen": 0,
+        "unvisited_chosen": 0.0,
+        "visited": 3.0634920634920637
+      },
+      "MA4": {
+        "feasible": 33.07142857142857,
+        "logical": 5.0,
+        "loss_visits": 0.0,
+        "mass": 0.26540143528229204,
+        "physical": 5.0,
+        "raw_all_loss": 0,
+        "raw_loss_visits": 0,
+        "raw_unvisited_chosen": 0,
+        "unvisited_chosen": 0.0,
+        "visited": 3.0634920634920637
+      },
+      "X4": {
+        "feasible": 33.07142857142857,
+        "logical": 5.0,
+        "loss_visits": 0.0,
+        "mass": 0.307185693993912,
+        "physical": 5.0,
+        "raw_all_loss": 0,
+        "raw_loss_visits": 0,
+        "raw_unvisited_chosen": 0,
+        "unvisited_chosen": 0.0,
+        "visited": 3.761904761904762
+      }
+    },
+    "contrasts": {
+      "A4-L4": {
+        "changed": 76,
+        "weighted_change": 0.6031746031746031
+      },
+      "M4-L4": {
+        "changed": 13,
+        "weighted_change": 0.10317460317460317
+      },
+      "MA4-A4": {
+        "changed": 18,
+        "weighted_change": 0.14285714285714285
+      },
+      "MA4-M4": {
+        "changed": 97,
+        "weighted_change": 0.7698412698412699
+      },
+      "X4-MA4": {
+        "changed": 30,
+        "weighted_change": 0.23809523809523808
+      }
+    },
+    "n": 126,
+    "population": 126.0
+  },
+  "MAIN": {
+    "arms": {
+      "A4": {
+        "feasible": 34.57579113924051,
+        "logical": 5.0,
+        "loss_visits": 0.7641350210970463,
+        "mass": 0.0806725747154396,
+        "physical": 5.0,
+        "raw_all_loss": 80,
+        "raw_loss_visits": 426,
+        "raw_unvisited_chosen": 80,
+        "unvisited_chosen": 0.1529535864978903,
+        "visited": 2.37795358649789
+      },
+      "L4": {
+        "feasible": 34.57579113924051,
+        "logical": 5.0,
+        "loss_visits": 0.7641350210970463,
+        "mass": 0.0806725747154396,
+        "physical": 5.0,
+        "raw_all_loss": 80,
+        "raw_loss_visits": 426,
+        "raw_unvisited_chosen": 80,
+        "unvisited_chosen": 0.1529535864978903,
+        "visited": 2.37795358649789
+      },
+      "M4": {
+        "feasible": 34.57579113924051,
+        "logical": 5.0,
+        "loss_visits": 0.0,
+        "mass": 0.21694471373615887,
+        "physical": 5.0,
+        "raw_all_loss": 0,
+        "raw_loss_visits": 0,
+        "raw_unvisited_chosen": 0,
+        "unvisited_chosen": 0.0,
+        "visited": 2.865137130801688
+      },
+      "MA4": {
+        "feasible": 34.57579113924051,
+        "logical": 5.0,
+        "loss_visits": 0.0,
+        "mass": 0.21694471373615887,
+        "physical": 5.0,
+        "raw_all_loss": 0,
+        "raw_loss_visits": 0,
+        "raw_unvisited_chosen": 0,
+        "unvisited_chosen": 0.0,
+        "visited": 2.865137130801688
+      },
+      "X4": {
+        "feasible": 34.57579113924051,
+        "logical": 5.0,
+        "loss_visits": 0.0,
+        "mass": 0.2739715919093025,
+        "physical": 5.0,
+        "raw_all_loss": 0,
+        "raw_loss_visits": 0,
+        "raw_unvisited_chosen": 0,
+        "unvisited_chosen": 0.0,
+        "visited": 3.8390163502109704
+      }
+    },
+    "contrasts": {
+      "A4-L4": {
+        "changed": 125,
+        "weighted_change": 0.42891613924050637
+      },
+      "M4-L4": {
+        "changed": 60,
+        "weighted_change": 0.11033755274261603
+      },
+      "MA4-A4": {
+        "changed": 81,
+        "weighted_change": 0.1495648734177215
+      },
+      "MA4-M4": {
+        "changed": 168,
+        "weighted_change": 0.49742879746835444
+      },
+      "X4-MA4": {
+        "changed": 110,
+        "weighted_change": 0.296664029535865
+      }
+    },
+    "n": 428,
+    "population": 948.0
+  }
+}
