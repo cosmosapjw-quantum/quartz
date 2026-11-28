@@ -6,7 +6,7 @@ use serde::Deserialize;
 use serde_json::{json,Value};
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool,#[serde(default)]table:Option<[u8;4]>,#[serde(default)]voc:Option<Voc56>,#[serde(default)]early:Option<Early57>}
+struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool,#[serde(default)]table:Option<[u8;4]>,#[serde(default)]voc:Option<Voc56>,#[serde(default)]early:Option<Early57>,#[serde(default)]stop60:Option<[bool;16]>}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct EvalReply{cmd:String,id:u32,a:u64,b:u64,p:i8,prior:Vec<f64>,value:f64}
@@ -91,12 +91,13 @@ pub(super) fn parse_history(h:&[u16],n:usize)->Result<Vec<u8>,String>{
 pub(super) fn oriented(b:&[u8],p:u8)->Vec<u8>{b.iter().map(|&x|if x==0{0}else if x==p{1}else{2}).collect()}
 fn inner(line:&str)->Result<Value,String>{
     let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    let k58=q.cmd=="research_gomoku7_k58";let k57=q.cmd=="research_gomoku7_k57"||k58;let k56=q.cmd=="research_gomoku7_k56";let k55=q.cmd=="research_gomoku7_k55";let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53||k55||k56;let k48=q.cmd=="research_gomoku7_k48"||k52||k57;
+    let k60=q.cmd=="research_gomoku7_k60";let k58=q.cmd=="research_gomoku7_k58";let k57=q.cmd=="research_gomoku7_k57"||k58||k60;let k56=q.cmd=="research_gomoku7_k56";let k55=q.cmd=="research_gomoku7_k55";let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53||k55||k56;let k48=q.cmd=="research_gomoku7_k48"||k52||k57;
     if (k52&&(q.atlas||q.mask!=Some(0)))||!(q.cmd=="research_gomoku7_k47"||k48)||(!q.quartz&&q.cap!=32)||(q.quartz&&q.cap!=20&&q.cap!=32)||(!k48&&(q.atlas||q.mask.is_some()))||(k48&&(!q.quartz||q.cap!=20||q.atlas==q.mask.is_some())){return Err("invalid K47/K48 NN request".into())}
     if k55!=q.table.is_some()||q.table.is_some_and(|t|t.iter().any(|&x|x>2)){return Err("invalid K55 operation table".into())}
     if k56!=q.voc.is_some()||q.voc.as_ref().is_some_and(|m|!m.lambda.is_finite()||m.lambda<0.0||m.gain.iter().chain(m.cost.iter()).flatten().any(|v|!v.is_finite())){return Err("invalid K56 model".into())}
-    if k57!=q.early.is_some()||q.early.as_ref().is_some_and(|e|!matches!(e.horizon,4|8|12|16)||e.op>3+u8::from(k58))||k57&&(!q.cache||q.atlas||q.mask!=Some(0)){return Err("invalid K57 early request".into())}
+    if k57!=q.early.is_some()||q.early.as_ref().is_some_and(|e|!matches!(e.horizon,4|8|12|16)||e.op>3+u8::from(k58)+2*u8::from(k60))||k57&&(!q.cache||q.atlas||q.mask!=Some(0)){return Err("invalid K57 early request".into())}
     if k58&&q.early.as_ref().is_none_or(|e|e.op!=4||e.horizon!=16){return Err("invalid K58 stable request".into())}
+    if k60!=q.stop60.is_some()||k60&&q.early.as_ref().is_none_or(|e|e.op!=5||e.horizon!=16){return Err("invalid K60 adaptive request".into())}
     let started=Instant::now();let b=parse_history(&q.history,7)?;
     let p=1-2*(q.history.len()%2) as i8;let ob=oriented(&b,if p==1{1}else{2});
     let mut a=0;let mut bb=0;for (m,&x) in b.iter().enumerate(){if x==1{a|=1u64<<m}else if x==2{bb|=1u64<<m}}
@@ -142,8 +143,12 @@ fn inner(line:&str)->Result<Value,String>{
                         x["rival"]=json!(rival);x["physical"]=json!(ev.physical);
                         x["locked20"]=json!(distance(es)>20-n);
                         let stable=k58&&early_snaps.last().is_some_and(|prev|k58_stable(prev,&x));
+                        let stop60=if k60{let cell=k60_cell(&x);let stop=cell.is_some_and(|i|q.stop60.unwrap()[i]);x["cell60"]=json!(cell);x["stop60"]=json!(stop);stop}else{false};
                         early_snaps.push(x.clone());
-                        if k58{
+                        if k60{
+                            if stop60{early_reached=true;early_snapshot=x;early_reason="voc60";horizon=n;break}
+                            early_reason="continue60";
+                        }else if k58{
                             if stable{early_reached=true;early_snapshot=x;early_reason="stable";horizon=n;break}
                             early_reason="no_stability";
                         }else if n==e.horizon{
@@ -488,5 +493,25 @@ mod k58_tests{
         let mut c=b.clone();c["rival"]=json!(3);assert!(!k58_stable(&a,&c));
         let mut c=b.clone();c["edges"][1][1]=json!(0);assert!(!k58_stable(&a,&c));
         let mut c=b.clone();c["edges"][0][2]=json!(-1.0);assert!(!k58_stable(&a,&c));
+    }
+}
+
+fn k60_cell(x:&Value)->Option<usize>{
+    let h=x["visits"].as_u64()?;
+    let d=x["distance"].as_u64()?;
+    if !matches!(h,4|8|12|16)||x["locked20"]!=false||x["rival"].is_null()||d>20-h{return None}
+    Some(((h/4-1)*4+2*u64::from(2*d>=20-h)+u64::from(x["move"]==x["prior_best"])) as usize)
+}
+#[cfg(test)]
+mod k60_tests{
+    use super::*;
+    #[test]fn cells_and_fallback(){
+        let mut x=json!({"visits":4,"distance":8,"move":1,"prior_best":1,"rival":2,"locked20":false});
+        assert_eq!(k60_cell(&x),Some(3));
+        x["distance"]=json!(7);assert_eq!(k60_cell(&x),Some(1));
+        x["prior_best"]=json!(3);assert_eq!(k60_cell(&x),Some(0));
+        x["visits"]=json!(16);x["distance"]=json!(2);assert_eq!(k60_cell(&x),Some(14));
+        x["locked20"]=json!(true);assert_eq!(k60_cell(&x),None);
+        x["locked20"]=json!(false);x["rival"]=Value::Null;assert_eq!(k60_cell(&x),None);
     }
 }
