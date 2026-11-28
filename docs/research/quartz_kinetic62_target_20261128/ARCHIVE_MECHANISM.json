@@ -1,0 +1,32 @@
+{
+  "arms": {
+    "H8": {
+      "common_physical_delta": 332,
+      "common_q_physical_delta": 332,
+      "common_roots": 452,
+      "delta_both_physical": 732,
+      "delta_score2": 0,
+      "episodes": 96,
+      "equal_history": 71,
+      "first_divergence": 25
+    },
+    "TARGET": {
+      "common_physical_delta": 318,
+      "common_q_physical_delta": 318,
+      "common_roots": 373,
+      "common_target_events": 80,
+      "common_target_extra": 318,
+      "delta_both_physical": 988,
+      "delta_score2": 8,
+      "episodes": 96,
+      "equal_history": 55,
+      "first_divergence": 41,
+      "target_events": 117,
+      "target_extra_physical": 466,
+      "target_switch": 70
+    }
+  },
+  "lock_sha256": "76e6131969766f81f6064e56325251333ee1d904587dcfd738c89bcff0865505",
+  "mode": "ARCHIVE",
+  "scope": "Common prefix accounting only, downstream path dependent"
+}
