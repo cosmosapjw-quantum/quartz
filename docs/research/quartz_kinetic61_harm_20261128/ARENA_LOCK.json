@@ -1,0 +1,555 @@
+{
+  "binary": "d777f4c454c377fb6c33a5b861aa7505a3e99a30594d726a83b097fa7e6384e1",
+  "counts": {
+    "CONTRAST_attempts": 1136,
+    "CONTRAST_events": 1136,
+    "CONTROL_attempts": 0,
+    "CONTROL_events": 0,
+    "H4_attempts": 1073,
+    "H4_events": 1073,
+    "SELECT_attempts": 1102,
+    "SELECT_events": 1102,
+    "episodes": 672,
+    "games": 2688,
+    "logical": 244363,
+    "moves": 23237,
+    "physical": 244363
+  },
+  "files": [
+    {
+      "counts": {
+        "CONTRAST_attempts": 46,
+        "CONTRAST_events": 46,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 43,
+        "H4_events": 43,
+        "SELECT_attempts": 43,
+        "SELECT_events": 43,
+        "episodes": 24,
+        "games": 96,
+        "logical": 9493,
+        "moves": 883,
+        "physical": 9493
+      },
+      "file": "ARENA_43_1.jsonl.gz",
+      "sha256": "15da9194dce0ff9be63dc0da67f496a5229c955845d082d35e66b244e14bef82"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 29,
+        "CONTRAST_events": 29,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 29,
+        "H4_events": 29,
+        "SELECT_attempts": 29,
+        "SELECT_events": 29,
+        "episodes": 24,
+        "games": 96,
+        "logical": 5887,
+        "moves": 649,
+        "physical": 5887
+      },
+      "file": "ARENA_101_1.jsonl.gz",
+      "sha256": "bc50c1a85ce7cf1b4c7788f10497ac584bba135e26812faa88f37723c21a8709"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 25,
+        "CONTRAST_events": 25,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 25,
+        "H4_events": 25,
+        "SELECT_attempts": 25,
+        "SELECT_events": 25,
+        "episodes": 24,
+        "games": 96,
+        "logical": 6038,
+        "moves": 710,
+        "physical": 6038
+      },
+      "file": "ARENA_101_3.jsonl.gz",
+      "sha256": "41ab2f9a997398f334b0a3abec0d7b59e9c3663f5e09a5b88f0e4da7dccd684e"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 44,
+        "CONTRAST_events": 44,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 42,
+        "H4_events": 42,
+        "SELECT_attempts": 44,
+        "SELECT_events": 44,
+        "episodes": 24,
+        "games": 96,
+        "logical": 9269,
+        "moves": 819,
+        "physical": 9269
+      },
+      "file": "ARENA_102_1.jsonl.gz",
+      "sha256": "826b5385518412a8f1400e47bf3e55cf02cdf8b742593bbdc8c470bdc913a3af"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 42,
+        "CONTRAST_events": 42,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 42,
+        "H4_events": 42,
+        "SELECT_attempts": 43,
+        "SELECT_events": 43,
+        "episodes": 24,
+        "games": 96,
+        "logical": 8842,
+        "moves": 823,
+        "physical": 8842
+      },
+      "file": "ARENA_102_0.jsonl.gz",
+      "sha256": "8bfdb640e35052b58b8c52de73496cd8e6114af4967da5ed1dcdb2e296b32b08"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 53,
+        "CONTRAST_events": 53,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 45,
+        "H4_events": 45,
+        "SELECT_attempts": 47,
+        "SELECT_events": 47,
+        "episodes": 24,
+        "games": 96,
+        "logical": 12127,
+        "moves": 1065,
+        "physical": 12127
+      },
+      "file": "ARENA_103_0.jsonl.gz",
+      "sha256": "b00fbb8f3bf18c513b3f31124cd58d209edf9c2632396cef759222d63009bf20"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 26,
+        "CONTRAST_events": 26,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 29,
+        "H4_events": 29,
+        "SELECT_attempts": 26,
+        "SELECT_events": 26,
+        "episodes": 24,
+        "games": 96,
+        "logical": 6076,
+        "moves": 629,
+        "physical": 6076
+      },
+      "file": "ARENA_102_2.jsonl.gz",
+      "sha256": "69b9d5a7c3f286e6f39d73de7c50dbe03a049eae61002c1be55b95343d1bbe56"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 40,
+        "CONTRAST_events": 40,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 37,
+        "H4_events": 37,
+        "SELECT_attempts": 38,
+        "SELECT_events": 38,
+        "episodes": 24,
+        "games": 96,
+        "logical": 8110,
+        "moves": 752,
+        "physical": 8110
+      },
+      "file": "ARENA_42_3.jsonl.gz",
+      "sha256": "282c230f3564034cb155d533c8633fbb528f48e0dc0a65f66a9e41be00b901f3"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 53,
+        "CONTRAST_events": 53,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 43,
+        "H4_events": 43,
+        "SELECT_attempts": 44,
+        "SELECT_events": 44,
+        "episodes": 24,
+        "games": 96,
+        "logical": 10662,
+        "moves": 977,
+        "physical": 10662
+      },
+      "file": "ARENA_103_1.jsonl.gz",
+      "sha256": "272b754fb6fdb93c2d131f91f30a143dddfc71e1b8244ac4c7e8ac447a588f6b"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 34,
+        "CONTRAST_events": 34,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 31,
+        "H4_events": 31,
+        "SELECT_attempts": 34,
+        "SELECT_events": 34,
+        "episodes": 24,
+        "games": 96,
+        "logical": 7892,
+        "moves": 764,
+        "physical": 7892
+      },
+      "file": "ARENA_41_2.jsonl.gz",
+      "sha256": "0a7b32922c5cc611fff1136681e8eb20bdab17ada02fa920a76735d099a14815"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 25,
+        "CONTRAST_events": 25,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 25,
+        "H4_events": 25,
+        "SELECT_attempts": 25,
+        "SELECT_events": 25,
+        "episodes": 24,
+        "games": 96,
+        "logical": 5370,
+        "moves": 645,
+        "physical": 5370
+      },
+      "file": "ARENA_42_2.jsonl.gz",
+      "sha256": "64e733011e078055e51a0c4ef149b98c41f14e561b66e6c18e66ce73cd3c642c"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 50,
+        "CONTRAST_events": 50,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 49,
+        "H4_events": 49,
+        "SELECT_attempts": 50,
+        "SELECT_events": 50,
+        "episodes": 24,
+        "games": 96,
+        "logical": 11633,
+        "moves": 982,
+        "physical": 11633
+      },
+      "file": "ARENA_41_1.jsonl.gz",
+      "sha256": "ac4ce6582f94571fb87096cea4ac67a91376e22a55f4b336dbf566903fba2d68"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 44,
+        "CONTRAST_events": 44,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 37,
+        "H4_events": 37,
+        "SELECT_attempts": 44,
+        "SELECT_events": 44,
+        "episodes": 24,
+        "games": 96,
+        "logical": 9003,
+        "moves": 789,
+        "physical": 9003
+      },
+      "file": "ARENA_101_0.jsonl.gz",
+      "sha256": "e14ab4d6c0c24c6e4f576bba10845bf6fbb7441cfc42f66d475b1fbed22a708a"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 48,
+        "CONTRAST_events": 48,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 43,
+        "H4_events": 43,
+        "SELECT_attempts": 43,
+        "SELECT_events": 43,
+        "episodes": 24,
+        "games": 96,
+        "logical": 9649,
+        "moves": 962,
+        "physical": 9649
+      },
+      "file": "ARENA_43_0.jsonl.gz",
+      "sha256": "685229f00795b2eeedda499c739ed0085cbeff558cf54f9c54e59117f1e8ec05"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 55,
+        "CONTRAST_events": 55,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 56,
+        "H4_events": 56,
+        "SELECT_attempts": 55,
+        "SELECT_events": 55,
+        "episodes": 24,
+        "games": 96,
+        "logical": 13886,
+        "moves": 1073,
+        "physical": 13886
+      },
+      "file": "ARENA_41_0.jsonl.gz",
+      "sha256": "efc48a2a724d00e10300c8d5e406366ea962c754d266d06c2923d97c68add20e"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 53,
+        "CONTRAST_events": 53,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 55,
+        "H4_events": 55,
+        "SELECT_attempts": 54,
+        "SELECT_events": 54,
+        "episodes": 24,
+        "games": 96,
+        "logical": 12116,
+        "moves": 1081,
+        "physical": 12116
+      },
+      "file": "ARENA_41_3.jsonl.gz",
+      "sha256": "586f12af78a00b12b96f83b8153542f41e01e23f018c8c249d455c86c2077020"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 55,
+        "CONTRAST_events": 55,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 44,
+        "H4_events": 44,
+        "SELECT_attempts": 45,
+        "SELECT_events": 45,
+        "episodes": 24,
+        "games": 96,
+        "logical": 10651,
+        "moves": 1067,
+        "physical": 10651
+      },
+      "file": "ARENA_103_3.jsonl.gz",
+      "sha256": "e2441ce966477f8de428ad4821215383b15d8174ecfa3049d4366b7af2993c17"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 28,
+        "CONTRAST_events": 28,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 29,
+        "H4_events": 29,
+        "SELECT_attempts": 29,
+        "SELECT_events": 29,
+        "episodes": 24,
+        "games": 96,
+        "logical": 6492,
+        "moves": 674,
+        "physical": 6492
+      },
+      "file": "ARENA_43_2.jsonl.gz",
+      "sha256": "0827b43e1ea8f25cb312c1afbcfc7404e6b724d900c4d86c604ab14a3e738e0b"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 27,
+        "CONTRAST_events": 27,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 27,
+        "H4_events": 27,
+        "SELECT_attempts": 27,
+        "SELECT_events": 27,
+        "episodes": 24,
+        "games": 96,
+        "logical": 6182,
+        "moves": 655,
+        "physical": 6182
+      },
+      "file": "ARENA_105_2.jsonl.gz",
+      "sha256": "7300e93cbed887fac9fe27668d8edee960c3096cdfccb792749ca3563e894633"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 45,
+        "CONTRAST_events": 45,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 43,
+        "H4_events": 43,
+        "SELECT_attempts": 46,
+        "SELECT_events": 46,
+        "episodes": 24,
+        "games": 96,
+        "logical": 9005,
+        "moves": 789,
+        "physical": 9005
+      },
+      "file": "ARENA_42_0.jsonl.gz",
+      "sha256": "fd6899a27c6cb96f4c65a318ba88ea8ecc83693bc098c15c643311d563ce5f66"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 39,
+        "CONTRAST_events": 39,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 38,
+        "H4_events": 38,
+        "SELECT_attempts": 41,
+        "SELECT_events": 41,
+        "episodes": 24,
+        "games": 96,
+        "logical": 7801,
+        "moves": 785,
+        "physical": 7801
+      },
+      "file": "ARENA_42_1.jsonl.gz",
+      "sha256": "9625eefa6741dc794f8447af52c6a0d8d513fdc82dd3091b0e608cd1ac28c730"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 22,
+        "CONTRAST_events": 22,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 23,
+        "H4_events": 23,
+        "SELECT_attempts": 22,
+        "SELECT_events": 22,
+        "episodes": 24,
+        "games": 96,
+        "logical": 5687,
+        "moves": 648,
+        "physical": 5687
+      },
+      "file": "ARENA_101_2.jsonl.gz",
+      "sha256": "a58ac456871c51e9ae5eb7a06184c0cceb097fa0da352bf55484e09eff84230c"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 41,
+        "CONTRAST_events": 41,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 39,
+        "H4_events": 39,
+        "SELECT_attempts": 42,
+        "SELECT_events": 42,
+        "episodes": 24,
+        "games": 96,
+        "logical": 9047,
+        "moves": 850,
+        "physical": 9047
+      },
+      "file": "ARENA_105_0.jsonl.gz",
+      "sha256": "ab7d5b906d0f628ad86fa1265bb79c4f4950e409cbcf257a54a5026d0f7d2687"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 42,
+        "CONTRAST_events": 42,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 42,
+        "H4_events": 42,
+        "SELECT_attempts": 42,
+        "SELECT_events": 42,
+        "episodes": 24,
+        "games": 96,
+        "logical": 8953,
+        "moves": 905,
+        "physical": 8953
+      },
+      "file": "ARENA_105_1.jsonl.gz",
+      "sha256": "035e28efd668a7f2ca010af0256393c966bb9790f662b8053b7269152040e887"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 45,
+        "CONTRAST_events": 45,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 46,
+        "H4_events": 46,
+        "SELECT_attempts": 46,
+        "SELECT_events": 46,
+        "episodes": 24,
+        "games": 96,
+        "logical": 9447,
+        "moves": 891,
+        "physical": 9447
+      },
+      "file": "ARENA_43_3.jsonl.gz",
+      "sha256": "513c9dfb618b0fdbc02219424a64a81bccef21d14051dcf3748fa75e6ff33dc9"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 49,
+        "CONTRAST_events": 49,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 43,
+        "H4_events": 43,
+        "SELECT_attempts": 47,
+        "SELECT_events": 47,
+        "episodes": 24,
+        "games": 96,
+        "logical": 9501,
+        "moves": 848,
+        "physical": 9501
+      },
+      "file": "ARENA_105_3.jsonl.gz",
+      "sha256": "fa052688253df886608348c988673f2240110a5c398b29465ac5fd82cc3bec6a"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 42,
+        "CONTRAST_events": 42,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 40,
+        "H4_events": 40,
+        "SELECT_attempts": 42,
+        "SELECT_events": 42,
+        "episodes": 24,
+        "games": 96,
+        "logical": 8551,
+        "moves": 789,
+        "physical": 8551
+      },
+      "file": "ARENA_102_3.jsonl.gz",
+      "sha256": "b345b63936e69ba10be68bd92971fb1f610c10ed5a9d881b03305583def59339"
+    },
+    {
+      "counts": {
+        "CONTRAST_attempts": 34,
+        "CONTRAST_events": 34,
+        "CONTROL_attempts": 0,
+        "CONTROL_events": 0,
+        "H4_attempts": 28,
+        "H4_events": 28,
+        "SELECT_attempts": 29,
+        "SELECT_events": 29,
+        "episodes": 24,
+        "games": 96,
+        "logical": 6993,
+        "moves": 733,
+        "physical": 6993
+      },
+      "file": "ARENA_103_2.jsonl.gz",
+      "sha256": "fc3e3ffd7b3fe5fb683f0a51651ef1d333268ed268799fae0b851a967d9becd9"
+    }
+  ],
+  "plan": "53da6f0fa8087838464e075987b90f3be02eaa5068e6331fa4847b8957bfa82a",
+  "source": "750eb060d0f6bc41ea657b2babdefc765874e3058358763fbfac960da7a187e4",
+  "table": "f9f7666fdf3c29ff379f5966cc4ee09665309ef77b34f6a2b5ce7a9c8664e98d"
+}
