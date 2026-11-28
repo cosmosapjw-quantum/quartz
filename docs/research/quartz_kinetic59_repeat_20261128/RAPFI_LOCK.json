@@ -1,0 +1,62 @@
+{
+  "counts": {
+    "FIRST_events": 19,
+    "REPEAT_events": 37,
+    "episodes": 32,
+    "games": 64,
+    "moves": 2014,
+    "nn": 159207
+  },
+  "files": [
+    {
+      "counts": {
+        "FIRST_events": 1,
+        "REPEAT_events": 1,
+        "episodes": 8,
+        "games": 16,
+        "moves": 312,
+        "nn": 21900
+      },
+      "file": "RAPFI_0.jsonl.gz",
+      "sha256": "97e4bdc3ea9e83aceb3f751b3ba7e2a5734ddc9caae1d1e88da1a2f070985937"
+    },
+    {
+      "counts": {
+        "FIRST_events": 4,
+        "REPEAT_events": 4,
+        "episodes": 8,
+        "games": 16,
+        "moves": 238,
+        "nn": 14040
+      },
+      "file": "RAPFI_1.jsonl.gz",
+      "sha256": "d550b52211f0711441f8cd9f6088713f75459d1da88ff0d7aad6ef5514eb1ef0"
+    },
+    {
+      "counts": {
+        "FIRST_events": 8,
+        "REPEAT_events": 23,
+        "episodes": 8,
+        "games": 16,
+        "moves": 974,
+        "nn": 85842
+      },
+      "file": "RAPFI_2.jsonl.gz",
+      "sha256": "14072feb0612d03ab75c4d5028f572dbb98256c467fe1df40a8cf9463eaba605"
+    },
+    {
+      "counts": {
+        "FIRST_events": 6,
+        "REPEAT_events": 9,
+        "episodes": 8,
+        "games": 16,
+        "moves": 490,
+        "nn": 37425
+      },
+      "file": "RAPFI_3.jsonl.gz",
+      "sha256": "48c08b31893ab5753b2ff4931b61a660a884739d714ff611a582f53add25aefa"
+    }
+  ],
+  "plan": "795b36c954ed96beb48dca51fe28d9b970a3515f64ec00e28e75bc7912004515",
+  "source": "f7edceca8852d0dfacfafff4e3e76791ad1ca087311378f385132bc8876315a8"
+}

@@ -1,0 +1,497 @@
+{
+  "binary": "18dfa24173b9c3c404b4f793459066224389863a7409ca66a0de7c64845bc1bf",
+  "counts": {
+    "CONTROL_attempts": 631,
+    "CONTROL_events": 606,
+    "FIRST_attempts": 631,
+    "FIRST_events": 606,
+    "REPEAT_attempts": 1470,
+    "REPEAT_events": 1427,
+    "episodes": 896,
+    "games": 2688,
+    "logical": 268149,
+    "moves": 23682,
+    "physical": 268145
+  },
+  "files": [
+    {
+      "counts": {
+        "CONTROL_attempts": 24,
+        "CONTROL_events": 24,
+        "FIRST_attempts": 24,
+        "FIRST_events": 24,
+        "REPEAT_attempts": 62,
+        "REPEAT_events": 62,
+        "episodes": 32,
+        "games": 96,
+        "logical": 11917,
+        "moves": 1000,
+        "physical": 11917
+      },
+      "file": "NN_103_2.jsonl.gz",
+      "sha256": "2d753c53c2b569cc578bde6d4f96921eae2dfed69e5826570614d16daa26fa68"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 21,
+        "CONTROL_events": 21,
+        "FIRST_attempts": 21,
+        "FIRST_events": 21,
+        "REPEAT_attempts": 59,
+        "REPEAT_events": 59,
+        "episodes": 32,
+        "games": 96,
+        "logical": 11470,
+        "moves": 980,
+        "physical": 11470
+      },
+      "file": "NN_103_1.jsonl.gz",
+      "sha256": "646770bb00848003432165c7d2fc13cf2412486ad9b4a0b2c825672bd84ca5c5"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 21,
+        "CONTROL_events": 21,
+        "FIRST_attempts": 21,
+        "FIRST_events": 21,
+        "REPEAT_attempts": 64,
+        "REPEAT_events": 64,
+        "episodes": 32,
+        "games": 96,
+        "logical": 12533,
+        "moves": 1002,
+        "physical": 12533
+      },
+      "file": "NN_41_1.jsonl.gz",
+      "sha256": "0508bdeae6d506549081cc5b5e4ecfdfc9396af2c34137b55935e1dfce974cbe"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 25,
+        "CONTROL_events": 25,
+        "FIRST_attempts": 25,
+        "FIRST_events": 25,
+        "REPEAT_attempts": 58,
+        "REPEAT_events": 58,
+        "episodes": 32,
+        "games": 96,
+        "logical": 9445,
+        "moves": 836,
+        "physical": 9445
+      },
+      "file": "NN_43_2.jsonl.gz",
+      "sha256": "9f42f2d293521ce74f7e9d3e42bccaa754586a21f62118f82c115235ebcd0e51"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 21,
+        "CONTROL_events": 21,
+        "FIRST_attempts": 21,
+        "FIRST_events": 21,
+        "REPEAT_attempts": 51,
+        "REPEAT_events": 51,
+        "episodes": 32,
+        "games": 96,
+        "logical": 10018,
+        "moves": 894,
+        "physical": 10018
+      },
+      "file": "NN_105_1.jsonl.gz",
+      "sha256": "206eb59d844caec8cfbdde64b9cdbbbafc1dd320a8f4dab31a2e43fe132125f8"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 24,
+        "CONTROL_events": 24,
+        "FIRST_attempts": 24,
+        "FIRST_events": 24,
+        "REPEAT_attempts": 68,
+        "REPEAT_events": 68,
+        "episodes": 32,
+        "games": 96,
+        "logical": 12617,
+        "moves": 1040,
+        "physical": 12613
+      },
+      "file": "NN_41_2.jsonl.gz",
+      "sha256": "ac76ae1c0298e2f830c97b84934391a4038466298648de43ec3746e0861d1b52"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 20,
+        "CONTROL_events": 20,
+        "FIRST_attempts": 20,
+        "FIRST_events": 20,
+        "REPEAT_attempts": 36,
+        "REPEAT_events": 35,
+        "episodes": 32,
+        "games": 96,
+        "logical": 6625,
+        "moves": 682,
+        "physical": 6625
+      },
+      "file": "NN_102_3.jsonl.gz",
+      "sha256": "1e19148367ad81df177aa6ae722dc6d35b57dc41e68ddf48882a399c70590cb5"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 24,
+        "CONTROL_events": 24,
+        "FIRST_attempts": 24,
+        "FIRST_events": 24,
+        "REPEAT_attempts": 72,
+        "REPEAT_events": 72,
+        "episodes": 32,
+        "games": 96,
+        "logical": 13702,
+        "moves": 1051,
+        "physical": 13702
+      },
+      "file": "NN_103_0.jsonl.gz",
+      "sha256": "e038a568da46a9794339cafcd8c6474cfa7818a100b529612d4408caca2a2493"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 24,
+        "CONTROL_events": 24,
+        "FIRST_attempts": 24,
+        "FIRST_events": 24,
+        "REPEAT_attempts": 66,
+        "REPEAT_events": 66,
+        "episodes": 32,
+        "games": 96,
+        "logical": 13602,
+        "moves": 1054,
+        "physical": 13602
+      },
+      "file": "NN_41_0.jsonl.gz",
+      "sha256": "871a2193756ff2f9cd613c3c24fabdfaf2b73763727233d38056b50c91945cb2"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 23,
+        "CONTROL_events": 23,
+        "FIRST_attempts": 23,
+        "FIRST_events": 23,
+        "REPEAT_attempts": 47,
+        "REPEAT_events": 47,
+        "episodes": 32,
+        "games": 96,
+        "logical": 7732,
+        "moves": 720,
+        "physical": 7732
+      },
+      "file": "NN_42_3.jsonl.gz",
+      "sha256": "733b1c6079580f15380a325f18c7572cd61dab524945fba831c6637d5dab31d6"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 20,
+        "CONTROL_events": 20,
+        "FIRST_attempts": 20,
+        "FIRST_events": 20,
+        "REPEAT_attempts": 38,
+        "REPEAT_events": 37,
+        "episodes": 32,
+        "games": 96,
+        "logical": 7148,
+        "moves": 711,
+        "physical": 7148
+      },
+      "file": "NN_102_1.jsonl.gz",
+      "sha256": "f182de1f10d6f5450dedb20dfc991a4d2b3e43ff1510a3408d5750a8c1ab6faf"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 23,
+        "CONTROL_events": 23,
+        "FIRST_attempts": 23,
+        "FIRST_events": 23,
+        "REPEAT_attempts": 57,
+        "REPEAT_events": 57,
+        "episodes": 32,
+        "games": 96,
+        "logical": 11478,
+        "moves": 990,
+        "physical": 11478
+      },
+      "file": "NN_41_3.jsonl.gz",
+      "sha256": "514edb3c3fdac4c99668fe10ffd21c99212b984884531035106187d79adbb919"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 23,
+        "CONTROL_events": 23,
+        "FIRST_attempts": 23,
+        "FIRST_events": 23,
+        "REPEAT_attempts": 58,
+        "REPEAT_events": 58,
+        "episodes": 32,
+        "games": 96,
+        "logical": 9630,
+        "moves": 876,
+        "physical": 9630
+      },
+      "file": "NN_43_3.jsonl.gz",
+      "sha256": "21bef65e7eba30504676c3bd9dee75e7fd5a1fd8d85530cf391d61ac1cced8e9"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 24,
+        "CONTROL_events": 24,
+        "FIRST_attempts": 24,
+        "FIRST_events": 24,
+        "REPEAT_attempts": 58,
+        "REPEAT_events": 58,
+        "episodes": 32,
+        "games": 96,
+        "logical": 9523,
+        "moves": 775,
+        "physical": 9523
+      },
+      "file": "NN_42_2.jsonl.gz",
+      "sha256": "b2f3ac7b88874dcd713704c35096f55d3242adc21d9d04268ad79b1f8bc73d58"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 24,
+        "CONTROL_events": 24,
+        "FIRST_attempts": 24,
+        "FIRST_events": 24,
+        "REPEAT_attempts": 45,
+        "REPEAT_events": 45,
+        "episodes": 32,
+        "games": 96,
+        "logical": 8222,
+        "moves": 728,
+        "physical": 8222
+      },
+      "file": "NN_42_0.jsonl.gz",
+      "sha256": "3315514624ef99ca2631e8c76949ddf5e796c95c8d7e578acdf279f58892fa09"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 23,
+        "CONTROL_events": 23,
+        "FIRST_attempts": 23,
+        "FIRST_events": 23,
+        "REPEAT_attempts": 48,
+        "REPEAT_events": 48,
+        "episodes": 32,
+        "games": 96,
+        "logical": 9418,
+        "moves": 831,
+        "physical": 9418
+      },
+      "file": "NN_105_0.jsonl.gz",
+      "sha256": "78a908e0d6abfbf33e00e44a589f5d3ecd278ab2675cea182b04f3733de09438"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 23,
+        "CONTROL_events": 16,
+        "FIRST_attempts": 23,
+        "FIRST_events": 16,
+        "REPEAT_attempts": 38,
+        "REPEAT_events": 28,
+        "episodes": 32,
+        "games": 96,
+        "logical": 6580,
+        "moves": 684,
+        "physical": 6580
+      },
+      "file": "NN_101_2.jsonl.gz",
+      "sha256": "cdcb3db7c109e67c65fa2fd724b9e612741732557806b4b740a4bf4a06ab5275"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 24,
+        "CONTROL_events": 24,
+        "FIRST_attempts": 24,
+        "FIRST_events": 24,
+        "REPEAT_attempts": 56,
+        "REPEAT_events": 56,
+        "episodes": 32,
+        "games": 96,
+        "logical": 10135,
+        "moves": 877,
+        "physical": 10135
+      },
+      "file": "NN_105_2.jsonl.gz",
+      "sha256": "f405ca70e81ff6774bb0190948995a6473b2f79b3c37dc69363a5d27b087f20b"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 24,
+        "CONTROL_events": 24,
+        "FIRST_attempts": 24,
+        "FIRST_events": 24,
+        "REPEAT_attempts": 56,
+        "REPEAT_events": 55,
+        "episodes": 32,
+        "games": 96,
+        "logical": 10339,
+        "moves": 907,
+        "physical": 10339
+      },
+      "file": "NN_102_2.jsonl.gz",
+      "sha256": "0f1b74713bd0615ab427cce0f21461e438c4cc7eeca0a6bb870f20a6bcfd6102"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 24,
+        "CONTROL_events": 24,
+        "FIRST_attempts": 24,
+        "FIRST_events": 24,
+        "REPEAT_attempts": 58,
+        "REPEAT_events": 58,
+        "episodes": 32,
+        "games": 96,
+        "logical": 9289,
+        "moves": 793,
+        "physical": 9289
+      },
+      "file": "NN_102_0.jsonl.gz",
+      "sha256": "526318911a8326c56c7fd2733a99c4fb3f57b4ac798a53d55ac24f0eafd8962a"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 20,
+        "CONTROL_events": 14,
+        "FIRST_attempts": 20,
+        "FIRST_events": 14,
+        "REPEAT_attempts": 34,
+        "REPEAT_events": 23,
+        "episodes": 32,
+        "games": 96,
+        "logical": 6202,
+        "moves": 659,
+        "physical": 6202
+      },
+      "file": "NN_101_3.jsonl.gz",
+      "sha256": "b2eb667ab7fbb712a3d297f0b179a5c5ecb34dcad057ddd5478dbca28e65eb4f"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 23,
+        "CONTROL_events": 16,
+        "FIRST_attempts": 23,
+        "FIRST_events": 16,
+        "REPEAT_attempts": 34,
+        "REPEAT_events": 24,
+        "episodes": 32,
+        "games": 96,
+        "logical": 6690,
+        "moves": 690,
+        "physical": 6690
+      },
+      "file": "NN_101_0.jsonl.gz",
+      "sha256": "7567df745cb1a839ff6201a00fc9be4f5e5c102b9a1ca16bee9831e1380da0b0"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 24,
+        "CONTROL_events": 24,
+        "FIRST_attempts": 24,
+        "FIRST_events": 24,
+        "REPEAT_attempts": 54,
+        "REPEAT_events": 54,
+        "episodes": 32,
+        "games": 96,
+        "logical": 9602,
+        "moves": 805,
+        "physical": 9602
+      },
+      "file": "NN_43_0.jsonl.gz",
+      "sha256": "db0ea392b5d4bf36c626edc825ffa6919838e6f3d44b71b3a1b05e7e56959c57"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 21,
+        "CONTROL_events": 21,
+        "FIRST_attempts": 21,
+        "FIRST_events": 21,
+        "REPEAT_attempts": 55,
+        "REPEAT_events": 55,
+        "episodes": 32,
+        "games": 96,
+        "logical": 9694,
+        "moves": 884,
+        "physical": 9694
+      },
+      "file": "NN_43_1.jsonl.gz",
+      "sha256": "2bcc1d8d630a421accbabaa5ab9e2dbd71f122d75d8a6c9758a03683adee81fa"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 21,
+        "CONTROL_events": 21,
+        "FIRST_attempts": 21,
+        "FIRST_events": 21,
+        "REPEAT_attempts": 47,
+        "REPEAT_events": 47,
+        "episodes": 32,
+        "games": 96,
+        "logical": 8639,
+        "moves": 764,
+        "physical": 8639
+      },
+      "file": "NN_42_1.jsonl.gz",
+      "sha256": "13343632f523b9f4bcb31c2a1f42d4554245ff26e6699c5b3fc3cd69dd29b0eb"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 23,
+        "CONTROL_events": 23,
+        "FIRST_attempts": 23,
+        "FIRST_events": 23,
+        "REPEAT_attempts": 65,
+        "REPEAT_events": 65,
+        "episodes": 32,
+        "games": 96,
+        "logical": 11273,
+        "moves": 1011,
+        "physical": 11273
+      },
+      "file": "NN_103_3.jsonl.gz",
+      "sha256": "737787afade27ef8b483d255487c92ea835fc67b605a87aa2581312066ad38b4"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 22,
+        "CONTROL_events": 22,
+        "FIRST_attempts": 22,
+        "FIRST_events": 22,
+        "REPEAT_attempts": 54,
+        "REPEAT_events": 54,
+        "episodes": 32,
+        "games": 96,
+        "logical": 8919,
+        "moves": 829,
+        "physical": 8919
+      },
+      "file": "NN_105_3.jsonl.gz",
+      "sha256": "40daf850b9b6364a26e86802fa42a86c26ddcb682dcc3b2fef58aa5888f95d1c"
+    },
+    {
+      "counts": {
+        "CONTROL_attempts": 18,
+        "CONTROL_events": 13,
+        "FIRST_attempts": 18,
+        "FIRST_events": 13,
+        "REPEAT_attempts": 32,
+        "REPEAT_events": 23,
+        "episodes": 32,
+        "games": 96,
+        "logical": 5707,
+        "moves": 609,
+        "physical": 5707
+      },
+      "file": "NN_101_1.jsonl.gz",
+      "sha256": "54808977395c8bbf582b484be93bcb33f0c733ee25ba40d1f12098a9eb97a7b3"
+    }
+  ],
+  "plan": "65e310f2b2495f0e8d1f8178d101902788c496c264577eef7919e16519925544",
+  "policy": "e8acedb2c3983f8e9b800315f223b351fc5eb5983e130029c1a085c863ef6ea9",
+  "source": "e4090c30b4dbfd0c5362c5c8316243232f7a4a67d19ced0029b36606212c3cfd"
+}

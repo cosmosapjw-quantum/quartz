@@ -1,0 +1,80 @@
+{
+  "counts": {
+    "FIRST": {
+      "Bcpu_ns": 17712376200,
+      "Bmoves": 501,
+      "Bnn": 47973,
+      "Bwall_ns": 18104968190,
+      "Qcpu_ns": 13327541404,
+      "Qmoves": 502,
+      "Qnn": 31594,
+      "Qwall_ns": 13608522064,
+      "draws": 1,
+      "events": 19,
+      "extra_nn": 228,
+      "games": 32,
+      "losses": 15,
+      "moves": 1003,
+      "score2": 33,
+      "switches": 6,
+      "wins": 16
+    },
+    "REPEAT": {
+      "Bcpu_ns": 16786769782,
+      "Bmoves": 505,
+      "Bnn": 47911,
+      "Bwall_ns": 17095019460,
+      "Qcpu_ns": 12856245970,
+      "Qmoves": 506,
+      "Qnn": 31729,
+      "Qwall_ns": 12914737011,
+      "draws": 1,
+      "events": 37,
+      "extra_nn": 444,
+      "games": 32,
+      "losses": 15,
+      "moves": 1011,
+      "score2": 33,
+      "switches": 11,
+      "wins": 16
+    }
+  },
+  "lock_sha256": "d688b0edc0b61cdaf9745bbc721858bdb0c95d2e699897c176f071f18b9d3fb0",
+  "paired_delta_saving": -0.003673086923033475,
+  "paired_delta_score": 0.0,
+  "points": {
+    "FIRST": {
+      "cpu_saving": 0.2490565711481988,
+      "saving": 0.34273312602880956,
+      "score": 0.515625
+    },
+    "REPEAT": {
+      "cpu_saving": 0.23565769139057735,
+      "saving": 0.3390600391057761,
+      "score": 0.515625
+    }
+  },
+  "proof": {
+    "common": 329,
+    "edges": 288315,
+    "proof_queries": 756403,
+    "proof_receipts": 864,
+    "rapfi_children": 112,
+    "rapfi_events": 56,
+    "rapfi_local_nn": 672,
+    "rapfi_switch": 17,
+    "votes": 1600,
+    "wave_receipts": 1600,
+    "waves": 18222
+  },
+  "saving_CI": [
+    -0.028352903808443908,
+    0.023138920035949306
+  ],
+  "scope": "exploratory; repeated TARGET, not NN STOP, no confirmatory gate",
+  "score_CI": [
+    0.0,
+    0.0
+  ],
+  "trajectory_divergences": 4
+}
