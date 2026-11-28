@@ -1,0 +1,8722 @@
+{
+  "bootstrap_reps": 8000,
+  "bootstrap_seed": 202611286000,
+  "candidate_families": {
+    "0": 34,
+    "1": 25,
+    "11": 29,
+    "12": 34,
+    "14": 45,
+    "15": 28,
+    "16": 36,
+    "17": 26,
+    "18": 21,
+    "2": 35,
+    "20": 22,
+    "22": 21,
+    "23": 25,
+    "25": 38,
+    "26": 37,
+    "28": 11,
+    "29": 38,
+    "3": 28,
+    "30": 30,
+    "31": 23,
+    "32": 28,
+    "33": 21,
+    "34": 29,
+    "36": 26,
+    "37": 14,
+    "38": 7,
+    "39": 13,
+    "4": 32,
+    "40": 35,
+    "41": 38,
+    "42": 32,
+    "43": 31,
+    "44": 25,
+    "46": 33,
+    "47": 34,
+    "5": 28,
+    "50": 25,
+    "51": 18,
+    "52": 8,
+    "53": 34,
+    "56": 38,
+    "58": 14,
+    "59": 53,
+    "6": 28,
+    "60": 48,
+    "61": 45,
+    "62": 39,
+    "63": 43,
+    "7": 26,
+    "9": 39
+  },
+  "jobs": [
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        23,
+        8,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 0,
+      "opening": [
+        39,
+        9,
+        25,
+        40
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        11,
+        30
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 1,
+      "opening": [
+        24,
+        18,
+        39,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "ADAPT",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        31,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 2,
+      "opening": [
+        15,
+        40,
+        32,
+        25
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        31,
+        15,
+        23
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 3,
+      "opening": [
+        26,
+        17,
+        23,
+        11
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        17,
+        22,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 4,
+      "opening": [
+        31,
+        12,
+        38,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        10,
+        22
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 5,
+      "opening": [
+        19,
+        10,
+        24,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        38,
+        10,
+        15
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 6,
+      "opening": [
+        33,
+        26,
+        22,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        24,
+        8,
+        11
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 7,
+      "opening": [
+        24,
+        11,
+        16,
+        8
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "ADAPT",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        10,
+        24,
+        26
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 8,
+      "opening": [
+        26,
+        10,
+        33,
+        24
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        37,
+        33,
+        48
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 9,
+      "opening": [
+        13,
+        37,
+        15,
+        42
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        38,
+        34,
+        36
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 10,
+      "opening": [
+        38,
+        34,
+        9,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        33,
+        6,
+        26
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 11,
+      "opening": [
+        0,
+        6,
+        33,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        25,
+        24,
+        43
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 12,
+      "opening": [
+        32,
+        35,
+        17,
+        24
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        31,
+        9,
+        26
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 13,
+      "opening": [
+        41,
+        10,
+        23,
+        33
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "ADAPT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        3,
+        34,
+        48
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 14,
+      "opening": [
+        3,
+        34,
+        0,
+        48
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        4,
+        5
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 15,
+      "opening": [
+        8,
+        28,
+        38,
+        35
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        17,
+        38
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 16,
+      "opening": [
+        37,
+        22,
+        12,
+        25
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        11,
+        12,
+        19
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 17,
+      "opening": [
+        12,
+        39,
+        33,
+        40
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        16,
+        15,
+        18
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 18,
+      "opening": [
+        32,
+        39,
+        33,
+        18
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        11,
+        29,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 19,
+      "opening": [
+        19,
+        37,
+        33,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        17,
+        10,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 20,
+      "opening": [
+        18,
+        29,
+        25,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        16,
+        8,
+        30
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 21,
+      "opening": [
+        16,
+        18,
+        15,
+        8
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        10,
+        25
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 22,
+      "opening": [
+        11,
+        23,
+        24,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        25,
+        15,
+        29
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 23,
+      "opening": [
+        18,
+        19,
+        23,
+        33
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        8,
+        2,
+        36
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 24,
+      "opening": [
+        40,
+        34,
+        41,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "ADAPT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        19,
+        13,
+        32
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 25,
+      "opening": [
+        44,
+        18,
+        33,
+        41
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        12,
+        17
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 26,
+      "opening": [
+        39,
+        40,
+        12,
+        25
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "ADAPT",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        33,
+        12,
+        26
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 27,
+      "opening": [
+        47,
+        22,
+        15,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        41,
+        5,
+        47
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 28,
+      "opening": [
+        13,
+        47,
+        42,
+        5
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        25,
+        12,
+        39
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 29,
+      "opening": [
+        16,
+        36,
+        31,
+        33
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "ADAPT",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        11,
+        37
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 30,
+      "opening": [
+        15,
+        29,
+        37,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "ADAPT",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        22,
+        4,
+        7
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 31,
+      "opening": [
+        27,
+        20,
+        38,
+        47
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        16,
+        33,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 32,
+      "opening": [
+        18,
+        39,
+        10,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        18,
+        30,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 33,
+      "opening": [
+        33,
+        9,
+        18,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "ADAPT",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        39,
+        8,
+        32
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 34,
+      "opening": [
+        29,
+        12,
+        19,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        16,
+        11,
+        15
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 35,
+      "opening": [
+        18,
+        19,
+        10,
+        9
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        22,
+        23,
+        31
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 36,
+      "opening": [
+        29,
+        25,
+        38,
+        31
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "ADAPT",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        9,
+        16,
+        18
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 37,
+      "opening": [
+        19,
+        18,
+        12,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        11,
+        15,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 38,
+      "opening": [
+        40,
+        39,
+        19,
+        9
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "ADAPT",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        25,
+        17,
+        29
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 39,
+      "opening": [
+        33,
+        25,
+        17,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        29,
+        22,
+        32
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 40,
+      "opening": [
+        34,
+        16,
+        37,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "ADAPT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        8,
+        3,
+        46
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 41,
+      "opening": [
+        5,
+        3,
+        12,
+        44
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "ADAPT",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        25,
+        28,
+        32
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 42,
+      "opening": [
+        40,
+        16,
+        17,
+        44
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        25,
+        9,
+        26
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 43,
+      "opening": [
+        25,
+        9,
+        1,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        25,
+        24,
+        40
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 44,
+      "opening": [
+        12,
+        24,
+        23,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        3,
+        37,
+        38
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 45,
+      "opening": [
+        47,
+        10,
+        45,
+        11
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        17,
+        7,
+        18
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 46,
+      "opening": [
+        30,
+        35,
+        31,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        29,
+        2,
+        32
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 47,
+      "opening": [
+        3,
+        30,
+        33,
+        4
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        17,
+        12,
+        19
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 48,
+      "opening": [
+        25,
+        39,
+        19,
+        40
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        25,
+        17,
+        26
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 49,
+      "opening": [
+        36,
+        10,
+        17,
+        23
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        32,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 50,
+      "opening": [
+        10,
+        40,
+        32,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "ADAPT",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        18,
+        25,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 51,
+      "opening": [
+        11,
+        23,
+        16,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        26,
+        31,
+        32
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 52,
+      "opening": [
+        38,
+        32,
+        15,
+        25
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "ADAPT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        19,
+        23,
+        25
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 53,
+      "opening": [
+        12,
+        23,
+        15,
+        25
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        31,
+        11,
+        15
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 54,
+      "opening": [
+        33,
+        39,
+        23,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        22,
+        15,
+        29
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 55,
+      "opening": [
+        38,
+        39,
+        29,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        32,
+        2,
+        6
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 56,
+      "opening": [
+        30,
+        48,
+        13,
+        20
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        17,
+        20,
+        21
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 57,
+      "opening": [
+        6,
+        3,
+        25,
+        46
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "ADAPT",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        16,
+        28,
+        30
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 58,
+      "opening": [
+        32,
+        30,
+        27,
+        44
+      ]
+    },
+    {
+      "arm_order": [
+        "ADAPT",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        20,
+        19,
+        26
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 59,
+      "opening": [
+        28,
+        22,
+        46,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "ADAPT",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        17,
+        16,
+        26
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 60,
+      "opening": [
+        23,
+        16,
+        15,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "ADAPT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        9,
+        7,
+        39
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 61,
+      "opening": [
+        29,
+        19,
+        35,
+        43
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "ADAPT",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        18,
+        9,
+        42
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 62,
+      "opening": [
+        30,
+        6,
+        48,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "ADAPT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        11,
+        0,
+        46
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 63,
+      "opening": [
+        19,
+        14,
+        40,
+        48
+      ]
+    }
+  ],
+  "lambda_den": 500,
+  "lambda_num": 1,
+  "min_family": 8,
+  "models": {
+    "101": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 82.3,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.72,
+            "timestamp": "2026-07-13 22:49:57",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "training_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+    },
+    "102": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 54.9,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.64,
+            "timestamp": "2026-07-13 23:27:53",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "training_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+    },
+    "103": {
+      "bytes": 4203527,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "105": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/gen_5.pt",
+      "role": "103 unpromoted trained gen5 (related checkpoint)",
+      "sha256": "a430602a889eba3f568c0a515c8a10dd3bb74d6b6b9adade5c00f0b22b91604b",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "41": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_41/gen_2.pt",
+      "original_seed": 41,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_41_gen2.pt",
+      "promotion": false,
+      "sha256": "d058771b43e948a9dec121be72bc0aa4228b2bdd9d1b52e55ccdc36626ca471b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 0.0,
+        "delta_elo": 0.0,
+        "elo_gap": 0.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.2897,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.2821,
+        "loss_ema": 4.2821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9269,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.633,
+        "pos_per_s": 6.3,
+        "published_elo": 0.0,
+        "replay": 298,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4094,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 200797,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.16899844548079057,
+          "extended_refresh_active_total": 31962,
+          "extended_refresh_eligible_total": 189126,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.36779248237609863,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4159732460975647,
+                "p95": 0.499844965338707
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6964949285984039,
+          "mean_p_flip": 0.36779248237609863,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.17965474207885562,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 40.9,
+          "mean_selection_effective_prior_l1_sum": 20.977019189999996,
+          "mean_selection_penalty_abs_sum": 10.620640669999998,
+          "mean_selection_root_selects": 2007.97,
+          "mean_voc_expand": -0.002033718860766385,
+          "mean_voc_focus": 0.02625431322058823,
+          "mean_voc_merge": 0.05439751913337197,
+          "mean_voc_total": 0.0595108026266098,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.15917568489569067,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.5,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.16,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.18,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.181,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.282,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 15.684,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.16,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 298,
+          "rolling_cycle_s": 20.18,
+          "rolling_games": 19,
+          "rolling_positions": 298,
+          "rolling_positions_per_s": 7.384,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.4,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.3552,
+        "value_std": 0.5149
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_41",
+          "--seed",
+          "41",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:30:22",
+        "returncode": 0,
+        "seed": 41,
+        "started_at": "2026-07-08 20:29:21"
+      }
+    },
+    "42": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_42/gen_2.pt",
+      "original_seed": 42,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_42_gen2.pt",
+      "promotion": false,
+      "sha256": "75d85209040f4e9047b6157ea5aece756bbe78cbef76bc92d515661189bd334f",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.3656,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.3543,
+        "loss_ema": 4.3543,
+        "lr": 0.0101,
+        "new_pos": 101,
+        "p_loss": 3.9202,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.589,
+        "pos_per_s": 5.4,
+        "published_elo": -167.5,
+        "replay": 266,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.3797,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 176682,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.3324768022840828,
+          "extended_refresh_active_total": 55896,
+          "extended_refresh_eligible_total": 168120,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.44832869589328767,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4995744377374649,
+                "p95": 0.4999823793768883
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6751197075843811,
+          "mean_p_flip": 0.44832869589328767,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.1390875223092735,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.78,
+          "mean_selection_effective_prior_l1_sum": 29.018208809999997,
+          "mean_selection_penalty_abs_sum": 5.909404700000001,
+          "mean_selection_root_selects": 1766.82,
+          "mean_voc_expand": -0.0018288146399208934,
+          "mean_voc_focus": 0.03310010064922594,
+          "mean_voc_merge": 0.046275470304008054,
+          "mean_voc_total": 0.050557230021804574,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.3163649947363059,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.263,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 19.325,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.241,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 101,
+          "last_cycle_s": 16.547,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.0,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.263,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 266,
+          "rolling_cycle_s": 19.325,
+          "rolling_games": 19,
+          "rolling_positions": 266,
+          "rolling_positions_per_s": 6.882,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 18.6,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.4341,
+        "value_std": 0.7186
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_42",
+          "--seed",
+          "42",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:31:20",
+        "returncode": 0,
+        "seed": 42,
+        "started_at": "2026-07-08 20:30:22"
+      }
+    },
+    "43": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_43/gen_2.pt",
+      "original_seed": 43,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_43_gen2.pt",
+      "promotion": false,
+      "sha256": "4a1fd820002fdfa62e2693febded77a4d4d5884a85a0b1a18f88a5f7c248374b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.5981,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.5821,
+        "loss_ema": 4.5821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9666,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.861,
+        "pos_per_s": 6.2,
+        "published_elo": -167.5,
+        "replay": 278,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4388,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 208929,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.005928749419267644,
+          "extended_refresh_active_total": 1123,
+          "extended_refresh_eligible_total": 189416,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.4317223697900772,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.49357300996780396,
+                "p95": 0.49951691478490834
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6634199434518814,
+          "mean_p_flip": 0.4317223697900772,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.06438421737169847,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.25,
+          "mean_selection_effective_prior_l1_sum": 2.5870308900000003,
+          "mean_selection_penalty_abs_sum": 3.32809432,
+          "mean_selection_root_selects": 2089.29,
+          "mean_voc_expand": -0.0007750782075714472,
+          "mean_voc_focus": 0.009553292178634295,
+          "mean_voc_merge": 0.019333062698042268,
+          "mean_voc_total": 0.02254601239255862,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.005375031709336665,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.13,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.034,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.122,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.94,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.632,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.13,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 278,
+          "rolling_cycle_s": 20.034,
+          "rolling_games": 19,
+          "rolling_positions": 278,
+          "rolling_positions_per_s": 6.938,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.8,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.6156,
+        "value_std": 0.8035
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_43",
+          "--seed",
+          "43",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:32:20",
+        "returncode": 0,
+        "seed": 43,
+        "started_at": "2026-07-08 20:31:20"
+      }
+    }
+  },
+  "old_binary": "/home/cosmosapjw/quantum/research/quartz_kinetic58_stop_target_20261128/mcts_demo",
+  "old_binary_sha256": "18dfa24173b9c3c404b4f793459066224389863a7409ca66a0de7c64845bc1bf",
+  "old_source_sha256": {
+    "src/mcts/eval.rs": "d81b5c8028e48becaa08d0dfbd057a5dbbb3bc4ec7b9d6403f112762be5e071b",
+    "src/mcts_server.rs": "2919b6c09e5980b017707c9085da0a96d8e6dfc2b2fd1e89156851a64fc758b2",
+    "src/mcts_server/k47_nn.rs": "830d96e7d525e1fad2d8a300d51569d9d6c1cee13162be0e78f20cec267e4d54",
+    "src/mcts_server/k47_proof.rs": "4afbbd2c7667e0020c4fa1f91691ca0cded7458b85f6527a6167639cdefffab2",
+    "src/mcts_server/rapfi_k36.rs": "671cb0b0c00097e467543ca698597bb693388bbb0b89f1ea22f56f2dd0039635"
+  },
+  "parent_lock_sha256": "add3d5b023bec42d33817c80b231d2f0e1f2ae147aff3eb8ab3a058af7bae3be",
+  "parent_plan_sha256": "65e310f2b2495f0e8d1f8178d101902788c496c264577eef7919e16519925544",
+  "prior_families": 2964,
+  "prior_locks": [
+    {
+      "count": 36,
+      "path": "docs/research/quartz_kinetic33_20261126/PLAN.json",
+      "sha256": "58877f6bc469438a8759dd1a7a60ccdef5782eaef82686180a0fa3c9363c680b"
+    },
+    {
+      "count": 96,
+      "path": "docs/research/quartz_kinetic38_nnlock_20261126/PLAN.json",
+      "sha256": "aedf701de9d8e5598654e8f9880c0561f887a09bd2facbdd769d855286ec0d50"
+    },
+    {
+      "count": 832,
+      "path": "docs/research/quartz_kinetic39_voc_20261126/PLAN.json",
+      "sha256": "64511e71fac2e3b53cfd566828b2779c045d8d18ed2db59ea9543a32437491df"
+    },
+    {
+      "count": 304,
+      "path": "docs/research/quartz_kinetic40_budget_20261126/PLAN.json",
+      "sha256": "59590c12ce52b301ca5c83dcaa4caa68a4449a419d2a93ad3df3275d072a1a90"
+    },
+    {
+      "count": 64,
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "count": 64,
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "count": 160,
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "count": 160,
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "count": 128,
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "count": 96,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "count": 48,
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "count": 96,
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "count": 144,
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "count": 96,
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "count": 48,
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    },
+    {
+      "count": 96,
+      "path": "docs/research/quartz_kinetic52_confirm_20261127/PLAN.json",
+      "sha256": "2e0bd886f5403dc13589921f06dbf0aace2335e2372b624ba9cf651f16c1d9b9"
+    },
+    {
+      "count": 48,
+      "path": "docs/research/quartz_kinetic53_reuse_20261127/PLAN.json",
+      "sha256": "2d789f1b5cd87fd647de2a31f7a9f2119f66f542843cf15c9a471862c3f4b5c9"
+    },
+    {
+      "count": 48,
+      "path": "docs/research/quartz_kinetic54_cache_20261127/PLAN.json",
+      "sha256": "23caf8740c5febfe5af86dfa134a688f74b3f7079895cbf0a285b20fae529761"
+    },
+    {
+      "count": 64,
+      "path": "docs/research/quartz_kinetic55_policy_20261128/PLAN.json",
+      "sha256": "55d6a4387c5f34d0bcb7085d57302daeeb91a0c6368119d040712d1cf919abf2"
+    },
+    {
+      "count": 48,
+      "path": "docs/research/quartz_kinetic56_voc_20261128/PLAN.json",
+      "sha256": "5f056f5f70abadbd8f78d18f68998d0fbea720b7a37b16a5115c0a666bd3bb0a"
+    },
+    {
+      "count": 64,
+      "path": "docs/research/quartz_kinetic57_early_20261128/PLAN.json",
+      "sha256": "4cb4ff983544ad95cfeb23d733da8ea02615613b0763e3f47344ba695236c58c"
+    },
+    {
+      "count": 160,
+      "path": "docs/research/quartz_kinetic58_stop_20261128/PLAN.json",
+      "sha256": "0eaee00cc58dad741947f74834bb522a27f6abbf24b4c0b0639076d59ab6c9e3"
+    },
+    {
+      "count": 64,
+      "path": "docs/research/quartz_kinetic59_repeat_20261128/PLAN.json",
+      "sha256": "65e310f2b2495f0e8d1f8178d101902788c496c264577eef7919e16519925544"
+    }
+  ],
+  "roots": [
+    {
+      "arm_order": [
+        0,
+        16,
+        8,
+        12,
+        4
+      ],
+      "color": -1,
+      "family_id": 0,
+      "h0": 4,
+      "history": [
+        33,
+        30,
+        36,
+        8,
+        1
+      ],
+      "id": 0,
+      "seed": 42,
+      "source_file": "NN_42_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        33,
+        30,
+        36,
+        8
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        4,
+        12,
+        8,
+        16
+      ],
+      "color": -1,
+      "family_id": 0,
+      "h0": 4,
+      "history": [
+        33,
+        30,
+        36,
+        8,
+        22
+      ],
+      "id": 1,
+      "seed": 102,
+      "source_file": "NN_102_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        33,
+        30,
+        36,
+        8
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        4,
+        8,
+        12
+      ],
+      "color": 1,
+      "family_id": 0,
+      "h0": 4,
+      "history": [
+        33,
+        30,
+        36,
+        8
+      ],
+      "id": 2,
+      "seed": 105,
+      "source_file": "NN_105_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        33,
+        30,
+        36,
+        8
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        12,
+        0,
+        8
+      ],
+      "color": 1,
+      "family_id": 0,
+      "h0": 4,
+      "history": [
+        33,
+        30,
+        36,
+        8,
+        47,
+        3
+      ],
+      "id": 3,
+      "seed": 43,
+      "source_file": "NN_43_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        33,
+        30,
+        36,
+        8
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        12,
+        0,
+        16
+      ],
+      "color": -1,
+      "family_id": 1,
+      "h0": 4,
+      "history": [
+        26,
+        9,
+        23,
+        37,
+        0,
+        4,
+        1,
+        6,
+        2,
+        3,
+        5
+      ],
+      "id": 4,
+      "seed": 103,
+      "source_file": "NN_103_1.jsonl.gz",
+      "source_index": 7,
+      "source_opening": [
+        26,
+        9,
+        23,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        12,
+        4,
+        8
+      ],
+      "color": -1,
+      "family_id": 1,
+      "h0": 4,
+      "history": [
+        26,
+        9,
+        23,
+        37,
+        22,
+        21,
+        35
+      ],
+      "id": 5,
+      "seed": 102,
+      "source_file": "NN_102_1.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        26,
+        9,
+        23,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        12,
+        0,
+        8
+      ],
+      "color": 1,
+      "family_id": 1,
+      "h0": 4,
+      "history": [
+        26,
+        9,
+        23,
+        37
+      ],
+      "id": 6,
+      "seed": 105,
+      "source_file": "NN_105_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        26,
+        9,
+        23,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        12,
+        4,
+        16
+      ],
+      "color": -1,
+      "family_id": 1,
+      "h0": 4,
+      "history": [
+        26,
+        9,
+        23,
+        37,
+        0,
+        6,
+        1
+      ],
+      "id": 7,
+      "seed": 41,
+      "source_file": "NN_41_1.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        26,
+        9,
+        23,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        0,
+        16,
+        8,
+        4
+      ],
+      "color": 1,
+      "family_id": 2,
+      "h0": 4,
+      "history": [
+        15,
+        9,
+        33,
+        36
+      ],
+      "id": 8,
+      "seed": 43,
+      "source_file": "NN_43_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        15,
+        9,
+        33,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        0,
+        16,
+        12,
+        8
+      ],
+      "color": 1,
+      "family_id": 2,
+      "h0": 4,
+      "history": [
+        15,
+        9,
+        33,
+        36
+      ],
+      "id": 9,
+      "seed": 102,
+      "source_file": "NN_102_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        15,
+        9,
+        33,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        12,
+        16,
+        4
+      ],
+      "color": 1,
+      "family_id": 2,
+      "h0": 4,
+      "history": [
+        15,
+        9,
+        33,
+        36
+      ],
+      "id": 10,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        15,
+        9,
+        33,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        8,
+        4,
+        12
+      ],
+      "color": 1,
+      "family_id": 2,
+      "h0": 4,
+      "history": [
+        15,
+        9,
+        33,
+        36
+      ],
+      "id": 11,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        15,
+        9,
+        33,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        8,
+        12,
+        4
+      ],
+      "color": -1,
+      "family_id": 3,
+      "h0": 4,
+      "history": [
+        11,
+        12,
+        32,
+        9,
+        22
+      ],
+      "id": 12,
+      "seed": 102,
+      "source_file": "NN_102_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        11,
+        12,
+        32,
+        9
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        8,
+        0,
+        12,
+        4
+      ],
+      "color": 1,
+      "family_id": 3,
+      "h0": 4,
+      "history": [
+        11,
+        12,
+        32,
+        9
+      ],
+      "id": 13,
+      "seed": 105,
+      "source_file": "NN_105_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        11,
+        12,
+        32,
+        9
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        4,
+        8,
+        0
+      ],
+      "color": -1,
+      "family_id": 3,
+      "h0": 4,
+      "history": [
+        11,
+        12,
+        32,
+        9,
+        0
+      ],
+      "id": 14,
+      "seed": 41,
+      "source_file": "NN_41_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        11,
+        12,
+        32,
+        9
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        16,
+        0,
+        8
+      ],
+      "color": 1,
+      "family_id": 3,
+      "h0": 4,
+      "history": [
+        11,
+        12,
+        32,
+        9
+      ],
+      "id": 15,
+      "seed": 43,
+      "source_file": "NN_43_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        11,
+        12,
+        32,
+        9
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        4,
+        8,
+        0
+      ],
+      "color": -1,
+      "family_id": 4,
+      "h0": 4,
+      "history": [
+        39,
+        38,
+        30,
+        10,
+        26
+      ],
+      "id": 16,
+      "seed": 105,
+      "source_file": "NN_105_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        39,
+        38,
+        30,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        4,
+        16,
+        12
+      ],
+      "color": 1,
+      "family_id": 4,
+      "h0": 4,
+      "history": [
+        39,
+        38,
+        30,
+        10,
+        22,
+        0,
+        35,
+        1,
+        5,
+        2,
+        3,
+        6
+      ],
+      "id": 17,
+      "seed": 102,
+      "source_file": "NN_102_0.jsonl.gz",
+      "source_index": 8,
+      "source_opening": [
+        39,
+        38,
+        30,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        12,
+        4,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 4,
+      "h0": 4,
+      "history": [
+        39,
+        38,
+        30,
+        10,
+        20,
+        1
+      ],
+      "id": 18,
+      "seed": 42,
+      "source_file": "NN_42_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        39,
+        38,
+        30,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        12,
+        4,
+        16,
+        0
+      ],
+      "color": 1,
+      "family_id": 4,
+      "h0": 4,
+      "history": [
+        39,
+        38,
+        30,
+        10,
+        6,
+        0,
+        4,
+        1
+      ],
+      "id": 19,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 4,
+      "source_opening": [
+        39,
+        38,
+        30,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        4,
+        16,
+        12
+      ],
+      "color": 1,
+      "family_id": 5,
+      "h0": 4,
+      "history": [
+        11,
+        19,
+        40,
+        10
+      ],
+      "id": 20,
+      "seed": 105,
+      "source_file": "NN_105_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        11,
+        19,
+        40,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        12,
+        0,
+        16
+      ],
+      "color": -1,
+      "family_id": 5,
+      "h0": 4,
+      "history": [
+        11,
+        19,
+        40,
+        10,
+        0,
+        6,
+        1
+      ],
+      "id": 21,
+      "seed": 103,
+      "source_file": "NN_103_1.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        11,
+        19,
+        40,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        16,
+        12,
+        0
+      ],
+      "color": 1,
+      "family_id": 5,
+      "h0": 4,
+      "history": [
+        11,
+        19,
+        40,
+        10,
+        16,
+        1
+      ],
+      "id": 22,
+      "seed": 101,
+      "source_file": "NN_101_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        11,
+        19,
+        40,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        0,
+        4,
+        12
+      ],
+      "color": 1,
+      "family_id": 5,
+      "h0": 4,
+      "history": [
+        11,
+        19,
+        40,
+        10,
+        47,
+        3
+      ],
+      "id": 23,
+      "seed": 43,
+      "source_file": "NN_43_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        11,
+        19,
+        40,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        12,
+        8,
+        0
+      ],
+      "color": -1,
+      "family_id": 6,
+      "h0": 4,
+      "history": [
+        22,
+        26,
+        40,
+        17,
+        0
+      ],
+      "id": 24,
+      "seed": 103,
+      "source_file": "NN_103_2.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        22,
+        26,
+        40,
+        17
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        4,
+        8,
+        16,
+        0
+      ],
+      "color": 1,
+      "family_id": 6,
+      "h0": 4,
+      "history": [
+        22,
+        26,
+        40,
+        17
+      ],
+      "id": 25,
+      "seed": 103,
+      "source_file": "NN_103_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        22,
+        26,
+        40,
+        17
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        12,
+        8,
+        4
+      ],
+      "color": 1,
+      "family_id": 6,
+      "h0": 4,
+      "history": [
+        22,
+        26,
+        40,
+        17,
+        0,
+        1
+      ],
+      "id": 26,
+      "seed": 41,
+      "source_file": "NN_41_2.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        22,
+        26,
+        40,
+        17
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        8,
+        4,
+        12
+      ],
+      "color": 1,
+      "family_id": 6,
+      "h0": 4,
+      "history": [
+        22,
+        26,
+        40,
+        17
+      ],
+      "id": 27,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        22,
+        26,
+        40,
+        17
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        16,
+        4,
+        0,
+        8
+      ],
+      "color": -1,
+      "family_id": 7,
+      "h0": 4,
+      "history": [
+        16,
+        15,
+        11,
+        30,
+        22,
+        10,
+        35,
+        5,
+        28,
+        14,
+        31
+      ],
+      "id": 28,
+      "seed": 102,
+      "source_file": "NN_102_3.jsonl.gz",
+      "source_index": 7,
+      "source_opening": [
+        16,
+        15,
+        11,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        4,
+        16,
+        12,
+        8
+      ],
+      "color": -1,
+      "family_id": 7,
+      "h0": 4,
+      "history": [
+        16,
+        15,
+        11,
+        30,
+        1,
+        20,
+        7
+      ],
+      "id": 29,
+      "seed": 42,
+      "source_file": "NN_42_3.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        16,
+        15,
+        11,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        12,
+        8,
+        4
+      ],
+      "color": -1,
+      "family_id": 7,
+      "h0": 4,
+      "history": [
+        16,
+        15,
+        11,
+        30,
+        0
+      ],
+      "id": 30,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        16,
+        15,
+        11,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        8,
+        16,
+        0,
+        4
+      ],
+      "color": -1,
+      "family_id": 7,
+      "h0": 4,
+      "history": [
+        16,
+        15,
+        11,
+        30,
+        1
+      ],
+      "id": 31,
+      "seed": 42,
+      "source_file": "NN_42_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        16,
+        15,
+        11,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        4,
+        12,
+        0
+      ],
+      "color": -1,
+      "family_id": 9,
+      "h0": 4,
+      "history": [
+        35,
+        46,
+        15,
+        36,
+        0,
+        6,
+        1
+      ],
+      "id": 32,
+      "seed": 41,
+      "source_file": "NN_41_1.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        35,
+        46,
+        15,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        4,
+        8,
+        0,
+        12
+      ],
+      "color": 1,
+      "family_id": 9,
+      "h0": 4,
+      "history": [
+        35,
+        46,
+        15,
+        36,
+        1,
+        7,
+        20,
+        11
+      ],
+      "id": 33,
+      "seed": 42,
+      "source_file": "NN_42_1.jsonl.gz",
+      "source_index": 4,
+      "source_opening": [
+        35,
+        46,
+        15,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        8,
+        16,
+        0
+      ],
+      "color": 1,
+      "family_id": 9,
+      "h0": 4,
+      "history": [
+        35,
+        46,
+        15,
+        36,
+        0,
+        1
+      ],
+      "id": 34,
+      "seed": 41,
+      "source_file": "NN_41_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        35,
+        46,
+        15,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        4,
+        16,
+        8,
+        12
+      ],
+      "color": 1,
+      "family_id": 9,
+      "h0": 4,
+      "history": [
+        35,
+        46,
+        15,
+        36,
+        47,
+        3
+      ],
+      "id": 35,
+      "seed": 43,
+      "source_file": "NN_43_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        35,
+        46,
+        15,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        0,
+        16,
+        12
+      ],
+      "color": 1,
+      "family_id": 11,
+      "h0": 4,
+      "history": [
+        15,
+        36,
+        21,
+        20
+      ],
+      "id": 36,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        15,
+        36,
+        21,
+        20
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        4,
+        12,
+        0,
+        8
+      ],
+      "color": -1,
+      "family_id": 11,
+      "h0": 4,
+      "history": [
+        15,
+        36,
+        21,
+        20,
+        47
+      ],
+      "id": 37,
+      "seed": 43,
+      "source_file": "NN_43_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        15,
+        36,
+        21,
+        20
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        12,
+        8,
+        4
+      ],
+      "color": -1,
+      "family_id": 11,
+      "h0": 4,
+      "history": [
+        15,
+        36,
+        21,
+        20,
+        0,
+        6,
+        1
+      ],
+      "id": 38,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        15,
+        36,
+        21,
+        20
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        0,
+        4,
+        8,
+        16
+      ],
+      "color": -1,
+      "family_id": 11,
+      "h0": 4,
+      "history": [
+        15,
+        36,
+        21,
+        20,
+        5
+      ],
+      "id": 39,
+      "seed": 105,
+      "source_file": "NN_105_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        15,
+        36,
+        21,
+        20
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        8,
+        12,
+        0
+      ],
+      "color": 1,
+      "family_id": 12,
+      "h0": 4,
+      "history": [
+        22,
+        34,
+        45,
+        2,
+        20,
+        1,
+        0,
+        7,
+        11,
+        15,
+        31,
+        24
+      ],
+      "id": 40,
+      "seed": 42,
+      "source_file": "NN_42_0.jsonl.gz",
+      "source_index": 8,
+      "source_opening": [
+        22,
+        34,
+        45,
+        2
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        16,
+        12,
+        4
+      ],
+      "color": -1,
+      "family_id": 12,
+      "h0": 4,
+      "history": [
+        22,
+        34,
+        45,
+        2,
+        10
+      ],
+      "id": 41,
+      "seed": 101,
+      "source_file": "NN_101_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        22,
+        34,
+        45,
+        2
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        16,
+        0,
+        4,
+        8
+      ],
+      "color": 1,
+      "family_id": 12,
+      "h0": 4,
+      "history": [
+        22,
+        34,
+        45,
+        2,
+        6,
+        0
+      ],
+      "id": 42,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        22,
+        34,
+        45,
+        2
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        8,
+        4,
+        12
+      ],
+      "color": 1,
+      "family_id": 12,
+      "h0": 4,
+      "history": [
+        22,
+        34,
+        45,
+        2
+      ],
+      "id": 43,
+      "seed": 102,
+      "source_file": "NN_102_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        22,
+        34,
+        45,
+        2
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        8,
+        0,
+        12
+      ],
+      "color": 1,
+      "family_id": 14,
+      "h0": 4,
+      "history": [
+        13,
+        16,
+        35,
+        31
+      ],
+      "id": 44,
+      "seed": 41,
+      "source_file": "NN_41_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        13,
+        16,
+        35,
+        31
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        0,
+        12,
+        16,
+        8
+      ],
+      "color": -1,
+      "family_id": 14,
+      "h0": 4,
+      "history": [
+        13,
+        16,
+        35,
+        31,
+        7
+      ],
+      "id": 45,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        13,
+        16,
+        35,
+        31
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        16,
+        0,
+        12
+      ],
+      "color": 1,
+      "family_id": 14,
+      "h0": 4,
+      "history": [
+        13,
+        16,
+        35,
+        31,
+        47,
+        3,
+        33,
+        21,
+        26,
+        40,
+        12,
+        19
+      ],
+      "id": 46,
+      "seed": 43,
+      "source_file": "NN_43_2.jsonl.gz",
+      "source_index": 8,
+      "source_opening": [
+        13,
+        16,
+        35,
+        31
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        4,
+        12,
+        16,
+        0
+      ],
+      "color": 1,
+      "family_id": 14,
+      "h0": 4,
+      "history": [
+        13,
+        16,
+        35,
+        31
+      ],
+      "id": 47,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        13,
+        16,
+        35,
+        31
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        4,
+        12,
+        16
+      ],
+      "color": -1,
+      "family_id": 15,
+      "h0": 4,
+      "history": [
+        25,
+        27,
+        41,
+        44,
+        20,
+        18,
+        45,
+        33,
+        26,
+        38,
+        10
+      ],
+      "id": 48,
+      "seed": 105,
+      "source_file": "NN_105_3.jsonl.gz",
+      "source_index": 7,
+      "source_opening": [
+        25,
+        27,
+        41,
+        44
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        0,
+        12,
+        4
+      ],
+      "color": -1,
+      "family_id": 15,
+      "h0": 4,
+      "history": [
+        25,
+        27,
+        41,
+        44,
+        10,
+        17,
+        39
+      ],
+      "id": 49,
+      "seed": 101,
+      "source_file": "NN_101_3.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        25,
+        27,
+        41,
+        44
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        4,
+        0,
+        16,
+        8
+      ],
+      "color": -1,
+      "family_id": 15,
+      "h0": 4,
+      "history": [
+        25,
+        27,
+        41,
+        44,
+        20,
+        18,
+        45,
+        33,
+        26,
+        38,
+        10,
+        3,
+        17
+      ],
+      "id": 50,
+      "seed": 105,
+      "source_file": "NN_105_3.jsonl.gz",
+      "source_index": 9,
+      "source_opening": [
+        25,
+        27,
+        41,
+        44
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        4,
+        0,
+        12,
+        16
+      ],
+      "color": -1,
+      "family_id": 15,
+      "h0": 4,
+      "history": [
+        25,
+        27,
+        41,
+        44,
+        22
+      ],
+      "id": 51,
+      "seed": 102,
+      "source_file": "NN_102_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        25,
+        27,
+        41,
+        44
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        0,
+        8,
+        4,
+        16
+      ],
+      "color": 1,
+      "family_id": 16,
+      "h0": 8,
+      "history": [
+        37,
+        23,
+        15,
+        38,
+        0,
+        1,
+        6,
+        2,
+        9,
+        3,
+        4,
+        5
+      ],
+      "id": 52,
+      "seed": 41,
+      "source_file": "NN_41_0.jsonl.gz",
+      "source_index": 8,
+      "source_opening": [
+        37,
+        23,
+        15,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        8,
+        4,
+        0,
+        16
+      ],
+      "color": 1,
+      "family_id": 16,
+      "h0": 8,
+      "history": [
+        37,
+        23,
+        15,
+        38,
+        1,
+        7
+      ],
+      "id": 53,
+      "seed": 42,
+      "source_file": "NN_42_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        37,
+        23,
+        15,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        0,
+        16,
+        8
+      ],
+      "color": -1,
+      "family_id": 16,
+      "h0": 8,
+      "history": [
+        37,
+        23,
+        15,
+        38,
+        0
+      ],
+      "id": 54,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        37,
+        23,
+        15,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        16,
+        12,
+        0
+      ],
+      "color": 1,
+      "family_id": 16,
+      "h0": 8,
+      "history": [
+        37,
+        23,
+        15,
+        38,
+        4,
+        0
+      ],
+      "id": 55,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        37,
+        23,
+        15,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        4,
+        0,
+        8,
+        12
+      ],
+      "color": 1,
+      "family_id": 17,
+      "h0": 8,
+      "history": [
+        36,
+        38,
+        16,
+        19,
+        1,
+        15
+      ],
+      "id": 56,
+      "seed": 42,
+      "source_file": "NN_42_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        36,
+        38,
+        16,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        0,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 17,
+      "h0": 8,
+      "history": [
+        36,
+        38,
+        16,
+        19,
+        26,
+        0,
+        5,
+        1
+      ],
+      "id": 57,
+      "seed": 105,
+      "source_file": "NN_105_1.jsonl.gz",
+      "source_index": 4,
+      "source_opening": [
+        36,
+        38,
+        16,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        4,
+        0,
+        8
+      ],
+      "color": 1,
+      "family_id": 17,
+      "h0": 8,
+      "history": [
+        36,
+        38,
+        16,
+        19
+      ],
+      "id": 58,
+      "seed": 105,
+      "source_file": "NN_105_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        36,
+        38,
+        16,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        16,
+        4,
+        0,
+        8
+      ],
+      "color": -1,
+      "family_id": 17,
+      "h0": 8,
+      "history": [
+        36,
+        38,
+        16,
+        19,
+        26,
+        5,
+        7
+      ],
+      "id": 59,
+      "seed": 105,
+      "source_file": "NN_105_1.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        36,
+        38,
+        16,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        0,
+        12,
+        4
+      ],
+      "color": 1,
+      "family_id": 18,
+      "h0": 8,
+      "history": [
+        22,
+        23,
+        31,
+        29,
+        11,
+        1
+      ],
+      "id": 60,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        22,
+        23,
+        31,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        8,
+        0,
+        16,
+        4
+      ],
+      "color": 1,
+      "family_id": 18,
+      "h0": 8,
+      "history": [
+        22,
+        23,
+        31,
+        29,
+        35,
+        47
+      ],
+      "id": 61,
+      "seed": 43,
+      "source_file": "NN_43_2.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        22,
+        23,
+        31,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        4,
+        0,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 18,
+      "h0": 8,
+      "history": [
+        22,
+        23,
+        31,
+        29,
+        11,
+        1
+      ],
+      "id": 62,
+      "seed": 101,
+      "source_file": "NN_101_2.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        22,
+        23,
+        31,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        4,
+        12,
+        0,
+        8
+      ],
+      "color": 1,
+      "family_id": 18,
+      "h0": 8,
+      "history": [
+        22,
+        23,
+        31,
+        29,
+        11,
+        1,
+        15,
+        7,
+        20,
+        24
+      ],
+      "id": 63,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 6,
+      "source_opening": [
+        22,
+        23,
+        31,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        16,
+        4,
+        8,
+        0
+      ],
+      "color": 1,
+      "family_id": 20,
+      "h0": 8,
+      "history": [
+        10,
+        23,
+        25,
+        38,
+        35,
+        0
+      ],
+      "id": 64,
+      "seed": 102,
+      "source_file": "NN_102_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        10,
+        23,
+        25,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        12,
+        16,
+        4,
+        8
+      ],
+      "color": -1,
+      "family_id": 20,
+      "h0": 8,
+      "history": [
+        10,
+        23,
+        25,
+        38,
+        42
+      ],
+      "id": 65,
+      "seed": 105,
+      "source_file": "NN_105_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        10,
+        23,
+        25,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        4,
+        16,
+        0,
+        8
+      ],
+      "color": 1,
+      "family_id": 20,
+      "h0": 8,
+      "history": [
+        10,
+        23,
+        25,
+        38
+      ],
+      "id": 66,
+      "seed": 41,
+      "source_file": "NN_41_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        10,
+        23,
+        25,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        12,
+        4,
+        8
+      ],
+      "color": -1,
+      "family_id": 20,
+      "h0": 8,
+      "history": [
+        10,
+        23,
+        25,
+        38,
+        47
+      ],
+      "id": 67,
+      "seed": 43,
+      "source_file": "NN_43_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        10,
+        23,
+        25,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        4,
+        16,
+        12,
+        0
+      ],
+      "color": -1,
+      "family_id": 22,
+      "h0": 8,
+      "history": [
+        16,
+        15,
+        26,
+        37,
+        47
+      ],
+      "id": 68,
+      "seed": 43,
+      "source_file": "NN_43_2.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        16,
+        15,
+        26,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        8,
+        12,
+        4
+      ],
+      "color": 1,
+      "family_id": 22,
+      "h0": 8,
+      "history": [
+        16,
+        15,
+        26,
+        37
+      ],
+      "id": 69,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        16,
+        15,
+        26,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        0,
+        16,
+        12,
+        4
+      ],
+      "color": 1,
+      "family_id": 22,
+      "h0": 8,
+      "history": [
+        16,
+        15,
+        26,
+        37,
+        1,
+        7
+      ],
+      "id": 70,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        16,
+        15,
+        26,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        16,
+        12,
+        0
+      ],
+      "color": -1,
+      "family_id": 22,
+      "h0": 8,
+      "history": [
+        16,
+        15,
+        26,
+        37,
+        5
+      ],
+      "id": 71,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        16,
+        15,
+        26,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        4,
+        8,
+        12
+      ],
+      "color": 1,
+      "family_id": 23,
+      "h0": 8,
+      "history": [
+        9,
+        10,
+        32,
+        19
+      ],
+      "id": 72,
+      "seed": 101,
+      "source_file": "NN_101_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        9,
+        10,
+        32,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        12,
+        8,
+        4,
+        16
+      ],
+      "color": -1,
+      "family_id": 23,
+      "h0": 8,
+      "history": [
+        9,
+        10,
+        32,
+        19,
+        47
+      ],
+      "id": 73,
+      "seed": 43,
+      "source_file": "NN_43_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        9,
+        10,
+        32,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        12,
+        0,
+        8
+      ],
+      "color": -1,
+      "family_id": 23,
+      "h0": 8,
+      "history": [
+        9,
+        10,
+        32,
+        19,
+        1
+      ],
+      "id": 74,
+      "seed": 42,
+      "source_file": "NN_42_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        9,
+        10,
+        32,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        0,
+        12,
+        16,
+        4
+      ],
+      "color": -1,
+      "family_id": 23,
+      "h0": 8,
+      "history": [
+        9,
+        10,
+        32,
+        19,
+        0,
+        1,
+        2,
+        8,
+        3
+      ],
+      "id": 75,
+      "seed": 41,
+      "source_file": "NN_41_3.jsonl.gz",
+      "source_index": 5,
+      "source_opening": [
+        9,
+        10,
+        32,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        0,
+        12,
+        16,
+        4
+      ],
+      "color": -1,
+      "family_id": 25,
+      "h0": 8,
+      "history": [
+        24,
+        12,
+        20,
+        45,
+        0
+      ],
+      "id": 76,
+      "seed": 103,
+      "source_file": "NN_103_1.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        24,
+        12,
+        20,
+        45
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        12,
+        16,
+        4,
+        0
+      ],
+      "color": 1,
+      "family_id": 25,
+      "h0": 8,
+      "history": [
+        24,
+        12,
+        20,
+        45
+      ],
+      "id": 77,
+      "seed": 41,
+      "source_file": "NN_41_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        24,
+        12,
+        20,
+        45
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        4,
+        8,
+        0
+      ],
+      "color": 1,
+      "family_id": 25,
+      "h0": 8,
+      "history": [
+        24,
+        12,
+        20,
+        45,
+        1,
+        7,
+        11,
+        15
+      ],
+      "id": 78,
+      "seed": 42,
+      "source_file": "NN_42_1.jsonl.gz",
+      "source_index": 4,
+      "source_opening": [
+        24,
+        12,
+        20,
+        45
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        8,
+        4,
+        12,
+        0
+      ],
+      "color": -1,
+      "family_id": 25,
+      "h0": 8,
+      "history": [
+        24,
+        12,
+        20,
+        45,
+        0,
+        4,
+        1,
+        6,
+        2,
+        3,
+        5,
+        7,
+        8,
+        16,
+        9
+      ],
+      "id": 79,
+      "seed": 103,
+      "source_file": "NN_103_1.jsonl.gz",
+      "source_index": 11,
+      "source_opening": [
+        24,
+        12,
+        20,
+        45
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        4,
+        16,
+        12,
+        0
+      ],
+      "color": -1,
+      "family_id": 26,
+      "h0": 8,
+      "history": [
+        18,
+        42,
+        0,
+        1,
+        10,
+        26,
+        39
+      ],
+      "id": 80,
+      "seed": 101,
+      "source_file": "NN_101_2.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        18,
+        42,
+        0,
+        1
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        12,
+        16,
+        4
+      ],
+      "color": -1,
+      "family_id": 26,
+      "h0": 8,
+      "history": [
+        18,
+        42,
+        0,
+        1,
+        22
+      ],
+      "id": 81,
+      "seed": 102,
+      "source_file": "NN_102_2.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        18,
+        42,
+        0,
+        1
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        0,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 26,
+      "h0": 8,
+      "history": [
+        18,
+        42,
+        0,
+        1
+      ],
+      "id": 82,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        18,
+        42,
+        0,
+        1
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        8,
+        4,
+        12,
+        0
+      ],
+      "color": 1,
+      "family_id": 26,
+      "h0": 8,
+      "history": [
+        18,
+        42,
+        0,
+        1
+      ],
+      "id": 83,
+      "seed": 103,
+      "source_file": "NN_103_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        18,
+        42,
+        0,
+        1
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        8,
+        16,
+        4,
+        0
+      ],
+      "color": 1,
+      "family_id": 28,
+      "h0": 8,
+      "history": [
+        18,
+        40,
+        5,
+        26,
+        47,
+        0,
+        6,
+        1
+      ],
+      "id": 84,
+      "seed": 41,
+      "source_file": "NN_41_0.jsonl.gz",
+      "source_index": 4,
+      "source_opening": [
+        18,
+        40,
+        5,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        0,
+        12,
+        16,
+        4
+      ],
+      "color": 1,
+      "family_id": 28,
+      "h0": 8,
+      "history": [
+        18,
+        40,
+        5,
+        26
+      ],
+      "id": 85,
+      "seed": 41,
+      "source_file": "NN_41_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        18,
+        40,
+        5,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        16,
+        0,
+        4,
+        8
+      ],
+      "color": 1,
+      "family_id": 28,
+      "h0": 8,
+      "history": [
+        18,
+        40,
+        5,
+        26
+      ],
+      "id": 86,
+      "seed": 105,
+      "source_file": "NN_105_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        18,
+        40,
+        5,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        12,
+        8,
+        0
+      ],
+      "color": 1,
+      "family_id": 28,
+      "h0": 8,
+      "history": [
+        18,
+        40,
+        5,
+        26,
+        33,
+        47
+      ],
+      "id": 87,
+      "seed": 43,
+      "source_file": "NN_43_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        18,
+        40,
+        5,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        16,
+        0,
+        8,
+        4
+      ],
+      "color": -1,
+      "family_id": 29,
+      "h0": 8,
+      "history": [
+        47,
+        35,
+        12,
+        13,
+        1,
+        15,
+        7
+      ],
+      "id": 88,
+      "seed": 42,
+      "source_file": "NN_42_1.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        47,
+        35,
+        12,
+        13
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        0,
+        4,
+        8
+      ],
+      "color": -1,
+      "family_id": 29,
+      "h0": 8,
+      "history": [
+        47,
+        35,
+        12,
+        13,
+        20,
+        0,
+        45,
+        44,
+        41
+      ],
+      "id": 89,
+      "seed": 105,
+      "source_file": "NN_105_1.jsonl.gz",
+      "source_index": 5,
+      "source_opening": [
+        47,
+        35,
+        12,
+        13
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        12,
+        8,
+        4
+      ],
+      "color": 1,
+      "family_id": 29,
+      "h0": 8,
+      "history": [
+        47,
+        35,
+        12,
+        13
+      ],
+      "id": 90,
+      "seed": 42,
+      "source_file": "NN_42_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        47,
+        35,
+        12,
+        13
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        0,
+        12,
+        4
+      ],
+      "color": -1,
+      "family_id": 29,
+      "h0": 8,
+      "history": [
+        47,
+        35,
+        12,
+        13,
+        3,
+        33,
+        26,
+        2,
+        16,
+        0,
+        21
+      ],
+      "id": 91,
+      "seed": 43,
+      "source_file": "NN_43_1.jsonl.gz",
+      "source_index": 7,
+      "source_opening": [
+        47,
+        35,
+        12,
+        13
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        16,
+        12,
+        4
+      ],
+      "color": 1,
+      "family_id": 30,
+      "h0": 8,
+      "history": [
+        16,
+        10,
+        6,
+        29,
+        42,
+        0,
+        26,
+        1,
+        39,
+        2,
+        3,
+        4
+      ],
+      "id": 92,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 8,
+      "source_opening": [
+        16,
+        10,
+        6,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        0,
+        12,
+        16
+      ],
+      "color": 1,
+      "family_id": 30,
+      "h0": 8,
+      "history": [
+        16,
+        10,
+        6,
+        29
+      ],
+      "id": 93,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        16,
+        10,
+        6,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        4,
+        8,
+        12,
+        0
+      ],
+      "color": -1,
+      "family_id": 30,
+      "h0": 8,
+      "history": [
+        16,
+        10,
+        6,
+        29,
+        5,
+        7,
+        17
+      ],
+      "id": 94,
+      "seed": 101,
+      "source_file": "NN_101_2.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        16,
+        10,
+        6,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        12,
+        16,
+        0,
+        4
+      ],
+      "color": 1,
+      "family_id": 30,
+      "h0": 8,
+      "history": [
+        16,
+        10,
+        6,
+        29,
+        22,
+        0,
+        35,
+        2
+      ],
+      "id": 95,
+      "seed": 102,
+      "source_file": "NN_102_2.jsonl.gz",
+      "source_index": 4,
+      "source_opening": [
+        16,
+        10,
+        6,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        8,
+        16,
+        4,
+        0
+      ],
+      "color": 1,
+      "family_id": 31,
+      "h0": 8,
+      "history": [
+        16,
+        26,
+        37,
+        34
+      ],
+      "id": 96,
+      "seed": 105,
+      "source_file": "NN_105_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        16,
+        26,
+        37,
+        34
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        8,
+        0,
+        16
+      ],
+      "color": -1,
+      "family_id": 31,
+      "h0": 8,
+      "history": [
+        16,
+        26,
+        37,
+        34,
+        1
+      ],
+      "id": 97,
+      "seed": 42,
+      "source_file": "NN_42_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        16,
+        26,
+        37,
+        34
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        12,
+        16,
+        4
+      ],
+      "color": 1,
+      "family_id": 31,
+      "h0": 8,
+      "history": [
+        16,
+        26,
+        37,
+        34
+      ],
+      "id": 98,
+      "seed": 42,
+      "source_file": "NN_42_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        16,
+        26,
+        37,
+        34
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        4,
+        0,
+        12
+      ],
+      "color": 1,
+      "family_id": 31,
+      "h0": 8,
+      "history": [
+        16,
+        26,
+        37,
+        34
+      ],
+      "id": 99,
+      "seed": 41,
+      "source_file": "NN_41_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        16,
+        26,
+        37,
+        34
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        4,
+        12,
+        0
+      ],
+      "color": -1,
+      "family_id": 32,
+      "h0": 12,
+      "history": [
+        38,
+        25,
+        18,
+        39,
+        22,
+        14,
+        35
+      ],
+      "id": 100,
+      "seed": 102,
+      "source_file": "NN_102_0.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        38,
+        25,
+        18,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        8,
+        12,
+        4
+      ],
+      "color": 1,
+      "family_id": 32,
+      "h0": 12,
+      "history": [
+        38,
+        25,
+        18,
+        39
+      ],
+      "id": 101,
+      "seed": 43,
+      "source_file": "NN_43_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        38,
+        25,
+        18,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        12,
+        4,
+        16,
+        0
+      ],
+      "color": -1,
+      "family_id": 32,
+      "h0": 12,
+      "history": [
+        38,
+        25,
+        18,
+        39,
+        0,
+        3,
+        1
+      ],
+      "id": 102,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        38,
+        25,
+        18,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        0,
+        12,
+        4
+      ],
+      "color": 1,
+      "family_id": 32,
+      "h0": 12,
+      "history": [
+        38,
+        25,
+        18,
+        39,
+        47,
+        3
+      ],
+      "id": 103,
+      "seed": 43,
+      "source_file": "NN_43_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        38,
+        25,
+        18,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        12,
+        0,
+        16
+      ],
+      "color": 1,
+      "family_id": 33,
+      "h0": 12,
+      "history": [
+        10,
+        18,
+        23,
+        29
+      ],
+      "id": 104,
+      "seed": 105,
+      "source_file": "NN_105_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        10,
+        18,
+        23,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        12,
+        4,
+        0,
+        16
+      ],
+      "color": 1,
+      "family_id": 33,
+      "h0": 12,
+      "history": [
+        10,
+        18,
+        23,
+        29,
+        1,
+        15
+      ],
+      "id": 105,
+      "seed": 42,
+      "source_file": "NN_42_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        10,
+        18,
+        23,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        8,
+        4,
+        16,
+        0
+      ],
+      "color": 1,
+      "family_id": 33,
+      "h0": 12,
+      "history": [
+        10,
+        18,
+        23,
+        29
+      ],
+      "id": 106,
+      "seed": 43,
+      "source_file": "NN_43_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        10,
+        18,
+        23,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        8,
+        0,
+        4,
+        12
+      ],
+      "color": 1,
+      "family_id": 33,
+      "h0": 12,
+      "history": [
+        10,
+        18,
+        23,
+        29
+      ],
+      "id": 107,
+      "seed": 103,
+      "source_file": "NN_103_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        10,
+        18,
+        23,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        8,
+        0,
+        4,
+        12
+      ],
+      "color": -1,
+      "family_id": 34,
+      "h0": 12,
+      "history": [
+        23,
+        40,
+        38,
+        11,
+        0,
+        1,
+        2,
+        6,
+        3
+      ],
+      "id": 108,
+      "seed": 41,
+      "source_file": "NN_41_2.jsonl.gz",
+      "source_index": 5,
+      "source_opening": [
+        23,
+        40,
+        38,
+        11
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        4,
+        12,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 34,
+      "h0": 12,
+      "history": [
+        23,
+        40,
+        38,
+        11
+      ],
+      "id": 109,
+      "seed": 43,
+      "source_file": "NN_43_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        23,
+        40,
+        38,
+        11
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        4,
+        8,
+        12,
+        0
+      ],
+      "color": -1,
+      "family_id": 34,
+      "h0": 12,
+      "history": [
+        23,
+        40,
+        38,
+        11,
+        42
+      ],
+      "id": 110,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        23,
+        40,
+        38,
+        11
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        12,
+        16,
+        4
+      ],
+      "color": 1,
+      "family_id": 34,
+      "h0": 12,
+      "history": [
+        23,
+        40,
+        38,
+        11,
+        42,
+        0
+      ],
+      "id": 111,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        23,
+        40,
+        38,
+        11
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        0,
+        4,
+        8
+      ],
+      "color": 1,
+      "family_id": 36,
+      "h0": 12,
+      "history": [
+        30,
+        23,
+        40,
+        26,
+        0,
+        1
+      ],
+      "id": 112,
+      "seed": 41,
+      "source_file": "NN_41_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        30,
+        23,
+        40,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        0,
+        16,
+        12
+      ],
+      "color": 1,
+      "family_id": 36,
+      "h0": 12,
+      "history": [
+        30,
+        23,
+        40,
+        26,
+        0,
+        1,
+        3,
+        2,
+        25,
+        4
+      ],
+      "id": 113,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 6,
+      "source_opening": [
+        30,
+        23,
+        40,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        4,
+        0,
+        16,
+        12
+      ],
+      "color": 1,
+      "family_id": 36,
+      "h0": 12,
+      "history": [
+        30,
+        23,
+        40,
+        26
+      ],
+      "id": 114,
+      "seed": 105,
+      "source_file": "NN_105_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        30,
+        23,
+        40,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        0,
+        16,
+        8,
+        4
+      ],
+      "color": -1,
+      "family_id": 36,
+      "h0": 12,
+      "history": [
+        30,
+        23,
+        40,
+        26,
+        1
+      ],
+      "id": 115,
+      "seed": 42,
+      "source_file": "NN_42_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        30,
+        23,
+        40,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        4,
+        12,
+        0,
+        8
+      ],
+      "color": 1,
+      "family_id": 37,
+      "h0": 12,
+      "history": [
+        23,
+        31,
+        26,
+        19
+      ],
+      "id": 116,
+      "seed": 103,
+      "source_file": "NN_103_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        23,
+        31,
+        26,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        0,
+        4,
+        8
+      ],
+      "color": 1,
+      "family_id": 37,
+      "h0": 12,
+      "history": [
+        23,
+        31,
+        26,
+        19,
+        13,
+        0
+      ],
+      "id": 117,
+      "seed": 102,
+      "source_file": "NN_102_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        23,
+        31,
+        26,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        12,
+        4,
+        0,
+        16
+      ],
+      "color": 1,
+      "family_id": 37,
+      "h0": 12,
+      "history": [
+        23,
+        31,
+        26,
+        19,
+        13,
+        1
+      ],
+      "id": 118,
+      "seed": 101,
+      "source_file": "NN_101_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        23,
+        31,
+        26,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        0,
+        12,
+        16,
+        4
+      ],
+      "color": 1,
+      "family_id": 37,
+      "h0": 12,
+      "history": [
+        23,
+        31,
+        26,
+        19,
+        13,
+        0
+      ],
+      "id": 119,
+      "seed": 105,
+      "source_file": "NN_105_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        23,
+        31,
+        26,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        16,
+        4,
+        0,
+        8
+      ],
+      "color": 1,
+      "family_id": 38,
+      "h0": 12,
+      "history": [
+        9,
+        26,
+        30,
+        19
+      ],
+      "id": 120,
+      "seed": 102,
+      "source_file": "NN_102_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        9,
+        26,
+        30,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        4,
+        12,
+        0,
+        16
+      ],
+      "color": 1,
+      "family_id": 38,
+      "h0": 12,
+      "history": [
+        9,
+        26,
+        30,
+        19
+      ],
+      "id": 121,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        9,
+        26,
+        30,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        4,
+        12,
+        16
+      ],
+      "color": 1,
+      "family_id": 38,
+      "h0": 12,
+      "history": [
+        9,
+        26,
+        30,
+        19
+      ],
+      "id": 122,
+      "seed": 103,
+      "source_file": "NN_103_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        9,
+        26,
+        30,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        12,
+        16,
+        4
+      ],
+      "color": 1,
+      "family_id": 38,
+      "h0": 12,
+      "history": [
+        9,
+        26,
+        30,
+        19
+      ],
+      "id": 123,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        9,
+        26,
+        30,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        0,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 39,
+      "h0": 12,
+      "history": [
+        38,
+        18,
+        12,
+        10,
+        2,
+        1,
+        15,
+        11,
+        25,
+        20,
+        5,
+        7
+      ],
+      "id": 124,
+      "seed": 42,
+      "source_file": "NN_42_3.jsonl.gz",
+      "source_index": 8,
+      "source_opening": [
+        38,
+        18,
+        12,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        8,
+        16,
+        0
+      ],
+      "color": 1,
+      "family_id": 39,
+      "h0": 12,
+      "history": [
+        38,
+        18,
+        12,
+        10,
+        2,
+        0
+      ],
+      "id": 125,
+      "seed": 102,
+      "source_file": "NN_102_3.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        38,
+        18,
+        12,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        16,
+        4,
+        8,
+        0
+      ],
+      "color": 1,
+      "family_id": 39,
+      "h0": 12,
+      "history": [
+        38,
+        18,
+        12,
+        10
+      ],
+      "id": 126,
+      "seed": 43,
+      "source_file": "NN_43_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        38,
+        18,
+        12,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        0,
+        12,
+        4
+      ],
+      "color": 1,
+      "family_id": 39,
+      "h0": 12,
+      "history": [
+        38,
+        18,
+        12,
+        10,
+        2,
+        1,
+        48,
+        3
+      ],
+      "id": 127,
+      "seed": 101,
+      "source_file": "NN_101_3.jsonl.gz",
+      "source_index": 4,
+      "source_opening": [
+        38,
+        18,
+        12,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        4,
+        8,
+        0,
+        16
+      ],
+      "color": -1,
+      "family_id": 40,
+      "h0": 12,
+      "history": [
+        32,
+        1,
+        6,
+        48,
+        11,
+        7,
+        15,
+        20,
+        22
+      ],
+      "id": 128,
+      "seed": 42,
+      "source_file": "NN_42_0.jsonl.gz",
+      "source_index": 5,
+      "source_opening": [
+        32,
+        1,
+        6,
+        48
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        4,
+        0,
+        12
+      ],
+      "color": 1,
+      "family_id": 40,
+      "h0": 12,
+      "history": [
+        32,
+        1,
+        6,
+        48,
+        0,
+        2,
+        3,
+        4,
+        7,
+        8
+      ],
+      "id": 129,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 6,
+      "source_opening": [
+        32,
+        1,
+        6,
+        48
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        0,
+        4,
+        16,
+        8
+      ],
+      "color": -1,
+      "family_id": 40,
+      "h0": 12,
+      "history": [
+        32,
+        1,
+        6,
+        48,
+        10
+      ],
+      "id": 130,
+      "seed": 101,
+      "source_file": "NN_101_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        32,
+        1,
+        6,
+        48
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        4,
+        0,
+        8,
+        16
+      ],
+      "color": 1,
+      "family_id": 40,
+      "h0": 12,
+      "history": [
+        32,
+        1,
+        6,
+        48
+      ],
+      "id": 131,
+      "seed": 43,
+      "source_file": "NN_43_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        32,
+        1,
+        6,
+        48
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        4,
+        16,
+        12,
+        8
+      ],
+      "color": 1,
+      "family_id": 41,
+      "h0": 12,
+      "history": [
+        35,
+        4,
+        47,
+        1
+      ],
+      "id": 132,
+      "seed": 103,
+      "source_file": "NN_103_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        35,
+        4,
+        47,
+        1
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        12,
+        0,
+        8
+      ],
+      "color": 1,
+      "family_id": 41,
+      "h0": 12,
+      "history": [
+        35,
+        4,
+        47,
+        1,
+        6,
+        0
+      ],
+      "id": 133,
+      "seed": 103,
+      "source_file": "NN_103_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        35,
+        4,
+        47,
+        1
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        16,
+        4,
+        12
+      ],
+      "color": 1,
+      "family_id": 41,
+      "h0": 12,
+      "history": [
+        35,
+        4,
+        47,
+        1,
+        22,
+        0,
+        5,
+        2,
+        3,
+        6
+      ],
+      "id": 134,
+      "seed": 102,
+      "source_file": "NN_102_1.jsonl.gz",
+      "source_index": 6,
+      "source_opening": [
+        35,
+        4,
+        47,
+        1
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        8,
+        12,
+        4,
+        0
+      ],
+      "color": -1,
+      "family_id": 41,
+      "h0": 12,
+      "history": [
+        35,
+        4,
+        47,
+        1,
+        0
+      ],
+      "id": 135,
+      "seed": 41,
+      "source_file": "NN_41_1.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        35,
+        4,
+        47,
+        1
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        0,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 42,
+      "h0": 12,
+      "history": [
+        18,
+        33,
+        46,
+        30
+      ],
+      "id": 136,
+      "seed": 41,
+      "source_file": "NN_41_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        18,
+        33,
+        46,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        4,
+        8,
+        12
+      ],
+      "color": -1,
+      "family_id": 42,
+      "h0": 12,
+      "history": [
+        18,
+        33,
+        46,
+        30,
+        22,
+        5,
+        35
+      ],
+      "id": 137,
+      "seed": 102,
+      "source_file": "NN_102_2.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        18,
+        33,
+        46,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        0,
+        12,
+        4,
+        16
+      ],
+      "color": -1,
+      "family_id": 42,
+      "h0": 12,
+      "history": [
+        18,
+        33,
+        46,
+        30,
+        26,
+        2,
+        17
+      ],
+      "id": 138,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        18,
+        33,
+        46,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        4,
+        12,
+        8
+      ],
+      "color": 1,
+      "family_id": 42,
+      "h0": 12,
+      "history": [
+        18,
+        33,
+        46,
+        30,
+        1,
+        7
+      ],
+      "id": 139,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        18,
+        33,
+        46,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        12,
+        0,
+        8
+      ],
+      "color": -1,
+      "family_id": 43,
+      "h0": 12,
+      "history": [
+        21,
+        20,
+        38,
+        18,
+        1
+      ],
+      "id": 140,
+      "seed": 42,
+      "source_file": "NN_42_3.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        21,
+        20,
+        38,
+        18
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        8,
+        0,
+        16
+      ],
+      "color": 1,
+      "family_id": 43,
+      "h0": 12,
+      "history": [
+        21,
+        20,
+        38,
+        18,
+        1,
+        7
+      ],
+      "id": 141,
+      "seed": 42,
+      "source_file": "NN_42_3.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        21,
+        20,
+        38,
+        18
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        4,
+        12,
+        8
+      ],
+      "color": 1,
+      "family_id": 43,
+      "h0": 12,
+      "history": [
+        21,
+        20,
+        38,
+        18,
+        0,
+        1,
+        3,
+        2,
+        4,
+        6,
+        7,
+        14,
+        12,
+        8
+      ],
+      "id": 142,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 10,
+      "source_opening": [
+        21,
+        20,
+        38,
+        18
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        12,
+        4,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 43,
+      "h0": 12,
+      "history": [
+        21,
+        20,
+        38,
+        18,
+        0,
+        1,
+        6,
+        2
+      ],
+      "id": 143,
+      "seed": 41,
+      "source_file": "NN_41_3.jsonl.gz",
+      "source_index": 4,
+      "source_opening": [
+        21,
+        20,
+        38,
+        18
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        4,
+        16,
+        12
+      ],
+      "color": 1,
+      "family_id": 44,
+      "h0": 12,
+      "history": [
+        37,
+        10,
+        1,
+        15
+      ],
+      "id": 144,
+      "seed": 105,
+      "source_file": "NN_105_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        37,
+        10,
+        1,
+        15
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        16,
+        0,
+        12
+      ],
+      "color": -1,
+      "family_id": 44,
+      "h0": 12,
+      "history": [
+        37,
+        10,
+        1,
+        15,
+        48
+      ],
+      "id": 145,
+      "seed": 101,
+      "source_file": "NN_101_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        37,
+        10,
+        1,
+        15
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        0,
+        12,
+        16,
+        4
+      ],
+      "color": 1,
+      "family_id": 44,
+      "h0": 12,
+      "history": [
+        37,
+        10,
+        1,
+        15,
+        0,
+        2,
+        4,
+        3,
+        48,
+        6,
+        47,
+        7
+      ],
+      "id": 146,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 8,
+      "source_opening": [
+        37,
+        10,
+        1,
+        15
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        12,
+        16,
+        0,
+        4
+      ],
+      "color": 1,
+      "family_id": 44,
+      "h0": 12,
+      "history": [
+        37,
+        10,
+        1,
+        15,
+        7,
+        11
+      ],
+      "id": 147,
+      "seed": 42,
+      "source_file": "NN_42_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        37,
+        10,
+        1,
+        15
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        4,
+        8,
+        16,
+        12
+      ],
+      "color": -1,
+      "family_id": 46,
+      "h0": 12,
+      "history": [
+        0,
+        17,
+        4,
+        47,
+        35,
+        3,
+        33,
+        10,
+        24
+      ],
+      "id": 148,
+      "seed": 43,
+      "source_file": "NN_43_2.jsonl.gz",
+      "source_index": 5,
+      "source_opening": [
+        0,
+        17,
+        4,
+        47
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        0,
+        8,
+        12
+      ],
+      "color": -1,
+      "family_id": 46,
+      "h0": 12,
+      "history": [
+        0,
+        17,
+        4,
+        47,
+        1
+      ],
+      "id": 149,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        0,
+        17,
+        4,
+        47
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        4,
+        16,
+        8,
+        12
+      ],
+      "color": 1,
+      "family_id": 46,
+      "h0": 12,
+      "history": [
+        0,
+        17,
+        4,
+        47
+      ],
+      "id": 150,
+      "seed": 43,
+      "source_file": "NN_43_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        0,
+        17,
+        4,
+        47
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        0,
+        8,
+        4
+      ],
+      "color": -1,
+      "family_id": 46,
+      "h0": 12,
+      "history": [
+        0,
+        17,
+        4,
+        47,
+        42
+      ],
+      "id": 151,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        0,
+        17,
+        4,
+        47
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        4,
+        8,
+        12,
+        0
+      ],
+      "color": -1,
+      "family_id": 47,
+      "h0": 12,
+      "history": [
+        16,
+        42,
+        21,
+        32,
+        1,
+        15,
+        7,
+        0,
+        11
+      ],
+      "id": 152,
+      "seed": 42,
+      "source_file": "NN_42_3.jsonl.gz",
+      "source_index": 5,
+      "source_opening": [
+        16,
+        42,
+        21,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        16,
+        0,
+        12
+      ],
+      "color": -1,
+      "family_id": 47,
+      "h0": 12,
+      "history": [
+        16,
+        42,
+        21,
+        32,
+        0,
+        3,
+        1,
+        4,
+        2,
+        6,
+        5
+      ],
+      "id": 153,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 7,
+      "source_opening": [
+        16,
+        42,
+        21,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        8,
+        12,
+        0
+      ],
+      "color": 1,
+      "family_id": 47,
+      "h0": 12,
+      "history": [
+        16,
+        42,
+        21,
+        32
+      ],
+      "id": 154,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        16,
+        42,
+        21,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        4,
+        0,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 47,
+      "h0": 12,
+      "history": [
+        16,
+        42,
+        21,
+        32
+      ],
+      "id": 155,
+      "seed": 105,
+      "source_file": "NN_105_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        16,
+        42,
+        21,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        8,
+        12,
+        4,
+        16
+      ],
+      "color": 1,
+      "family_id": 50,
+      "h0": 16,
+      "history": [
+        11,
+        38,
+        40,
+        37
+      ],
+      "id": 156,
+      "seed": 103,
+      "source_file": "NN_103_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        11,
+        38,
+        40,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        8,
+        0,
+        4
+      ],
+      "color": 1,
+      "family_id": 50,
+      "h0": 16,
+      "history": [
+        11,
+        38,
+        40,
+        37,
+        35,
+        1
+      ],
+      "id": 157,
+      "seed": 101,
+      "source_file": "NN_101_2.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        11,
+        38,
+        40,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        8,
+        4,
+        16,
+        0
+      ],
+      "color": 1,
+      "family_id": 50,
+      "h0": 16,
+      "history": [
+        11,
+        38,
+        40,
+        37
+      ],
+      "id": 158,
+      "seed": 41,
+      "source_file": "NN_41_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        11,
+        38,
+        40,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        12,
+        4,
+        16,
+        0
+      ],
+      "color": 1,
+      "family_id": 50,
+      "h0": 16,
+      "history": [
+        11,
+        38,
+        40,
+        37
+      ],
+      "id": 159,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        11,
+        38,
+        40,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        4,
+        8,
+        0
+      ],
+      "color": -1,
+      "family_id": 51,
+      "h0": 16,
+      "history": [
+        9,
+        11,
+        24,
+        39,
+        0,
+        2,
+        1
+      ],
+      "id": 160,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        9,
+        11,
+        24,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        4,
+        12,
+        0,
+        16
+      ],
+      "color": 1,
+      "family_id": 51,
+      "h0": 16,
+      "history": [
+        9,
+        11,
+        24,
+        39
+      ],
+      "id": 161,
+      "seed": 41,
+      "source_file": "NN_41_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        9,
+        11,
+        24,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        12,
+        16,
+        0
+      ],
+      "color": 1,
+      "family_id": 51,
+      "h0": 16,
+      "history": [
+        9,
+        11,
+        24,
+        39
+      ],
+      "id": 162,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        9,
+        11,
+        24,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        12,
+        4,
+        0,
+        16
+      ],
+      "color": 1,
+      "family_id": 51,
+      "h0": 16,
+      "history": [
+        9,
+        11,
+        24,
+        39
+      ],
+      "id": 163,
+      "seed": 105,
+      "source_file": "NN_105_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        9,
+        11,
+        24,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        4,
+        0,
+        8,
+        16
+      ],
+      "color": 1,
+      "family_id": 52,
+      "h0": 16,
+      "history": [
+        17,
+        39,
+        22,
+        32
+      ],
+      "id": 164,
+      "seed": 42,
+      "source_file": "NN_42_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        17,
+        39,
+        22,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        12,
+        4,
+        8
+      ],
+      "color": 1,
+      "family_id": 52,
+      "h0": 16,
+      "history": [
+        17,
+        39,
+        22,
+        32
+      ],
+      "id": 165,
+      "seed": 41,
+      "source_file": "NN_41_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        17,
+        39,
+        22,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        12,
+        8,
+        4,
+        16
+      ],
+      "color": 1,
+      "family_id": 52,
+      "h0": 16,
+      "history": [
+        17,
+        39,
+        22,
+        32
+      ],
+      "id": 166,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        17,
+        39,
+        22,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        0,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 52,
+      "h0": 16,
+      "history": [
+        17,
+        39,
+        22,
+        32
+      ],
+      "id": 167,
+      "seed": 102,
+      "source_file": "NN_102_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        17,
+        39,
+        22,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        0,
+        4,
+        8,
+        16
+      ],
+      "color": -1,
+      "family_id": 53,
+      "h0": 16,
+      "history": [
+        11,
+        16,
+        15,
+        12,
+        0
+      ],
+      "id": 168,
+      "seed": 41,
+      "source_file": "NN_41_1.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        11,
+        16,
+        15,
+        12
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        12,
+        8,
+        4,
+        16
+      ],
+      "color": 1,
+      "family_id": 53,
+      "h0": 16,
+      "history": [
+        11,
+        16,
+        15,
+        12
+      ],
+      "id": 169,
+      "seed": 43,
+      "source_file": "NN_43_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        11,
+        16,
+        15,
+        12
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        4,
+        8,
+        0,
+        12
+      ],
+      "color": -1,
+      "family_id": 53,
+      "h0": 16,
+      "history": [
+        11,
+        16,
+        15,
+        12,
+        35
+      ],
+      "id": 170,
+      "seed": 102,
+      "source_file": "NN_102_1.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        11,
+        16,
+        15,
+        12
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        0,
+        4,
+        8,
+        16
+      ],
+      "color": 1,
+      "family_id": 53,
+      "h0": 16,
+      "history": [
+        11,
+        16,
+        15,
+        12
+      ],
+      "id": 171,
+      "seed": 101,
+      "source_file": "NN_101_1.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        11,
+        16,
+        15,
+        12
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        12,
+        8,
+        4
+      ],
+      "color": 1,
+      "family_id": 56,
+      "h0": 16,
+      "history": [
+        9,
+        47,
+        13,
+        2
+      ],
+      "id": 172,
+      "seed": 43,
+      "source_file": "NN_43_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        9,
+        47,
+        13,
+        2
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        4,
+        12,
+        8
+      ],
+      "color": 1,
+      "family_id": 56,
+      "h0": 16,
+      "history": [
+        9,
+        47,
+        13,
+        2,
+        0,
+        1,
+        4,
+        3,
+        6,
+        5
+      ],
+      "id": 173,
+      "seed": 41,
+      "source_file": "NN_41_0.jsonl.gz",
+      "source_index": 6,
+      "source_opening": [
+        9,
+        47,
+        13,
+        2
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        8,
+        12,
+        0
+      ],
+      "color": -1,
+      "family_id": 56,
+      "h0": 16,
+      "history": [
+        9,
+        47,
+        13,
+        2,
+        0
+      ],
+      "id": 174,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        9,
+        47,
+        13,
+        2
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        8,
+        12,
+        4,
+        0
+      ],
+      "color": 1,
+      "family_id": 56,
+      "h0": 16,
+      "history": [
+        9,
+        47,
+        13,
+        2
+      ],
+      "id": 175,
+      "seed": 41,
+      "source_file": "NN_41_0.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        9,
+        47,
+        13,
+        2
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        8,
+        12,
+        4
+      ],
+      "color": 1,
+      "family_id": 58,
+      "h0": 16,
+      "history": [
+        34,
+        31,
+        25,
+        32
+      ],
+      "id": 176,
+      "seed": 101,
+      "source_file": "NN_101_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        34,
+        31,
+        25,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        12,
+        0,
+        4
+      ],
+      "color": 1,
+      "family_id": 58,
+      "h0": 16,
+      "history": [
+        34,
+        31,
+        25,
+        32,
+        29,
+        1,
+        7,
+        11
+      ],
+      "id": 177,
+      "seed": 42,
+      "source_file": "NN_42_2.jsonl.gz",
+      "source_index": 4,
+      "source_opening": [
+        34,
+        31,
+        25,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        16,
+        0,
+        12
+      ],
+      "color": 1,
+      "family_id": 58,
+      "h0": 16,
+      "history": [
+        34,
+        31,
+        25,
+        32,
+        29,
+        1
+      ],
+      "id": 178,
+      "seed": 101,
+      "source_file": "NN_101_2.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        34,
+        31,
+        25,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        12,
+        0,
+        16,
+        8
+      ],
+      "color": 1,
+      "family_id": 58,
+      "h0": 16,
+      "history": [
+        34,
+        31,
+        25,
+        32
+      ],
+      "id": 179,
+      "seed": 41,
+      "source_file": "NN_41_2.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        34,
+        31,
+        25,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        8,
+        0,
+        4
+      ],
+      "color": 1,
+      "family_id": 59,
+      "h0": 16,
+      "history": [
+        33,
+        47,
+        35,
+        13,
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        8,
+        12,
+        9,
+        21,
+        14
+      ],
+      "id": 180,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 12,
+      "source_opening": [
+        33,
+        47,
+        35,
+        13
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        12,
+        0,
+        4,
+        8
+      ],
+      "color": -1,
+      "family_id": 59,
+      "h0": 16,
+      "history": [
+        33,
+        47,
+        35,
+        13,
+        0,
+        1,
+        2
+      ],
+      "id": 181,
+      "seed": 41,
+      "source_file": "NN_41_3.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        33,
+        47,
+        35,
+        13
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        4,
+        12,
+        16,
+        8
+      ],
+      "color": -1,
+      "family_id": 59,
+      "h0": 16,
+      "history": [
+        33,
+        47,
+        35,
+        13,
+        3,
+        0,
+        26,
+        19,
+        16
+      ],
+      "id": 182,
+      "seed": 43,
+      "source_file": "NN_43_3.jsonl.gz",
+      "source_index": 5,
+      "source_opening": [
+        33,
+        47,
+        35,
+        13
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        4,
+        8,
+        12
+      ],
+      "color": -1,
+      "family_id": 59,
+      "h0": 16,
+      "history": [
+        33,
+        47,
+        35,
+        13,
+        0,
+        2,
+        1
+      ],
+      "id": 183,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        33,
+        47,
+        35,
+        13
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        4,
+        8,
+        12,
+        0
+      ],
+      "color": 1,
+      "family_id": 60,
+      "h0": 16,
+      "history": [
+        0,
+        5,
+        3,
+        43,
+        42,
+        1
+      ],
+      "id": 184,
+      "seed": 105,
+      "source_file": "NN_105_0.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        0,
+        5,
+        3,
+        43
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        4,
+        0,
+        12,
+        16
+      ],
+      "color": -1,
+      "family_id": 60,
+      "h0": 16,
+      "history": [
+        0,
+        5,
+        3,
+        43,
+        42,
+        1,
+        26
+      ],
+      "id": 185,
+      "seed": 105,
+      "source_file": "NN_105_0.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        0,
+        5,
+        3,
+        43
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        16,
+        4,
+        12,
+        8
+      ],
+      "color": -1,
+      "family_id": 60,
+      "h0": 16,
+      "history": [
+        0,
+        5,
+        3,
+        43,
+        42,
+        1,
+        26,
+        2,
+        39,
+        4,
+        20
+      ],
+      "id": 186,
+      "seed": 105,
+      "source_file": "NN_105_0.jsonl.gz",
+      "source_index": 7,
+      "source_opening": [
+        0,
+        5,
+        3,
+        43
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        12,
+        0,
+        16,
+        4
+      ],
+      "color": 1,
+      "family_id": 60,
+      "h0": 16,
+      "history": [
+        0,
+        5,
+        3,
+        43,
+        2,
+        1,
+        4,
+        6,
+        7,
+        8,
+        12,
+        9,
+        21,
+        14
+      ],
+      "id": 187,
+      "seed": 103,
+      "source_file": "NN_103_0.jsonl.gz",
+      "source_index": 10,
+      "source_opening": [
+        0,
+        5,
+        3,
+        43
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        4,
+        12,
+        8
+      ],
+      "color": 1,
+      "family_id": 61,
+      "h0": 16,
+      "history": [
+        13,
+        43,
+        14,
+        16,
+        47,
+        3,
+        35,
+        21
+      ],
+      "id": 188,
+      "seed": 43,
+      "source_file": "NN_43_1.jsonl.gz",
+      "source_index": 4,
+      "source_opening": [
+        13,
+        43,
+        14,
+        16
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        8,
+        4,
+        0,
+        12
+      ],
+      "color": -1,
+      "family_id": 61,
+      "h0": 16,
+      "history": [
+        13,
+        43,
+        14,
+        16,
+        10,
+        1,
+        39,
+        5,
+        20
+      ],
+      "id": 189,
+      "seed": 101,
+      "source_file": "NN_101_1.jsonl.gz",
+      "source_index": 5,
+      "source_opening": [
+        13,
+        43,
+        14,
+        16
+      ]
+    },
+    {
+      "arm_order": [
+        0,
+        12,
+        8,
+        16,
+        4
+      ],
+      "color": 1,
+      "family_id": 61,
+      "h0": 16,
+      "history": [
+        13,
+        43,
+        14,
+        16,
+        47,
+        3
+      ],
+      "id": 190,
+      "seed": 43,
+      "source_file": "NN_43_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        13,
+        43,
+        14,
+        16
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        8,
+        0,
+        12,
+        16
+      ],
+      "color": 1,
+      "family_id": 61,
+      "h0": 16,
+      "history": [
+        13,
+        43,
+        14,
+        16,
+        0,
+        1
+      ],
+      "id": 191,
+      "seed": 41,
+      "source_file": "NN_41_1.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        13,
+        43,
+        14,
+        16
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        16,
+        0,
+        12,
+        4
+      ],
+      "color": -1,
+      "family_id": 62,
+      "h0": 16,
+      "history": [
+        14,
+        26,
+        3,
+        29,
+        10
+      ],
+      "id": 192,
+      "seed": 101,
+      "source_file": "NN_101_2.jsonl.gz",
+      "source_index": 1,
+      "source_opening": [
+        14,
+        26,
+        3,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        16,
+        0,
+        8,
+        12,
+        4
+      ],
+      "color": 1,
+      "family_id": 62,
+      "h0": 16,
+      "history": [
+        14,
+        26,
+        3,
+        29,
+        22,
+        0,
+        35,
+        2,
+        5,
+        6
+      ],
+      "id": 193,
+      "seed": 102,
+      "source_file": "NN_102_2.jsonl.gz",
+      "source_index": 6,
+      "source_opening": [
+        14,
+        26,
+        3,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        16,
+        0,
+        4,
+        8
+      ],
+      "color": -1,
+      "family_id": 62,
+      "h0": 16,
+      "history": [
+        14,
+        26,
+        3,
+        29,
+        42,
+        0,
+        20,
+        1,
+        39,
+        2,
+        38
+      ],
+      "id": 194,
+      "seed": 105,
+      "source_file": "NN_105_2.jsonl.gz",
+      "source_index": 7,
+      "source_opening": [
+        14,
+        26,
+        3,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        0,
+        12,
+        4,
+        16
+      ],
+      "color": -1,
+      "family_id": 62,
+      "h0": 16,
+      "history": [
+        14,
+        26,
+        3,
+        29,
+        35,
+        47,
+        0
+      ],
+      "id": 195,
+      "seed": 43,
+      "source_file": "NN_43_2.jsonl.gz",
+      "source_index": 3,
+      "source_opening": [
+        14,
+        26,
+        3,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        4,
+        0,
+        12,
+        16
+      ],
+      "color": 1,
+      "family_id": 63,
+      "h0": 16,
+      "history": [
+        35,
+        37,
+        32,
+        26,
+        5,
+        0
+      ],
+      "id": 196,
+      "seed": 105,
+      "source_file": "NN_105_3.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        35,
+        37,
+        32,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        8,
+        4,
+        12,
+        0,
+        16
+      ],
+      "color": -1,
+      "family_id": 63,
+      "h0": 16,
+      "history": [
+        35,
+        37,
+        32,
+        26,
+        0,
+        1,
+        2,
+        4,
+        3
+      ],
+      "id": 197,
+      "seed": 41,
+      "source_file": "NN_41_3.jsonl.gz",
+      "source_index": 5,
+      "source_opening": [
+        35,
+        37,
+        32,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        12,
+        0,
+        16,
+        8,
+        4
+      ],
+      "color": 1,
+      "family_id": 63,
+      "h0": 16,
+      "history": [
+        35,
+        37,
+        32,
+        26,
+        0,
+        1
+      ],
+      "id": 198,
+      "seed": 41,
+      "source_file": "NN_41_3.jsonl.gz",
+      "source_index": 2,
+      "source_opening": [
+        35,
+        37,
+        32,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        4,
+        16,
+        8,
+        0,
+        12
+      ],
+      "color": 1,
+      "family_id": 63,
+      "h0": 16,
+      "history": [
+        35,
+        37,
+        32,
+        26
+      ],
+      "id": 199,
+      "seed": 103,
+      "source_file": "NN_103_3.jsonl.gz",
+      "source_index": 0,
+      "source_opening": [
+        35,
+        37,
+        32,
+        26
+      ]
+    }
+  ],
+  "seed": 2026112860,
+  "train_workers": 4,
+  "workers": 6
+}
