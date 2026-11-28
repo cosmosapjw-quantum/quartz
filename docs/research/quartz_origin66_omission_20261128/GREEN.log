@@ -1,0 +1,8 @@
+warning: `mcts_demo` (bin "mcts_demo" test) generated 63 warnings (run `cargo fix --bin "mcts_demo" -p mcts_demo --tests` to apply 27 suggestions)
+    Finished `release` profile [optimized] target(s) in 53.40s
+     Running unittests src/main.rs (/home/cosmosapjw/quantum/research/quartz_origin66_omission_run_20261128/cargo/release/deps/mcts_demo-989e5fe954f15b06)
+
+running 1 test
+test mcts_server::k47_nn::origin66_tests::disjoint_information_actions ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 759 filtered out; finished in 0.00s

@@ -717,13 +717,14 @@ fn origin65_read(es:&[Edge],safe:&[bool],bounds:&Value,fallback:u16)->u16{
 struct Origin65Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,cache:bool,allocation:u8}
 fn origin65_inner(line:&str)->Result<Value,String>{
     let q:Origin65Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    if q.cmd!="research_gomoku7_origin65"||q.cap!=4||!q.quartz||!q.cache||q.allocation>4{return Err("invalid origin65 allocation request".into())}
+    let k66=q.cmd=="research_gomoku7_origin66";
+    if !q.quartz||!q.cache||(!k66&&(q.cmd!="research_gomoku7_origin65"||q.cap!=4||q.allocation>4))||(k66&&(q.cap!=5||!matches!(q.allocation,5|6))){return Err("invalid origin65/66 allocation request".into())}
     let started=Instant::now();let b=parse_history(&q.history,7)?;
     let p=1-2*(q.history.len()%2) as i8;let ob=oriented(&b,if p==1{1}else{2});
     let mut a=0;let mut bb=0;for(m,&x) in b.iter().enumerate(){if x==1{a|=1u64<<m}else if x==2{bb|=1u64<<m}}
     let t=Instant::now();let part=pf::combined(&ob,7)?;let proof_ns=t.elapsed().as_nanos() as u64;
     let base=&part["cold"]["receipt"];
-    let mut out=json!({"schema":"quartz_gomoku7_origin65_v1","history":q.history,"cap":4,"lock":true,"partial":Value::Null,"replacement":false,"original_move":Value::Null,"nn":0,"visits":0,"terminal_leaves":0,"votes":[],"distance":Value::Null,"prior_best":Value::Null,"proof_ns":proof_ns});
+    let mut out=json!({"schema":if k66{"quartz_gomoku7_origin66_v1"}else{"quartz_gomoku7_origin65_v1"},"history":q.history,"cap":q.cap,"lock":true,"partial":Value::Null,"replacement":false,"original_move":Value::Null,"nn":0,"visits":0,"terminal_leaves":0,"votes":[],"distance":Value::Null,"prior_best":Value::Null,"proof_ns":proof_ns});
     if let Some(m)=base["gate"].as_u64().map(|x|x as u16){
         let bd=base["bounds"].as_array().unwrap().iter().find(|r|r[0]==m).unwrap();
         let stone=if p==1{a}else{bb};let kind=if won(stone|1u64<<m){"WIN1"}else if bd[1]==1{"WIN3"}else if bd[1]==0{"DRAW"}else if bd[2]==-1{"LOSE2"}else{"UNKNOWN"};
@@ -737,19 +738,36 @@ fn origin65_inner(line:&str)->Result<Value,String>{
         let bd=&part["bounds"];let es=root.edges.as_ref().unwrap();
         let mut safe:Vec<_>=es.iter().map(|e|k52_bound(bd,e.m).1>-1.0).collect();
         if !safe.iter().any(|&x|x){safe.fill(true)}
-        let mut steps=Vec::with_capacity(4);let mut terminal=0;
+        let mut steps=Vec::with_capacity(q.cap as usize);let mut terminal=0;
         for _ in 0..4{
-            let es=root.edges.as_mut().unwrap();let i=origin65_index(es,&safe,q.allocation);let e=&mut es[i];
+            let es=root.edges.as_mut().unwrap();let i=origin65_index(es,&safe,if k66{3}else{q.allocation});let e=&mut es[i];
             let m=1u64<<e.m;let child=e.child.get_or_insert_with(||Box::new(if p==1{Node::new(a|m,bb,-1)}else{Node::new(a,bb|m,1)}));
             let (v,t)=child.visit(&mut ev)?;let v=-v;e.n+=1;e.w+=v;terminal+=u32::from(t);
             steps.push(json!([e.m,v,t,ev.calls,ev.physical]));
         }
+        if k66{
+            let es=root.edges.as_ref().unwrap();let m=es[leader(es)].m;let vs:Vec<_>=es.iter().map(|e|(e.m,e.n)).collect();
+            let fallback=pf::replace(m,&vs,bd,7);let inc=origin65_read(es,&safe,bd,fallback);
+            let target=origin66_target(es,&safe,bd,inc,q.allocation);
+            let before=ev.calls;let phys=ev.physical;
+            let pre=es.iter().map(|e|json!([e.m,e.n,e.w,e.prior])).collect::<Vec<_>>();
+            let target_move=target.map(|i|es[i].m);
+            if let Some(i)=target{
+                let e=&mut root.edges.as_mut().unwrap()[i];let m=1u64<<e.m;
+                let child=e.child.get_or_insert_with(||Box::new(if p==1{Node::new(a|m,bb,-1)}else{Node::new(a,bb|m,1)}));
+                let(v,t)=child.visit(&mut ev)?;let v=-v;e.n+=1;e.w+=v;terminal+=u32::from(t);
+                steps.push(json!([e.m,v,t,ev.calls,ev.physical]));
+            }
+            assert!(ev.calls-before<=1&&ev.physical-phys<=1);
+            out["operation66"]=json!({"prefix_edges":pre,"prefix_move":inc,"prefix_logical":before,"prefix_physical":phys,"target":target_move,"extra_logical":ev.calls-before,"extra_physical":ev.physical-phys});
+            out["cap"]=json!(steps.len());
+        }
         let es=root.edges.as_ref().unwrap();let m=es[leader(es)].m;let votes:Vec<_>=es.iter().map(|e|(e.m,e.n)).collect();
-        let fallback=pf::replace(m,&votes,bd,7);let chosen=if matches!(q.allocation,1|3|4){origin65_read(es,&safe,bd,fallback)}else{fallback};
+        let fallback=pf::replace(m,&votes,bd,7);let chosen=if k66||matches!(q.allocation,1|3|4){origin65_read(es,&safe,bd,fallback)}else{fallback};
         let mut pi=0;for i in 1..es.len(){if es[i].prior>es[pi].prior{pi=i}}
-        assert_eq!(ev.calls,5-terminal);assert_eq!(ev.calls,ev.physical+ev.hits.len() as u32);
+        assert_eq!(ev.calls,1+steps.len() as u32-terminal);assert_eq!(ev.calls,ev.physical+ev.hits.len() as u32);
         out["partial"]=part;out["move"]=json!(chosen);out["original_move"]=json!(m);out["replacement"]=json!(fallback!=m);
-        out["nn"]=json!(ev.calls);out["visits"]=json!(4);out["terminal_leaves"]=json!(terminal);out["votes"]=json!(votes);out["distance"]=json!(distance(es));out["prior_best"]=json!(es[pi].m);out["kind"]=json!("CAP");out["proof"]=json!("UNRESOLVED");
+        out["nn"]=json!(ev.calls);out["visits"]=json!(steps.len());out["terminal_leaves"]=json!(terminal);out["votes"]=json!(votes);out["distance"]=json!(distance(es));out["prior_best"]=json!(es[pi].m);out["kind"]=json!("CAP");out["proof"]=json!("UNRESOLVED");
         out["allocation65"]=json!({"mode":q.allocation,"safe":es.iter().zip(&safe).filter_map(|(e,&ok)|ok.then_some(e.m)).collect::<Vec<_>>(),"steps":steps,"edges":es.iter().map(|e|json!([e.m,e.n,e.w,e.prior])).collect::<Vec<_>>(),"fallback":fallback,"chosen":chosen});
         out["cache_receipt"]=json!({"logical":ev.calls,"physical":ev.physical,"hits":ev.hits.len(),"hit_indices":ev.hits,"keys":ev.keys,"root_logical":ev.calls,"root_physical":ev.physical});
         out["physical_nn"]=json!(ev.physical);
@@ -769,5 +787,34 @@ mod origin65_tests{
         assert_eq!(origin65_index(&es,&safe,2),1);
         assert_eq!(origin65_index(&es,&safe,4),2);
         assert_eq!(origin65_index(&es,&safe,0),0);
+    }
+}
+
+fn origin66_target(es:&[Edge],safe:&[bool],bd:&Value,inc:u16,mode:u8)->Option<usize>{
+    let eligible=|i:usize|{let(l,u)=k52_bound(bd,es[i].m);safe[i]&&l!=u};
+    if mode==6{
+        return (0..es.len()).filter(|&i|eligible(i)&&es[i].n==0)
+          .max_by(|&i,&j|es[i].prior.partial_cmp(&es[j].prior).unwrap().then_with(||es[j].m.cmp(&es[i].m)));
+    }
+    assert_eq!(mode,5);
+    let value=|i:usize|origin65_value(&es[i],k52_bound(bd,es[i].m)).unwrap();
+    (0..es.len()).filter(|&i|eligible(i)&&es[i].n>0&&es[i].m!=inc)
+      .max_by(|&i,&j|value(i).partial_cmp(&value(j)).unwrap().then_with(||es[i].n.cmp(&es[j].n)).then_with(||es[i].prior.partial_cmp(&es[j].prior).unwrap()).then_with(||es[j].m.cmp(&es[i].m)))
+      .or_else(||(0..es.len()).find(|&i|eligible(i)&&es[i].m==inc&&es[i].n>0))
+}
+#[cfg(test)]
+mod origin66_tests{
+    use super::*;
+    fn e(m:u16,p:f64,n:u32,w:f64)->Edge{Edge{m,prior:p,n,w,child:None}}
+    #[test]
+    fn disjoint_information_actions(){
+        let es=vec![e(0,0.5,0,0.0),e(1,0.2,3,2.4),e(2,0.1,1,0.4),e(3,0.2,0,0.0)];
+        let bd=json!([[0,-1,-1],[1,-1,1],[2,-1,1],[3,-1,1]]);
+        let safe=[false,true,true,true];
+        assert_eq!(origin66_target(&es,&safe,&bd,1,5),Some(2));
+        assert_eq!(origin66_target(&es,&safe,&bd,1,6),Some(3));
+        let safe=[false,true,false,false];
+        assert_eq!(origin66_target(&es,&safe,&bd,1,5),Some(1));
+        assert_eq!(origin66_target(&es,&safe,&bd,1,6),None);
     }
 }

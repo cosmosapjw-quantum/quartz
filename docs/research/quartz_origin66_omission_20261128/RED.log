@@ -1,0 +1,19 @@
+test mcts_server::k47_nn::origin66_tests::disjoint_information_actions ... FAILED
+
+failures:
+
+---- mcts_server::k47_nn::origin66_tests::disjoint_information_actions stdout ----
+
+thread 'mcts_server::k47_nn::origin66_tests::disjoint_information_actions' (2950693) panicked at src/mcts_server/k47_nn.rs:785:9:
+assertion `left == right` failed
+  left: None
+ right: Some(2)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    mcts_server::k47_nn::origin66_tests::disjoint_information_actions
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 759 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin mcts_demo`

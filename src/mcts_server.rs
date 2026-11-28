@@ -2774,7 +2774,7 @@ pub fn serve() {
             if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
             continue;
         }
-        if cmd=="research_gomoku7_origin65"{
+        if matches!(cmd,"research_gomoku7_origin65"|"research_gomoku7_origin66"){
             emit_stdout_json_value(&k47_nn::origin65(&line));
             if let Some(ring)=global_ring_buffer(){ring.set_cmd_done(true);}
             continue;
