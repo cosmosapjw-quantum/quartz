@@ -1,0 +1,8 @@
+test mcts_server::tests::test_research_connect4_cpu_probe_tiny_recognizer_weighted_mode ... ok
+test mcts_server::tests::test_engine_session_multi_engine_matches_serial_reference ... ok
+test zobrist_tt_parallel_verify::v5_stress_parallel ... ok
+test tests::q_gomoku_no_crash ... ok
+test gomocup_brain::tests::test_yxboard_done_returns_valid_move ... ok
+test gomocup_brain::tests::test_board_done_returns_valid_move ... ok
+
+test result: ok. 667 passed; 0 failed; 89 ignored; 0 measured; 0 filtered out; finished in 0.85s

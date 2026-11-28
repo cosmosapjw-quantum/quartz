@@ -1,0 +1,16 @@
+{
+  "binary_sha256": "1d821279b4abda497a3ef2a5510724cc263dd09c30cc9301e410c0eb29952fde",
+  "build_command": "cargo build --offline --release --bin mcts_demo -j 2",
+  "cargo_lock_sha256": "4368560c374c1272000fdd17a48fbe8449c6e471c848698b088d0b6092b2bb36",
+  "old_binary_sha256": "d777f4c454c377fb6c33a5b861aa7505a3e99a30594d726a83b097fa7e6384e1",
+  "plan_sha256": "8066b4dc3b381dfa6808070f22b70fd129ec5268d35d93f490310144552fe350",
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "source_commit": "07dfae74b818879015f5e45d14aab4541a32ac9b",
+  "source_sha256": {
+    "src/mcts/eval.rs": "d81b5c8028e48becaa08d0dfbd057a5dbbb3bc4ec7b9d6403f112762be5e071b",
+    "src/mcts_server.rs": "790ce3e7c0d7bd90a89a989dac34005a012efa6595bc506dfc2b549993854356",
+    "src/mcts_server/k47_nn.rs": "2ee298acba55465a7337d88bc64cb239d1df41f61a44ac12e7ac1704143b1141",
+    "src/mcts_server/k47_proof.rs": "4afbbd2c7667e0020c4fa1f91691ca0cded7458b85f6527a6167639cdefffab2",
+    "src/mcts_server/rapfi_k36.rs": "671cb0b0c00097e467543ca698597bb693388bbb0b89f1ea22f56f2dd0039635"
+  }
+}
