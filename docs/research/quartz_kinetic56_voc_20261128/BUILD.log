@@ -1,0 +1,16 @@
+   --> src/mcts/four_axis.rs:879:9
+    |
+879 |         drop(edges);
+    |         ^^^^^-----^
+    |              |
+    |              argument has type `&[MctsEdge<<G as game::GameState>::Move>]`
+    |
+    = note: `#[warn(dropping_references)]` on by default
+help: use `let _ = ...` to ignore the expression or result
+    |
+879 -         drop(edges);
+879 +         let _ = edges;
+    |
+
+warning: `mcts_demo` (bin "mcts_demo") generated 119 warnings (run `cargo fix --bin "mcts_demo" -p mcts_demo` to apply 27 suggestions)
+    Finished `release` profile [optimized] target(s) in 31.24s
