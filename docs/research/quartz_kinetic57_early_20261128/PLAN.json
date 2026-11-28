@@ -1,0 +1,3744 @@
+{
+  "NI_margin": 0.05,
+  "NN_target": 0.3,
+  "bootstrap_replicates": 8000,
+  "bootstrap_seed": 202611285700,
+  "historical_target_lock_sha256": "f28f3a291c3fd5b9fc0676c00a6199b3f0427fa28236cf20f6ec37ac2066cd0b",
+  "jobs": [
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "REUSE",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        38,
+        22,
+        31
+      ],
+      "horizon": 4,
+      "id": 0,
+      "opening": [
+        9,
+        31,
+        38,
+        22
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        29,
+        10,
+        37
+      ],
+      "horizon": 8,
+      "id": 1,
+      "opening": [
+        1,
+        10,
+        29,
+        37
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "CONTROL",
+        "REUSE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        24,
+        18,
+        23
+      ],
+      "horizon": 12,
+      "id": 2,
+      "opening": [
+        37,
+        23,
+        24,
+        32
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "COLD",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        36,
+        6,
+        19
+      ],
+      "horizon": 16,
+      "id": 3,
+      "opening": [
+        47,
+        42,
+        12,
+        29
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "STOP",
+        "REUSE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        22,
+        19,
+        38
+      ],
+      "horizon": 4,
+      "id": 4,
+      "opening": [
+        11,
+        15,
+        26,
+        38
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "REUSE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        22,
+        8,
+        24
+      ],
+      "horizon": 8,
+      "id": 5,
+      "opening": [
+        37,
+        24,
+        22,
+        36
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "CONTROL",
+        "STOP",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        31,
+        15,
+        22
+      ],
+      "horizon": 12,
+      "id": 6,
+      "opening": [
+        17,
+        22,
+        31,
+        15
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        4,
+        17,
+        38
+      ],
+      "horizon": 16,
+      "id": 7,
+      "opening": [
+        34,
+        25,
+        20,
+        22
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REUSE",
+        "COLD",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        38,
+        30,
+        36
+      ],
+      "horizon": 4,
+      "id": 8,
+      "opening": [
+        33,
+        36,
+        22,
+        30
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "STOP",
+        "CONTROL",
+        "REUSE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        4,
+        3,
+        42
+      ],
+      "horizon": 8,
+      "id": 9,
+      "opening": [
+        46,
+        45,
+        42,
+        0
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        18,
+        9,
+        23
+      ],
+      "horizon": 12,
+      "id": 10,
+      "opening": [
+        8,
+        23,
+        18,
+        9
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "COLD",
+        "REUSE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        12,
+        23,
+        45
+      ],
+      "horizon": 16,
+      "id": 11,
+      "opening": [
+        14,
+        17,
+        36,
+        27
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REUSE",
+        "COLD",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        30,
+        18,
+        23
+      ],
+      "horizon": 4,
+      "id": 12,
+      "opening": [
+        18,
+        17,
+        15,
+        30
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "COLD",
+        "REUSE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        20,
+        9,
+        26
+      ],
+      "horizon": 8,
+      "id": 13,
+      "opening": [
+        0,
+        9,
+        20,
+        26
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "REUSE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        26,
+        24,
+        29
+      ],
+      "horizon": 12,
+      "id": 14,
+      "opening": [
+        8,
+        24,
+        26,
+        29
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        17,
+        34
+      ],
+      "horizon": 16,
+      "id": 15,
+      "opening": [
+        32,
+        17,
+        11,
+        28
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "COLD",
+        "REUSE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        25,
+        19,
+        29
+      ],
+      "horizon": 4,
+      "id": 16,
+      "opening": [
+        25,
+        29,
+        8,
+        19
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "REUSE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        22,
+        27,
+        28
+      ],
+      "horizon": 8,
+      "id": 17,
+      "opening": [
+        27,
+        3,
+        38,
+        44
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "CONTROL",
+        "STOP",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        9,
+        18,
+        26
+      ],
+      "horizon": 12,
+      "id": 18,
+      "opening": [
+        8,
+        26,
+        9,
+        18
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "COLD",
+        "REUSE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        16,
+        13,
+        15
+      ],
+      "horizon": 16,
+      "id": 19,
+      "opening": [
+        2,
+        15,
+        16,
+        13
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        38,
+        10,
+        18
+      ],
+      "horizon": 4,
+      "id": 20,
+      "opening": [
+        9,
+        18,
+        38,
+        10
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "REUSE",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        31,
+        19,
+        20
+      ],
+      "horizon": 8,
+      "id": 21,
+      "opening": [
+        13,
+        46,
+        23,
+        39
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "REUSE",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        18,
+        33,
+        39
+      ],
+      "horizon": 12,
+      "id": 22,
+      "opening": [
+        18,
+        39,
+        9,
+        33
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "REUSE",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        39,
+        20,
+        34
+      ],
+      "horizon": 16,
+      "id": 23,
+      "opening": [
+        46,
+        28,
+        9,
+        14
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "COLD",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        22,
+        19,
+        32
+      ],
+      "horizon": 4,
+      "id": 24,
+      "opening": [
+        26,
+        16,
+        38,
+        11
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "COLD",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        45,
+        12,
+        40
+      ],
+      "horizon": 8,
+      "id": 25,
+      "opening": [
+        5,
+        36,
+        45,
+        8
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "COLD",
+        "REUSE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        26,
+        15,
+        24
+      ],
+      "horizon": 12,
+      "id": 26,
+      "opening": [
+        10,
+        37,
+        36,
+        24
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "STOP",
+        "REUSE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        32,
+        9,
+        23
+      ],
+      "horizon": 16,
+      "id": 27,
+      "opening": [
+        32,
+        9,
+        16,
+        23
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "REUSE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        26,
+        24,
+        40
+      ],
+      "horizon": 4,
+      "id": 28,
+      "opening": [
+        38,
+        40,
+        15,
+        24
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        23,
+        32,
+        47
+      ],
+      "horizon": 8,
+      "id": 29,
+      "opening": [
+        25,
+        30,
+        11,
+        43
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REUSE",
+        "COLD",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        30,
+        17,
+        39
+      ],
+      "horizon": 12,
+      "id": 30,
+      "opening": [
+        18,
+        23,
+        15,
+        33
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "REUSE",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        23,
+        16,
+        18
+      ],
+      "horizon": 16,
+      "id": 31,
+      "opening": [
+        3,
+        16,
+        23,
+        18
+      ],
+      "split": "TRAIN"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REUSE",
+        "STOP",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        25,
+        15,
+        24
+      ],
+      "horizon": 4,
+      "id": 32,
+      "opening": [
+        37,
+        24,
+        25,
+        29
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "REUSE",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        25,
+        4,
+        30
+      ],
+      "horizon": 8,
+      "id": 33,
+      "opening": [
+        48,
+        20,
+        17,
+        30
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "COLD",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        10,
+        18,
+        22
+      ],
+      "horizon": 12,
+      "id": 34,
+      "opening": [
+        37,
+        22,
+        38,
+        32
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "COLD",
+        "REUSE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        29,
+        32,
+        33
+      ],
+      "horizon": 16,
+      "id": 35,
+      "opening": [
+        29,
+        33,
+        2,
+        32
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "CONTROL",
+        "STOP",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        23,
+        17,
+        19
+      ],
+      "horizon": 4,
+      "id": 36,
+      "opening": [
+        19,
+        39,
+        17,
+        25
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REUSE",
+        "STOP",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        3,
+        4,
+        36
+      ],
+      "horizon": 8,
+      "id": 37,
+      "opening": [
+        47,
+        12,
+        45,
+        44
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "STOP",
+        "REUSE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        30,
+        8,
+        39
+      ],
+      "horizon": 12,
+      "id": 38,
+      "opening": [
+        37,
+        36,
+        16,
+        11
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        43,
+        2,
+        33
+      ],
+      "horizon": 16,
+      "id": 39,
+      "opening": [
+        1,
+        19,
+        43,
+        44
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "COLD",
+        "REUSE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        26,
+        10,
+        18
+      ],
+      "horizon": 4,
+      "id": 40,
+      "opening": [
+        22,
+        30,
+        40,
+        38
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "COLD",
+        "REUSE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        10,
+        7,
+        17
+      ],
+      "horizon": 8,
+      "id": 41,
+      "opening": [
+        38,
+        35,
+        44,
+        31
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "COLD",
+        "REUSE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        24,
+        30,
+        32
+      ],
+      "horizon": 12,
+      "id": 42,
+      "opening": [
+        31,
+        18,
+        24,
+        16
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "REUSE",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        17,
+        35,
+        37
+      ],
+      "horizon": 16,
+      "id": 43,
+      "opening": [
+        12,
+        41,
+        17,
+        39
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "STOP",
+        "REUSE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        9,
+        11,
+        18
+      ],
+      "horizon": 4,
+      "id": 44,
+      "opening": [
+        11,
+        9,
+        12,
+        16
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "CONTROL",
+        "STOP",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        9,
+        4,
+        28
+      ],
+      "horizon": 8,
+      "id": 45,
+      "opening": [
+        45,
+        44,
+        39,
+        20
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        9,
+        11,
+        40
+      ],
+      "horizon": 12,
+      "id": 46,
+      "opening": [
+        8,
+        40,
+        9,
+        11
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        24,
+        18,
+        39
+      ],
+      "horizon": 16,
+      "id": 47,
+      "opening": [
+        24,
+        32,
+        30,
+        11
+      ],
+      "split": "CAL"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "STOP",
+        "REUSE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        24,
+        38
+      ],
+      "horizon": 4,
+      "id": 48,
+      "opening": [
+        16,
+        22,
+        19,
+        24
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "COLD",
+        "STOP",
+        "REUSE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        20,
+        7,
+        39
+      ],
+      "horizon": 8,
+      "id": 49,
+      "opening": [
+        47,
+        9,
+        28,
+        41
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REUSE",
+        "STOP",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        9,
+        30
+      ],
+      "horizon": 12,
+      "id": 50,
+      "opening": [
+        8,
+        18,
+        39,
+        15
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "REUSE",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        10,
+        5,
+        47
+      ],
+      "horizon": 16,
+      "id": 51,
+      "opening": [
+        40,
+        43,
+        38,
+        1
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        12,
+        25
+      ],
+      "horizon": 4,
+      "id": 52,
+      "opening": [
+        38,
+        17,
+        29,
+        8
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "COLD",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        26,
+        32,
+        41
+      ],
+      "horizon": 8,
+      "id": 53,
+      "opening": [
+        46,
+        7,
+        22,
+        16
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "REUSE",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        22,
+        12,
+        39
+      ],
+      "horizon": 12,
+      "id": 54,
+      "opening": [
+        10,
+        36,
+        15,
+        33
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "CONTROL",
+        "STOP",
+        "COLD"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        11,
+        18,
+        48
+      ],
+      "horizon": 16,
+      "id": 55,
+      "opening": [
+        29,
+        48,
+        8,
+        30
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "COLD",
+        "STOP",
+        "CONTROL",
+        "REUSE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        11,
+        17
+      ],
+      "horizon": 4,
+      "id": 56,
+      "opening": [
+        40,
+        25,
+        11,
+        19
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "REUSE",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        11,
+        36
+      ],
+      "horizon": 8,
+      "id": 57,
+      "opening": [
+        19,
+        33,
+        16,
+        8
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "REUSE",
+        "CONTROL",
+        "COLD"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        25,
+        16,
+        32
+      ],
+      "horizon": 12,
+      "id": 58,
+      "opening": [
+        23,
+        18,
+        11,
+        30
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "REUSE",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        15,
+        37
+      ],
+      "horizon": 16,
+      "id": 59,
+      "opening": [
+        15,
+        9,
+        18,
+        19
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        24,
+        15,
+        32
+      ],
+      "horizon": 4,
+      "id": 60,
+      "opening": [
+        24,
+        15,
+        17,
+        32
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "COLD",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        19,
+        20,
+        24
+      ],
+      "horizon": 8,
+      "id": 61,
+      "opening": [
+        4,
+        24,
+        15,
+        14
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "COLD",
+        "REUSE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        18,
+        10,
+        15
+      ],
+      "horizon": 12,
+      "id": 62,
+      "opening": [
+        12,
+        19,
+        16,
+        10
+      ],
+      "split": "TEST"
+    },
+    {
+      "arm_order": [
+        "REUSE",
+        "STOP",
+        "COLD",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        16,
+        8,
+        41
+      ],
+      "horizon": 16,
+      "id": 63,
+      "opening": [
+        18,
+        35,
+        3,
+        12
+      ],
+      "split": "TEST"
+    }
+  ],
+  "models": {
+    "101": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 82.3,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.72,
+            "timestamp": "2026-07-13 22:49:57",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "training_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+    },
+    "102": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 54.9,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.64,
+            "timestamp": "2026-07-13 23:27:53",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "training_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+    },
+    "103": {
+      "bytes": 4203527,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "105": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/gen_5.pt",
+      "role": "103 unpromoted trained gen5 (related checkpoint)",
+      "sha256": "a430602a889eba3f568c0a515c8a10dd3bb74d6b6b9adade5c00f0b22b91604b",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "41": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_41/gen_2.pt",
+      "original_seed": 41,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_41_gen2.pt",
+      "promotion": false,
+      "sha256": "d058771b43e948a9dec121be72bc0aa4228b2bdd9d1b52e55ccdc36626ca471b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 0.0,
+        "delta_elo": 0.0,
+        "elo_gap": 0.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.2897,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.2821,
+        "loss_ema": 4.2821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9269,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.633,
+        "pos_per_s": 6.3,
+        "published_elo": 0.0,
+        "replay": 298,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4094,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 200797,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.16899844548079057,
+          "extended_refresh_active_total": 31962,
+          "extended_refresh_eligible_total": 189126,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.36779248237609863,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4159732460975647,
+                "p95": 0.499844965338707
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6964949285984039,
+          "mean_p_flip": 0.36779248237609863,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.17965474207885562,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 40.9,
+          "mean_selection_effective_prior_l1_sum": 20.977019189999996,
+          "mean_selection_penalty_abs_sum": 10.620640669999998,
+          "mean_selection_root_selects": 2007.97,
+          "mean_voc_expand": -0.002033718860766385,
+          "mean_voc_focus": 0.02625431322058823,
+          "mean_voc_merge": 0.05439751913337197,
+          "mean_voc_total": 0.0595108026266098,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.15917568489569067,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.5,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.16,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.18,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.181,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.282,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 15.684,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.16,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 298,
+          "rolling_cycle_s": 20.18,
+          "rolling_games": 19,
+          "rolling_positions": 298,
+          "rolling_positions_per_s": 7.384,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.4,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.3552,
+        "value_std": 0.5149
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_41",
+          "--seed",
+          "41",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:30:22",
+        "returncode": 0,
+        "seed": 41,
+        "started_at": "2026-07-08 20:29:21"
+      }
+    },
+    "42": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_42/gen_2.pt",
+      "original_seed": 42,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_42_gen2.pt",
+      "promotion": false,
+      "sha256": "75d85209040f4e9047b6157ea5aece756bbe78cbef76bc92d515661189bd334f",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.3656,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.3543,
+        "loss_ema": 4.3543,
+        "lr": 0.0101,
+        "new_pos": 101,
+        "p_loss": 3.9202,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.589,
+        "pos_per_s": 5.4,
+        "published_elo": -167.5,
+        "replay": 266,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.3797,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 176682,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.3324768022840828,
+          "extended_refresh_active_total": 55896,
+          "extended_refresh_eligible_total": 168120,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.44832869589328767,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4995744377374649,
+                "p95": 0.4999823793768883
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6751197075843811,
+          "mean_p_flip": 0.44832869589328767,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.1390875223092735,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.78,
+          "mean_selection_effective_prior_l1_sum": 29.018208809999997,
+          "mean_selection_penalty_abs_sum": 5.909404700000001,
+          "mean_selection_root_selects": 1766.82,
+          "mean_voc_expand": -0.0018288146399208934,
+          "mean_voc_focus": 0.03310010064922594,
+          "mean_voc_merge": 0.046275470304008054,
+          "mean_voc_total": 0.050557230021804574,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.3163649947363059,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.263,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 19.325,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.241,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 101,
+          "last_cycle_s": 16.547,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.0,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.263,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 266,
+          "rolling_cycle_s": 19.325,
+          "rolling_games": 19,
+          "rolling_positions": 266,
+          "rolling_positions_per_s": 6.882,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 18.6,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.4341,
+        "value_std": 0.7186
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_42",
+          "--seed",
+          "42",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:31:20",
+        "returncode": 0,
+        "seed": 42,
+        "started_at": "2026-07-08 20:30:22"
+      }
+    },
+    "43": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_43/gen_2.pt",
+      "original_seed": 43,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_43_gen2.pt",
+      "promotion": false,
+      "sha256": "4a1fd820002fdfa62e2693febded77a4d4d5884a85a0b1a18f88a5f7c248374b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.5981,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.5821,
+        "loss_ema": 4.5821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9666,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.861,
+        "pos_per_s": 6.2,
+        "published_elo": -167.5,
+        "replay": 278,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4388,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 208929,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.005928749419267644,
+          "extended_refresh_active_total": 1123,
+          "extended_refresh_eligible_total": 189416,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.4317223697900772,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.49357300996780396,
+                "p95": 0.49951691478490834
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6634199434518814,
+          "mean_p_flip": 0.4317223697900772,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.06438421737169847,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.25,
+          "mean_selection_effective_prior_l1_sum": 2.5870308900000003,
+          "mean_selection_penalty_abs_sum": 3.32809432,
+          "mean_selection_root_selects": 2089.29,
+          "mean_voc_expand": -0.0007750782075714472,
+          "mean_voc_focus": 0.009553292178634295,
+          "mean_voc_merge": 0.019333062698042268,
+          "mean_voc_total": 0.02254601239255862,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.005375031709336665,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.13,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.034,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.122,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.94,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.632,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.13,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 278,
+          "rolling_cycle_s": 20.034,
+          "rolling_games": 19,
+          "rolling_positions": 278,
+          "rolling_positions_per_s": 6.938,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.8,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.6156,
+        "value_std": 0.8035
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_43",
+          "--seed",
+          "43",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:32:20",
+        "returncode": 0,
+        "seed": 43,
+        "started_at": "2026-07-08 20:31:20"
+      }
+    }
+  },
+  "prior_families": 3220,
+  "prior_locks": [
+    {
+      "path": "docs/research/quartz_kinetic33_20261126/PLAN.json",
+      "sha256": "58877f6bc469438a8759dd1a7a60ccdef5782eaef82686180a0fa3c9363c680b"
+    },
+    {
+      "path": "docs/research/quartz_kinetic38_nnlock_20261126/PLAN.json",
+      "sha256": "aedf701de9d8e5598654e8f9880c0561f887a09bd2facbdd769d855286ec0d50"
+    },
+    {
+      "path": "docs/research/quartz_kinetic39_voc_20261126/PLAN.json",
+      "sha256": "64511e71fac2e3b53cfd566828b2779c045d8d18ed2db59ea9543a32437491df"
+    },
+    {
+      "path": "docs/research/quartz_kinetic40_budget_20261126/PLAN.json",
+      "sha256": "59590c12ce52b301ca5c83dcaa4caa68a4449a419d2a93ad3df3275d072a1a90"
+    },
+    {
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    },
+    {
+      "path": "docs/research/quartz_kinetic52_confirm_20261127/PLAN.json",
+      "sha256": "2e0bd886f5403dc13589921f06dbf0aace2335e2372b624ba9cf651f16c1d9b9"
+    },
+    {
+      "path": "docs/research/quartz_kinetic53_reuse_20261127/PLAN.json",
+      "sha256": "2d789f1b5cd87fd647de2a31f7a9f2119f66f542843cf15c9a471862c3f4b5c9"
+    },
+    {
+      "path": "docs/research/quartz_kinetic54_cache_20261127/PLAN.json",
+      "sha256": "23caf8740c5febfe5af86dfa134a688f74b3f7079895cbf0a285b20fae529761"
+    },
+    {
+      "path": "docs/research/quartz_kinetic55_policy_20261128/PLAN.json",
+      "sha256": "55d6a4387c5f34d0bcb7085d57302daeeb91a0c6368119d040712d1cf919abf2"
+    },
+    {
+      "path": "docs/research/quartz_kinetic56_voc_20261128/PLAN.json",
+      "sha256": "5f056f5f70abadbd8f78d18f68998d0fbea720b7a37b16a5115c0a666bd3bb0a"
+    }
+  ],
+  "rapfi_identity": {
+    "actual_binary": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic40_budget_backups/mcts_demo",
+    "actual_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+    "binary": "e12746f178f59fcfeac97740848ecf5ddeb28dd00cafef39e506ed91eea817f2",
+    "bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "source_head": "c0214d5414960c3e3f941eadf0a645e5f16e5e7a",
+    "upstream": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62"
+  },
+  "rapfi_jobs": [
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "eb4fbbdd29ba9aa862e2477acba3008b4d546898877bfbbef48f154de951c39c",
+      "id": 0,
+      "opening": [
+        112,
+        127,
+        94,
+        97,
+        128,
+        64
+      ],
+      "seed": 7192721466940556397,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "397dd08bfb1ae16504b97ce8090e557fc08e55b70b85692ef80997d70ed4e057",
+      "id": 1,
+      "opening": [
+        126,
+        137,
+        122,
+        93,
+        95,
+        96
+      ],
+      "seed": 8539677594577758705,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "60de08e38d29033df36d40e6e80b27e780c5f3af4083ee75cebec3b6893a9a58",
+      "id": 2,
+      "opening": [
+        155,
+        169,
+        167,
+        140,
+        137,
+        138
+      ],
+      "seed": 1192235527760987317,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "301628d7723938395252a5923c0b6be7112596a173b7616008764aacefc52091",
+      "id": 3,
+      "opening": [
+        156,
+        113,
+        159,
+        158,
+        96,
+        127
+      ],
+      "seed": 8145339862042919035,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "c9a168d40d637cc5137b3667c63c07c896943aeca7e65ae0e0d5a26827067260",
+      "id": 4,
+      "opening": [
+        96,
+        112,
+        49,
+        111,
+        79,
+        82
+      ],
+      "seed": 852112673300231066,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b11ea1053a64c2105d5c856d9a1d0c8232a766909457bf652ec16c868b410b46",
+      "id": 5,
+      "opening": [
+        93,
+        155,
+        154,
+        110,
+        96,
+        156
+      ],
+      "seed": 1744103958848971184,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1d46d6e97c36b86fb195a0d40747c127adb95c6aed2f52bfca128fc43699d275",
+      "id": 6,
+      "opening": [
+        141,
+        143,
+        172,
+        185,
+        126,
+        187
+      ],
+      "seed": 6325172090218937574,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d09bad25fe7157a9f3d9becf86d64bbdb144501ed651f411f42f4876abc12579",
+      "id": 7,
+      "opening": [
+        154,
+        152,
+        171,
+        110,
+        168,
+        109
+      ],
+      "seed": 6855884586571040591,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "30aae5bc0e3f5ef785e96411e17ff476a9d0fcd8526a7afec83710f1056c4fe5",
+      "id": 8,
+      "opening": [
+        108,
+        137,
+        110,
+        156,
+        94,
+        111
+      ],
+      "seed": 7428989812026838459,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "cc1e4f75aabbb73e091607fb37484c870807a506a245ba0ae2ff1472a6fa7ffa",
+      "id": 9,
+      "opening": [
+        184,
+        185,
+        139,
+        140,
+        158,
+        188
+      ],
+      "seed": 5034522888494031918,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "223fecfa4e90caf17b217223d179b761d6b512674ace356910380b07011ccabc",
+      "id": 10,
+      "opening": [
+        128,
+        141,
+        98,
+        157,
+        111,
+        97
+      ],
+      "seed": 8036289888120559337,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "95ac3cd137c532e2d0d30060132366ea56d99623e4d7f6154caf78357fd3190f",
+      "id": 11,
+      "opening": [
+        115,
+        113,
+        68,
+        114,
+        54,
+        102
+      ],
+      "seed": 8961201023535407190,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "cdb9ae43baebff9b5eb247d0250359f39e0cc0c2318d82a643e76486d2efeb47",
+      "id": 12,
+      "opening": [
+        162,
+        143,
+        129,
+        132,
+        145,
+        114
+      ],
+      "seed": 8226532694357404940,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "4dfbf74a1c85be0e9227299b615f3deb03944adc1ad5fc5e6a660463a25c5b53",
+      "id": 13,
+      "opening": [
+        129,
+        174,
+        146,
+        132,
+        191,
+        189
+      ],
+      "seed": 7916254837816663710,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1b1d1c69bcc17c81e96d990507d1aab5b040e6c321dde562307a1179bc4a5b43",
+      "id": 14,
+      "opening": [
+        96,
+        142,
+        95,
+        111,
+        127,
+        141
+      ],
+      "seed": 6835544508203740243,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "e8ae0420fcd3dc44be596a5ba8b598443bbfb324a12c8f85c3e238ca01640248",
+      "id": 15,
+      "opening": [
+        137,
+        182,
+        167,
+        141,
+        124,
+        169
+      ],
+      "seed": 5808147840110659557,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "117cd00d6164e7736d469ffef0d24e4949dbd7ffe08057d9d4dd680a15555a48",
+      "id": 16,
+      "opening": [
+        123,
+        127,
+        108,
+        169,
+        124,
+        139
+      ],
+      "seed": 3404851172070093722,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "2dd398d37420fb70365bf84e5159d84473ca86475af8f51b43d18722d0780801",
+      "id": 17,
+      "opening": [
+        173,
+        140,
+        188,
+        156,
+        172,
+        144
+      ],
+      "seed": 3466044697363032808,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0fecb7eea690e705073ad4bd58acbd7153f634feb6f6586b25a9f737246b10e8",
+      "id": 18,
+      "opening": [
+        93,
+        126,
+        127,
+        138,
+        154,
+        95
+      ],
+      "seed": 6848565330242999539,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "c2f245a22ec4f73ee49f7e857cab047d8bd6a9a205210be7beabaaf0414133c3",
+      "id": 19,
+      "opening": [
+        122,
+        78,
+        92,
+        126,
+        80,
+        65
+      ],
+      "seed": 1675760532148617747,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f921ff79348d2f4c875f9cc3de86d282ae5855cb0a66fdc1fd12dfd492ce8d2c",
+      "id": 20,
+      "opening": [
+        115,
+        100,
+        86,
+        71,
+        85,
+        99
+      ],
+      "seed": 4389847187924915430,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "04f9af18efe411e6a6b0aec952d1cd5adabd6a1d16f4f7078dbe56abbbcb4a9c",
+      "id": 21,
+      "opening": [
+        115,
+        54,
+        101,
+        113,
+        86,
+        97
+      ],
+      "seed": 7259937961226361575,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c703a28e25a12e10bf16241ef0e9ac1213647d02df8cd5fad70022fdc06fdfee",
+      "id": 22,
+      "opening": [
+        79,
+        63,
+        67,
+        111,
+        82,
+        125
+      ],
+      "seed": 8521674138624936897,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "259a7e18bf78d24e24b4177770d1ca81f38ab96613f32346c8f0becbf57b6f95",
+      "id": 23,
+      "opening": [
+        131,
+        115,
+        158,
+        114,
+        113,
+        161
+      ],
+      "seed": 8296540149085709003,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "9420d2793097039a07b307bfec74a3113f001a65caf60c69bbd260475d7a1760",
+      "id": 24,
+      "opening": [
+        62,
+        208,
+        46,
+        117,
+        200,
+        183
+      ],
+      "seed": 7524493084761802490,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "7ffe75cbacb5dfcf3f23392d0184b7c5083e568c8e11b3ad4a1b859093d6129d",
+      "id": 25,
+      "opening": [
+        186,
+        183,
+        25,
+        42,
+        45,
+        33
+      ],
+      "seed": 8297240965073239379,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ba26946d629a158d5aa6920cf6ec0ce7854abe7bcb9e8b66ca3eb2f2363db47e",
+      "id": 26,
+      "opening": [
+        197,
+        35,
+        117,
+        182,
+        202,
+        210
+      ],
+      "seed": 6359231274480761361,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "fb1c64a2a4e2565ea9da1fa94c6f0e1e33e17d0cf1bc362e6d040ae0c20df909",
+      "id": 27,
+      "opening": [
+        4,
+        42,
+        203,
+        177,
+        224,
+        191
+      ],
+      "seed": 3630517619091667891,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "2d29b818bab295eb5733cd8ac5539fc2422156c78f9c9ffcfd583b84bd2bf1d9",
+      "id": 28,
+      "opening": [
+        191,
+        137,
+        58,
+        18,
+        216,
+        119
+      ],
+      "seed": 9173155461986955787,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6e244ca2b7f492a4fd6ece8f25f10ab829b44dcab64e8f3bd7556f072cc69694",
+      "id": 29,
+      "opening": [
+        31,
+        18,
+        16,
+        151,
+        201,
+        185
+      ],
+      "seed": 7843095153003394817,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "175c531562a2fd329450647cd14056dce7f0b0ce6d7bf16d632886d5ba6ab922",
+      "id": 30,
+      "opening": [
+        18,
+        219,
+        87,
+        209,
+        75,
+        189
+      ],
+      "seed": 6094401480096311486,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d88b018cf6dc74bf4e03e59d8ee17529d5df704210894acbc6a0dd88ff9940fd",
+      "id": 31,
+      "opening": [
+        18,
+        218,
+        209,
+        202,
+        62,
+        117
+      ],
+      "seed": 8610871124701883091,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a207f728a009e41e9d655c9b333b15f70825d096702cbb362b09927768635e45",
+      "id": 32,
+      "opening": [
+        27,
+        10,
+        151,
+        60,
+        74,
+        120
+      ],
+      "seed": 336963080850150026,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ac0f86712836604128ae62fef9b245789f616513858af1a05c15431a2f10ce91",
+      "id": 33,
+      "opening": [
+        32,
+        222,
+        163,
+        59,
+        201,
+        184
+      ],
+      "seed": 7408242085115350180,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "94fef42eb35c801963bf29d9576b5037a9fcd36bf538ddb5d80e318ce5c076d2",
+      "id": 34,
+      "opening": [
+        92,
+        133,
+        103,
+        30,
+        207,
+        134
+      ],
+      "seed": 8233447266489488660,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d58fd2887576e4501c8a529df82df13d68ec6daeb35d062e134113d008857108",
+      "id": 35,
+      "opening": [
+        12,
+        214,
+        133,
+        135,
+        13,
+        17
+      ],
+      "seed": 3681749456654029400,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "2c563f5781db09dfff5b9a03353afd5070a82232ba2510a5ec2188b58dcd0591",
+      "id": 36,
+      "opening": [
+        202,
+        215,
+        106,
+        186,
+        150,
+        73
+      ],
+      "seed": 1515497159185605350,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "2b7b5a966a82d7d43cb46f7735705c63051205b82de487478054e0cf22aae635",
+      "id": 37,
+      "opening": [
+        59,
+        198,
+        179,
+        41,
+        195,
+        7
+      ],
+      "seed": 5495720896826456174,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d9c61bc5cbf3130d4cde55632351065d7ce8fe6fc016a9a309c2d1ec0b132d5c",
+      "id": 38,
+      "opening": [
+        152,
+        220,
+        5,
+        186,
+        135,
+        41
+      ],
+      "seed": 1500633679280964326,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "e4ff3ccbdd109bcf6a60d34200dc63039edf7eb8d3ce9a0412754da8c5ac0cbd",
+      "id": 39,
+      "opening": [
+        3,
+        122,
+        221,
+        9,
+        72,
+        38
+      ],
+      "seed": 6043360220232046780,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3420ec79f321fde9c8a911a413a83f4477fbd52e3dca110f296eeeee6698fddb",
+      "id": 40,
+      "opening": [
+        218,
+        151,
+        45,
+        103,
+        0,
+        163
+      ],
+      "seed": 4864778253938926963,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "778bb19d08cdbc1865a9c0d34cafe29efa2f1d7e2ad7571c98cdfd63fb68d6ff",
+      "id": 41,
+      "opening": [
+        14,
+        216,
+        30,
+        191,
+        38,
+        164
+      ],
+      "seed": 8373779474101141956,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3b1a99f397dfa8464967d3a53252fe94bba2e62ce8dab18b4ffa95691913291f",
+      "id": 42,
+      "opening": [
+        9,
+        77,
+        186,
+        117,
+        29,
+        87
+      ],
+      "seed": 3925409277662115728,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6a6b023cc5df63b429e4b7afe55a32e4b3b7035f374bc4622835a00c0bc9118c",
+      "id": 43,
+      "opening": [
+        102,
+        35,
+        194,
+        44,
+        42,
+        223
+      ],
+      "seed": 1954726586464847180,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "bf14e0dddba92dc9fce457b4e2a2670f89cede9b4bde1c6ab8fc2a2ff36b5b60",
+      "id": 44,
+      "opening": [
+        13,
+        219,
+        26,
+        221,
+        188,
+        137
+      ],
+      "seed": 5770908477041183676,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "5e2e0ef5c4d3bc9d921eb03e2866374e87645f0a7c9f5a96abd95ab3e2aba5c0",
+      "id": 45,
+      "opening": [
+        77,
+        41,
+        26,
+        203,
+        62,
+        183
+      ],
+      "seed": 6454347915010374174,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "64301fec31e12f2e901aa2fe148fe46224c506dac51e79f2273536071e8863e5",
+      "id": 46,
+      "opening": [
+        182,
+        189,
+        194,
+        117,
+        14,
+        165
+      ],
+      "seed": 1005106176615822234,
+      "split": "ARENA",
+      "stratum": "outer"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "8b46e8a4304eb5b168363b518e2a23634bb9b1e82cd4a37ece9aefd9a4281c0d",
+      "id": 47,
+      "opening": [
+        186,
+        203,
+        22,
+        133,
+        33,
+        204
+      ],
+      "seed": 8097052578174265107,
+      "split": "ARENA",
+      "stratum": "outer"
+    }
+  ],
+  "rapfi_k37_plan_sha256": "0a8f4e7b6cae131770596a0ff6c03db8774e948835a052efc9b9bd8f6335819e",
+  "rapfi_prior": 4678,
+  "rapfi_prior_locks": [
+    {
+      "added": 1,
+      "path": "docs/research/quartz_rapfi09_20261125/PAIR_PLAN.json",
+      "sha256": "92ffcd09ad9e449fbe73ae059ea8afa0b60bd771c4265d223d7294a531291108"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi10_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "60b69e9d8bea7b3d1c18332302e05d84b6d1328d7c391e75d81e8acfe1079f6c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_rapfi11_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "ff92c03c1f87b19c7307e2b95d613b30573a0e8147f1a5ad1f4c5422442f1b2c"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi12_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "db9c59fac9c1607167213de64e3f8de25356d30f5a7b5b22846606ccf2da362c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic14_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "1ef9e539893a238a45a4cd38edd17ec06416e1033125ccdb9ee2e1692dcb99a2"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic15_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "e2b5d01457564fd3aa0de3966fc1dcea30f9917629ce3f6ff0743c32f1544ccd"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic16_20261126/C06_PLAN.json",
+      "sha256": "08a46dfbcef2dd628728ef8e248a089883a6b196bd941b75ed030577a56bf8b8"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic19_20261126/G_PLAN.json",
+      "sha256": "ec1c84d3f7973bb6a0d6432b3e23b9a54a38f33eb19b1583ad3368fa5458d201"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic20_20261126/G_PLAN.json",
+      "sha256": "24c403a543ca933f40d93c47c7a62964e07a1c88ffa486228ef5b3af07a54587"
+    },
+    {
+      "added": 42,
+      "path": "docs/research/quartz_kinetic34_20261126/PLAN.json",
+      "sha256": "1ae4cbf5145d84ca0d727dd043b8540744d1d407ff45fbef5b49271b61266532"
+    },
+    {
+      "added": 256,
+      "path": "docs/research/quartz_kinetic35_20261126/PLAN.json",
+      "sha256": "5e64440dddb6440bdadd427a279aa8353f1e0e948d90e550e436acdc8aeabb9b"
+    },
+    {
+      "added": 416,
+      "path": "docs/research/quartz_kinetic36_20261126/PLAN.json",
+      "sha256": "28c5c83be3ed880d72eb5d0c4ca76f5147561959262de0c37d89c275e2725af0"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic40_budget_20261126/RAPFI_PLAN.json",
+      "sha256": "6325809e81426a1ed6d0d6a356730996ddbb2d43d751e3430e2bba4d815fc9f5"
+    },
+    {
+      "added": 304,
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "added": 240,
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "added": 83,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PAIR_PLAN.json",
+      "sha256": "4d33500d198af513d7c6c38412dde0f9b489cd5f68017954c254bf3129ed3f7c"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "added": 32,
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    },
+    {
+      "added": 80,
+      "path": "docs/research/quartz_kinetic52_confirm_20261127/PLAN.json",
+      "sha256": "2e0bd886f5403dc13589921f06dbf0aace2335e2372b624ba9cf651f16c1d9b9"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic53_reuse_20261127/PLAN.json",
+      "sha256": "2d789f1b5cd87fd647de2a31f7a9f2119f66f542843cf15c9a471862c3f4b5c9"
+    },
+    {
+      "added": 192,
+      "path": "docs/research/quartz_kinetic54_cache_20261127/PLAN.json",
+      "sha256": "23caf8740c5febfe5af86dfa134a688f74b3f7079895cbf0a285b20fae529761"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic55_policy_20261128/PLAN.json",
+      "sha256": "55d6a4387c5f34d0bcb7085d57302daeeb91a0c6368119d040712d1cf919abf2"
+    },
+    {
+      "added": 512,
+      "path": "docs/research/quartz_kinetic56_voc_20261128/PLAN.json",
+      "sha256": "5f056f5f70abadbd8f78d18f68998d0fbea720b7a37b16a5115c0a666bd3bb0a"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic56_voc_20261128/RAPFI_PLAN.json",
+      "sha256": "0b2953a378d93975af9fa9473c4f67367d1d87862328be25943be8825ddf6fbc"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_tactical08_20261125/C07_COHORT.json",
+      "sha256": "14107220a3c60c9fe945f945ff2d91baa58a237bce3fa04ee20a81c18e330475"
+    }
+  ],
+  "rapfi_workers": 4,
+  "scope": "64 fresh NN families, four arms, assigned early horizons and family splits;48 Rapfi compact/outer",
+  "seed": 2026112857,
+  "tiers": [
+    [
+      3,
+      256
+    ],
+    [
+      5,
+      1024
+    ],
+    [
+      7,
+      4096
+    ]
+  ],
+  "workers": 6
+}
