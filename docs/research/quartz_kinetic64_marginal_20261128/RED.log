@@ -1,0 +1,19 @@
+test mcts_server::k47_nn::k64_tests::one_visit_pooled_sign_and_clamp ... FAILED
+
+failures:
+
+---- mcts_server::k47_nn::k64_tests::one_visit_pooled_sign_and_clamp stdout ----
+
+thread 'mcts_server::k47_nn::k64_tests::one_visit_pooled_sign_and_clamp' (2401341) panicked at src/mcts_server/k47_nn.rs:647:9:
+assertion `left == right` failed
+  left: 0.0
+ right: 0.5
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    mcts_server::k47_nn::k64_tests::one_visit_pooled_sign_and_clamp
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 757 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin mcts_demo`
