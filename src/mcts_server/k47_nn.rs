@@ -91,9 +91,10 @@ pub(super) fn parse_history(h:&[u16],n:usize)->Result<Vec<u8>,String>{
 pub(super) fn oriented(b:&[u8],p:u8)->Vec<u8>{b.iter().map(|&x|if x==0{0}else if x==p{1}else{2}).collect()}
 fn inner(line:&str)->Result<Value,String>{
     let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    let k55=q.cmd=="research_gomoku7_k55";let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53||k55;let k48=q.cmd=="research_gomoku7_k48"||k52;
+    let k56=q.cmd=="research_gomoku7_k56";let k55=q.cmd=="research_gomoku7_k55";let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53||k55||k56;let k48=q.cmd=="research_gomoku7_k48"||k52;
     if (k52&&(q.atlas||q.mask!=Some(0)))||!(q.cmd=="research_gomoku7_k47"||k48)||(!q.quartz&&q.cap!=32)||(q.quartz&&q.cap!=20&&q.cap!=32)||(!k48&&(q.atlas||q.mask.is_some()))||(k48&&(!q.quartz||q.cap!=20||q.atlas==q.mask.is_some())){return Err("invalid K47/K48 NN request".into())}
     if k55!=q.table.is_some()||q.table.is_some_and(|t|t.iter().any(|&x|x>2)){return Err("invalid K55 operation table".into())}
+    if k56!=q.voc.is_some()||q.voc.as_ref().is_some_and(|m|!m.lambda.is_finite()||m.lambda<0.0||m.gain.iter().chain(m.cost.iter()).flatten().any(|v|!v.is_finite())){return Err("invalid K56 model".into())}
     let started=Instant::now();let b=parse_history(&q.history,7)?;
     let p=1-2*(q.history.len()%2) as i8;let ob=oriented(&b,if p==1{1}else{2});
     let mut a=0;let mut bb=0;for (m,&x) in b.iter().enumerate(){if x==1{a|=1u64<<m}else if x==2{bb|=1u64<<m}}
@@ -145,6 +146,10 @@ fn inner(line:&str)->Result<Value,String>{
                     let cell=k55_cell(out["bin"].as_u64().unwrap(),q.history.len());
                     let op=table[cell];
                     out["selection"]=json!({"cell":cell,"op":op,"table":table});op
+                }else if let Some(model)=&q.voc{
+                    let x=k56_features(&out["low"],&part["bounds"],q.history.len());
+                    let (op,g,k)=k56_decide(model,&x);
+                    out["voc"]=json!({"op":op,"features":x,"gain":g,"cost":k,"lambda":model.lambda,"stop":model.stop});op
                 }else if k53{2}else{1};
                 if op!=0{
                     let t=if op==2{k53_target(&mut root,&out["low"],&part["bounds"],&mut ev)?}else{k52_target(&root,&out["low"],&part["bounds"],&mut ev)?};
@@ -318,7 +323,26 @@ mod k55_tests{
 struct Voc56{
     gain:[[f64;8];2],cost:[[f64;8];2],stop:bool,lambda:f64,
 }
-fn k56_decide(_m:&Voc56,_x:&[f64;8])->(u8,[f64;3],[f64;3]){(0,[0.;3],[0.;3])}
+fn k56_decide(m:&Voc56,x:&[f64;8])->(u8,[f64;3],[f64;3]){
+    let mut g=[0.;3];let mut k=[0.;3];let mut op=0;
+    for i in 0..2{
+        let mut a=0.;let mut b=0.;
+        for j in 0..8{a+=m.gain[i][j]*x[j];b+=m.cost[i][j]*x[j];}
+        g[i+1]=a.clamp(-1.,1.);k[i+1]=b.clamp(0.,12.);
+    }
+    if !m.stop{for i in 1..3{if g[i]-m.lambda*k[i]>g[op]-m.lambda*k[op]+1e-12{op=i;}}}
+    (op as u8,g,k)
+}
+fn k56_features(low:&Value,bounds:&Value,ply:usize)->[f64;8]{
+    let n=low["visits"].as_u64().unwrap() as f64;
+    let pv=low["prior_best"].as_u64().unwrap();
+    let vs=low["votes"].as_array().unwrap();
+    let sum2: u64=vs.iter().map(|v|v[1].as_u64().unwrap().pow(2)).sum();
+    let pn=vs.iter().find(|v|v[0].as_u64()==Some(pv)).unwrap()[1].as_u64().unwrap();
+    let bs=bounds.as_array().unwrap();
+    let f=bs.iter().filter(|v|v[2]==-1).count() as f64/bs.len() as f64;
+    [1.,ply as f64/49.,low["distance"].as_u64().unwrap() as f64/3.,n/20.,if n>0.{sum2 as f64/(n*n)}else{0.},if n>0.{pn as f64/n}else{0.},f,if low["replacement"]==true{1.}else{0.}]
+}
 #[cfg(test)]
 mod k56_tests{
     use super::*;
@@ -328,4 +352,54 @@ mod k56_tests{
         assert_eq!(k56_decide(&m,&[1.;8]).0,2);
         m.lambda=0.03;assert_eq!(k56_decide(&m,&[1.;8]).0,0);
     }
+}
+
+// Strict synchronous real NN adapter. Request-local model namespace, no fallback.
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct GenericReq56{cmd:String,history:Vec<u16>,identity:String}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct GenericReply56{cmd:String,id:u64,identity:String,prior:Vec<f32>,value:f32}
+struct Strict56{identity:String,state:Mutex<(u64,Vec<Value>)>}
+impl Evaluator<Gomoku> for Strict56{
+    fn evaluate(&self,g:&Gomoku)->EvalResult<<Gomoku as GameState>::Move>{
+        let mut s=self.state.lock().unwrap();let id=s.0+1;
+        let planes=g.encode_planes();let legal=g.legal_moves();
+        let ids:Vec<usize>=legal.iter().map(|&m|g.move_to_idx(m)).collect();
+        assert_eq!(planes.len(),833);assert!(!ids.is_empty());
+        emit_stdout_json_value(&json!({"type":"k56_generic_eval","id":id,"identity":self.identity,"planes":planes,"legal":ids}));
+        let Some(ServerCommandInput::Json(line))=read_stdin_command() else{panic!("K56 missing strict reply")};
+        let r:GenericReply56=serde_json::from_str(&line).expect("K56 invalid strict reply");
+        assert!(r.cmd=="k56_generic_reply"&&r.id==id&&r.identity==self.identity&&r.prior.len()==legal.len());
+        assert!(r.prior.iter().all(|x|x.is_finite()&&*x>=0.)&&(r.prior.iter().sum::<f32>()-1.).abs()<1e-5&&r.value.is_finite()&&(-1.0..=1.0).contains(&r.value));
+        s.0=id;s.1.push(json!({"id":id,"planes":planes,"legal":ids,"prior":r.prior,"value":r.value}));
+        EvalResult{policy:legal.into_iter().zip(r.prior).collect(),value:r.value}
+    }
+}
+pub(super) fn generic56(line:&str)->Value{
+    let f=||->Result<Value,String>{
+        let q:GenericReq56=serde_json::from_str(line).map_err(|e|e.to_string())?;
+        if q.cmd!="research_gomoku7_generic_k56"||q.identity.len()!=64||!q.identity.bytes().all(|b|b.is_ascii_hexdigit()){return Err("invalid strict identity".into())}
+        parse_history(&q.history,7)?;
+        let mut g=Gomoku::new_with_win(7,4);
+        for &m in &q.history{let a=g.idx_to_move(m as usize).ok_or("invalid generic move")?;g=g.apply_move(a);}
+        if g.is_terminal(){return Err("terminal generic root".into())}
+        let e=Arc::new(Strict56{identity:q.identity.clone(),state:Mutex::new((0,vec![]))});
+        let key=|g:&Gomoku|->Vec<u8>{
+            let mut k=vec![g.current_player() as u8];
+            k.extend_from_slice(&(g.num_actions() as u64).to_le_bytes());k.extend_from_slice(&(g.win_len_dim() as u64).to_le_bytes());
+            for x in g.encode_planes(){k.extend_from_slice(&x.to_bits().to_le_bytes());}
+            for m in g.legal_moves(){k.extend_from_slice(&(g.move_to_idx(m) as u64).to_le_bytes());}k
+        };
+        let mut cfg=MctsConfig::default();cfg.tt_enabled=false;
+        let plain=MctsEngine::new(g.clone(),e.clone(),cfg.clone());plain.run(&mut FixedIterations::new(20));let a=plain.four_axis_snapshot();let n0=e.state.lock().unwrap().0;
+        let cache=Arc::new(crate::mcts::eval::FrozenExactEval55::new(q.identity.clone(),e.clone(),Box::new(key),256));
+        let first=MctsEngine::new(g.clone(),cache.clone(),cfg.clone());first.run(&mut FixedIterations::new(20));let b=first.four_axis_snapshot();let c0=cache.counts();
+        let second=MctsEngine::new(g.clone(),cache.clone(),cfg);second.run(&mut FixedIterations::new(20));let c=second.four_axis_snapshot();let c1=cache.counts();
+        assert_eq!(a,b);assert_eq!(a,c);assert_eq!(c0.1,c1.1);assert_eq!(c1.0-c0.0,c1.2-c0.2);
+        let s=e.state.lock().unwrap();assert_eq!(s.0,n0+c1.1);
+        Ok(json!({"identity":q.identity,"history":q.history,"root_planes":g.encode_planes(),"plain":a,"first":b,"second":c,"plain_calls":n0,"first_counts":c0,"second_counts":c1,"physical":s.0,"trace":s.1}))
+    };
+    f().unwrap_or_else(|e|json!({"error":e}))
 }
