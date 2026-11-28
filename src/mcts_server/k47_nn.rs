@@ -91,14 +91,15 @@ pub(super) fn parse_history(h:&[u16],n:usize)->Result<Vec<u8>,String>{
 pub(super) fn oriented(b:&[u8],p:u8)->Vec<u8>{b.iter().map(|&x|if x==0{0}else if x==p{1}else{2}).collect()}
 fn inner(line:&str)->Result<Value,String>{
     let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    let k61=q.cmd=="research_gomoku7_k61";let k60=q.cmd=="research_gomoku7_k60";let k58=q.cmd=="research_gomoku7_k58";let k57=q.cmd=="research_gomoku7_k57"||k58||k60||k61;let k56=q.cmd=="research_gomoku7_k56";let k55=q.cmd=="research_gomoku7_k55";let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53||k55||k56;let k48=q.cmd=="research_gomoku7_k48"||k52||k57;
+    let k62=q.cmd=="research_gomoku7_k62";let k61=q.cmd=="research_gomoku7_k61";let k60=q.cmd=="research_gomoku7_k60";let k58=q.cmd=="research_gomoku7_k58";let k57=q.cmd=="research_gomoku7_k57"||k58||k60||k61||k62;let k56=q.cmd=="research_gomoku7_k56";let k55=q.cmd=="research_gomoku7_k55";let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53||k55||k56;let k48=q.cmd=="research_gomoku7_k48"||k52||k57;
     if (k52&&(q.atlas||q.mask!=Some(0)))||!(q.cmd=="research_gomoku7_k47"||k48)||(!q.quartz&&q.cap!=32)||(q.quartz&&q.cap!=20&&q.cap!=32)||(!k48&&(q.atlas||q.mask.is_some()))||(k48&&(!q.quartz||q.cap!=20||q.atlas==q.mask.is_some())){return Err("invalid K47/K48 NN request".into())}
     if k55!=q.table.is_some()||q.table.is_some_and(|t|t.iter().any(|&x|x>2)){return Err("invalid K55 operation table".into())}
     if k56!=q.voc.is_some()||q.voc.as_ref().is_some_and(|m|!m.lambda.is_finite()||m.lambda<0.0||m.gain.iter().chain(m.cost.iter()).flatten().any(|v|!v.is_finite())){return Err("invalid K56 model".into())}
-    if k57!=q.early.is_some()||q.early.as_ref().is_some_and(|e|!matches!(e.horizon,4|8|12|16)||e.op>3+u8::from(k58)+2*u8::from(k60)+3*u8::from(k61))||k57&&(!q.cache||q.atlas||q.mask!=Some(0)){return Err("invalid K57 early request".into())}
+    if k57!=q.early.is_some()||q.early.as_ref().is_some_and(|e|!matches!(e.horizon,4|8|12|16)||e.op>3+u8::from(k58)+2*u8::from(k60)+3*u8::from(k61)+4*u8::from(k62))||k57&&(!q.cache||q.atlas||q.mask!=Some(0)){return Err("invalid K57 early request".into())}
     if k58&&q.early.as_ref().is_none_or(|e|e.op!=4||e.horizon!=16){return Err("invalid K58 stable request".into())}
     if k60!=q.stop60.is_some()||k60&&q.early.as_ref().is_none_or(|e|e.op!=5||e.horizon!=16){return Err("invalid K60 adaptive request".into())}
     if k61!=q.extend61.is_some()||k61&&q.early.as_ref().is_none_or(|e|e.op!=6||e.horizon!=8){return Err("invalid K61 selective request".into())}
+    if k62&&q.early.as_ref().is_none_or(|e|e.op!=7||e.horizon!=4){return Err("invalid K62 paired target request".into())}
     let started=Instant::now();let b=parse_history(&q.history,7)?;
     let p=1-2*(q.history.len()%2) as i8;let ob=oriented(&b,if p==1{1}else{2});
     let mut a=0;let mut bb=0;for (m,&x) in b.iter().enumerate(){if x==1{a|=1u64<<m}else if x==2{bb|=1u64<<m}}
@@ -186,8 +187,8 @@ fn inner(line:&str)->Result<Value,String>{
                 let low=snap(&root,&ev,n,terminal,horizon);
                 out["low"]=low.clone();
                 out["cap"]=json!(horizon);
-                if matches!(e.op,2|3){
-                    let t=if e.op==3{k53_target(&mut root,&low,&part["bounds"],&mut ev)?}else{k52_target(&root,&low,&part["bounds"],&mut ev)?};
+                if matches!(e.op,2|3|7){
+                    let t=if e.op==7{k62_target(&mut root,&low,&part["bounds"],&mut ev)?}else if e.op==3{k53_target(&mut root,&low,&part["bounds"],&mut ev)?}else{k52_target(&root,&low,&part["bounds"],&mut ev)?};
                     out["move"]=t["chosen"].clone();out["target"]=t;out["nn"]=json!(ev.calls);
                 }
             }
@@ -553,5 +554,45 @@ mod k61_tests{
         x["edges"][1][2]=json!(0.5);assert_eq!(k61_cell(&x,&bounds),Some(4));
         x["locked20"]=json!(true);assert_eq!(k61_cell(&x,&bounds),None);
         x["locked20"]=json!(false);x["rival"]=Value::Null;assert_eq!(k61_cell(&x,&bounds),None);
+    }
+}
+
+fn k62_pooled(n:u32,w:f64,samples:[f64;2],l:f64,u:f64)->f64{
+    ((w-samples[0]-samples[1])/(n+2) as f64).clamp(l,u)
+}
+fn k62_child(root:&mut Node,m:u16,ev:&mut External,l:f64,u:f64)->Result<Value,String>{
+    let calls=ev.calls;let bit=1u64<<m;
+    let edge=root.edges.as_mut().unwrap().iter_mut().find(|e|e.m==m).unwrap();
+    let n=edge.n;let w=edge.w;
+    let child=edge.child.get_or_insert_with(||Box::new(if root.p==1{Node::new(root.a|bit,root.b,-1)}else{Node::new(root.a,root.b|bit,1)}));
+    let unexpanded=child.edges.is_none();
+    let snapshot=|node:&Node|->Vec<Value>{node.edges.as_ref().map_or_else(Vec::new,|es|es.iter().map(|e|json!([e.m,e.n,e.w])).collect())};
+    let pre=snapshot(child);let mut samples=[0.0;2];let mut terminal=0;
+    for z in &mut samples{let(v,t)=child.visit(ev)?;*z=v;terminal+=u32::from(t);}
+    let post=snapshot(child);assert_eq!(ev.calls-calls,2-terminal);
+    Ok(json!({"old_root_n":n,"old_root_w":w,"starts_unexpanded":unexpanded,"pre_edges":pre,"edges":post,"samples":samples,"terminal_leaves":terminal,"visits":2,"nn":ev.calls-calls,"raw":(w-samples[0]-samples[1])/(n+2) as f64,"value":k62_pooled(n,w,samples,l,u)}))
+}
+fn k62_target(root:&mut Node,low:&Value,bounds:&Value,ev:&mut External)->Result<Value,String>{
+    let t=Instant::now();let calls=ev.calls;let a=low["move"].as_u64().unwrap() as u16;
+    let votes:Vec<_>=root.edges.as_ref().unwrap().iter().map(|e|(e.m,e.n)).collect();
+    let b=k52_candidate(a,&votes,bounds);let mut chosen=a;let mut children=vec![];let mut values=vec![];
+    if let Some(b)=b{
+        for m in [a,b]{let(l,u)=k52_bound(bounds,m);
+            if l==u{children.push(Value::Null);values.push(l)}
+            else{let z=k62_child(root,m,ev,l,u)?;values.push(z["value"].as_f64().unwrap());children.push(z);}
+        }
+        if values[1]>values[0]{chosen=b;}
+    }
+    assert!(ev.calls-calls<=4);
+    Ok(json!({"mode":"pooled62","incumbent":a,"rival":b,"chosen":chosen,"children":children,"values":values,"extra_nn":ev.calls-calls,"reason":if b.is_some(){"compared"}else{"no_nondominated_rival"},"wall_ns":t.elapsed().as_nanos() as u64}))
+}
+#[cfg(test)]
+mod k62_tests{
+    use super::*;
+    #[test]fn pooled_sign_and_bounds(){
+        assert!((k62_pooled(2,1.0,[-0.5,0.5],-1.0,1.0)-0.25).abs()<1e-15);
+        assert_eq!(k62_pooled(0,0.0,[0.5,0.5],-1.0,1.0),-0.5);
+        assert_eq!(k62_pooled(0,0.0,[-1.0,-1.0],-1.0,0.0),0.0);
+        assert_eq!(k62_pooled(0,0.0,[1.0,1.0],0.0,1.0),0.0);
     }
 }

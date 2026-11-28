@@ -1,0 +1,8 @@
+warning: `mcts_demo` (bin "mcts_demo" test) generated 63 warnings (run `cargo fix --bin "mcts_demo" -p mcts_demo --tests` to apply 27 suggestions)
+    Finished `release` profile [optimized] target(s) in 1m 01s
+     Running unittests src/main.rs (/home/cosmosapjw/quantum/research/quartz_kinetic62_target_run_20261128/cargo/release/deps/mcts_demo-989e5fe954f15b06)
+
+running 1 test
+test mcts_server::k47_nn::k62_tests::pooled_sign_and_bounds ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 755 filtered out; finished in 0.00s
