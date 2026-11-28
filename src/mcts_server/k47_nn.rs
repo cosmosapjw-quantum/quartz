@@ -6,7 +6,7 @@ use serde::Deserialize;
 use serde_json::{json,Value};
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool,#[serde(default)]table:Option<[u8;4]>,#[serde(default)]voc:Option<Voc56>,#[serde(default)]early:Option<Early57>,#[serde(default)]stop60:Option<[bool;16]>,#[serde(default)]extend61:Option<[bool;5]>}
+struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool,#[serde(default)]table:Option<[u8;4]>,#[serde(default)]voc:Option<Voc56>,#[serde(default)]early:Option<Early57>,#[serde(default)]stop60:Option<[bool;16]>,#[serde(default)]extend61:Option<[bool;5]>,#[serde(default)]table63:Option<[u8;6]>}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct EvalReply{cmd:String,id:u32,a:u64,b:u64,p:i8,prior:Vec<f64>,value:f64}
@@ -91,15 +91,16 @@ pub(super) fn parse_history(h:&[u16],n:usize)->Result<Vec<u8>,String>{
 pub(super) fn oriented(b:&[u8],p:u8)->Vec<u8>{b.iter().map(|&x|if x==0{0}else if x==p{1}else{2}).collect()}
 fn inner(line:&str)->Result<Value,String>{
     let q:Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
-    let k62=q.cmd=="research_gomoku7_k62";let k61=q.cmd=="research_gomoku7_k61";let k60=q.cmd=="research_gomoku7_k60";let k58=q.cmd=="research_gomoku7_k58";let k57=q.cmd=="research_gomoku7_k57"||k58||k60||k61||k62;let k56=q.cmd=="research_gomoku7_k56";let k55=q.cmd=="research_gomoku7_k55";let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53||k55||k56;let k48=q.cmd=="research_gomoku7_k48"||k52||k57;
+    let k63=q.cmd=="research_gomoku7_k63";let k62=q.cmd=="research_gomoku7_k62";let k61=q.cmd=="research_gomoku7_k61";let k60=q.cmd=="research_gomoku7_k60";let k58=q.cmd=="research_gomoku7_k58";let k57=q.cmd=="research_gomoku7_k57"||k58||k60||k61||k62||k63;let k56=q.cmd=="research_gomoku7_k56";let k55=q.cmd=="research_gomoku7_k55";let k53=q.cmd=="research_gomoku7_k53";let k52=q.cmd=="research_gomoku7_k52"||k53||k55||k56;let k48=q.cmd=="research_gomoku7_k48"||k52||k57;
     if (k52&&(q.atlas||q.mask!=Some(0)))||!(q.cmd=="research_gomoku7_k47"||k48)||(!q.quartz&&q.cap!=32)||(q.quartz&&q.cap!=20&&q.cap!=32)||(!k48&&(q.atlas||q.mask.is_some()))||(k48&&(!q.quartz||q.cap!=20||q.atlas==q.mask.is_some())){return Err("invalid K47/K48 NN request".into())}
     if k55!=q.table.is_some()||q.table.is_some_and(|t|t.iter().any(|&x|x>2)){return Err("invalid K55 operation table".into())}
     if k56!=q.voc.is_some()||q.voc.as_ref().is_some_and(|m|!m.lambda.is_finite()||m.lambda<0.0||m.gain.iter().chain(m.cost.iter()).flatten().any(|v|!v.is_finite())){return Err("invalid K56 model".into())}
-    if k57!=q.early.is_some()||q.early.as_ref().is_some_and(|e|!matches!(e.horizon,4|8|12|16)||e.op>3+u8::from(k58)+2*u8::from(k60)+3*u8::from(k61)+4*u8::from(k62))||k57&&(!q.cache||q.atlas||q.mask!=Some(0)){return Err("invalid K57 early request".into())}
+    if k57!=q.early.is_some()||q.early.as_ref().is_some_and(|e|!matches!(e.horizon,4|8|12|16)||e.op>3+u8::from(k58)+2*u8::from(k60)+3*u8::from(k61)+4*u8::from(k62)+6*u8::from(k63))||k57&&(!q.cache||q.atlas||q.mask!=Some(0)){return Err("invalid K57 early request".into())}
     if k58&&q.early.as_ref().is_none_or(|e|e.op!=4||e.horizon!=16){return Err("invalid K58 stable request".into())}
     if k60!=q.stop60.is_some()||k60&&q.early.as_ref().is_none_or(|e|e.op!=5||e.horizon!=16){return Err("invalid K60 adaptive request".into())}
     if k61!=q.extend61.is_some()||k61&&q.early.as_ref().is_none_or(|e|e.op!=6||e.horizon!=8){return Err("invalid K61 selective request".into())}
     if k62&&q.early.as_ref().is_none_or(|e|e.op!=7||e.horizon!=4){return Err("invalid K62 paired target request".into())}
+    if k63&&q.early.as_ref().is_none_or(|e|!matches!(e.op,8|9)||e.horizon!=4)||q.table63.is_some()!= (k63&&q.early.as_ref().is_some_and(|e|e.op==9))||q.table63.is_some_and(|t|t.iter().any(|&x|x>2)){return Err("invalid K63 selective request".into())}
     let started=Instant::now();let b=parse_history(&q.history,7)?;
     let p=1-2*(q.history.len()%2) as i8;let ob=oriented(&b,if p==1{1}else{2});
     let mut a=0;let mut bb=0;for (m,&x) in b.iter().enumerate(){if x==1{a|=1u64<<m}else if x==2{bb|=1u64<<m}}
@@ -187,7 +188,22 @@ fn inner(line:&str)->Result<Value,String>{
                 let low=snap(&root,&ev,n,terminal,horizon);
                 out["low"]=low.clone();
                 out["cap"]=json!(horizon);
-                if matches!(e.op,2|3|7){
+                if k63{
+                    let ss=&out["early"]["at"];
+                    let a=ss["move"].as_u64().unwrap() as u16;let b=ss["rival"].as_u64().unwrap() as u16;
+                    let cell=k63_cell(ss,a,b);
+                    let op=if e.op==8{1}else{q.table63.unwrap()[cell]};
+                    let vals=k63_values(ss,&part["bounds"],a,b);
+                    let mut chosen=a;let before=ev.calls;let physical=ev.physical;
+                    if op==1{chosen=k63_free(a,b,vals);}
+                    if op==2{
+                        let t=k62_target(&mut root,&low,&part["bounds"],&mut ev)?;
+                        chosen=t["chosen"].as_u64().unwrap() as u16;out["target"]=t;
+                    }
+                    assert!(ev.calls-before<=4&&(op==2||ev.calls==before));
+                    out["move"]=json!(chosen);out["nn"]=json!(ev.calls);
+                    out["select63"]=json!({"cell":cell,"op":op,"incumbent":a,"rival":b,"values":vals,"chosen":chosen,"extra_logical":ev.calls-before,"extra_physical":ev.physical-physical});
+                }else if matches!(e.op,2|3|7){
                     let t=if e.op==7{k62_target(&mut root,&low,&part["bounds"],&mut ev)?}else if e.op==3{k53_target(&mut root,&low,&part["bounds"],&mut ev)?}else{k52_target(&root,&low,&part["bounds"],&mut ev)?};
                     out["move"]=t["chosen"].clone();out["target"]=t;out["nn"]=json!(ev.calls);
                 }
@@ -594,5 +610,31 @@ mod k62_tests{
         assert_eq!(k62_pooled(0,0.0,[0.5,0.5],-1.0,1.0),-0.5);
         assert_eq!(k62_pooled(0,0.0,[-1.0,-1.0],-1.0,0.0),0.0);
         assert_eq!(k62_pooled(0,0.0,[1.0,1.0],0.0,1.0),0.0);
+    }
+}
+
+fn k63_free(a:u16,b:u16,q:[Option<f64>;2])->u16{
+    if matches!(q,[Some(x),Some(y)] if y>x){b}else{a}
+}
+fn k63_edge(s:&Value,m:u16)->(u64,f64){
+    let z=s["edges"].as_array().unwrap().iter().find(|z|z[0]==m).unwrap();
+    (z[1].as_u64().unwrap(),z[2].as_f64().unwrap())
+}
+fn k63_cell(s:&Value,a:u16,b:u16)->usize{
+    let(n,w)=k63_edge(s,a);let(m,v)=k63_edge(s,b);
+    if n==0{0}else if m==0{if w<0.0{1}else{2}}else if v*n as f64>w*m as f64{3}else if w<0.0{4}else{5}
+}
+fn k63_values(s:&Value,bd:&Value,a:u16,b:u16)->[Option<f64>;2]{
+    [a,b].map(|m|{let(n,w)=k63_edge(s,m);let(l,u)=k52_bound(bd,m);
+        if l==u{Some(l)}else if n>0{Some((w/n as f64).clamp(l,u))}else{None}})
+}
+#[cfg(test)]
+mod k63_tests{
+    use super::*;
+    #[test]fn free_unknown_tie_and_superior(){
+        assert_eq!(k63_free(3,5,[Some(-0.4),Some(0.2)]),5);
+        assert_eq!(k63_free(3,5,[Some(0.2),Some(0.2)]),3);
+        assert_eq!(k63_free(3,5,[None,Some(0.2)]),3);
+        assert_eq!(k63_free(3,5,[Some(-0.2),None]),3);
     }
 }
