@@ -51,6 +51,6 @@ def run():
     ct=C.Counter()
     for x in fs:ct.update(x['counts'])
     assert ct['games']==64 and ct['episodes']==32
-    (T/'RAPFI_LOCK.json').write_text(json.dumps(dict(files=fs,counts=dict(ct),plan=sha(T/'RAPFI_PLAN.json'),source=sha(D/'rapfi59.py')),indent=2,sort_keys=True)+'\n')
+    (T/'RAPFI_LOCK.json').write_text(json.dumps(dict(files=fs,counts=dict(ct),plan=sha(T/'RAPFI_PLAN.json'),source=sha(D/'rapfi60.py')),indent=2,sort_keys=True)+'\n')
     print('RAPFI',dict(ct),flush=True)
 if __name__=='__main__':make() if sys.argv[1]=='plan' else run()
