@@ -1,0 +1,611 @@
+{
+  "ARCHIVE": {
+    "cell_samples": {
+      "01": 16,
+      "10": 11,
+      "11": 12
+    },
+    "equal_paid_descriptive": {
+      "delta2": 2,
+      "n": 28
+    },
+    "metrics": {
+      "base": {
+        "design_se": 0.0,
+        "exact": "56/57",
+        "mean": 0.9824561403508771
+      },
+      "base_cost": {
+        "design_se": 0.9766815197554707,
+        "exact": "15085/1824",
+        "mean": 8.270285087719298
+      },
+      "legal": {
+        "design_se": 0.3913721117889199,
+        "exact": "9727/228",
+        "mean": 42.66228070175438
+      },
+      "live": {
+        "design_se": 0.10907883494163888,
+        "exact": "6281/1824",
+        "mean": 3.443530701754386
+      },
+      "ma": {
+        "design_se": 0.0,
+        "exact": "1",
+        "mean": 1.0
+      },
+      "mask": {
+        "design_se": 0.0,
+        "exact": "0",
+        "mean": 0.0
+      },
+      "mask_positive": {
+        "design_se": 0.0,
+        "exact": "0",
+        "mean": 0.0
+      },
+      "mf": {
+        "design_se": 0.0,
+        "exact": "1",
+        "mean": 1.0
+      },
+      "ml": {
+        "design_se": 0.0,
+        "exact": "1",
+        "mean": 1.0
+      },
+      "omission": {
+        "design_se": 0.0,
+        "exact": "0",
+        "mean": 0.0
+      },
+      "omission_positive": {
+        "design_se": 0.0,
+        "exact": "0",
+        "mean": 0.0
+      },
+      "ranking": {
+        "design_se": 0.0,
+        "exact": "1/57",
+        "mean": 0.017543859649122806
+      },
+      "ranking_positive": {
+        "design_se": 0.0,
+        "exact": "1/57",
+        "mean": 0.017543859649122806
+      },
+      "regret": {
+        "design_se": 0.0,
+        "exact": "1/57",
+        "mean": 0.017543859649122806
+      },
+      "regret_positive": {
+        "design_se": 0.0,
+        "exact": "1/57",
+        "mean": 0.017543859649122806
+      },
+      "safe": {
+        "design_se": 0.3913721117889199,
+        "exact": "2637/76",
+        "mean": 34.69736842105263
+      }
+    },
+    "ops": {
+      "EXPAND": {
+        "changed": {
+          "design_se": 0.09282204644422672,
+          "exact": "255/608",
+          "mean": 0.4194078947368421
+        },
+        "extra": {
+          "design_se": 0.0,
+          "exact": "103/114",
+          "mean": 0.9035087719298246
+        },
+        "gain": {
+          "design_se": 0.0,
+          "exact": "0",
+          "mean": 0.0
+        },
+        "omission_reduction": {
+          "design_se": 0.0,
+          "exact": "0",
+          "mean": 0.0
+        },
+        "ranking_change": {
+          "design_se": 0.0,
+          "exact": "0",
+          "mean": 0.0
+        },
+        "raw": {
+          "changed": 15,
+          "expansion_opportunity": 0,
+          "extra": 28,
+          "harm": 0,
+          "help": 0,
+          "noop": 11
+        },
+        "root_utility": {
+          "design_se": 0.0,
+          "exact": "-103/57000",
+          "mean": -0.0018070175438596491
+        },
+        "whole_extra": {
+          "design_se": 0.5229929832329746,
+          "exact": "1/8",
+          "mean": 0.125
+        },
+        "whole_utility": {
+          "design_se": 0.001045985966465949,
+          "exact": "-1/4000",
+          "mean": -0.00025
+        }
+      },
+      "FOCUS": {
+        "changed": {
+          "design_se": 0.08102172456978582,
+          "exact": "329/456",
+          "mean": 0.7214912280701754
+        },
+        "extra": {
+          "design_se": 0.0,
+          "exact": "1",
+          "mean": 1.0
+        },
+        "gain": {
+          "design_se": 0.0,
+          "exact": "-1/57",
+          "mean": -0.017543859649122806
+        },
+        "omission_reduction": {
+          "design_se": 0.0,
+          "exact": "0",
+          "mean": 0.0
+        },
+        "ranking_change": {
+          "design_se": 0.0,
+          "exact": "1/57",
+          "mean": 0.017543859649122806
+        },
+        "raw": {
+          "changed": 26,
+          "expansion_opportunity": 0,
+          "extra": 39,
+          "harm": 2,
+          "help": 0,
+          "noop": 0
+        },
+        "root_utility": {
+          "design_se": 0.0,
+          "exact": "-557/28500",
+          "mean": -0.019543859649122808
+        },
+        "whole_extra": {
+          "design_se": 0.40510862284892907,
+          "exact": "911/456",
+          "mean": 1.9978070175438596
+        },
+        "whole_utility": {
+          "design_se": 0.0008102172456978581,
+          "exact": "-1637/76000",
+          "mean": -0.021539473684210525
+        }
+      }
+    },
+    "population": 114,
+    "raw": {
+      "mask": 0,
+      "omission": 0,
+      "ranking": 2,
+      "regret": 2
+    },
+    "sample": 39
+  },
+  "MAIN": {
+    "cell_samples": {
+      "01": 32,
+      "10": 32,
+      "11": 32
+    },
+    "equal_paid_descriptive": {
+      "delta2": 0,
+      "n": 64
+    },
+    "metrics": {
+      "base": {
+        "design_se": 0.024281391634072995,
+        "exact": "33745/35712",
+        "mean": 0.9449204749103942
+      },
+      "base_cost": {
+        "design_se": 0.8199593189339123,
+        "exact": "81445/8928",
+        "mean": 9.122423835125447
+      },
+      "legal": {
+        "design_se": 0.24340143088344857,
+        "exact": "768613/17856",
+        "mean": 43.04508288530466
+      },
+      "live": {
+        "design_se": 0.1707039291691215,
+        "exact": "46147/17856",
+        "mean": 2.5843974014336917
+      },
+      "ma": {
+        "design_se": 0.0042004103292537145,
+        "exact": "35143/35712",
+        "mean": 0.9840669802867383
+      },
+      "mask": {
+        "design_se": 0.0,
+        "exact": "0",
+        "mean": 0.0
+      },
+      "mask_positive": {
+        "design_se": 0.0,
+        "exact": "0",
+        "mean": 0.0
+      },
+      "mf": {
+        "design_se": 0.0042004103292537145,
+        "exact": "35143/35712",
+        "mean": 0.9840669802867383
+      },
+      "ml": {
+        "design_se": 0.005140531826736252,
+        "exact": "34997/35712",
+        "mean": 0.9799787186379928
+      },
+      "omission": {
+        "design_se": 0.003063861865275522,
+        "exact": "73/17856",
+        "mean": 0.00408826164874552
+      },
+      "omission_positive": {
+        "design_se": 0.003063861865275522,
+        "exact": "73/17856",
+        "mean": 0.00408826164874552
+      },
+      "ranking": {
+        "design_se": 0.023761049408906915,
+        "exact": "313/8928",
+        "mean": 0.03505824372759857
+      },
+      "ranking_positive": {
+        "design_se": 0.023819514158502787,
+        "exact": "673/17856",
+        "mean": 0.037690412186379925
+      },
+      "regret": {
+        "design_se": 0.02395776948177783,
+        "exact": "233/5952",
+        "mean": 0.039146505376344086
+      },
+      "regret_positive": {
+        "design_se": 0.02401575533429262,
+        "exact": "373/8928",
+        "mean": 0.04177867383512545
+      },
+      "safe": {
+        "design_se": 0.24032584297729523,
+        "exact": "625037/17856",
+        "mean": 35.00431227598566
+      }
+    },
+    "ops": {
+      "EXPAND": {
+        "changed": {
+          "design_se": 0.06829473270492854,
+          "exact": "2117/4464",
+          "mean": 0.4742383512544803
+        },
+        "extra": {
+          "design_se": 0.0,
+          "exact": "511/558",
+          "mean": 0.9157706093189965
+        },
+        "gain": {
+          "design_se": 0.023814433563797612,
+          "exact": "365/17856",
+          "mean": 0.0204413082437276
+        },
+        "omission_reduction": {
+          "design_se": 0.003063861865275522,
+          "exact": "73/17856",
+          "mean": 0.00408826164874552
+        },
+        "ranking_change": {
+          "design_se": 0.023998101310147794,
+          "exact": "-73/4464",
+          "mean": -0.01635304659498208
+        },
+        "raw": {
+          "changed": 31,
+          "expansion_opportunity": 1,
+          "extra": 64,
+          "harm": 1,
+          "help": 1,
+          "noop": 32
+        },
+        "root_utility": {
+          "design_se": 0.023814433563797612,
+          "exact": "41537/2232000",
+          "mean": 0.018609767025089607
+        },
+        "whole_extra": {
+          "design_se": 0.5533108043236431,
+          "exact": "3869/2232",
+          "mean": 1.7334229390681004
+        },
+        "whole_utility": {
+          "design_se": 0.02363848963573376,
+          "exact": "12629/744000",
+          "mean": 0.016974462365591397
+        }
+      },
+      "FOCUS": {
+        "changed": {
+          "design_se": 0.06366310145972838,
+          "exact": "3043/8928",
+          "mean": 0.3408378136200717
+        },
+        "extra": {
+          "design_se": 0.0,
+          "exact": "1",
+          "mean": 1.0
+        },
+        "gain": {
+          "design_se": 0.023921643305546532,
+          "exact": "259/11904",
+          "mean": 0.02175739247311828
+        },
+        "omission_reduction": {
+          "design_se": 0.0,
+          "exact": "0",
+          "mean": 0.0
+        },
+        "ranking_change": {
+          "design_se": 0.023921643305546532,
+          "exact": "-259/11904",
+          "mean": -0.02175739247311828
+        },
+        "raw": {
+          "changed": 38,
+          "expansion_opportunity": 0,
+          "extra": 96,
+          "harm": 2,
+          "help": 3,
+          "noop": 0
+        },
+        "root_utility": {
+          "design_se": 0.023921643305546532,
+          "exact": "29399/1488000",
+          "mean": 0.01975739247311828
+        },
+        "whole_extra": {
+          "design_se": 0.4583309315241589,
+          "exact": "27841/17856",
+          "mean": 1.559195788530466
+        },
+        "whole_utility": {
+          "design_se": 0.023729165387375125,
+          "exact": "166409/8928000",
+          "mean": 0.01863900089605735
+        }
+      }
+    },
+    "population": 558,
+    "raw": {
+      "mask": 0,
+      "omission": 1,
+      "ranking": 6,
+      "regret": 7
+    },
+    "sample": 96
+  },
+  "NOVEL": {
+    "cell_samples": {
+      "01": 12,
+      "10": 12,
+      "11": 12
+    },
+    "equal_paid_descriptive": {
+      "delta2": 4,
+      "n": 24
+    },
+    "metrics": {
+      "base": {
+        "design_se": 0.011091726926904386,
+        "exact": "973/1044",
+        "mean": 0.9319923371647509
+      },
+      "base_cost": {
+        "design_se": 0.438368847567008,
+        "exact": "1205/174",
+        "mean": 6.925287356321839
+      },
+      "legal": {
+        "design_se": 0.27504192662957005,
+        "exact": "45379/1044",
+        "mean": 43.46647509578544
+      },
+      "live": {
+        "design_se": 0.1367912922801917,
+        "exact": "1597/522",
+        "mean": 3.0593869731800765
+      },
+      "ma": {
+        "design_se": 0.006425482693964913,
+        "exact": "343/348",
+        "mean": 0.985632183908046
+      },
+      "mask": {
+        "design_se": 0.008664119097062174,
+        "exact": "5/174",
+        "mean": 0.028735632183908046
+      },
+      "mask_positive": {
+        "design_se": 0.008664119097062174,
+        "exact": "5/174",
+        "mean": 0.028735632183908046
+      },
+      "mf": {
+        "design_se": 0.010066796691743832,
+        "exact": "111/116",
+        "mean": 0.9568965517241379
+      },
+      "ml": {
+        "design_se": 0.010642729981370651,
+        "exact": "17/18",
+        "mean": 0.9444444444444444
+      },
+      "omission": {
+        "design_se": 0.0034535931757317907,
+        "exact": "13/1044",
+        "mean": 0.012452107279693486
+      },
+      "omission_positive": {
+        "design_se": 0.0034535931757317907,
+        "exact": "13/1044",
+        "mean": 0.012452107279693486
+      },
+      "ranking": {
+        "design_se": 0.0034535931757317907,
+        "exact": "13/1044",
+        "mean": 0.012452107279693486
+      },
+      "ranking_positive": {
+        "design_se": 0.0034535931757317907,
+        "exact": "13/1044",
+        "mean": 0.012452107279693486
+      },
+      "regret": {
+        "design_se": 0.009836308774951542,
+        "exact": "14/261",
+        "mean": 0.05363984674329502
+      },
+      "regret_positive": {
+        "design_se": 0.009836308774951542,
+        "exact": "14/261",
+        "mean": 0.05363984674329502
+      },
+      "safe": {
+        "design_se": 0.2686632983209069,
+        "exact": "32323/1044",
+        "mean": 30.96072796934866
+      }
+    },
+    "ops": {
+      "EXPAND": {
+        "changed": {
+          "design_se": 0.09018363514447637,
+          "exact": "193/522",
+          "mean": 0.36973180076628354
+        },
+        "extra": {
+          "design_se": 0.0,
+          "exact": "24/29",
+          "mean": 0.8275862068965517
+        },
+        "gain": {
+          "design_se": 0.005101295198842498,
+          "exact": "0",
+          "mean": 0.0
+        },
+        "omission_reduction": {
+          "design_se": 0.0034535931757317907,
+          "exact": "13/1044",
+          "mean": 0.012452107279693486
+        },
+        "ranking_change": {
+          "design_se": 0.0034535931757317907,
+          "exact": "13/1044",
+          "mean": 0.012452107279693486
+        },
+        "raw": {
+          "changed": 12,
+          "expansion_opportunity": 1,
+          "extra": 24,
+          "harm": 1,
+          "help": 1,
+          "noop": 12
+        },
+        "root_utility": {
+          "design_se": 0.005101295198842498,
+          "exact": "-6/3625",
+          "mean": -0.0016551724137931034
+        },
+        "whole_extra": {
+          "design_se": 0.8437698484901207,
+          "exact": "259/174",
+          "mean": 1.4885057471264367
+        },
+        "whole_utility": {
+          "design_se": 0.0053731743815567425,
+          "exact": "-259/87000",
+          "mean": -0.0029770114942528738
+        }
+      },
+      "FOCUS": {
+        "changed": {
+          "design_se": 0.08699042128143435,
+          "exact": "227/348",
+          "mean": 0.6522988505747126
+        },
+        "extra": {
+          "design_se": 0.0,
+          "exact": "1",
+          "mean": 1.0
+        },
+        "gain": {
+          "design_se": 0.050964695764072906,
+          "exact": "-1/12",
+          "mean": -0.08333333333333333
+        },
+        "omission_reduction": {
+          "design_se": 0.0,
+          "exact": "0",
+          "mean": 0.0
+        },
+        "ranking_change": {
+          "design_se": 0.050964695764072906,
+          "exact": "1/12",
+          "mean": 0.08333333333333333
+        },
+        "raw": {
+          "changed": 23,
+          "expansion_opportunity": 0,
+          "extra": 36,
+          "harm": 3,
+          "help": 0,
+          "noop": 0
+        },
+        "root_utility": {
+          "design_se": 0.050964695764072906,
+          "exact": "-32/375",
+          "mean": -0.08533333333333333
+        },
+        "whole_extra": {
+          "design_se": 0.4538864728105536,
+          "exact": "286/261",
+          "mean": 1.0957854406130267
+        },
+        "whole_utility": {
+          "design_se": 0.05146136650122451,
+          "exact": "-11161/130500",
+          "mean": -0.08552490421455938
+        }
+      }
+    },
+    "population": 87,
+    "raw": {
+      "mask": 2,
+      "omission": 1,
+      "ranking": 1,
+      "regret": 4
+    },
+    "sample": 36
+  }
+}
