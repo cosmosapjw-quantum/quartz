@@ -1,0 +1,320 @@
+{
+  "arms": {
+    "CONTRAST": {
+      "cell_counts": {
+        "0:extend": 170,
+        "1:stop": 148,
+        "2:extend": 301,
+        "3:stop": 322,
+        "4:extend": 195
+      },
+      "counts": {
+        "common_extensions": 531,
+        "common_roots": 4350,
+        "delta_score2": -10,
+        "delta_total_nn": 4662,
+        "eligible4": 1136,
+        "episodes": 672,
+        "equal_history": 511,
+        "extended_root_physical": 2664,
+        "extension": 666,
+        "first_different_move": 161,
+        "local_nn_extra": 2124
+      },
+      "stop_hist": {
+        "4": 470,
+        "8": 666
+      }
+    },
+    "SELECT": {
+      "cell_counts": {
+        "0:stop": 163,
+        "1:stop": 147,
+        "2:extend": 292,
+        "3:stop": 322,
+        "4:stop": 178
+      },
+      "counts": {
+        "common_extensions": 240,
+        "common_roots": 4887,
+        "delta_score2": -6,
+        "delta_total_nn": 2303,
+        "eligible4": 1102,
+        "episodes": 672,
+        "equal_history": 578,
+        "extended_root_physical": 1168,
+        "extension": 292,
+        "first_different_move": 94,
+        "local_nn_extra": 960
+      },
+      "stop_hist": {
+        "4": 810,
+        "8": 292
+      }
+    }
+  },
+  "finite_population_diagnostics": {
+    "0": [
+      {
+        "cells": [
+          {
+            "cell": 0,
+            "design_se": 0.0159010108785509,
+            "mean": -0.03
+          },
+          {
+            "cell": 1,
+            "design_se": 0.02753650103903476,
+            "mean": -0.11
+          },
+          {
+            "cell": 2,
+            "design_se": 0.022953374622325974,
+            "mean": 0.01
+          },
+          {
+            "cell": 3,
+            "design_se": 0.008738383034719051,
+            "mean": -0.01
+          },
+          {
+            "cell": 4,
+            "design_se": 0.01693203896924316,
+            "mean": -0.03
+          }
+        ],
+        "design_se": 0.008408124618274643,
+        "quantity": "gain",
+        "weighted_mean": -0.022746331236897274
+      },
+      {
+        "cells": [
+          {
+            "cell": 0,
+            "design_se": 0.010150632378853636,
+            "mean": -0.0387
+          },
+          {
+            "cell": 1,
+            "design_se": 0.01803067101399512,
+            "mean": -0.067
+          },
+          {
+            "cell": 2,
+            "design_se": 0.018796569609172052,
+            "mean": -0.007
+          },
+          {
+            "cell": 3,
+            "design_se": 0.004454812784544366,
+            "mean": -0.03192
+          },
+          {
+            "cell": 4,
+            "design_se": 0.010779530565571106,
+            "mean": -0.04198
+          }
+        ],
+        "design_se": 0.0062089057041028245,
+        "quantity": "asym_utility",
+        "weighted_mean": -0.03193236897274633
+      },
+      {
+        "cells": [
+          {
+            "cell": 0,
+            "design_se": 0.01593993367121275,
+            "mean": -0.0587
+          },
+          {
+            "cell": 1,
+            "design_se": 0.02753650103903476,
+            "mean": -0.142
+          },
+          {
+            "cell": 2,
+            "design_se": 0.022953374622325974,
+            "mean": -0.022
+          },
+          {
+            "cell": 3,
+            "design_se": 0.00880378805773585,
+            "mean": -0.03692
+          },
+          {
+            "cell": 4,
+            "design_se": 0.016932252704711936,
+            "mean": -0.06198
+          }
+        ],
+        "design_se": 0.008415592520869736,
+        "quantity": "signed_utility",
+        "weighted_mean": -0.052770943396226414
+      },
+      {
+        "cells": [
+          {
+            "cell": 0,
+            "design_se": 0.0071400554729541665,
+            "mean": 0.01
+          },
+          {
+            "cell": 1,
+            "design_se": 0.012793412212593567,
+            "mean": 0.04
+          },
+          {
+            "cell": 2,
+            "design_se": 0.01701271274712388,
+            "mean": 0.04
+          },
+          {
+            "cell": 3,
+            "design_se": 0.0,
+            "mean": 0.0
+          },
+          {
+            "cell": 4,
+            "design_se": 0.007603019608878815,
+            "mean": 0.01
+          }
+        ],
+        "design_se": 0.005191818172808153,
+        "quantity": "harm_probability",
+        "weighted_mean": 0.01893081761006289
+      }
+    ],
+    "8": [
+      {
+        "cells": [
+          {
+            "cell": 0,
+            "design_se": 0.01751891149168339,
+            "mean": -0.02
+          },
+          {
+            "cell": 1,
+            "design_se": 0.01828011032746791,
+            "mean": -0.04
+          },
+          {
+            "cell": 2,
+            "design_se": 0.021265890933904852,
+            "mean": 0.0
+          },
+          {
+            "cell": 3,
+            "design_se": 0.0,
+            "mean": 0.0
+          },
+          {
+            "cell": 4,
+            "design_se": 0.007603019608878815,
+            "mean": -0.01
+          }
+        ],
+        "design_se": 0.006854920073753062,
+        "quantity": "gain",
+        "weighted_mean": -0.009343116701607267
+      },
+      {
+        "cells": [
+          {
+            "cell": 0,
+            "design_se": 0.012429241201255128,
+            "mean": -0.008
+          },
+          {
+            "cell": 1,
+            "design_se": 0.012196451543638437,
+            "mean": -0.018
+          },
+          {
+            "cell": 2,
+            "design_se": 0.01676165058454604,
+            "mean": 0.007
+          },
+          {
+            "cell": 3,
+            "design_se": 0.0,
+            "mean": -0.008
+          },
+          {
+            "cell": 4,
+            "design_se": 0.0038015098044394077,
+            "mean": -0.013
+          }
+        ],
+        "design_se": 0.0051969662046425676,
+        "quantity": "asym_utility",
+        "weighted_mean": -0.005907058001397624
+      },
+      {
+        "cells": [
+          {
+            "cell": 0,
+            "design_se": 0.01751891149168339,
+            "mean": -0.028
+          },
+          {
+            "cell": 1,
+            "design_se": 0.01828011032746791,
+            "mean": -0.048
+          },
+          {
+            "cell": 2,
+            "design_se": 0.021265890933904852,
+            "mean": -0.008
+          },
+          {
+            "cell": 3,
+            "design_se": 0.0,
+            "mean": -0.008
+          },
+          {
+            "cell": 4,
+            "design_se": 0.007603019608878815,
+            "mean": -0.018
+          }
+        ],
+        "design_se": 0.006854920073753062,
+        "quantity": "signed_utility",
+        "weighted_mean": -0.017343116701607268
+      },
+      {
+        "cells": [
+          {
+            "cell": 0,
+            "design_se": 0.010046436054714409,
+            "mean": 0.02
+          },
+          {
+            "cell": 1,
+            "design_se": 0.009140055163733955,
+            "mean": 0.02
+          },
+          {
+            "cell": 2,
+            "design_se": 0.014809979299383817,
+            "mean": 0.03
+          },
+          {
+            "cell": 3,
+            "design_se": 0.0,
+            "mean": 0.0
+          },
+          {
+            "cell": 4,
+            "design_se": 0.0,
+            "mean": 0.0
+          }
+        ],
+        "design_se": 0.004460883913643477,
+        "quantity": "harm_probability",
+        "weighted_mean": 0.01352900069881202
+      }
+    ]
+  },
+  "lock_sha256": "e09dcd65e5a2ce802ad2f130b897d9892c825050586a20a41f3965ff7b5db31d",
+  "scope": "finite frozen occurrence SRS design SE, no generalization or new gate; common prefix cost not causal downstream attribution"
+}
