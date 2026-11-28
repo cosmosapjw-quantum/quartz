@@ -691,3 +691,83 @@ mod k64_tests{
         assert_eq!(k64_pooled(3,3.0,-1.0,-1.0,1.0),1.0);
     }
 }
+
+fn origin65_index(es:&[Edge],safe:&[bool],mode:u8)->usize{
+    let n=es.iter().map(|e|e.n).sum::<u32>();let f=(n.max(1) as f64).sqrt();
+    let unseen=mode==4&&es.iter().zip(safe).any(|(e,&ok)|ok&&e.n==0);
+    let mut best=f64::NEG_INFINITY;let mut idx=None;
+    for (i,e) in es.iter().enumerate(){
+        if mode>=2&&!safe[i]||unseen&&e.n>0{continue}
+        let q=if e.n>0{e.w/e.n as f64}else{0.0};
+        let score=if unseen{e.prior}else{q+(2.0*e.prior)*f/(1+e.n) as f64};
+        if score>best{best=score;idx=Some(i)}
+    }
+    idx.expect("nonempty allocation set")
+}
+fn origin65_value(e:&Edge,bd:(f64,f64))->Option<f64>{
+    let(l,u)=bd;if l==u{Some(l)}else if e.n>0{Some((e.w/e.n as f64).clamp(l,u))}else{None}
+}
+fn origin65_read(es:&[Edge],safe:&[bool],bounds:&Value,fallback:u16)->u16{
+    es.iter().zip(safe).filter_map(|(e,&ok)|if ok{origin65_value(e,k52_bound(bounds,e.m)).map(|q|(e,q))}else{None})
+      .max_by(|(a,x),(b,y)|x.partial_cmp(y).unwrap().then_with(||a.n.cmp(&b.n)).then_with(||a.prior.partial_cmp(&b.prior).unwrap()).then_with(||b.m.cmp(&a.m)))
+      .map_or(fallback,|(e,_)|e.m)
+}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Origin65Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,cache:bool,allocation:u8}
+fn origin65_inner(line:&str)->Result<Value,String>{
+    let q:Origin65Req=serde_json::from_str(line).map_err(|e|e.to_string())?;
+    if q.cmd!="research_gomoku7_origin65"||q.cap!=4||!q.quartz||!q.cache||q.allocation>4{return Err("invalid origin65 allocation request".into())}
+    let started=Instant::now();let b=parse_history(&q.history,7)?;
+    let p=1-2*(q.history.len()%2) as i8;let ob=oriented(&b,if p==1{1}else{2});
+    let mut a=0;let mut bb=0;for(m,&x) in b.iter().enumerate(){if x==1{a|=1u64<<m}else if x==2{bb|=1u64<<m}}
+    let t=Instant::now();let part=pf::combined(&ob,7)?;let proof_ns=t.elapsed().as_nanos() as u64;
+    let base=&part["cold"]["receipt"];
+    let mut out=json!({"schema":"quartz_gomoku7_origin65_v1","history":q.history,"cap":4,"lock":true,"partial":Value::Null,"replacement":false,"original_move":Value::Null,"nn":0,"visits":0,"terminal_leaves":0,"votes":[],"distance":Value::Null,"prior_best":Value::Null,"proof_ns":proof_ns});
+    if let Some(m)=base["gate"].as_u64().map(|x|x as u16){
+        let bd=base["bounds"].as_array().unwrap().iter().find(|r|r[0]==m).unwrap();
+        let stone=if p==1{a}else{bb};let kind=if won(stone|1u64<<m){"WIN1"}else if bd[1]==1{"WIN3"}else if bd[1]==0{"DRAW"}else if bd[2]==-1{"LOSE2"}else{"UNKNOWN"};
+        out["move"]=json!(m);out["kind"]=json!("CERTIFICATE");out["proof"]=json!(kind);out["original_move"]=json!(m);
+    }else if !part["cert"].is_null(){
+        out["move"]=part["cert"].clone();out["kind"]=json!("PARTIAL47");out["proof"]=json!(if part["exact"]["complete"]==true{"EXACT42"}else{"INTERVAL"});
+        out["partial"]=part;
+    }else{
+        let mut ev=External{calls:0,physical:0,trace:vec![],traced:false,cache:Some(ExactCache54::default()),keys:vec![],hits:vec![]};
+        let mut root=Node::new(a,bb,p);let (_,term)=root.expand(&mut ev)?;assert!(!term);
+        let bd=&part["bounds"];let es=root.edges.as_ref().unwrap();
+        let mut safe:Vec<_>=es.iter().map(|e|k52_bound(bd,e.m).1>-1.0).collect();
+        if !safe.iter().any(|&x|x){safe.fill(true)}
+        let mut steps=Vec::with_capacity(4);let mut terminal=0;
+        for _ in 0..4{
+            let es=root.edges.as_mut().unwrap();let i=origin65_index(es,&safe,q.allocation);let e=&mut es[i];
+            let m=1u64<<e.m;let child=e.child.get_or_insert_with(||Box::new(if p==1{Node::new(a|m,bb,-1)}else{Node::new(a,bb|m,1)}));
+            let (v,t)=child.visit(&mut ev)?;let v=-v;e.n+=1;e.w+=v;terminal+=u32::from(t);
+            steps.push(json!([e.m,v,t,ev.calls,ev.physical]));
+        }
+        let es=root.edges.as_ref().unwrap();let m=es[leader(es)].m;let votes:Vec<_>=es.iter().map(|e|(e.m,e.n)).collect();
+        let fallback=pf::replace(m,&votes,bd,7);let chosen=if matches!(q.allocation,1|3|4){origin65_read(es,&safe,bd,fallback)}else{fallback};
+        let mut pi=0;for i in 1..es.len(){if es[i].prior>es[pi].prior{pi=i}}
+        assert_eq!(ev.calls,5-terminal);assert_eq!(ev.calls,ev.physical+ev.hits.len() as u32);
+        out["partial"]=part;out["move"]=json!(chosen);out["original_move"]=json!(m);out["replacement"]=json!(fallback!=m);
+        out["nn"]=json!(ev.calls);out["visits"]=json!(4);out["terminal_leaves"]=json!(terminal);out["votes"]=json!(votes);out["distance"]=json!(distance(es));out["prior_best"]=json!(es[pi].m);out["kind"]=json!("CAP");out["proof"]=json!("UNRESOLVED");
+        out["allocation65"]=json!({"mode":q.allocation,"safe":es.iter().zip(&safe).filter_map(|(e,&ok)|ok.then_some(e.m)).collect::<Vec<_>>(),"steps":steps,"edges":es.iter().map(|e|json!([e.m,e.n,e.w,e.prior])).collect::<Vec<_>>(),"fallback":fallback,"chosen":chosen});
+        out["cache_receipt"]=json!({"logical":ev.calls,"physical":ev.physical,"hits":ev.hits.len(),"hit_indices":ev.hits,"keys":ev.keys,"root_logical":ev.calls,"root_physical":ev.physical});
+        out["physical_nn"]=json!(ev.physical);
+    }
+    if out.get("cache_receipt").is_none(){out["physical_nn"]=json!(0);out["cache_receipt"]=json!({"logical":0,"physical":0,"hits":0,"hit_indices":[],"keys":[],"root_logical":0,"root_physical":0});}
+    out["whole_ns"]=json!(started.elapsed().as_nanos() as u64);Ok(out)
+}
+pub(super) fn origin65(line:&str)->Value{origin65_inner(line).unwrap_or_else(|e|json!({"error":e}))}
+#[cfg(test)]
+mod origin65_tests{
+    use super::*;
+    fn e(m:u16,p:f64,n:u32,w:f64)->Edge{Edge{m,prior:p,n,w,child:None}}
+    #[test]
+    fn known_loss_is_excluded_and_expand_visits_distinct(){
+        let es=vec![e(0,0.8,0,0.0),e(1,0.15,3,2.7),e(2,0.05,0,0.0)];
+        let safe=[false,true,true];
+        assert_eq!(origin65_index(&es,&safe,2),1);
+        assert_eq!(origin65_index(&es,&safe,4),2);
+        assert_eq!(origin65_index(&es,&safe,0),0);
+    }
+}

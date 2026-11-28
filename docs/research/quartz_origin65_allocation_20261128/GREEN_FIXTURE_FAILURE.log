@@ -1,0 +1,19 @@
+test mcts_server::k47_nn::origin65_tests::known_loss_is_excluded_and_expand_visits_distinct ... FAILED
+
+failures:
+
+---- mcts_server::k47_nn::origin65_tests::known_loss_is_excluded_and_expand_visits_distinct stdout ----
+
+thread 'mcts_server::k47_nn::origin65_tests::known_loss_is_excluded_and_expand_visits_distinct' (2548472) panicked at src/mcts_server/k47_nn.rs:771:9:
+assertion `left == right` failed
+  left: 0
+ right: 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    mcts_server::k47_nn::origin65_tests::known_loss_is_excluded_and_expand_visits_distinct
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 758 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin mcts_demo`
