@@ -1,0 +1,7259 @@
+{
+  "NI_margin": 0.05,
+  "NN_target": 0.3,
+  "bootstrap_replicates": 8000,
+  "bootstrap_seed": 202611285800,
+  "extra_saving_target": 0.05,
+  "historical_target_lock_sha256": "0a296bd464bd0f85f284a8e6f3a5eea257941ce738932f08ff776be1d8ac3ec9",
+  "jobs": [
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        22,
+        25
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 0,
+      "opening": [
+        33,
+        38,
+        11,
+        17
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        16,
+        23,
+        31
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 1,
+      "opening": [
+        18,
+        25,
+        4,
+        31
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        31,
+        38,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 2,
+      "opening": [
+        31,
+        37,
+        11,
+        38
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        25,
+        7,
+        9
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 3,
+      "opening": [
+        34,
+        33,
+        17,
+        47
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        24,
+        17,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 4,
+      "opening": [
+        22,
+        33,
+        24,
+        23
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        39,
+        9,
+        18
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 5,
+      "opening": [
+        47,
+        39,
+        9,
+        30
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        31,
+        24,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 6,
+      "opening": [
+        33,
+        15,
+        23,
+        24
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        11,
+        16,
+        42
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 7,
+      "opening": [
+        15,
+        6,
+        29,
+        16
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        33,
+        11,
+        22
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 8,
+      "opening": [
+        37,
+        10,
+        19,
+        33
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        3,
+        9,
+        34
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 9,
+      "opening": [
+        27,
+        19,
+        20,
+        44
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        18,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 10,
+      "opening": [
+        10,
+        39,
+        25,
+        16
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        17,
+        20,
+        35
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 11,
+      "opening": [
+        25,
+        46,
+        12,
+        1
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        24,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 12,
+      "opening": [
+        10,
+        9,
+        40,
+        24
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        28,
+        27,
+        43
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 13,
+      "opening": [
+        34,
+        21,
+        5,
+        47
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        9,
+        15,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 14,
+      "opening": [
+        15,
+        39,
+        8,
+        9
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        8,
+        12,
+        38
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 15,
+      "opening": [
+        45,
+        10,
+        40,
+        36
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        26,
+        16,
+        38
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 16,
+      "opening": [
+        38,
+        16,
+        8,
+        26
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        32,
+        15,
+        31
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 17,
+      "opening": [
+        5,
+        19,
+        30,
+        31
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        31,
+        22,
+        24
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 18,
+      "opening": [
+        25,
+        24,
+        23,
+        38
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        25,
+        12,
+        23
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 19,
+      "opening": [
+        17,
+        31,
+        28,
+        8
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        24,
+        9,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 20,
+      "opening": [
+        16,
+        33,
+        24,
+        15
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        9,
+        12,
+        17
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 21,
+      "opening": [
+        47,
+        36,
+        39,
+        31
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        30,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 22,
+      "opening": [
+        37,
+        18,
+        15,
+        40
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        10,
+        0,
+        5
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 23,
+      "opening": [
+        15,
+        35,
+        22,
+        0
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        26,
+        29,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 24,
+      "opening": [
+        26,
+        36,
+        9,
+        29
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        37,
+        4,
+        34
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 25,
+      "opening": [
+        5,
+        2,
+        39,
+        28
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        32,
+        18,
+        19
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 26,
+      "opening": [
+        32,
+        19,
+        8,
+        18
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        18,
+        44,
+        47
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 27,
+      "opening": [
+        16,
+        34,
+        35,
+        13
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        22,
+        9,
+        24
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 28,
+      "opening": [
+        26,
+        24,
+        38,
+        39
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        2,
+        25,
+        38
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 29,
+      "opening": [
+        44,
+        25,
+        43,
+        10
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        31,
+        10,
+        16
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 30,
+      "opening": [
+        25,
+        26,
+        23,
+        18
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        21,
+        1,
+        27
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 31,
+      "opening": [
+        34,
+        41,
+        45,
+        3
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        11,
+        17
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 32,
+      "opening": [
+        24,
+        23,
+        15,
+        29
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        8,
+        0,
+        12
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 33,
+      "opening": [
+        5,
+        8,
+        12,
+        6
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        10,
+        19,
+        29
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 34,
+      "opening": [
+        38,
+        19,
+        40,
+        29
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        3,
+        32,
+        48
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 35,
+      "opening": [
+        41,
+        0,
+        27,
+        16
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        16,
+        11,
+        38
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 36,
+      "opening": [
+        26,
+        22,
+        18,
+        33
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        22,
+        11,
+        35
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 37,
+      "opening": [
+        22,
+        11,
+        3,
+        35
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        32,
+        26,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 38,
+      "opening": [
+        9,
+        36,
+        32,
+        26
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        39,
+        37,
+        46
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 39,
+      "opening": [
+        1,
+        37,
+        39,
+        46
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        24,
+        9,
+        10
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 40,
+      "opening": [
+        24,
+        22,
+        23,
+        15
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        9,
+        1,
+        38
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 41,
+      "opening": [
+        15,
+        26,
+        14,
+        7
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        25,
+        32,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 42,
+      "opening": [
+        17,
+        36,
+        32,
+        16
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        29,
+        26,
+        34
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 43,
+      "opening": [
+        33,
+        22,
+        4,
+        28
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        16,
+        23,
+        26
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 44,
+      "opening": [
+        30,
+        31,
+        29,
+        10
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        5,
+        4,
+        9
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 45,
+      "opening": [
+        47,
+        46,
+        42,
+        37
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        37,
+        11,
+        30
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 46,
+      "opening": [
+        11,
+        18,
+        39,
+        37
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        18,
+        32,
+        47
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 47,
+      "opening": [
+        30,
+        41,
+        8,
+        32
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        18,
+        12,
+        31
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 48,
+      "opening": [
+        8,
+        36,
+        30,
+        25
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        22,
+        1,
+        35
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 49,
+      "opening": [
+        22,
+        5,
+        10,
+        7
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        9,
+        38
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 50,
+      "opening": [
+        31,
+        29,
+        22,
+        26
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        10,
+        2,
+        27
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 51,
+      "opening": [
+        22,
+        14,
+        8,
+        45
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        18,
+        11,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 52,
+      "opening": [
+        30,
+        29,
+        15,
+        40
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        13,
+        2,
+        18
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 53,
+      "opening": [
+        13,
+        2,
+        0,
+        18
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        11,
+        16
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 54,
+      "opening": [
+        37,
+        30,
+        22,
+        39
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        30,
+        11,
+        16
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 55,
+      "opening": [
+        21,
+        15,
+        32,
+        30
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        36,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 56,
+      "opening": [
+        9,
+        8,
+        40,
+        36
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        9,
+        6,
+        20
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 57,
+      "opening": [
+        39,
+        42,
+        46,
+        28
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        15,
+        22
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 58,
+      "opening": [
+        10,
+        39,
+        40,
+        38
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        15,
+        16
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 59,
+      "opening": [
+        22,
+        37,
+        31,
+        30
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        18,
+        23,
+        24
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 60,
+      "opening": [
+        12,
+        25,
+        16,
+        24
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        12,
+        27,
+        46
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 61,
+      "opening": [
+        2,
+        46,
+        12,
+        27
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        19,
+        25
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 62,
+      "opening": [
+        15,
+        31,
+        10,
+        37
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        12,
+        0,
+        32
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 63,
+      "opening": [
+        1,
+        0,
+        12,
+        32
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        16,
+        29,
+        38
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 64,
+      "opening": [
+        29,
+        39,
+        30,
+        26
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        5,
+        23,
+        35
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 65,
+      "opening": [
+        5,
+        25,
+        1,
+        41
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        23,
+        10,
+        26
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 66,
+      "opening": [
+        19,
+        26,
+        17,
+        38
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        33,
+        14,
+        22
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 67,
+      "opening": [
+        15,
+        34,
+        40,
+        26
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        25,
+        17,
+        22
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 68,
+      "opening": [
+        23,
+        26,
+        11,
+        17
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        10,
+        20,
+        43
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 69,
+      "opening": [
+        22,
+        44,
+        7,
+        13
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        11,
+        8,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 70,
+      "opening": [
+        39,
+        36,
+        37,
+        19
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        17,
+        2,
+        8
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 71,
+      "opening": [
+        42,
+        28,
+        23,
+        36
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        17,
+        9,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 72,
+      "opening": [
+        17,
+        9,
+        10,
+        37
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        11,
+        31,
+        36
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 73,
+      "opening": [
+        11,
+        36,
+        0,
+        31
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        30,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 74,
+      "opening": [
+        40,
+        30,
+        10,
+        36
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        44,
+        4,
+        28
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 75,
+      "opening": [
+        4,
+        20,
+        47,
+        44
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        18,
+        23,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 76,
+      "opening": [
+        30,
+        11,
+        39,
+        25
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        13,
+        9,
+        12
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 77,
+      "opening": [
+        41,
+        37,
+        42,
+        40
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        10,
+        32,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 78,
+      "opening": [
+        22,
+        33,
+        36,
+        18
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        18,
+        3,
+        13
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 79,
+      "opening": [
+        30,
+        43,
+        7,
+        21
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        17,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 80,
+      "opening": [
+        36,
+        23,
+        10,
+        33
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        10,
+        42
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 81,
+      "opening": [
+        26,
+        48,
+        11,
+        10
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        10,
+        19
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 82,
+      "opening": [
+        33,
+        11,
+        25,
+        26
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        8,
+        22,
+        38
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 83,
+      "opening": [
+        21,
+        26,
+        8,
+        10
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        24,
+        25
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 84,
+      "opening": [
+        15,
+        24,
+        40,
+        23
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        39,
+        15,
+        29
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 85,
+      "opening": [
+        33,
+        37,
+        15,
+        39
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        30,
+        8,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 86,
+      "opening": [
+        30,
+        40,
+        26,
+        29
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        6,
+        40
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 87,
+      "opening": [
+        36,
+        48,
+        26,
+        12
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        23,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 88,
+      "opening": [
+        38,
+        12,
+        8,
+        17
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        6,
+        2,
+        22
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 89,
+      "opening": [
+        0,
+        2,
+        6,
+        22
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        23,
+        33,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 90,
+      "opening": [
+        11,
+        40,
+        25,
+        29
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        12,
+        9,
+        46
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 91,
+      "opening": [
+        6,
+        44,
+        8,
+        11
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        25,
+        18,
+        29
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 92,
+      "opening": [
+        11,
+        16,
+        23,
+        33
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        3,
+        0,
+        22
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 93,
+      "opening": [
+        13,
+        6,
+        27,
+        10
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        24,
+        16,
+        18
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 94,
+      "opening": [
+        36,
+        32,
+        24,
+        30
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        17,
+        31,
+        9,
+        29
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 95,
+      "opening": [
+        31,
+        33,
+        17,
+        11
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        24,
+        12,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 96,
+      "opening": [
+        16,
+        12,
+        24,
+        33
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        21,
+        7,
+        22
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 97,
+      "opening": [
+        27,
+        26,
+        4,
+        13
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        18,
+        30,
+        38
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 98,
+      "opening": [
+        9,
+        38,
+        18,
+        30
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        37,
+        9,
+        33
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 99,
+      "opening": [
+        14,
+        39,
+        19,
+        15
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        18,
+        15,
+        23
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 100,
+      "opening": [
+        16,
+        31,
+        36,
+        37
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        18,
+        26,
+        46
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 101,
+      "opening": [
+        16,
+        44,
+        12,
+        22
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        30,
+        12,
+        18
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 102,
+      "opening": [
+        32,
+        16,
+        11,
+        8
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        4,
+        30,
+        40
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 103,
+      "opening": [
+        46,
+        16,
+        44,
+        12
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        8,
+        26
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 104,
+      "opening": [
+        32,
+        12,
+        10,
+        22
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        11,
+        31,
+        43
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 105,
+      "opening": [
+        9,
+        43,
+        11,
+        31
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        33,
+        24,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 106,
+      "opening": [
+        9,
+        29,
+        40,
+        24
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        8,
+        16
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 107,
+      "opening": [
+        29,
+        36,
+        32,
+        30
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        11,
+        26,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 108,
+      "opening": [
+        39,
+        26,
+        36,
+        8
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        10,
+        26,
+        30
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 109,
+      "opening": [
+        6,
+        22,
+        10,
+        32
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        33,
+        8,
+        19
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 110,
+      "opening": [
+        11,
+        9,
+        29,
+        36
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        13,
+        23,
+        48
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 111,
+      "opening": [
+        42,
+        6,
+        1,
+        31
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        36,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 112,
+      "opening": [
+        18,
+        40,
+        15,
+        12
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        13,
+        9,
+        42
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 113,
+      "opening": [
+        42,
+        48,
+        1,
+        29
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        17,
+        31,
+        8,
+        32
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 114,
+      "opening": [
+        31,
+        30,
+        17,
+        12
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        29,
+        6,
+        18
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 115,
+      "opening": [
+        27,
+        32,
+        9,
+        48
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        12,
+        31,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 116,
+      "opening": [
+        12,
+        23,
+        40,
+        8
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        10,
+        14,
+        35
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 117,
+      "opening": [
+        27,
+        4,
+        26,
+        1
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        25,
+        9,
+        38
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 118,
+      "opening": [
+        8,
+        26,
+        31,
+        15
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        33,
+        22,
+        46
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 119,
+      "opening": [
+        48,
+        26,
+        15,
+        2
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        19,
+        10,
+        29
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 120,
+      "opening": [
+        8,
+        10,
+        19,
+        29
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        18,
+        9,
+        30
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 121,
+      "opening": [
+        30,
+        15,
+        16,
+        18
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        30,
+        15,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 122,
+      "opening": [
+        16,
+        29,
+        38,
+        8
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        38,
+        3,
+        30
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 123,
+      "opening": [
+        26,
+        18,
+        14,
+        21
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        17,
+        18
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 124,
+      "opening": [
+        36,
+        31,
+        26,
+        32
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        3,
+        18,
+        25
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 125,
+      "opening": [
+        41,
+        18,
+        27,
+        17
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        16,
+        18,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 126,
+      "opening": [
+        16,
+        30,
+        22,
+        12
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        17,
+        23,
+        35
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 127,
+      "opening": [
+        15,
+        5,
+        23,
+        17
+      ],
+      "split": "REPLICATION"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        23,
+        30
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 128,
+      "opening": [
+        24,
+        18,
+        39,
+        25
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        25,
+        12,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 129,
+      "opening": [
+        23,
+        36,
+        18,
+        8
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        30,
+        13,
+        29
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 130,
+      "opening": [
+        30,
+        37,
+        41,
+        5
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        22,
+        18,
+        19
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 131,
+      "opening": [
+        22,
+        18,
+        10,
+        19
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        47,
+        3,
+        20
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 132,
+      "opening": [
+        5,
+        34,
+        43,
+        45
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        16,
+        10,
+        32
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 133,
+      "opening": [
+        11,
+        30,
+        18,
+        10
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        8,
+        5,
+        12
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 134,
+      "opening": [
+        12,
+        1,
+        5,
+        8
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        16,
+        9,
+        10
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 135,
+      "opening": [
+        8,
+        9,
+        16,
+        10
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        13,
+        32
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 136,
+      "opening": [
+        18,
+        32,
+        22,
+        43
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        37,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 137,
+      "opening": [
+        11,
+        36,
+        30,
+        39
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        30,
+        5,
+        10
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 138,
+      "opening": [
+        16,
+        26,
+        20,
+        41
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        22,
+        38,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 139,
+      "opening": [
+        26,
+        38,
+        11,
+        37
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        10,
+        11,
+        18
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 140,
+      "opening": [
+        4,
+        16,
+        10,
+        9
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        9,
+        29,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 141,
+      "opening": [
+        29,
+        39,
+        36,
+        12
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        5,
+        3,
+        40
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 142,
+      "opening": [
+        0,
+        40,
+        5,
+        3
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        18,
+        25
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 143,
+      "opening": [
+        26,
+        32,
+        17,
+        31
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        27,
+        14,
+        19
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 144,
+      "opening": [
+        3,
+        46,
+        48,
+        11
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        11,
+        29,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 145,
+      "opening": [
+        39,
+        15,
+        36,
+        12
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        9,
+        16,
+        47
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 146,
+      "opening": [
+        37,
+        5,
+        43,
+        30
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        25,
+        16,
+        24
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 147,
+      "opening": [
+        25,
+        30,
+        37,
+        24
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        31,
+        2,
+        28
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 148,
+      "opening": [
+        31,
+        28,
+        3,
+        2
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        40,
+        9,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 149,
+      "opening": [
+        40,
+        11,
+        8,
+        39
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        15,
+        10,
+        48
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 150,
+      "opening": [
+        11,
+        10,
+        19,
+        42
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        16,
+        26,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 151,
+      "opening": [
+        8,
+        39,
+        16,
+        26
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        24,
+        9,
+        38
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 152,
+      "opening": [
+        16,
+        15,
+        24,
+        26
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        17,
+        9,
+        16
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 153,
+      "opening": [
+        23,
+        29,
+        22,
+        30
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "CONTROL",
+        "STABLE"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        17,
+        24,
+        29
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 154,
+      "opening": [
+        35,
+        24,
+        23,
+        39
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "CONTROL",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        18,
+        26,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 155,
+      "opening": [
+        36,
+        26,
+        32,
+        12
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STOP",
+        "STABLE",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        46,
+        3,
+        22
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 156,
+      "opening": [
+        14,
+        38,
+        41,
+        27
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STABLE",
+        "STOP"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        18,
+        30,
+        32
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 157,
+      "opening": [
+        16,
+        32,
+        11,
+        30
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "STOP",
+        "STABLE"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        16,
+        14,
+        27
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 158,
+      "opening": [
+        30,
+        27,
+        44,
+        28
+      ],
+      "split": "CROSSOVER"
+    },
+    {
+      "arm_order": [
+        "STABLE",
+        "STOP",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        12,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 159,
+      "opening": [
+        12,
+        40,
+        39,
+        36
+      ],
+      "split": "CROSSOVER"
+    }
+  ],
+  "models": {
+    "101": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 82.3,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.72,
+            "timestamp": "2026-07-13 22:49:57",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "training_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+    },
+    "102": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 54.9,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.64,
+            "timestamp": "2026-07-13 23:27:53",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "training_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+    },
+    "103": {
+      "bytes": 4203527,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "105": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/gen_5.pt",
+      "role": "103 unpromoted trained gen5 (related checkpoint)",
+      "sha256": "a430602a889eba3f568c0a515c8a10dd3bb74d6b6b9adade5c00f0b22b91604b",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "41": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_41/gen_2.pt",
+      "original_seed": 41,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_41_gen2.pt",
+      "promotion": false,
+      "sha256": "d058771b43e948a9dec121be72bc0aa4228b2bdd9d1b52e55ccdc36626ca471b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 0.0,
+        "delta_elo": 0.0,
+        "elo_gap": 0.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.2897,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.2821,
+        "loss_ema": 4.2821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9269,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.633,
+        "pos_per_s": 6.3,
+        "published_elo": 0.0,
+        "replay": 298,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4094,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 200797,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.16899844548079057,
+          "extended_refresh_active_total": 31962,
+          "extended_refresh_eligible_total": 189126,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.36779248237609863,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4159732460975647,
+                "p95": 0.499844965338707
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6964949285984039,
+          "mean_p_flip": 0.36779248237609863,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.17965474207885562,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 40.9,
+          "mean_selection_effective_prior_l1_sum": 20.977019189999996,
+          "mean_selection_penalty_abs_sum": 10.620640669999998,
+          "mean_selection_root_selects": 2007.97,
+          "mean_voc_expand": -0.002033718860766385,
+          "mean_voc_focus": 0.02625431322058823,
+          "mean_voc_merge": 0.05439751913337197,
+          "mean_voc_total": 0.0595108026266098,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.15917568489569067,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.5,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.16,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.18,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.181,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.282,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 15.684,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.16,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 298,
+          "rolling_cycle_s": 20.18,
+          "rolling_games": 19,
+          "rolling_positions": 298,
+          "rolling_positions_per_s": 7.384,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.4,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.3552,
+        "value_std": 0.5149
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_41",
+          "--seed",
+          "41",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:30:22",
+        "returncode": 0,
+        "seed": 41,
+        "started_at": "2026-07-08 20:29:21"
+      }
+    },
+    "42": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_42/gen_2.pt",
+      "original_seed": 42,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_42_gen2.pt",
+      "promotion": false,
+      "sha256": "75d85209040f4e9047b6157ea5aece756bbe78cbef76bc92d515661189bd334f",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.3656,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.3543,
+        "loss_ema": 4.3543,
+        "lr": 0.0101,
+        "new_pos": 101,
+        "p_loss": 3.9202,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.589,
+        "pos_per_s": 5.4,
+        "published_elo": -167.5,
+        "replay": 266,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.3797,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 176682,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.3324768022840828,
+          "extended_refresh_active_total": 55896,
+          "extended_refresh_eligible_total": 168120,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.44832869589328767,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4995744377374649,
+                "p95": 0.4999823793768883
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6751197075843811,
+          "mean_p_flip": 0.44832869589328767,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.1390875223092735,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.78,
+          "mean_selection_effective_prior_l1_sum": 29.018208809999997,
+          "mean_selection_penalty_abs_sum": 5.909404700000001,
+          "mean_selection_root_selects": 1766.82,
+          "mean_voc_expand": -0.0018288146399208934,
+          "mean_voc_focus": 0.03310010064922594,
+          "mean_voc_merge": 0.046275470304008054,
+          "mean_voc_total": 0.050557230021804574,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.3163649947363059,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.263,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 19.325,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.241,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 101,
+          "last_cycle_s": 16.547,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.0,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.263,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 266,
+          "rolling_cycle_s": 19.325,
+          "rolling_games": 19,
+          "rolling_positions": 266,
+          "rolling_positions_per_s": 6.882,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 18.6,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.4341,
+        "value_std": 0.7186
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_42",
+          "--seed",
+          "42",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:31:20",
+        "returncode": 0,
+        "seed": 42,
+        "started_at": "2026-07-08 20:30:22"
+      }
+    },
+    "43": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_43/gen_2.pt",
+      "original_seed": 43,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_43_gen2.pt",
+      "promotion": false,
+      "sha256": "4a1fd820002fdfa62e2693febded77a4d4d5884a85a0b1a18f88a5f7c248374b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.5981,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.5821,
+        "loss_ema": 4.5821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9666,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.861,
+        "pos_per_s": 6.2,
+        "published_elo": -167.5,
+        "replay": 278,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4388,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 208929,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.005928749419267644,
+          "extended_refresh_active_total": 1123,
+          "extended_refresh_eligible_total": 189416,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.4317223697900772,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.49357300996780396,
+                "p95": 0.49951691478490834
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6634199434518814,
+          "mean_p_flip": 0.4317223697900772,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.06438421737169847,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.25,
+          "mean_selection_effective_prior_l1_sum": 2.5870308900000003,
+          "mean_selection_penalty_abs_sum": 3.32809432,
+          "mean_selection_root_selects": 2089.29,
+          "mean_voc_expand": -0.0007750782075714472,
+          "mean_voc_focus": 0.009553292178634295,
+          "mean_voc_merge": 0.019333062698042268,
+          "mean_voc_total": 0.02254601239255862,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.005375031709336665,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.13,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.034,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.122,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.94,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.632,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.13,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 278,
+          "rolling_cycle_s": 20.034,
+          "rolling_games": 19,
+          "rolling_positions": 278,
+          "rolling_positions_per_s": 6.938,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.8,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.6156,
+        "value_std": 0.8035
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_43",
+          "--seed",
+          "43",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:32:20",
+        "returncode": 0,
+        "seed": 43,
+        "started_at": "2026-07-08 20:31:20"
+      }
+    }
+  },
+  "paired_NI_margin": 0.02,
+  "prior_families": 3284,
+  "prior_locks": [
+    {
+      "path": "docs/research/quartz_kinetic33_20261126/PLAN.json",
+      "sha256": "58877f6bc469438a8759dd1a7a60ccdef5782eaef82686180a0fa3c9363c680b"
+    },
+    {
+      "path": "docs/research/quartz_kinetic38_nnlock_20261126/PLAN.json",
+      "sha256": "aedf701de9d8e5598654e8f9880c0561f887a09bd2facbdd769d855286ec0d50"
+    },
+    {
+      "path": "docs/research/quartz_kinetic39_voc_20261126/PLAN.json",
+      "sha256": "64511e71fac2e3b53cfd566828b2779c045d8d18ed2db59ea9543a32437491df"
+    },
+    {
+      "path": "docs/research/quartz_kinetic40_budget_20261126/PLAN.json",
+      "sha256": "59590c12ce52b301ca5c83dcaa4caa68a4449a419d2a93ad3df3275d072a1a90"
+    },
+    {
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    },
+    {
+      "path": "docs/research/quartz_kinetic52_confirm_20261127/PLAN.json",
+      "sha256": "2e0bd886f5403dc13589921f06dbf0aace2335e2372b624ba9cf651f16c1d9b9"
+    },
+    {
+      "path": "docs/research/quartz_kinetic53_reuse_20261127/PLAN.json",
+      "sha256": "2d789f1b5cd87fd647de2a31f7a9f2119f66f542843cf15c9a471862c3f4b5c9"
+    },
+    {
+      "path": "docs/research/quartz_kinetic54_cache_20261127/PLAN.json",
+      "sha256": "23caf8740c5febfe5af86dfa134a688f74b3f7079895cbf0a285b20fae529761"
+    },
+    {
+      "path": "docs/research/quartz_kinetic55_policy_20261128/PLAN.json",
+      "sha256": "55d6a4387c5f34d0bcb7085d57302daeeb91a0c6368119d040712d1cf919abf2"
+    },
+    {
+      "path": "docs/research/quartz_kinetic56_voc_20261128/PLAN.json",
+      "sha256": "5f056f5f70abadbd8f78d18f68998d0fbea720b7a37b16a5115c0a666bd3bb0a"
+    },
+    {
+      "path": "docs/research/quartz_kinetic57_early_20261128/PLAN.json",
+      "sha256": "4cb4ff983544ad95cfeb23d733da8ea02615613b0763e3f47344ba695236c58c"
+    }
+  ],
+  "rapfi_identity": {
+    "actual_binary": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic40_budget_backups/mcts_demo",
+    "actual_binary_sha256": "911b47af359a40c9d5858b69ab7f2a8de7d69691f93eab11bb5d636a631d6f75",
+    "binary": "e12746f178f59fcfeac97740848ecf5ddeb28dd00cafef39e506ed91eea817f2",
+    "bridge": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+    "config": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c",
+    "source_head": "c0214d5414960c3e3f941eadf0a645e5f16e5e7a",
+    "upstream": "1be1551ced57e38d53ed58f6d74bf6f8b4bdc230",
+    "weight": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62"
+  },
+  "rapfi_jobs": [
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a8b936c1343e24ed84472af9d06d0966603298435d8a30c1705dae8b5b0d1ce7",
+      "id": 0,
+      "opening": [
+        140,
+        170,
+        143,
+        157,
+        141,
+        127
+      ],
+      "seed": 26242139745336289,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "16c52091f218e924e2f5e2968d5baa5bdef03fbfdc0d0d345470749e500b0a38",
+      "id": 1,
+      "opening": [
+        129,
+        132,
+        159,
+        162,
+        131,
+        145
+      ],
+      "seed": 1771374590957062322,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9f6377bdb205802f0c28eb2939032956b67c0882a8a733015c28f5fe1762eef9",
+      "id": 2,
+      "opening": [
+        71,
+        113,
+        114,
+        115,
+        102,
+        70
+      ],
+      "seed": 4409541303126927619,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3b77fcd6f4dc4175ddc70ab37214633e9f07302eb1e18c87701b4028e62bcaef",
+      "id": 3,
+      "opening": [
+        95,
+        68,
+        80,
+        98,
+        50,
+        81
+      ],
+      "seed": 4997836368914306122,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a51be52fbb5d29c18a4ddf615eeb7b775588980f5ddec8cae7dacfc8a99e083e",
+      "id": 4,
+      "opening": [
+        170,
+        126,
+        156,
+        171,
+        112,
+        124
+      ],
+      "seed": 7647070555833346689,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "1d3614ca3e3e3b6c3079328a8866bd425dfa6d6f9730a7c3c856874e4b8b0014",
+      "id": 5,
+      "opening": [
+        169,
+        140,
+        154,
+        128,
+        185,
+        127
+      ],
+      "seed": 995644811548212123,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3ede304084846627f31be526f7276f9dd996fb1968b89c484fb2a46e16ea1198",
+      "id": 6,
+      "opening": [
+        129,
+        113,
+        82,
+        114,
+        131,
+        68
+      ],
+      "seed": 3771537575431312802,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c5de94bb0d01264938c5c325b7aff2846056844b92c7818c3395dcdfd5179f41",
+      "id": 7,
+      "opening": [
+        98,
+        128,
+        97,
+        80,
+        82,
+        139
+      ],
+      "seed": 6641527094026294507,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a319d5a3c7f9e07ff38601f0ba186a5c2deaacd554553286f70b77ff5cd5b50c",
+      "id": 8,
+      "opening": [
+        82,
+        112,
+        98,
+        96,
+        114,
+        127
+      ],
+      "seed": 6181853255338885517,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d808f931b8893bc9100e6394c7ea24c0728f302760e390a6e9dec0f537e78233",
+      "id": 9,
+      "opening": [
+        113,
+        142,
+        112,
+        176,
+        172,
+        159
+      ],
+      "seed": 1767884413902582970,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "bad429b4ff2a4468fde1c032af99639b257c6d69612cfb03eae52a07b554940a",
+      "id": 10,
+      "opening": [
+        83,
+        67,
+        65,
+        34,
+        35,
+        52
+      ],
+      "seed": 5210844553487091410,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9750b8e5de469d22dd3ee71846d4bef7bd79113796b164986431fce0a79729ab",
+      "id": 11,
+      "opening": [
+        48,
+        110,
+        80,
+        111,
+        47,
+        93
+      ],
+      "seed": 4876423489412427456,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c44491e3e5527369968dbf2326c9bd919df40244abd79769a7f80ca12ebbb1df",
+      "id": 12,
+      "opening": [
+        114,
+        116,
+        100,
+        70,
+        69,
+        99
+      ],
+      "seed": 708029776666435504,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d1c84404b19c2787ebb78904dc4d3838db36060351b61e7c6d88cc05826e072e",
+      "id": 13,
+      "opening": [
+        83,
+        127,
+        67,
+        94,
+        80,
+        109
+      ],
+      "seed": 9120382864446876532,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "dc4a16422dc33ef71fc59dd8f8dae4a354365bee5919ce70c09b8dc63b980918",
+      "id": 14,
+      "opening": [
+        107,
+        125,
+        110,
+        78,
+        109,
+        79
+      ],
+      "seed": 4483928068427864916,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "e93301763f32fcbec2cf253ccf64ed6eeb8371a6215200899475e5af59ef6f2c",
+      "id": 15,
+      "opening": [
+        115,
+        84,
+        66,
+        97,
+        96,
+        111
+      ],
+      "seed": 3959314942365284151,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ba47b8d56c931da4ba2007cedc1415528f54b1b8a2f732f74e6f40a9a1d4fb89",
+      "id": 16,
+      "opening": [
+        112,
+        115,
+        101,
+        85,
+        113,
+        128
+      ],
+      "seed": 2809031201789361591,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "2dffe68bfbb56f89111156c24f76c20a830b3ad2ac37aeefcd75b103057a16fc",
+      "id": 17,
+      "opening": [
+        96,
+        153,
+        138,
+        124,
+        93,
+        141
+      ],
+      "seed": 6151999132247870334,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "904f434007aabc8f549802fccb5bdefa28cd28595ceeb4d9db6e8b1264bbc744",
+      "id": 18,
+      "opening": [
+        140,
+        108,
+        172,
+        168,
+        125,
+        170
+      ],
+      "seed": 5482939139687894584,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "4b27e22b7ca7c9fe06b06a8071ee231c975d2ef1bcf37d314afdfbcb49762823",
+      "id": 19,
+      "opening": [
+        78,
+        96,
+        65,
+        95,
+        94,
+        63
+      ],
+      "seed": 306749016474319947,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6aef012259371da40e2ca50ff955856498b94115f90fbeeeb58303c7505c2615",
+      "id": 20,
+      "opening": [
+        83,
+        130,
+        113,
+        81,
+        66,
+        99
+      ],
+      "seed": 4441138254461202737,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "f5f420eab3e7010321881521a9873908e460bfe3f47d780737a47e233328d025",
+      "id": 21,
+      "opening": [
+        40,
+        85,
+        82,
+        96,
+        99,
+        84
+      ],
+      "seed": 2739315698176234529,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ba7f43a726a9d87494d4afa41f5f107e241cc002e63f99cce385589ca5fe4a27",
+      "id": 22,
+      "opening": [
+        97,
+        64,
+        52,
+        49,
+        93,
+        94
+      ],
+      "seed": 1156509317784282422,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "88f11796f42ac6acd27c599497e9c21e8b72667be3e52565a7aa7e065b232ae3",
+      "id": 23,
+      "opening": [
+        139,
+        188,
+        128,
+        142,
+        158,
+        157
+      ],
+      "seed": 825605621590856950,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0def58046ed93514b437e817888bf4e91e645810b6b6ca1016528d09023f766a",
+      "id": 24,
+      "opening": [
+        142,
+        187,
+        170,
+        172,
+        125,
+        141
+      ],
+      "seed": 2961841126376802922,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "cdd4ffc4fcb632139fa5de696cb7688220410f89271389b12f56a98221799140",
+      "id": 25,
+      "opening": [
+        127,
+        142,
+        99,
+        112,
+        116,
+        145
+      ],
+      "seed": 6026959550494621193,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "1b51ed17ebc355779f0bebe47b05caa94cf1f195c3cced1546cd1616ff3d1891",
+      "id": 26,
+      "opening": [
+        95,
+        107,
+        47,
+        48,
+        92,
+        62
+      ],
+      "seed": 2416385866162088373,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "95b8358eca81a511414a45006f542a252ab456082d4858c9cb1e110ebda645f3",
+      "id": 27,
+      "opening": [
+        156,
+        169,
+        141,
+        171,
+        152,
+        126
+      ],
+      "seed": 3366406971488415139,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "8eae2f959f06b9eb2f2a3b95eb11d19715d2a3f47918bf3ea334cc7cbc6bcfcf",
+      "id": 28,
+      "opening": [
+        130,
+        145,
+        113,
+        128,
+        161,
+        143
+      ],
+      "seed": 9074755689937973214,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "146fe4ddd7fb418f4faeb98115a5eca3ca0a65377d915cbe33d4af6920777dcc",
+      "id": 29,
+      "opening": [
+        115,
+        132,
+        114,
+        100,
+        98,
+        143
+      ],
+      "seed": 3264169002182689437,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c1aef0ad18320816094f42b640a3ec22213e23ead922237a2b865f00008ae067",
+      "id": 30,
+      "opening": [
+        52,
+        80,
+        66,
+        111,
+        65,
+        50
+      ],
+      "seed": 882538766366475444,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "994160cae0b0503fa5a5baf6539c7e4714a9699e1e455a1a2c19da5dc25da846",
+      "id": 31,
+      "opening": [
+        66,
+        113,
+        115,
+        51,
+        69,
+        68
+      ],
+      "seed": 3771486323974621348,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "cd6a70170a2b5d74485c19b54390fd981f92e59480ee3a0bc1c67612f9e9f215",
+      "id": 32,
+      "opening": [
+        97,
+        67,
+        130,
+        131,
+        113,
+        129
+      ],
+      "seed": 3053556596152997528,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b1f760d302b095851ddbde6998611e7c56ad028214fc710ae024e962beea33cd",
+      "id": 33,
+      "opening": [
+        113,
+        70,
+        114,
+        127,
+        115,
+        68
+      ],
+      "seed": 8048694039686342558,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "8e078b80fab3776f283b4f32b13f6adfffa1b6df4e21a5480d96ab3258eee26c",
+      "id": 34,
+      "opening": [
+        186,
+        170,
+        126,
+        189,
+        185,
+        188
+      ],
+      "seed": 2172685465917618795,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "8401b913de512230b47062506b05347ca7611a6f1a7badb98c4bed10d713bd4d",
+      "id": 35,
+      "opening": [
+        68,
+        85,
+        101,
+        87,
+        114,
+        129
+      ],
+      "seed": 9172687997264159570,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "95f5291d852ffb989d5a9c1cd3d68e91d1ff5c7625d0f67d676f36f1020907de",
+      "id": 36,
+      "opening": [
+        81,
+        33,
+        94,
+        47,
+        51,
+        35
+      ],
+      "seed": 2850449457107930833,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "dcea233e3844da316ec55faae7829eed3c259d5a6f24541e43f05d27a4eee8b3",
+      "id": 37,
+      "opening": [
+        98,
+        55,
+        86,
+        40,
+        38,
+        100
+      ],
+      "seed": 3289562471531169300,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "32381d208bb3422fef035a0e4707f7e1c7a09f9544540662ff09bb4198574908",
+      "id": 38,
+      "opening": [
+        96,
+        35,
+        98,
+        37,
+        39,
+        69
+      ],
+      "seed": 2710957001427397634,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "68c14f6088bffbd990988729c3ba290281ce59e4e7588cc7dffe94af71f41325",
+      "id": 39,
+      "opening": [
+        127,
+        175,
+        158,
+        114,
+        130,
+        171
+      ],
+      "seed": 7385976055323994508,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "19844abcae7abd50f05eb1ce9d335745ff0b619afd782d621cdebeb346f2d637",
+      "id": 40,
+      "opening": [
+        162,
+        115,
+        131,
+        117,
+        146,
+        128
+      ],
+      "seed": 6958293659836523213,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "286a3a286a94024fb59abfcbd3595db55fa6bee2e290bd974695c4248ee360ad",
+      "id": 41,
+      "opening": [
+        66,
+        82,
+        80,
+        67,
+        69,
+        84
+      ],
+      "seed": 6394952486121635414,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "40ff10b89300ca7a0d0048e441dadb565fb853d5c2f034a160752d461d661b5b",
+      "id": 42,
+      "opening": [
+        170,
+        171,
+        108,
+        142,
+        124,
+        127
+      ],
+      "seed": 2712039791627393763,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "7aefc4bafd78f6bb665a778d14a0ba779fd666f498c73e2b3c4cc04e563ab32e",
+      "id": 43,
+      "opening": [
+        172,
+        128,
+        141,
+        142,
+        189,
+        155
+      ],
+      "seed": 7387896111685645134,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "24db215286fbd7203abda3d40cab2887d00c5eb3ccb3090d499799c182caf634",
+      "id": 44,
+      "opening": [
+        98,
+        141,
+        144,
+        128,
+        84,
+        97
+      ],
+      "seed": 645078899675939239,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1f351266e55f29596492271a7944bc70959c6c334fb864b72353b0692f07fa5a",
+      "id": 45,
+      "opening": [
+        52,
+        51,
+        85,
+        68,
+        69,
+        36
+      ],
+      "seed": 4044705986300051999,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "ecb6aee804dc42b5bcc3d57eb596e4913a83f010249fc1e0a363c6b2f1381322",
+      "id": 46,
+      "opening": [
+        113,
+        155,
+        158,
+        142,
+        156,
+        109
+      ],
+      "seed": 5644345281726792126,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f9ed6d0b1b7b192f8bee8b1b8f598fbaa63398a8786810b1254f59599ff83a7a",
+      "id": 47,
+      "opening": [
+        113,
+        80,
+        53,
+        98,
+        111,
+        96
+      ],
+      "seed": 8898797981388312305,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "36174181e519c7670548bf7b191ba6550dc45bc66b05d5fca5ed9f5bfd547833",
+      "id": 48,
+      "opening": [
+        145,
+        173,
+        112,
+        127,
+        161,
+        146
+      ],
+      "seed": 5557049958294049211,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f1a23fd2b15c21a92725848ebe76f4237576309348c3b29d4f76b3449f3fee5e",
+      "id": 49,
+      "opening": [
+        142,
+        113,
+        110,
+        124,
+        128,
+        155
+      ],
+      "seed": 3406763934988994386,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "5b0627afdc23f1725ae17521a2ab9f24d67b57eca6d8dfc25f221f9b1348f4fb",
+      "id": 50,
+      "opening": [
+        141,
+        143,
+        125,
+        156,
+        96,
+        98
+      ],
+      "seed": 742208793538711652,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "3a250af2a4ec8915b7a813cefb9a521f15bb68254f7f30e0ea8d5c058266037f",
+      "id": 51,
+      "opening": [
+        93,
+        122,
+        123,
+        95,
+        110,
+        80
+      ],
+      "seed": 3002557009918281526,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "038140aeb979f11db6aea2043743b832413e1cb88d9fcea3696e10e205dc8c8a",
+      "id": 52,
+      "opening": [
+        71,
+        115,
+        86,
+        57,
+        70,
+        84
+      ],
+      "seed": 7740807703307552772,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "89b46699fbb34148c85f01629dd1b801c1d5ccf7b1f78a920a11fb62342c3945",
+      "id": 53,
+      "opening": [
+        94,
+        140,
+        81,
+        139,
+        128,
+        79
+      ],
+      "seed": 7835800837663917712,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "77471e65827fdea7f5acaeb3fc31f3d50037b3b3dd259ccf8997d6a3c2a8d3c3",
+      "id": 54,
+      "opening": [
+        57,
+        68,
+        69,
+        86,
+        101,
+        84
+      ],
+      "seed": 5347505791830117475,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b5c40703258941a116cf17666d1b2fba764f5449fc6735b2dd9894dc94cb675d",
+      "id": 55,
+      "opening": [
+        158,
+        96,
+        110,
+        142,
+        141,
+        98
+      ],
+      "seed": 1264131887212687329,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "943412367fa184450646b56cfd8d5a21b41188fecca89da66c18e8f2efe412bf",
+      "id": 56,
+      "opening": [
+        158,
+        98,
+        130,
+        160,
+        143,
+        96
+      ],
+      "seed": 3472226439798880576,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "9c863fa1b31446be00a7890158a837884c7ad6a48e4c4786f6995d91b61e9718",
+      "id": 57,
+      "opening": [
+        39,
+        69,
+        54,
+        40,
+        53,
+        84
+      ],
+      "seed": 8258055524441164965,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "4d3fd72a3607e7141615e8b537695dadc36cfa3b3101666bbd3346b4499ffe11",
+      "id": 58,
+      "opening": [
+        83,
+        69,
+        111,
+        95,
+        80,
+        97
+      ],
+      "seed": 917035632533680478,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "d4a2fda778464ef2265c16a7b9f1d1ab8e5726623ca25d4aaa921873ceebaa36",
+      "id": 59,
+      "opening": [
+        113,
+        144,
+        114,
+        157,
+        129,
+        158
+      ],
+      "seed": 6232305213542695154,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "6d2c2e76efd526630141f999ddd5749a2d7977f7569f44aa1a798ecda18f6977",
+      "id": 60,
+      "opening": [
+        51,
+        79,
+        80,
+        63,
+        48,
+        52
+      ],
+      "seed": 3026276050191761720,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a5a439e5eb618c1a6175413fc9f0d982c3dd0c8d22e167b3ea679960d34f667c",
+      "id": 61,
+      "opening": [
+        143,
+        132,
+        100,
+        116,
+        99,
+        101
+      ],
+      "seed": 8986512007483898555,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "f3b2f862d9798b5b41809df37d95964655aa161c1736696a9c374ae331c84f4b",
+      "id": 62,
+      "opening": [
+        107,
+        108,
+        50,
+        96,
+        93,
+        109
+      ],
+      "seed": 3592211553904561168,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3097bb8e00b85ee25423980834c7582a07f3c75a51a2979d317bf8f3837b6756",
+      "id": 63,
+      "opening": [
+        155,
+        154,
+        127,
+        140,
+        169,
+        123
+      ],
+      "seed": 4399277680896109701,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "200b8ce6245bd4cd3ba340ef9867d9d6555414a4abac6f3ae81f95d49a76575d",
+      "id": 64,
+      "opening": [
+        83,
+        68,
+        112,
+        86,
+        114,
+        98
+      ],
+      "seed": 349569458452714315,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "851e8f011d6330c52f9f59ac938b2d481650a89ab08096659b967a8f74293029",
+      "id": 65,
+      "opening": [
+        100,
+        146,
+        159,
+        131,
+        157,
+        130
+      ],
+      "seed": 4942193601659877476,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d5777909ec7a511e9a429d8c5b01cb1eeb9900a4e756e36104d8d694a101696e",
+      "id": 66,
+      "opening": [
+        155,
+        168,
+        141,
+        139,
+        108,
+        167
+      ],
+      "seed": 5229190567152434693,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "9e38fb21325197d4bc75b5b3fae6c19e2dbf8118b15722bdff11c232878a86a6",
+      "id": 67,
+      "opening": [
+        131,
+        175,
+        172,
+        174,
+        187,
+        145
+      ],
+      "seed": 7404898691714633307,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "b928fa201b8ac4b62fc6bcc896e228b3e08e3f33af38888632cce5a565065982",
+      "id": 68,
+      "opening": [
+        39,
+        68,
+        36,
+        82,
+        37,
+        80
+      ],
+      "seed": 7849896964332483421,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "bb2a93cc92c8023222c9a2252c475c35c8c96f10b9607ad44447c277f3974bb3",
+      "id": 69,
+      "opening": [
+        94,
+        34,
+        78,
+        80,
+        96,
+        48
+      ],
+      "seed": 3442538419375281399,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "a2146c11bf1ceec6ffc97412b0cc6ae56576f79ec7331b64d8db411d1a4f88e9",
+      "id": 70,
+      "opening": [
+        131,
+        192,
+        130,
+        190,
+        144,
+        128
+      ],
+      "seed": 7997090540785236523,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "8e2d539441d2c1857a9de2d4c8741c93a5b2976f1a0b13bca1aee4e9e4e16dd1",
+      "id": 71,
+      "opening": [
+        80,
+        67,
+        64,
+        68,
+        110,
+        113
+      ],
+      "seed": 2012087438697448947,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6df81dbb89bca885499fd4f379f873537f7e50ba7d6f3a17742f7bd45e7c6757",
+      "id": 72,
+      "opening": [
+        125,
+        126,
+        111,
+        124,
+        123,
+        93
+      ],
+      "seed": 5883141163344994092,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "2375311fd809b990f8e26fb9c4559f9b6c60cc572d17d1c87faa9672d5c1e1f2",
+      "id": 73,
+      "opening": [
+        126,
+        84,
+        82,
+        98,
+        129,
+        113
+      ],
+      "seed": 4975942596276205925,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "292e9678533e8c2c122e904df5aa096d0366e2e63af7bbf22337a0e5c2bb1933",
+      "id": 74,
+      "opening": [
+        141,
+        123,
+        140,
+        137,
+        111,
+        94
+      ],
+      "seed": 5237347205925433494,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "c2bd2620c4a064c32701fb66d048b69b7d18440107691208feac20639fc0165e",
+      "id": 75,
+      "opening": [
+        82,
+        49,
+        51,
+        109,
+        78,
+        65
+      ],
+      "seed": 1676729512139476667,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "2be97e042c052f4117812b78a96c89dfb27b2021f6231e073d0dd137907b1943",
+      "id": 76,
+      "opening": [
+        115,
+        99,
+        100,
+        112,
+        68,
+        83
+      ],
+      "seed": 2306906766623796200,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9d668c795adee0e20c2c42756c88e91232a790786e0a72a079ccc478ed3c15f6",
+      "id": 77,
+      "opening": [
+        132,
+        175,
+        173,
+        176,
+        144,
+        174
+      ],
+      "seed": 4760890291215450682,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ed17d59504c101c202d04097b9525591184b46d30aac1162fb8dbc8598a70e7b",
+      "id": 78,
+      "opening": [
+        115,
+        159,
+        114,
+        175,
+        112,
+        116
+      ],
+      "seed": 9125657490326679641,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "23be9387516133420a668a3bb2ab8ca07af290b5368f3f1d64da46bfb7337554",
+      "id": 79,
+      "opening": [
+        145,
+        144,
+        176,
+        188,
+        174,
+        127
+      ],
+      "seed": 2885399618065256993,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "d837482ac7e7bdb3e3b6688151c48ad0a34460974bd83220931f75fcdaa82087",
+      "id": 80,
+      "opening": [
+        51,
+        93,
+        65,
+        80,
+        52,
+        96
+      ],
+      "seed": 8020798861700036645,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "9ac9e486b108d4f399ed993076a15840ce76c803c525536255905f2ece58e8d3",
+      "id": 81,
+      "opening": [
+        108,
+        63,
+        107,
+        96,
+        78,
+        77
+      ],
+      "seed": 2839207229345582936,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "77d6abab2667ab42e9bdecb095c7a778ada02d0c75ad2d8360013fa835487031",
+      "id": 82,
+      "opening": [
+        174,
+        160,
+        141,
+        189,
+        175,
+        145
+      ],
+      "seed": 110873010069176035,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "5b7bb6e1744f7ba2c9037a22da17af9060bea7746f96e4ce2378e9cac44b21e7",
+      "id": 83,
+      "opening": [
+        159,
+        162,
+        160,
+        99,
+        113,
+        132
+      ],
+      "seed": 4589266135903602624,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6996ea201d1f317b49a6cf370a0df02fb320dd818d1b6ddbe5f06fd98a906035",
+      "id": 84,
+      "opening": [
+        92,
+        78,
+        80,
+        81,
+        79,
+        77
+      ],
+      "seed": 3404349658107256297,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "050ce62fcf38faa68e38e10ee8d0414084654444526d37349bb2cb342e3efdfe",
+      "id": 85,
+      "opening": [
+        154,
+        156,
+        141,
+        158,
+        126,
+        110
+      ],
+      "seed": 554652442404289984,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "e9fa1dc7d11c51789d64e5b77c23b4cea69bb1adfe8bb1f5cc80fb78b1736724",
+      "id": 86,
+      "opening": [
+        111,
+        158,
+        127,
+        125,
+        171,
+        157
+      ],
+      "seed": 1302168072161326453,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a62815fdc4b838ec621563915e6a3d09aefa38ecde63fa09108c2b3adf7a83ed",
+      "id": 87,
+      "opening": [
+        113,
+        145,
+        172,
+        175,
+        141,
+        142
+      ],
+      "seed": 6615876734567804858,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "4368bb41143a6e082e4116b85c0f02bbeefd5005d42f3188bcdde66343854f0c",
+      "id": 88,
+      "opening": [
+        110,
+        82,
+        97,
+        95,
+        112,
+        78
+      ],
+      "seed": 8828880662088458254,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "9b4b6239593c14f2172db60d73eeda0b2fc5d67868aae6381a86d5b6a1568e7a",
+      "id": 89,
+      "opening": [
+        79,
+        142,
+        97,
+        111,
+        98,
+        125
+      ],
+      "seed": 6953780013270615579,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3eb2a55777198ef2b0a1cb2de68d167714dcaacb0204449757a13fdd36f49537",
+      "id": 90,
+      "opening": [
+        177,
+        143,
+        146,
+        174,
+        128,
+        145
+      ],
+      "seed": 1905496162677596476,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "be32de497a759822f3876008234532fee0c5ff1be2ffd76b933c562cb0f9011c",
+      "id": 91,
+      "opening": [
+        64,
+        82,
+        52,
+        48,
+        97,
+        80
+      ],
+      "seed": 5737070002174193928,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "3d6df03e1b9a2a5a916b2a517d8b17cf4f1c4cf93e68945bea2090c896ce0a9a",
+      "id": 92,
+      "opening": [
+        53,
+        51,
+        113,
+        49,
+        81,
+        66
+      ],
+      "seed": 6502600866225220465,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "72f3c3605da8b103227d987d5a5e3557af3afb1b81901ff87146094466182b9b",
+      "id": 93,
+      "opening": [
+        65,
+        78,
+        109,
+        67,
+        97,
+        110
+      ],
+      "seed": 7012840262846288705,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "7c3b01f6f2462844f40d3a9e06c57ebe1ee0eef45cfdb17d78fb017baafa37ad",
+      "id": 94,
+      "opening": [
+        97,
+        98,
+        94,
+        80,
+        79,
+        112
+      ],
+      "seed": 1665747738746041106,
+      "split": "ARENA",
+      "stratum": "compact"
+    },
+    {
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "1616d9fb1a7af4618667266a2aa012a477fd3c5e2f5e492282bf35a5564ba732",
+      "id": 95,
+      "opening": [
+        128,
+        174,
+        192,
+        188,
+        161,
+        189
+      ],
+      "seed": 3865517236018344473,
+      "split": "ARENA",
+      "stratum": "compact"
+    }
+  ],
+  "rapfi_k37_plan_sha256": "0a8f4e7b6cae131770596a0ff6c03db8774e948835a052efc9b9bd8f6335819e",
+  "rapfi_prior": 4726,
+  "rapfi_prior_locks": [
+    {
+      "added": 1,
+      "path": "docs/research/quartz_rapfi09_20261125/PAIR_PLAN.json",
+      "sha256": "92ffcd09ad9e449fbe73ae059ea8afa0b60bd771c4265d223d7294a531291108"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi10_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "60b69e9d8bea7b3d1c18332302e05d84b6d1328d7c391e75d81e8acfe1079f6c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_rapfi11_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "ff92c03c1f87b19c7307e2b95d613b30573a0e8147f1a5ad1f4c5422442f1b2c"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi12_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "db9c59fac9c1607167213de64e3f8de25356d30f5a7b5b22846606ccf2da362c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic14_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "1ef9e539893a238a45a4cd38edd17ec06416e1033125ccdb9ee2e1692dcb99a2"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic15_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "e2b5d01457564fd3aa0de3966fc1dcea30f9917629ce3f6ff0743c32f1544ccd"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic16_20261126/C06_PLAN.json",
+      "sha256": "08a46dfbcef2dd628728ef8e248a089883a6b196bd941b75ed030577a56bf8b8"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic19_20261126/G_PLAN.json",
+      "sha256": "ec1c84d3f7973bb6a0d6432b3e23b9a54a38f33eb19b1583ad3368fa5458d201"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic20_20261126/G_PLAN.json",
+      "sha256": "24c403a543ca933f40d93c47c7a62964e07a1c88ffa486228ef5b3af07a54587"
+    },
+    {
+      "added": 42,
+      "path": "docs/research/quartz_kinetic34_20261126/PLAN.json",
+      "sha256": "1ae4cbf5145d84ca0d727dd043b8540744d1d407ff45fbef5b49271b61266532"
+    },
+    {
+      "added": 256,
+      "path": "docs/research/quartz_kinetic35_20261126/PLAN.json",
+      "sha256": "5e64440dddb6440bdadd427a279aa8353f1e0e948d90e550e436acdc8aeabb9b"
+    },
+    {
+      "added": 416,
+      "path": "docs/research/quartz_kinetic36_20261126/PLAN.json",
+      "sha256": "28c5c83be3ed880d72eb5d0c4ca76f5147561959262de0c37d89c275e2725af0"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic40_budget_20261126/RAPFI_PLAN.json",
+      "sha256": "6325809e81426a1ed6d0d6a356730996ddbb2d43d751e3430e2bba4d815fc9f5"
+    },
+    {
+      "added": 304,
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "added": 240,
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "added": 83,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PAIR_PLAN.json",
+      "sha256": "4d33500d198af513d7c6c38412dde0f9b489cd5f68017954c254bf3129ed3f7c"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "added": 32,
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    },
+    {
+      "added": 80,
+      "path": "docs/research/quartz_kinetic52_confirm_20261127/PLAN.json",
+      "sha256": "2e0bd886f5403dc13589921f06dbf0aace2335e2372b624ba9cf651f16c1d9b9"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic53_reuse_20261127/PLAN.json",
+      "sha256": "2d789f1b5cd87fd647de2a31f7a9f2119f66f542843cf15c9a471862c3f4b5c9"
+    },
+    {
+      "added": 192,
+      "path": "docs/research/quartz_kinetic54_cache_20261127/PLAN.json",
+      "sha256": "23caf8740c5febfe5af86dfa134a688f74b3f7079895cbf0a285b20fae529761"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic55_policy_20261128/PLAN.json",
+      "sha256": "55d6a4387c5f34d0bcb7085d57302daeeb91a0c6368119d040712d1cf919abf2"
+    },
+    {
+      "added": 512,
+      "path": "docs/research/quartz_kinetic56_voc_20261128/PLAN.json",
+      "sha256": "5f056f5f70abadbd8f78d18f68998d0fbea720b7a37b16a5115c0a666bd3bb0a"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic56_voc_20261128/RAPFI_PLAN.json",
+      "sha256": "0b2953a378d93975af9fa9473c4f67367d1d87862328be25943be8825ddf6fbc"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic57_early_20261128/PLAN.json",
+      "sha256": "4cb4ff983544ad95cfeb23d733da8ea02615613b0763e3f47344ba695236c58c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_tactical08_20261125/C07_COHORT.json",
+      "sha256": "14107220a3c60c9fe945f945ff2d91baa58a237bce3fa04ee20a81c18e330475"
+    }
+  ],
+  "rapfi_workers": 4,
+  "scope": "128 replication plus32 crossed NN families, three arms;96 fresh Rapfi compact families",
+  "seed": 2026112858,
+  "tiers": [
+    [
+      3,
+      256
+    ],
+    [
+      5,
+      1024
+    ],
+    [
+      7,
+      4096
+    ]
+  ],
+  "workers": 6
+}
