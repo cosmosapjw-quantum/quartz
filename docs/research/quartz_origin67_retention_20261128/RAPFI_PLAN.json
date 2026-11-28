@@ -1,0 +1,610 @@
+{
+  "assets": [
+    {
+      "bytes": 1807152,
+      "name": "Rapfi_executable",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/pbrain-rapfi-linux-clang-avx2",
+      "sha256": "4217c3202cdd8dbb58524110d9064299e314a695e58ddbd055d9a4dd99de201c"
+    },
+    {
+      "bytes": 6709,
+      "name": "Rapfi_config",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/config.toml",
+      "sha256": "32b9180c91247541d399ceef62906d5ffeb48e34eb5f261612987633820d5d3c"
+    },
+    {
+      "bytes": 23204,
+      "name": "Rapfi_classical_model",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/model210901.bin",
+      "sha256": "2fa08cb15cf240d9533548c3e011b03d46809f6858362e97ee873d0632aa2015"
+    },
+    {
+      "bytes": 10030398,
+      "name": "Rapfi_NNUE_freestyle",
+      "path": "/home/cosmosapjw/quantum/research/quartz_external_engines_20261120/rapfi_release_250615/unpacked/mix9svqfreestyle_bsmix.bin.lz4",
+      "sha256": "6bc0d1b0ff8e1d857f7f412923cd458f38f1a435087c91ae71fec3676c23ef62"
+    }
+  ],
+  "binary": "/home/cosmosapjw/quantum/research/quartz_origin66_omission_run_20261128/mcts_demo",
+  "binary_sha256": "8a8c01c1643be8722350ae9cfe8bf6a000849dba9520c2285a76934158165d7d",
+  "bridge": "/home/cosmosapjw/quantum/research/rapfi_250615_quartz_bridge_build_20261125/pbrain-rapfi",
+  "bridge_sha256": "bacbcfc90f6e4bfd0d9d035455afa3d6667ec32e7fd80cbc1d65a4001b30f64e",
+  "jobs": [
+    {
+      "arm_order": [
+        "Q96",
+        "Q104"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "80db870dbaeba9faa0e3749a29f14b811273d8aec33c844fd38373e39a0e3183",
+      "id": 0,
+      "opening": [
+        141,
+        96,
+        156,
+        158,
+        155,
+        110
+      ],
+      "seed": 3595892515913363051
+    },
+    {
+      "arm_order": [
+        "Q104",
+        "Q96"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "0588430d6796fcaf668dcf65f062dfd6147d883691fc6d4249cfd72e9eca6e54",
+      "id": 1,
+      "opening": [
+        94,
+        107,
+        79,
+        111,
+        95,
+        77
+      ],
+      "seed": 6412230837123267732
+    },
+    {
+      "arm_order": [
+        "Q96",
+        "Q104"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "9156809799c6a5417243fe733bc4057abf9918e30301add40e20cb2e28a8c9ae",
+      "id": 2,
+      "opening": [
+        113,
+        72,
+        87,
+        130,
+        86,
+        129
+      ],
+      "seed": 815783296116043715
+    },
+    {
+      "arm_order": [
+        "Q96",
+        "Q104"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "b42693a31ecafd792c7b3857591ee526a6ef3d97d09f36de05ca45e28250fd75",
+      "id": 3,
+      "opening": [
+        81,
+        141,
+        79,
+        95,
+        128,
+        94
+      ],
+      "seed": 3276056841744027716
+    },
+    {
+      "arm_order": [
+        "Q96",
+        "Q104"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "1f5ab1722f6e5ebd781aed102229b0919299391f8df57ee699e321316b8ddd34",
+      "id": 4,
+      "opening": [
+        145,
+        156,
+        144,
+        111,
+        141,
+        115
+      ],
+      "seed": 3569636416351852495
+    },
+    {
+      "arm_order": [
+        "Q104",
+        "Q96"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "de7edef261b72ef1536d0c1de62c4cb6318dade0c214259afdcb29daec74e7ce",
+      "id": 5,
+      "opening": [
+        77,
+        64,
+        80,
+        65,
+        126,
+        107
+      ],
+      "seed": 5632463223229819829
+    },
+    {
+      "arm_order": [
+        "Q104",
+        "Q96"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "af3686427b8d704ef4a9465cfb30f662c57052db6efa4a65c6174b223818a853",
+      "id": 6,
+      "opening": [
+        130,
+        145,
+        113,
+        100,
+        131,
+        158
+      ],
+      "seed": 8725876019423528317
+    },
+    {
+      "arm_order": [
+        "Q96",
+        "Q104"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "23a234e713e6b8b4ba78f59a66159082ca5bdaebfb06a47ad0b3a2fbadfbbfc1",
+      "id": 7,
+      "opening": [
+        96,
+        112,
+        94,
+        111,
+        110,
+        79
+      ],
+      "seed": 7933366438733370347
+    },
+    {
+      "arm_order": [
+        "Q104",
+        "Q96"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "88144237342e947450bf549869734418ac7e302533f602144e03dbf421e1e10c",
+      "id": 8,
+      "opening": [
+        143,
+        128,
+        158,
+        173,
+        159,
+        172
+      ],
+      "seed": 500972585325280286
+    },
+    {
+      "arm_order": [
+        "Q104",
+        "Q96"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "65598562b5f016eeca750d911c45f8b63d5ba3eec624c3900a54d4a248545fd9",
+      "id": 9,
+      "opening": [
+        94,
+        51,
+        93,
+        47,
+        65,
+        79
+      ],
+      "seed": 8263549370027121101
+    },
+    {
+      "arm_order": [
+        "Q104",
+        "Q96"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "54ed4e7916dcbca9d3d369f503673688ec424d771f31ccd2b6316ae682307a65",
+      "id": 10,
+      "opening": [
+        172,
+        184,
+        185,
+        168,
+        153,
+        141
+      ],
+      "seed": 3840421085192293346
+    },
+    {
+      "arm_order": [
+        "Q96",
+        "Q104"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "6859f2e8bdb6c4023898739c47c3baf23a37260c0247c59cad36028de067afd8",
+      "id": 11,
+      "opening": [
+        95,
+        123,
+        125,
+        65,
+        77,
+        80
+      ],
+      "seed": 1935101513326331567
+    },
+    {
+      "arm_order": [
+        "Q104",
+        "Q96"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "ff9ae8310965f7388c6db1718ae1e05ca0a859e5229601d28c0ae7af2eed212d",
+      "id": 12,
+      "opening": [
+        146,
+        129,
+        190,
+        173,
+        127,
+        188
+      ],
+      "seed": 8712460120898474721
+    },
+    {
+      "arm_order": [
+        "Q104",
+        "Q96"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "a9cec10b38edef3582b5ae503d744859972b426d7e1df1464507c89fe665de61",
+      "id": 13,
+      "opening": [
+        92,
+        124,
+        152,
+        138,
+        139,
+        126
+      ],
+      "seed": 648230547976033898
+    },
+    {
+      "arm_order": [
+        "Q96",
+        "Q104"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": "36385d15b65139d112f55f9ac91c5326164139547232cd1ae526bbac4e6998a1",
+      "id": 14,
+      "opening": [
+        127,
+        84,
+        96,
+        126,
+        113,
+        125
+      ],
+      "seed": 6140463730618966111
+    },
+    {
+      "arm_order": [
+        "Q96",
+        "Q104"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": "16eb53f8374cd7a970f903d36f8520f44393b1c273a77f513786b87539ad73e3",
+      "id": 15,
+      "opening": [
+        137,
+        169,
+        122,
+        141,
+        171,
+        154
+      ],
+      "seed": 2287149318607569825
+    }
+  ],
+  "prior_families": 5770,
+  "prior_locks": [
+    {
+      "added": 1,
+      "path": "docs/research/quartz_rapfi09_20261125/PAIR_PLAN.json",
+      "sha256": "92ffcd09ad9e449fbe73ae059ea8afa0b60bd771c4265d223d7294a531291108"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi10_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "60b69e9d8bea7b3d1c18332302e05d84b6d1328d7c391e75d81e8acfe1079f6c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_rapfi11_20261125/C06_SOURCE_PLAN.json",
+      "sha256": "ff92c03c1f87b19c7307e2b95d613b30573a0e8147f1a5ad1f4c5422442f1b2c"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_rapfi12_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "db9c59fac9c1607167213de64e3f8de25356d30f5a7b5b22846606ccf2da362c"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic14_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "1ef9e539893a238a45a4cd38edd17ec06416e1033125ccdb9ee2e1692dcb99a2"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic15_20261126/C06_SOURCE_PLAN.json",
+      "sha256": "e2b5d01457564fd3aa0de3966fc1dcea30f9917629ce3f6ff0743c32f1544ccd"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_kinetic16_20261126/C06_PLAN.json",
+      "sha256": "08a46dfbcef2dd628728ef8e248a089883a6b196bd941b75ed030577a56bf8b8"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic19_20261126/G_PLAN.json",
+      "sha256": "ec1c84d3f7973bb6a0d6432b3e23b9a54a38f33eb19b1583ad3368fa5458d201"
+    },
+    {
+      "added": 12,
+      "path": "docs/research/quartz_kinetic20_20261126/G_PLAN.json",
+      "sha256": "24c403a543ca933f40d93c47c7a62964e07a1c88ffa486228ef5b3af07a54587"
+    },
+    {
+      "added": 42,
+      "path": "docs/research/quartz_kinetic34_20261126/PLAN.json",
+      "sha256": "1ae4cbf5145d84ca0d727dd043b8540744d1d407ff45fbef5b49271b61266532"
+    },
+    {
+      "added": 256,
+      "path": "docs/research/quartz_kinetic35_20261126/PLAN.json",
+      "sha256": "5e64440dddb6440bdadd427a279aa8353f1e0e948d90e550e436acdc8aeabb9b"
+    },
+    {
+      "added": 416,
+      "path": "docs/research/quartz_kinetic36_20261126/PLAN.json",
+      "sha256": "28c5c83be3ed880d72eb5d0c4ca76f5147561959262de0c37d89c275e2725af0"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic40_budget_20261126/RAPFI_PLAN.json",
+      "sha256": "6325809e81426a1ed6d0d6a356730996ddbb2d43d751e3430e2bba4d815fc9f5"
+    },
+    {
+      "added": 304,
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "added": 240,
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "added": 83,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PAIR_PLAN.json",
+      "sha256": "4d33500d198af513d7c6c38412dde0f9b489cd5f68017954c254bf3129ed3f7c"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "added": 32,
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    },
+    {
+      "added": 80,
+      "path": "docs/research/quartz_kinetic52_confirm_20261127/PLAN.json",
+      "sha256": "2e0bd886f5403dc13589921f06dbf0aace2335e2372b624ba9cf651f16c1d9b9"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic53_reuse_20261127/PLAN.json",
+      "sha256": "2d789f1b5cd87fd647de2a31f7a9f2119f66f542843cf15c9a471862c3f4b5c9"
+    },
+    {
+      "added": 192,
+      "path": "docs/research/quartz_kinetic54_cache_20261127/PLAN.json",
+      "sha256": "23caf8740c5febfe5af86dfa134a688f74b3f7079895cbf0a285b20fae529761"
+    },
+    {
+      "added": 128,
+      "path": "docs/research/quartz_kinetic55_policy_20261128/PLAN.json",
+      "sha256": "55d6a4387c5f34d0bcb7085d57302daeeb91a0c6368119d040712d1cf919abf2"
+    },
+    {
+      "added": 512,
+      "path": "docs/research/quartz_kinetic56_voc_20261128/PLAN.json",
+      "sha256": "5f056f5f70abadbd8f78d18f68998d0fbea720b7a37b16a5115c0a666bd3bb0a"
+    },
+    {
+      "added": 64,
+      "path": "docs/research/quartz_kinetic56_voc_20261128/RAPFI_PLAN.json",
+      "sha256": "0b2953a378d93975af9fa9473c4f67367d1d87862328be25943be8825ddf6fbc"
+    },
+    {
+      "added": 48,
+      "path": "docs/research/quartz_kinetic57_early_20261128/PLAN.json",
+      "sha256": "4cb4ff983544ad95cfeb23d733da8ea02615613b0763e3f47344ba695236c58c"
+    },
+    {
+      "added": 96,
+      "path": "docs/research/quartz_kinetic58_stop_20261128/PLAN.json",
+      "sha256": "0eaee00cc58dad741947f74834bb522a27f6abbf24b4c0b0639076d59ab6c9e3"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_kinetic59_repeat_20261128/RAPFI_PLAN.json",
+      "sha256": "795b36c954ed96beb48dca51fe28d9b970a3515f64ec00e28e75bc7912004515"
+    },
+    {
+      "added": 87,
+      "path": "docs/research/quartz_kinetic60_voc_20261128/PLAN.json",
+      "sha256": "97176ac072acf483d8b5d1df6232fe10d66d20c96fec931fddca837be990b724"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_kinetic60_voc_20261128/RAPFI_PLAN.json",
+      "sha256": "b90fb972ea0216f34a6766f7181a98ae0771e070761fcb3ef0a86ce8aab0b22a"
+    },
+    {
+      "added": 208,
+      "path": "docs/research/quartz_kinetic61_harm_20261128/PLAN.json",
+      "sha256": "53da6f0fa8087838464e075987b90f3be02eaa5068e6331fa4847b8957bfa82a"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_kinetic61_harm_20261128/RAPFI_PLAN.json",
+      "sha256": "ef5b9c8fe5dc1f488d458b8c9af5eb76314f8dab7fd65c2fe0a6eee36357e8ab"
+    },
+    {
+      "added": 155,
+      "path": "docs/research/quartz_kinetic62_target_20261128/PLAN.json",
+      "sha256": "8066b4dc3b381dfa6808070f22b70fd129ec5268d35d93f490310144552fe350"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_kinetic62_target_20261128/RAPFI_PLAN.json",
+      "sha256": "5d65188dc6ed349578596660faee334fdd30e88590cedd4a1969aa6cfd60ad2c"
+    },
+    {
+      "added": 176,
+      "path": "docs/research/quartz_kinetic63_select_20261128/PLAN.json",
+      "sha256": "3cff39c6aa18ba3785f90cff91436f90c66687c4635c687276922a1e42293446"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_kinetic63_select_20261128/RAPFI_PLAN.json",
+      "sha256": "7b955a154400cc8d9235ace99835ad05c8e637afef1e00ebc5f83c53cb53db5e"
+    },
+    {
+      "added": 194,
+      "path": "docs/research/quartz_kinetic64_marginal_20261128/PLAN.json",
+      "sha256": "07f744eff433bf7515c5eaa5f84fc3384b7334d65ec2c225d95087acc186e92e"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_kinetic64_marginal_20261128/RAPFI_PLAN.json",
+      "sha256": "8c65be828c35abaf24fc273539cd514f058ceafdcdb2dbd2de54e68b14799cb2"
+    },
+    {
+      "added": 24,
+      "path": "docs/research/quartz_tactical08_20261125/C07_COHORT.json",
+      "sha256": "14107220a3c60c9fe945f945ff2d91baa58a237bce3fa04ee20a81c18e330475"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_origin65_allocation_20261128/RAPFI_PLAN.json",
+      "sha256": "9d1f8f4bf8f6bbf9990a2f78d011a8365c853c45a4ca2794ec849f2722461760"
+    },
+    {
+      "added": 16,
+      "path": "docs/research/quartz_origin66_omission_20261128/RAPFI_PLAN.json",
+      "sha256": "8946e9bc92a86acfa33af97cbb4444ca06419c0f2b4eaf201577be62d1789028"
+    }
+  ],
+  "scope": "exploratory 16 compact families, Q96 vs B128 and Q104 vs B128 separately, two colors; fixed-cap response, not adaptive transfer",
+  "workers": 2
+}
