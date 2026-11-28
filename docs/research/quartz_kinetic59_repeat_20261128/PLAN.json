@@ -1,0 +1,2613 @@
+{
+  "binary": "/home/cosmosapjw/quantum/research/quartz_kinetic58_stop_target_20261128/mcts_demo",
+  "binary_sha256": "18dfa24173b9c3c404b4f793459066224389863a7409ca66a0de7c64845bc1bf",
+  "bootstrap_reps": 8000,
+  "bootstrap_seed": 202611285900,
+  "jobs": [
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        16,
+        36
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 0,
+      "opening": [
+        33,
+        30,
+        36,
+        8
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        31,
+        29,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 1,
+      "opening": [
+        26,
+        9,
+        23,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        39,
+        12,
+        15
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 2,
+      "opening": [
+        15,
+        9,
+        33,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "FIRST"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        30,
+        8,
+        11
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 3,
+      "opening": [
+        11,
+        12,
+        32,
+        9
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        18,
+        10,
+        38
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 4,
+      "opening": [
+        39,
+        38,
+        30,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "FIRST",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        19,
+        11,
+        26
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 5,
+      "opening": [
+        11,
+        19,
+        40,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "FIRST",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        26,
+        22,
+        31
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 6,
+      "opening": [
+        22,
+        26,
+        40,
+        17
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        18,
+        19,
+        32
+      ],
+      "geometry": "central",
+      "horizon": 4,
+      "id": 7,
+      "opening": [
+        16,
+        15,
+        11,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        3,
+        36,
+        39
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 8,
+      "opening": [
+        1,
+        39,
+        3,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        11,
+        8,
+        28
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 9,
+      "opening": [
+        35,
+        46,
+        15,
+        36
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "FIRST",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        3,
+        29,
+        42
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 10,
+      "opening": [
+        45,
+        15,
+        43,
+        0
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        3,
+        9,
+        12,
+        44
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 11,
+      "opening": [
+        15,
+        36,
+        21,
+        20
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        22,
+        20,
+        44
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 12,
+      "opening": [
+        22,
+        34,
+        45,
+        2
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "FIRST",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        16,
+        20,
+        31
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 13,
+      "opening": [
+        18,
+        23,
+        19,
+        46
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "FIRST"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        47,
+        18,
+        23
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 14,
+      "opening": [
+        13,
+        16,
+        35,
+        31
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "FIRST",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        17,
+        3,
+        28
+      ],
+      "geometry": "whole",
+      "horizon": 4,
+      "id": 15,
+      "opening": [
+        25,
+        27,
+        41,
+        44
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        17,
+        26
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 16,
+      "opening": [
+        37,
+        23,
+        15,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        18,
+        22,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 17,
+      "opening": [
+        36,
+        38,
+        16,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        9,
+        17
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 18,
+      "opening": [
+        22,
+        23,
+        31,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        23,
+        26,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 19,
+      "opening": [
+        39,
+        22,
+        25,
+        15
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "FIRST"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        25,
+        38
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 20,
+      "opening": [
+        10,
+        23,
+        25,
+        38
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        16,
+        18,
+        29
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 21,
+      "opening": [
+        11,
+        16,
+        18,
+        33
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "FIRST",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        30,
+        33,
+        37
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 22,
+      "opening": [
+        16,
+        15,
+        26,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        32,
+        10,
+        19
+      ],
+      "geometry": "central",
+      "horizon": 8,
+      "id": 23,
+      "opening": [
+        9,
+        10,
+        32,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        16,
+        17,
+        10,
+        14
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 24,
+      "opening": [
+        18,
+        4,
+        25,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        24,
+        8,
+        27
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 25,
+      "opening": [
+        24,
+        12,
+        20,
+        45
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        18,
+        1,
+        42
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 26,
+      "opening": [
+        18,
+        42,
+        0,
+        1
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        18,
+        9,
+        35
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 27,
+      "opening": [
+        32,
+        7,
+        30,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        16,
+        22,
+        36
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 28,
+      "opening": [
+        18,
+        40,
+        5,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "FIRST",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        36,
+        13,
+        35
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 29,
+      "opening": [
+        47,
+        35,
+        12,
+        13
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        18,
+        10,
+        33
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 30,
+      "opening": [
+        16,
+        10,
+        6,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "FIRST",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        30,
+        20,
+        26
+      ],
+      "geometry": "whole",
+      "horizon": 8,
+      "id": 31,
+      "opening": [
+        16,
+        26,
+        37,
+        34
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "FIRST",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        30,
+        9,
+        23
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 32,
+      "opening": [
+        38,
+        25,
+        18,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        10,
+        23,
+        18,
+        29
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 33,
+      "opening": [
+        10,
+        18,
+        23,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "FIRST",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        12,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 34,
+      "opening": [
+        23,
+        40,
+        38,
+        11
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        16,
+        17,
+        9,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 35,
+      "opening": [
+        18,
+        37,
+        25,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        18,
+        22,
+        25
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 36,
+      "opening": [
+        30,
+        23,
+        40,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "FIRST"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        31,
+        9,
+        25
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 37,
+      "opening": [
+        23,
+        31,
+        26,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        30,
+        19,
+        26
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 38,
+      "opening": [
+        9,
+        26,
+        30,
+        19
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "FIRST",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        26,
+        16,
+        22
+      ],
+      "geometry": "central",
+      "horizon": 12,
+      "id": 39,
+      "opening": [
+        38,
+        18,
+        12,
+        10
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        0,
+        18,
+        6,
+        35
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 40,
+      "opening": [
+        32,
+        1,
+        6,
+        48
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        1,
+        13,
+        44,
+        47
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 41,
+      "opening": [
+        35,
+        4,
+        47,
+        1
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        30,
+        15,
+        18
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 42,
+      "opening": [
+        18,
+        33,
+        46,
+        30
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "FIRST",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        22,
+        32,
+        46
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 43,
+      "opening": [
+        21,
+        20,
+        38,
+        18
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        37,
+        10,
+        15
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 44,
+      "opening": [
+        37,
+        10,
+        1,
+        15
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "FIRST",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        3,
+        19,
+        36
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 45,
+      "opening": [
+        28,
+        9,
+        21,
+        40
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "FIRST",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        4,
+        17,
+        47
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 46,
+      "opening": [
+        0,
+        17,
+        4,
+        47
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "FIRST",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        3,
+        16,
+        6,
+        32
+      ],
+      "geometry": "whole",
+      "horizon": 12,
+      "id": 47,
+      "opening": [
+        16,
+        42,
+        21,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        10,
+        19,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 48,
+      "opening": [
+        38,
+        15,
+        40,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        16,
+        26,
+        40
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 49,
+      "opening": [
+        37,
+        12,
+        30,
+        26
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        8,
+        19,
+        22,
+        29
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 50,
+      "opening": [
+        11,
+        38,
+        40,
+        37
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        9,
+        24,
+        11,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 51,
+      "opening": [
+        9,
+        11,
+        24,
+        39
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        10,
+        23,
+        32,
+        33
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 52,
+      "opening": [
+        17,
+        39,
+        22,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "FIRST",
+        "CONTROL"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        19,
+        8,
+        18
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 53,
+      "opening": [
+        11,
+        16,
+        15,
+        12
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "REPEAT",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        9,
+        16,
+        33,
+        39
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 54,
+      "opening": [
+        33,
+        9,
+        32,
+        15
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        8,
+        24,
+        18,
+        26
+      ],
+      "geometry": "central",
+      "horizon": 16,
+      "id": 55,
+      "opening": [
+        40,
+        10,
+        24,
+        18
+      ]
+    },
+    {
+      "arm_order": [
+        "CONTROL",
+        "FIRST",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        29,
+        13,
+        28
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 56,
+      "opening": [
+        9,
+        47,
+        13,
+        2
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        3,
+        18,
+        29
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 57,
+      "opening": [
+        28,
+        39,
+        21,
+        16
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "REPEAT",
+        "CONTROL"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        2,
+        17,
+        16,
+        23
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 58,
+      "opening": [
+        34,
+        31,
+        25,
+        32
+      ]
+    },
+    {
+      "arm_order": [
+        "FIRST",
+        "CONTROL",
+        "REPEAT"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        37,
+        35,
+        47
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 59,
+      "opening": [
+        33,
+        47,
+        35,
+        13
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "FIRST"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        0,
+        3,
+        5,
+        43
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 60,
+      "opening": [
+        0,
+        5,
+        3,
+        43
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "FIRST"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        44,
+        30,
+        41
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 61,
+      "opening": [
+        13,
+        43,
+        14,
+        16
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "FIRST"
+      ],
+      "color_order": [
+        1,
+        -1
+      ],
+      "family": [
+        2,
+        21,
+        11,
+        38
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 62,
+      "opening": [
+        14,
+        26,
+        3,
+        29
+      ]
+    },
+    {
+      "arm_order": [
+        "REPEAT",
+        "CONTROL",
+        "FIRST"
+      ],
+      "color_order": [
+        -1,
+        1
+      ],
+      "family": [
+        1,
+        30,
+        15,
+        38
+      ],
+      "geometry": "whole",
+      "horizon": 16,
+      "id": 63,
+      "opening": [
+        35,
+        37,
+        32,
+        26
+      ]
+    }
+  ],
+  "models": {
+    "101": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 82.3,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.72,
+            "timestamp": "2026-07-13 22:49:57",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_101/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "887b8b9d1861857824e1aec6ca46eb8c89551c7ea3af2774becdd905d661d211",
+      "training_log_sha256": "d7530772be9e96671bc398fd04c0c74c6a0496924ab3506b5628edcaa2f6b66e"
+    },
+    "102": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [
+          "gen_0"
+        ],
+        "champion": "gen_5",
+        "elo": 54.9,
+        "generation": 5,
+        "history": [
+          {
+            "from": "gen_0",
+            "games": 200,
+            "generation": 5,
+            "score_rate": 0.64,
+            "timestamp": "2026-07-13 23:27:53",
+            "to": "gen_5"
+          }
+        ]
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_102/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "19ba1b53b5f9dae0cb36b5b538ba55d0b1d522d0973a2678172dc5a165e40291",
+      "training_log_sha256": "bc2ced112e94604e51816acf288adc22c65636a8211934d1d4c9eddaa454deb8"
+    },
+    "103": {
+      "bytes": 4203527,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/best.pt",
+      "role": "K38 frozen best checkpoint",
+      "sha256": "56f57ebcb738edd065edba0a6e67032cbcee75d12ce12023526954978f48e595",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "105": {
+      "bytes": 4203643,
+      "champion": {
+        "bridge": [],
+        "champion": "gen_0",
+        "elo": -12.9,
+        "generation": 0,
+        "history": []
+      },
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_stage7/gomoku7/training/seed_103/gen_5.pt",
+      "role": "103 unpromoted trained gen5 (related checkpoint)",
+      "sha256": "a430602a889eba3f568c0a515c8a10dd3bb74d6b6b9adade5c00f0b22b91604b",
+      "training_log_sha256": "c89d5444e701fa45c316eb82bdc35440f2120b1a56b4e2e992f694e8c97cb338"
+    },
+    "41": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_41/gen_2.pt",
+      "original_seed": 41,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_41_gen2.pt",
+      "promotion": false,
+      "sha256": "d058771b43e948a9dec121be72bc0aa4228b2bdd9d1b52e55ccdc36626ca471b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 0.0,
+        "delta_elo": 0.0,
+        "elo_gap": 0.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.2897,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.2821,
+        "loss_ema": 4.2821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9269,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.633,
+        "pos_per_s": 6.3,
+        "published_elo": 0.0,
+        "replay": 298,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4094,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 200797,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.16899844548079057,
+          "extended_refresh_active_total": 31962,
+          "extended_refresh_eligible_total": 189126,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.36779248237609863,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4159732460975647,
+                "p95": 0.499844965338707
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6964949285984039,
+          "mean_p_flip": 0.36779248237609863,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.17965474207885562,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 40.9,
+          "mean_selection_effective_prior_l1_sum": 20.977019189999996,
+          "mean_selection_penalty_abs_sum": 10.620640669999998,
+          "mean_selection_root_selects": 2007.97,
+          "mean_voc_expand": -0.002033718860766385,
+          "mean_voc_focus": 0.02625431322058823,
+          "mean_voc_merge": 0.05439751913337197,
+          "mean_voc_total": 0.0595108026266098,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.15917568489569067,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.5,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.16,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.18,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.181,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.282,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 15.684,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.16,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 298,
+          "rolling_cycle_s": 20.18,
+          "rolling_games": 19,
+          "rolling_positions": 298,
+          "rolling_positions_per_s": 7.384,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.4,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.3552,
+        "value_std": 0.5149
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_41",
+          "--seed",
+          "41",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:30:22",
+        "returncode": 0,
+        "seed": 41,
+        "started_at": "2026-07-08 20:29:21"
+      }
+    },
+    "42": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_42/gen_2.pt",
+      "original_seed": 42,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_42_gen2.pt",
+      "promotion": false,
+      "sha256": "75d85209040f4e9047b6157ea5aece756bbe78cbef76bc92d515661189bd334f",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.3656,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.3543,
+        "loss_ema": 4.3543,
+        "lr": 0.0101,
+        "new_pos": 101,
+        "p_loss": 3.9202,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.589,
+        "pos_per_s": 5.4,
+        "published_elo": -167.5,
+        "replay": 266,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.3797,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 176682,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.3324768022840828,
+          "extended_refresh_active_total": 55896,
+          "extended_refresh_eligible_total": 168120,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.44832869589328767,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.4995744377374649,
+                "p95": 0.4999823793768883
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6751197075843811,
+          "mean_p_flip": 0.44832869589328767,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.1390875223092735,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.78,
+          "mean_selection_effective_prior_l1_sum": 29.018208809999997,
+          "mean_selection_penalty_abs_sum": 5.909404700000001,
+          "mean_selection_root_selects": 1766.82,
+          "mean_voc_expand": -0.0018288146399208934,
+          "mean_voc_focus": 0.03310010064922594,
+          "mean_voc_merge": 0.046275470304008054,
+          "mean_voc_total": 0.050557230021804574,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.3163649947363059,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.263,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 19.325,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.241,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 101,
+          "last_cycle_s": 16.547,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.0,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.263,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 266,
+          "rolling_cycle_s": 19.325,
+          "rolling_games": 19,
+          "rolling_positions": 266,
+          "rolling_positions_per_s": 6.882,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 18.6,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.4341,
+        "value_std": 0.7186
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_42",
+          "--seed",
+          "42",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:31:20",
+        "returncode": 0,
+        "seed": 42,
+        "started_at": "2026-07-08 20:30:22"
+      }
+    },
+    "43": {
+      "architecture": "64f/4b/vh64",
+      "generation": 2,
+      "original_path": "/home/cosmosapjw/Dropbox/personal_projects/quartz/results/phase15_ablation/gomoku7/bootstrap/seed_43/gen_2.pt",
+      "original_seed": 43,
+      "path": "/home/cosmosapjw/Dropbox/personal_projects/quartz_kinetic46_confirm_backups/models/seed_43_gen2.pt",
+      "promotion": false,
+      "sha256": "4a1fd820002fdfa62e2693febded77a4d4d5884a85a0b1a18f88a5f7c248374b",
+      "train_log_last": {
+        "actor_generation": 1,
+        "avg_pflip": null,
+        "champion_elo": 167.5,
+        "delta_elo": -58.5,
+        "elo_gap": -335.0,
+        "eval_verdict": "reject",
+        "eval_worker_tune": {
+          "benchmarks": [],
+          "mode": "batched_rust",
+          "workers": 1
+        },
+        "games_done": 8,
+        "inner_stop": {
+          "counter": 0,
+          "loss_ema": 4.5981,
+          "min_steps": 3,
+          "planned_steps": 4,
+          "steps_done": 4,
+          "triggered": false
+        },
+        "iter": 2,
+        "loss": 4.5821,
+        "loss_ema": 4.5821,
+        "lr": 0.0101,
+        "new_pos": 122,
+        "p_loss": 3.9666,
+        "planned_train_steps": 4,
+        "policy_entropy": 1.861,
+        "pos_per_s": 6.2,
+        "published_elo": -167.5,
+        "replay": 278,
+        "replay_actor_gen_hist": {
+          "0": 200
+        },
+        "replay_freshness": 0.4388,
+        "replay_freshness_summary": {
+          "freshness_score": 0.9995001249791693,
+          "half_life_gen": 2000.0,
+          "mean_age": 1.0,
+          "newest_gen": 0,
+          "oldest_gen": 0,
+          "sample_count": 200,
+          "schema_version": 1
+        },
+        "replay_search_summary": {
+          "actuator_coverage_frac": 1.0,
+          "benchmark_safe_frac": 1.0,
+          "controller_penalty_mode_counts": {
+            "GatedRefresh": 100
+          },
+          "controller_schema_versions": {
+            "6": 100
+          },
+          "controller_telemetry_partial_frac": 0.0,
+          "extended_controller_penalty_mode_counts": {
+            "EffectiveV2": 0,
+            "GatedRefresh": 208929,
+            "GatedRefreshLegacy": 0,
+            "Legacy": 0,
+            "None": 0,
+            "PFlipMixture": 0,
+            "SelfAdaptive": 0
+          },
+          "extended_coverage_frac": 1.0,
+          "extended_halt_reason_count": {
+            "EmpBernsteinSep": 0,
+            "FixedBudget": 0,
+            "GLRCertified": 0,
+            "KLLUCBStop": 0,
+            "MaxTime": 0,
+            "MaxVisits": 100,
+            "MinVisitsNotMet": 0,
+            "PFlipConverged": 0,
+            "PolicyConverged": 0,
+            "VOCNonPositive": 0
+          },
+          "extended_measured_prior_refresh_rate": 0.005928749419267644,
+          "extended_refresh_active_total": 1123,
+          "extended_refresh_eligible_total": 189416,
+          "halt_metric_coverage_frac": 1.0,
+          "halt_reason_hist": {
+            "BudgetExhausted": 100
+          },
+          "halt_trace": {
+            "GatedRefresh": {
+              "moves": 100,
+              "p_flip_at_halt": {
+                "max": 0.5,
+                "mean": 0.4317223697900772,
+                "min": 0.0,
+                "n": 100,
+                "p50": 0.49357300996780396,
+                "p95": 0.49951691478490834
+              },
+              "root_visits": {
+                "max": 200.0,
+                "mean": 200.0,
+                "min": 200.0,
+                "n": 100,
+                "p50": 200.0,
+                "p95": 200.0
+              },
+              "stop_reasons": {
+                "BudgetExhausted": 100
+              }
+            }
+          },
+          "max_selection_candidate_count": 49.0,
+          "mean_dup_rate": 0.6634199434518814,
+          "mean_p_flip": 0.4317223697900772,
+          "mean_penalty_sum": 0.0,
+          "mean_prior_q_divergence": 0.06438421737169847,
+          "mean_prior_refresh_rate": 0.0,
+          "mean_realized_iterations": 200.0,
+          "mean_refresh_count": 0.0,
+          "mean_selection_candidate_count": 41.25,
+          "mean_selection_effective_prior_l1_sum": 2.5870308900000003,
+          "mean_selection_penalty_abs_sum": 3.32809432,
+          "mean_selection_root_selects": 2089.29,
+          "mean_voc_expand": -0.0007750782075714472,
+          "mean_voc_focus": 0.009553292178634295,
+          "mean_voc_merge": 0.019333062698042268,
+          "mean_voc_total": 0.02254601239255862,
+          "penalty_metric_coverage_frac": 1.0,
+          "prior_refresh_rate_configured_frac": 0.0,
+          "prior_refresh_rate_consumed_by_mode_frac": 0.0,
+          "prior_refresh_rate_inert_for_mode_frac": 0.0,
+          "prior_refresh_source_counts": {
+            "prior_q_divergence_gate": 100
+          },
+          "refresh_metric_coverage_frac": 1.0,
+          "root_only_shaping_frac": 1.0,
+          "samples": 100,
+          "search_profile_counts": {
+            "quartz": 100
+          },
+          "selection_refresh_selected_frac": 0.005375031709336665,
+          "selection_trace_coverage_frac": 1.0,
+          "voc_argmax_channel_hist": {}
+        },
+        "runtime_tune": null,
+        "score_rate": 0.25,
+        "search_manifest_hash": "7c00dec1663ee89d",
+        "selfplay_queue_latency_s": 2.13,
+        "selfplay_telemetry": {
+          "actor_generation": 2,
+          "actor_id": "actor_gen_000002",
+          "avg_cycle_s": 20.034,
+          "backpressure_waits": 0,
+          "burst_ratio": 1.122,
+          "consecutive_errors": 0,
+          "cycles": 2,
+          "games": 19,
+          "idle": false,
+          "inference": {
+            "chunks": 2,
+            "collect_wait_s": 0.0,
+            "eval_items": 0,
+            "eval_items_per_message": null,
+            "eval_messages": 0,
+            "mean_collect_wait_ms": null,
+            "mean_model_batch_size": null,
+            "mean_model_time_ms": null,
+            "model_calls": 0,
+            "model_time_s": 0.0
+          },
+          "last_cycle_games": 8,
+          "last_cycle_positions": 122,
+          "last_cycle_s": 17.94,
+          "last_error": null,
+          "last_plan": {
+            "batch_games": 8,
+            "estimated_positions_per_game": 14.632,
+            "games_per_call": 8,
+            "parallel": 8,
+            "replay_deficit": 0
+          },
+          "last_progress_age_s": 2.13,
+          "path": "rust+nn",
+          "paused": false,
+          "positions": 278,
+          "rolling_cycle_s": 20.034,
+          "rolling_games": 19,
+          "rolling_positions": 278,
+          "rolling_positions_per_s": 6.938,
+          "server_pool": {
+            "cached_procs": 0,
+            "last_restart_age_s": null,
+            "last_restart_reason": null,
+            "restart_count": 0,
+            "restart_streak": 0
+          },
+          "worker_alive": true
+        },
+        "time_s": 19.8,
+        "train_executed": true,
+        "train_steps": 4,
+        "v_loss": 0.6156,
+        "value_std": 0.8035
+      },
+      "training": {
+        "cmd": [
+          "/home/cosmosapjw/Dropbox/personal_projects/quartz/venv-cuda/bin/python",
+          "-m",
+          "quartz.train",
+          "--game",
+          "gomoku7",
+          "--iterations",
+          "2",
+          "--games",
+          "8",
+          "--output",
+          "results/phase15_ablation/gomoku7/bootstrap/seed_43",
+          "--seed",
+          "43",
+          "--backend",
+          "torch",
+          "--device",
+          "auto",
+          "--rust-binary",
+          "./target/release/mcts_demo",
+          "--search-profile",
+          "quartz",
+          "--vl-mode",
+          "adaptive",
+          "--eval-interval",
+          "2",
+          "--eval-games",
+          "4",
+          "--no-autotune"
+        ],
+        "finished_at": "2026-07-08 20:32:20",
+        "returncode": 0,
+        "seed": 43,
+        "started_at": "2026-07-08 20:31:20"
+      }
+    }
+  },
+  "prior_families": 2900,
+  "prior_locks": [
+    {
+      "families": 36,
+      "path": "docs/research/quartz_kinetic33_20261126/PLAN.json",
+      "sha256": "58877f6bc469438a8759dd1a7a60ccdef5782eaef82686180a0fa3c9363c680b"
+    },
+    {
+      "families": 96,
+      "path": "docs/research/quartz_kinetic38_nnlock_20261126/PLAN.json",
+      "sha256": "aedf701de9d8e5598654e8f9880c0561f887a09bd2facbdd769d855286ec0d50"
+    },
+    {
+      "families": 832,
+      "path": "docs/research/quartz_kinetic39_voc_20261126/PLAN.json",
+      "sha256": "64511e71fac2e3b53cfd566828b2779c045d8d18ed2db59ea9543a32437491df"
+    },
+    {
+      "families": 304,
+      "path": "docs/research/quartz_kinetic40_budget_20261126/PLAN.json",
+      "sha256": "59590c12ce52b301ca5c83dcaa4caa68a4449a419d2a93ad3df3275d072a1a90"
+    },
+    {
+      "families": 64,
+      "path": "docs/research/quartz_kinetic41_exact_20261126/PLAN.json",
+      "sha256": "412277683bdb77b17a626e12f1962f91d09fd5b1b5c2f9a06c4011d58ba04b40"
+    },
+    {
+      "families": 64,
+      "path": "docs/research/quartz_kinetic42_threshold_20261127/PLAN.json",
+      "sha256": "669715e2f6b0e887121f7c4d09f3b01bd098c0ff38628dc82842762c668a109d"
+    },
+    {
+      "families": 160,
+      "path": "docs/research/quartz_kinetic43_partial_20261127/PLAN.json",
+      "sha256": "a84145c68a1268bbac48eab995d2e3d50e7061104c8ce1784f8fac74e10c0a80"
+    },
+    {
+      "families": 160,
+      "path": "docs/research/quartz_kinetic44_incremental_20261127/PLAN.json",
+      "sha256": "dde0c512cc9f0465d233a322528183758e7ed75ee1ef8a21c28d0b0fe0b31e4e"
+    },
+    {
+      "families": 128,
+      "path": "docs/research/quartz_kinetic45_sequential_20261127/PLAN.json",
+      "sha256": "7cd9bef8bab2b8cb3b1ac6074b072dfc082a184280f8c53ddec92a1b3f3a7981"
+    },
+    {
+      "families": 96,
+      "path": "docs/research/quartz_kinetic46_confirm_20261127/PLAN.json",
+      "sha256": "0cd2969b225f793166ecfa5e9ee76cf018bc8f63fd4bf0f00a64afb1aea24ed2"
+    },
+    {
+      "families": 48,
+      "path": "docs/research/quartz_kinetic47_native_20261127/PLAN.json",
+      "sha256": "c08161bef65c25d029ff8c00a1a48cd944f7b210b953bd09f77425a4ff439c04"
+    },
+    {
+      "families": 96,
+      "path": "docs/research/quartz_kinetic48_voc_20261127/PLAN.json",
+      "sha256": "9cacaa752dd9ecdb313507f3427c0c4c2d64762c08f1918d32196af5ef799dde"
+    },
+    {
+      "families": 144,
+      "path": "docs/research/quartz_kinetic49_stability_20261127/PLAN.json",
+      "sha256": "8a8b58d44983b6e7272e0c71a39e184a7be1d02809793dea492f02fe8c2e0201"
+    },
+    {
+      "families": 96,
+      "path": "docs/research/quartz_kinetic50_intervention_20261127/PLAN.json",
+      "sha256": "6e841c192c211910ea3a060c85c3fbb510a6c08ac6ead1624394eda6ce647cc2"
+    },
+    {
+      "families": 48,
+      "path": "docs/research/quartz_kinetic51_targeted_20261127/PLAN.json",
+      "sha256": "e08714c2369c793625ed06e1ffefb89ad0b1e78c42e3d6526494dcb39b610a16"
+    },
+    {
+      "families": 96,
+      "path": "docs/research/quartz_kinetic52_confirm_20261127/PLAN.json",
+      "sha256": "2e0bd886f5403dc13589921f06dbf0aace2335e2372b624ba9cf651f16c1d9b9"
+    },
+    {
+      "families": 48,
+      "path": "docs/research/quartz_kinetic53_reuse_20261127/PLAN.json",
+      "sha256": "2d789f1b5cd87fd647de2a31f7a9f2119f66f542843cf15c9a471862c3f4b5c9"
+    },
+    {
+      "families": 48,
+      "path": "docs/research/quartz_kinetic54_cache_20261127/PLAN.json",
+      "sha256": "23caf8740c5febfe5af86dfa134a688f74b3f7079895cbf0a285b20fae529761"
+    },
+    {
+      "families": 64,
+      "path": "docs/research/quartz_kinetic55_policy_20261128/PLAN.json",
+      "sha256": "55d6a4387c5f34d0bcb7085d57302daeeb91a0c6368119d040712d1cf919abf2"
+    },
+    {
+      "families": 48,
+      "path": "docs/research/quartz_kinetic56_voc_20261128/PLAN.json",
+      "sha256": "5f056f5f70abadbd8f78d18f68998d0fbea720b7a37b16a5115c0a666bd3bb0a"
+    },
+    {
+      "families": 64,
+      "path": "docs/research/quartz_kinetic57_early_20261128/PLAN.json",
+      "sha256": "4cb4ff983544ad95cfeb23d733da8ea02615613b0763e3f47344ba695236c58c"
+    },
+    {
+      "families": 160,
+      "path": "docs/research/quartz_kinetic58_stop_20261128/PLAN.json",
+      "sha256": "0eaee00cc58dad741947f74834bb522a27f6abbf24b4c0b0639076d59ab6c9e3"
+    }
+  ],
+  "seed": 2026112859,
+  "source_commit": "050129420e235db462916fe36d7f928242a4f3d6",
+  "source_sha256": {
+    "src/mcts/eval.rs": "d81b5c8028e48becaa08d0dfbd057a5dbbb3bc4ec7b9d6403f112762be5e071b",
+    "src/mcts_server.rs": "2919b6c09e5980b017707c9085da0a96d8e6dfc2b2fd1e89156851a64fc758b2",
+    "src/mcts_server/k47_nn.rs": "830d96e7d525e1fad2d8a300d51569d9d6c1cee13162be0e78f20cec267e4d54",
+    "src/mcts_server/k47_proof.rs": "4afbbd2c7667e0020c4fa1f91691ca0cded7458b85f6527a6167639cdefffab2",
+    "src/mcts_server/rapfi_k36.rs": "671cb0b0c00097e467543ca698597bb693388bbb0b89f1ea22f56f2dd0039635"
+  },
+  "workers": 6
+}
