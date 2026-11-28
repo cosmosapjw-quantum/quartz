@@ -6,7 +6,7 @@ use serde::Deserialize;
 use serde_json::{json,Value};
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool,#[serde(default)]table:Option<[u8;4]>}
+struct Req{cmd:String,history:Vec<u16>,cap:u32,quartz:bool,#[serde(default)]trace:bool,#[serde(default)]atlas:bool,#[serde(default)]mask:Option<u8>,#[serde(default)]cache:bool,#[serde(default)]table:Option<[u8;4]>,#[serde(default)]voc:Option<Voc56>}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct EvalReply{cmd:String,id:u32,a:u64,b:u64,p:i8,prior:Vec<f64>,value:f64}
@@ -309,5 +309,23 @@ mod k55_tests{
     #[test]fn k55_cell_indices(){
         assert_eq!(k55_cell(3,8),0);assert_eq!(k55_cell(3,9),1);
         assert_eq!(k55_cell(7,8),2);assert_eq!(k55_cell(7,9),3);
+    }
+}
+
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Voc56{
+    gain:[[f64;8];2],cost:[[f64;8];2],stop:bool,lambda:f64,
+}
+fn k56_decide(_m:&Voc56,_x:&[f64;8])->(u8,[f64;3],[f64;3]){(0,[0.;3],[0.;3])}
+#[cfg(test)]
+mod k56_tests{
+    use super::*;
+    #[test]fn k56_physical_net_selection(){
+        let mut m=Voc56{gain:[[0.;8];2],cost:[[0.;8];2],stop:false,lambda:0.01};
+        m.gain[0][0]=0.12;m.cost[0][0]=10.;m.gain[1][0]=0.1;m.cost[1][0]=5.;
+        assert_eq!(k56_decide(&m,&[1.;8]).0,2);
+        m.lambda=0.03;assert_eq!(k56_decide(&m,&[1.;8]).0,0);
     }
 }
