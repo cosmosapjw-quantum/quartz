@@ -1,0 +1,23 @@
+# K59: repeated STOP as a sequential decision policy
+
+## Decision and scope
+Primary prespecified joint criterion PASS, independently reproduced in a second 8,000-draw stratified family bootstrap. Scope: 7x7, seven fixed trained NN checkpoints, 64 fresh D4 opening families (8 in each horizon x generator cell), both colors, each Quartz policy independently vs B32 using the same model. Fixed assigned h=4,8,12,16 is an experimental intervention, not a state-derived parameter-free controller. No cross-evaluator or Quartz-v-Quartz games. No post-outcome threshold tuning. Parent K58 b062ebb627e7e13bf294570864923be7d6dd7909.
+
+|arm|games|W/D/L|score|physical NN/move Q|physical NN/move B|NN reduction|CPU reduction|
+|---|---:|---|---:|---:|---:|---:|---:|
+|CONTROL|896|717/0/179|0.800223|8.047985|16.944345|0.525034|0.522570|
+|FIRST|896|720/0/176|0.803571|6.344439|16.820472|0.622814|0.623235|
+|REPEAT|896|728/1/167|0.813058|3.962269|16.848697|0.764832|0.754817|
+
+REPEAT-FIRST score +0.009486607, lower95 -0.004464286 (threshold -0.02); incremental NN reduction +0.142017862, lower95 +0.129926393 (threshold +0.05). Absolute REPEAT score lower95 0.775111607 and saving lower95 0.750875618; CPU saving point positive. Independent lower bounds -0.004464286 and +0.130083440. Two-sided score percentile CI [-0.007254464,0.026785714]; superiority not established. Inference conditional on the fixed model panel and opening generators, clustered by family, not individual game. Central and whole generators have overlapping support; no causal geometric class interpretation.
+
+Whole-game changes: 839 additional attempts, 821 additional reached STOP events, 223/896 divergent paired trajectories, 26 improved scores and 18 worsened. At common histories prior to or including first divergence, physical calls changed by -6009; total calls across both players by -11433. Difference -5424 is remaining path-dependent accounting, not identified causal local effect. Per-cell results descriptive only. REPEAT uses unchanged native proof/certificate, cache and STOP implementation, with a new Python dispatch policy.
+
+## Secondary exploratory Rapfi
+16 fresh compact families, both colors; FIRST and REPEAT TARGET independently play B128 with identical Rapfi evaluator; 32 games per arm. Both 16/1/15, score 0.515625. FIRST/REPEAT savings 0.342733/0.339060; CPU 0.249057/0.235658. Repeated target increased events 19->37, extra evaluations 228->444; four diverged trajectories. Paired saving difference -0.003673087, two-sided family CI [-0.028352904,+0.023138920]. All paired score differences zero in this small sample; bootstrap degeneracy does not prove zero population effect. No evidence of incremental benefit, no confirmatory gate. Not a transfer test of NN STOP itself.
+
+## Verification
+2688 NN games (23682 played moves; 268145 physical, 268149 logical NN calls, 4 hits), 64 Rapfi games (2014 moves, 159207 native calls), total 2752 games, 25696 moves, 427352 physical calls. Separate 12-game smoke (1024 calls) excluded. NN audit: 10534 vote checks, 441538 edges, 23682 cache requests, 6925 proof receipts, 971804 proof queries, 7468 early snapshots, 10912 common certificates. Independent terminal-only coordinate minimax resolved all 6 natural exact roots, checked all native intervals and all 5 native completed best/value receipts; one native censored receipt remains censored. Rapfi audit: 864 proof receipts, 756403 proof queries, 18222 waves, 56 target operations. 3 dispatch tests red/green and rerun 3/3. Native binary and five source-file hashes/Cargo.lock identical to K58. No new Rust build or full suite run; full neural outputs not independently recomputed. Six CPU workers; GPU not detected. No training, no native subagent execution.
+
+## Drift and next
+P1 posterior simple regret per unit computation: sequential occupancy identity derived, not posterior calibration or optimality. P2 original A1_legacy_base comparator remains untested by this B32 design; do not substitute this result for it. P3 emergent human signatures remains open. Fixed h grid is not the original state-derived policy. K60: lock REPEAT as reference; disjoint replication with larger/changed opening generators and independent checkpoint panel if available; paired continuation experiment on actual repeated occupancy to identify state-conditioned value/harm vs physical cost. Then derive a state-dependent horizon/STOP rule without fitting to K59 test results, compare on new held-out families. Separate 15x15 Rapfi STOP implementation/validation from TARGET experiments. Maintain same-evaluator match restriction. No main merge.
