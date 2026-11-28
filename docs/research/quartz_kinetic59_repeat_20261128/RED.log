@@ -1,0 +1,20 @@
+..F
+======================================================================
+FAIL: test_q (__main__.PolicyTests.test_q)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/cosmosapjw/quantum/research/quartz_kinetic59_repeat_20261128/docs/research/quartz_kinetic59_repeat_20261128/test_policy59.py", line 13, in test_q
+    self.assertEqual(operation('REPEAT',True,True),('early',1))
+AssertionError: Tuples differ: ('normal', True) != ('early', 1)
+
+First differing element 0:
+'normal'
+'early'
+
+- ('normal', True)
++ ('early', 1)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+FAILED (failures=1)
