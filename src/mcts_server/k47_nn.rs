@@ -456,3 +456,18 @@ mod k57_tests{
         assert!(!k57_event(8,8,1,false));
     }
 }
+
+fn k58_stable(_a:&Value,_b:&Value)->bool{false}
+#[cfg(test)]
+mod k58_tests{
+    use super::*;
+    #[test]fn k58_stability_requires_both_visited_and_consistent_order(){
+        let a=json!({"visits":4,"move":1,"original_move":1,"rival":2,"distance":2,"locked20":false,"edges":[[1,3,0.6,0.3],[2,1,0.1,0.2]]});
+        let b=json!({"visits":8,"move":1,"original_move":1,"rival":2,"distance":3,"locked20":false,"edges":[[1,5,1.0,0.3],[2,3,0.3,0.2]]});
+        assert!(k58_stable(&a,&b));
+        let mut c=b.clone();c["locked20"]=json!(true);assert!(!k58_stable(&a,&c));
+        let mut c=b.clone();c["rival"]=json!(3);assert!(!k58_stable(&a,&c));
+        let mut c=b.clone();c["edges"][1][1]=json!(0);assert!(!k58_stable(&a,&c));
+        let mut c=b.clone();c["edges"][0][2]=json!(-1.0);assert!(!k58_stable(&a,&c));
+    }
+}

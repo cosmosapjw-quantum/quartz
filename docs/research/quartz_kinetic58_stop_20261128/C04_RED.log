@@ -1,0 +1,20 @@
+     Running unittests src/main.rs (/home/cosmosapjw/quantum/research/quartz_kinetic58_stop_target_20261128/cargo/release/deps/mcts_demo-bf101c8e5fd7d611)
+
+running 1 test
+test mcts_server::k47_nn::k58_tests::k58_stability_requires_both_visited_and_consistent_order ... FAILED
+
+failures:
+
+---- mcts_server::k47_nn::k58_tests::k58_stability_requires_both_visited_and_consistent_order stdout ----
+
+thread 'mcts_server::k47_nn::k58_tests::k58_stability_requires_both_visited_and_consistent_order' (1844944) panicked at src/mcts_server/k47_nn.rs:467:9:
+assertion failed: k58_stable(&a, &b)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    mcts_server::k47_nn::k58_tests::k58_stability_requires_both_visited_and_consistent_order
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 752 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--bin mcts_demo`
