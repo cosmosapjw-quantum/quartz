@@ -25,7 +25,7 @@ def arena(mode):
         out['arms'][arm]=dict(point=p,lower95=b,counts={x:int(v) for x,v in zip(KEYS,agg[k])})
     for t,b in [(1,0),(2,0),(2,1)]:
         x={n:float(v[t]-v[b]) for n,v in point.items()};y={n:low(v[:,t]-v[:,b]) for n,v in bs.items()}
-        gates=dict(score_NI=y['score']>=-.02,absolute_saving=out['arms'][ARMS[t]]['lower95']['saving']>=.85,relative_saving=y['saving']>=-.05,cpu_positive=point['cpu_saving'][t]>0,signed_utility=y['utility']>0)
+        gates=dict(score_NI=y['score']>=-.02,absolute_saving=out['arms'][ARMS[t]]['lower95']['saving']>=.85,relative_saving=y['saving']>=-.05,cpu_positive=bool(point['cpu_saving'][t]>0),signed_utility=y['utility']>0)
         out['contrasts'][ARMS[t]+'-'+ARMS[b]]=dict(point=x,lower95=y,CI={n:interval(v[:,t]-v[:,b]) for n,v in bs.items()},gates=gates,performance=all(gates[k] for k in ('score_NI','absolute_saving','relative_saving','cpu_positive')),benefit=all(gates.values()))
         if b==0:
             p=[r['pairs'][ARMS[t]] for r in rows]
