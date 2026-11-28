@@ -1,0 +1,407 @@
+{
+  "cells": {
+    "(12, 'central')": {
+      "effects": {
+        "stable": {
+          "saving": 0.011115585045566978,
+          "score": -0.0022321428571429047
+        },
+        "stop": {
+          "saving": 0.07118718092928755,
+          "score": -0.008928571428571508
+        }
+      },
+      "families": 32
+    },
+    "(12, 'whole')": {
+      "effects": {
+        "stable": {
+          "saving": 0.011991719495712427,
+          "score": 0.0
+        },
+        "stop": {
+          "saving": 0.07592226557287707,
+          "score": 0.017857142857142905
+        }
+      },
+      "families": 8
+    },
+    "(16, 'central')": {
+      "effects": {
+        "stable": {
+          "saving": 0.005771418422020891,
+          "score": 0.008928571428571397
+        },
+        "stop": {
+          "saving": 0.02770358656695493,
+          "score": 0.0
+        }
+      },
+      "families": 8
+    },
+    "(16, 'whole')": {
+      "effects": {
+        "stable": {
+          "saving": 0.0062113289422741635,
+          "score": -0.0022321428571429047
+        },
+        "stop": {
+          "saving": 0.03195536747176464,
+          "score": 0.0
+        }
+      },
+      "families": 32
+    },
+    "(4, 'central')": {
+      "effects": {
+        "stable": {
+          "saving": 0.011959434731686924,
+          "score": 0.0
+        },
+        "stop": {
+          "saving": 0.16978541628689126,
+          "score": 0.015625
+        }
+      },
+      "families": 32
+    },
+    "(4, 'whole')": {
+      "effects": {
+        "stable": {
+          "saving": 0.004300555490415192,
+          "score": 0.0
+        },
+        "stop": {
+          "saving": 0.12159495173043222,
+          "score": 0.008928571428571397
+        }
+      },
+      "families": 8
+    },
+    "(8, 'central')": {
+      "effects": {
+        "stable": {
+          "saving": 0.00589289334888099,
+          "score": 0.0
+        },
+        "stop": {
+          "saving": 0.10573261506732079,
+          "score": 0.0
+        }
+      },
+      "families": 8
+    },
+    "(8, 'whole')": {
+      "effects": {
+        "stable": {
+          "saving": 0.011564739810144609,
+          "score": 0.0022321428571429047
+        },
+        "stop": {
+          "saving": 0.09534469982606175,
+          "score": -0.004464285714285698
+        }
+      },
+      "families": 32
+    }
+  },
+  "scope": "descriptive equal weight per generator and assigned horizon, 8000 family resamples within each cell; not primary NI, no per-cell superiority claim, whole generator overlaps central",
+  "standardized": {
+    "12": {
+      "stable": {
+        "delta_saving": 0.01156937510737277,
+        "delta_score": -0.0011160714285713969,
+        "saving_CI": [
+          0.006895343586472369,
+          0.016312534249753874
+        ],
+        "score_CI": [
+          -0.0033482142857143016,
+          0.0
+        ]
+      },
+      "stop": {
+        "delta_saving": 0.07426288614077237,
+        "delta_score": 0.004464285714285698,
+        "saving_CI": [
+          0.05724452140029279,
+          0.09555218090853113
+        ],
+        "score_CI": [
+          -0.015625,
+          0.0279017857142857
+        ]
+      }
+    },
+    "16": {
+      "stable": {
+        "delta_saving": 0.00621642899442354,
+        "delta_score": 0.0033482142857143016,
+        "saving_CI": [
+          0.002733624919725286,
+          0.0096398412227654
+        ],
+        "score_CI": [
+          -0.0022321428571429047,
+          0.013392857142857095
+        ]
+      },
+      "stop": {
+        "delta_saving": 0.03054721556631479,
+        "delta_score": 0.0,
+        "saving_CI": [
+          0.027890167893411588,
+          0.034165989493246784
+        ],
+        "score_CI": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "4": {
+      "stable": {
+        "delta_saving": 0.0072910298758646075,
+        "delta_score": 0.0,
+        "saving_CI": [
+          0.004691278875471716,
+          0.010534954666741259
+        ],
+        "score_CI": [
+          -0.0033482142857143016,
+          0.0033482142857143016
+        ]
+      },
+      "stop": {
+        "delta_saving": 0.1411961476481146,
+        "delta_score": 0.012276785714285698,
+        "saving_CI": [
+          0.11902789672169611,
+          0.1652036031389449
+        ],
+        "score_CI": [
+          -0.014508928571428603,
+          0.0345982142857143
+        ]
+      }
+    },
+    "8": {
+      "stable": {
+        "delta_saving": 0.009477798442695029,
+        "delta_score": 0.0011160714285713969,
+        "saving_CI": [
+          0.00460250757649705,
+          0.014323164904332275
+        ],
+        "score_CI": [
+          -0.0022321428571429047,
+          0.0044642857142858094
+        ]
+      },
+      "stop": {
+        "delta_saving": 0.09936696149526902,
+        "delta_score": -0.0022321428571429047,
+        "saving_CI": [
+          0.08875992535939048,
+          0.11037876095355725
+        ],
+        "score_CI": [
+          -0.017857142857142794,
+          0.013392857142857095
+        ]
+      }
+    },
+    "all": {
+      "stable": {
+        "delta_saving": 0.008874892129627221,
+        "delta_score": 0.0008370535714284921,
+        "saving_CI": [
+          0.006789076730672972,
+          0.010989782760249756
+        ],
+        "score_CI": [
+          -0.0013950892857143016,
+          0.0036272321428570953
+        ]
+      },
+      "stop": {
+        "delta_saving": 0.08886900616737192,
+        "delta_score": 0.0036272321428570953,
+        "saving_CI": [
+          0.07944970202682022,
+          0.09919887523135063
+        ],
+        "score_CI": [
+          -0.005580357142857095,
+          0.012555803571428492
+        ]
+      }
+    }
+  },
+  "stream_check": {
+    "counts": {
+      "common": 27041,
+      "control_attempts": 1519,
+      "control_events": 1458,
+      "episodes": 2240,
+      "games": 6720,
+      "logical": 695470,
+      "moves": 58398,
+      "physical": 695470,
+      "stable_attempts": 1519,
+      "stable_delta2": 0,
+      "stable_events": 203,
+      "stop_attempts": 1519,
+      "stop_delta2": 8,
+      "stop_events": 1458
+    },
+    "hashes": {
+      "NN_101_0.jsonl.gz": "148aa6c63e6b6b9a525606502aa4d24a6c615afca4f9b824ab80fead0710ac59",
+      "NN_101_1.jsonl.gz": "ffb1521f1e76b4b31f4dc3cc7256c9b6ed241cb4960e89698fa30446f69e9b76",
+      "NN_101_2.jsonl.gz": "f2f7bec1d75addedbf7a36a28b12f3214b5273a970dc4bb6fc9d71ea8025c54a",
+      "NN_101_3.jsonl.gz": "5f031c2e4213a5f7d8fe51a331142917af553aa07928db9ae25eb4e1bc5839b7",
+      "NN_102_0.jsonl.gz": "c91efc8718e2aa51d5c31fa1b0c987ee803a199905ca3d246b7aeaceaca797d7",
+      "NN_102_1.jsonl.gz": "4a6b64839398e7bc5754e25cd4cdb6b0bd6cf8b0f4b6a4d52dd7f87ae4e63e69",
+      "NN_102_2.jsonl.gz": "3a396a96f9f97698dce091da53408d92f92fde84ba7493dd7b5c0aaf309f9203",
+      "NN_102_3.jsonl.gz": "c567015e7459c56e38499bf94c1f49575237df827414dbbb1f557076522370e4",
+      "NN_103_0.jsonl.gz": "58407cc69335546818acf1f2891995b3fe8c40540ac56eb3d4fcaddede260d43",
+      "NN_103_1.jsonl.gz": "7872c5ed3bdea96dad813ac632b13e1574a5c5950a62394f44dc5a88bb5179bd",
+      "NN_103_2.jsonl.gz": "409b56c530d59a871b6b958e31e52421179a21a8bf773a34be0a6c368a8db45b",
+      "NN_103_3.jsonl.gz": "0725b4a99dd6836e4e1ae3e68b701eb500ad35bc104c21ffd308f54f51eef857",
+      "NN_105_0.jsonl.gz": "1f8417a0bfdefed71a1e2fdd1cacc7003b6e0337240e1582df204c6ca6fc3b17",
+      "NN_105_1.jsonl.gz": "1a4df8f01ca1625834b6063b1b3cc6d01cf2b0eefcfea8c09dc95fc7c06bfeb2",
+      "NN_105_2.jsonl.gz": "a0cbc563bb4194af679e91c674139e37734f78ab8b55cfc883e2b472681c264f",
+      "NN_105_3.jsonl.gz": "8d78d54092c0fc865cec00a94ee43b53ae542b97c9031eef94fd88db3300139a",
+      "NN_41_0.jsonl.gz": "e570234b84367f1a9a66e3103f3fba1f42f0d9655d32c579cc7e1928ab274d6f",
+      "NN_41_1.jsonl.gz": "7f7f3cf39d3e27d9d9a597958d7dc089b8cc8836a7ad316414484e7fd57f3894",
+      "NN_41_2.jsonl.gz": "83a5170ed4babf3911b75e216beccec88ffa1c83b8d22a05559864e9952afd29",
+      "NN_41_3.jsonl.gz": "e6834f907023274468411fc87f49bf1bd7e3c3b7101e7e44450348c9588a7a2f",
+      "NN_42_0.jsonl.gz": "dacbe18861909e6c1309a87b9269e9f39bd24a723aa16b1649d521a190aa1af2",
+      "NN_42_1.jsonl.gz": "b41601453a88dad91490dff8b807187819b99d38722f593668cd918016724cfe",
+      "NN_42_2.jsonl.gz": "1f1030b849fe6de54623f657d54544b6009c05d31358399396b73e75031e12be",
+      "NN_42_3.jsonl.gz": "642d3aed2bff37d8d1e2a61fa60d20c54d0e8e3ff281b09fa74cc88cf2293cad",
+      "NN_43_0.jsonl.gz": "a438dc5aa261a01fe8b22c87497536e1de93f1c0db1f359b522712996f4aa960",
+      "NN_43_1.jsonl.gz": "95766ca99e6ac7e221a752d617096d39057492d9af03fa59b8dbdc89d8c4a085",
+      "NN_43_2.jsonl.gz": "7493177427d2625aab3ab8fbede599f62b28b0d40fcc73efa4054bac3e55ef1c",
+      "NN_43_3.jsonl.gz": "538c5b48eaa33ee4afcc4f8f1fbb1e62c0445b39af9d01bad636c0f522d34a58"
+    },
+    "panels": {
+      "CROSSOVER|control": {
+        "counts": {
+          "Bcpu": 76471937793,
+          "Bmoves": 1936,
+          "Bnn": 32208,
+          "Qcpu": 39647663128,
+          "Qmoves": 2058,
+          "Qnn": 16739,
+          "events": 279,
+          "games": 448,
+          "score2": 692,
+          "win": 346
+        },
+        "metrics": {
+          "CPU_reduction": 0.512274478357268,
+          "NN_reduction": 0.5110935865368786,
+          "score": 0.7723214285714286
+        }
+      },
+      "CROSSOVER|stable": {
+        "counts": {
+          "Bcpu": 75282764232,
+          "Bmoves": 1930,
+          "Bnn": 32010,
+          "Qcpu": 38754869568,
+          "Qmoves": 2053,
+          "Qnn": 16383,
+          "events": 37,
+          "games": 448,
+          "score2": 694,
+          "win": 347
+        },
+        "metrics": {
+          "CPU_reduction": 0.516051573561881,
+          "NN_reduction": 0.5188548451964825,
+          "score": 0.7745535714285714
+        }
+      },
+      "CROSSOVER|stop": {
+        "counts": {
+          "Bcpu": 74646238472,
+          "Bmoves": 1893,
+          "Bnn": 31746,
+          "Qcpu": 31796512147,
+          "Qmoves": 2018,
+          "Qnn": 13528,
+          "events": 279,
+          "games": 448,
+          "score2": 698,
+          "win": 349
+        },
+        "metrics": {
+          "CPU_reduction": 0.6004225162256911,
+          "NN_reduction": 0.6002632890640819,
+          "score": 0.7790178571428571
+        }
+      },
+      "REPLICATION|control": {
+        "counts": {
+          "Bcpu": 319998993176,
+          "Bmoves": 7511,
+          "Bnn": 126489,
+          "Qcpu": 161578882787,
+          "Qmoves": 8069,
+          "Qnn": 63473,
+          "events": 1179,
+          "games": 1792,
+          "score2": 2908,
+          "win": 1454
+        },
+        "metrics": {
+          "CPU_reduction": 0.5299824919967873,
+          "NN_reduction": 0.5328952187057745,
+          "score": 0.8113839285714286
+        }
+      },
+      "REPLICATION|stable": {
+        "counts": {
+          "Bcpu": 316957938318,
+          "Bmoves": 7479,
+          "Bnn": 125631,
+          "Qcpu": 158463819519,
+          "Qmoves": 8036,
+          "Qnn": 61702,
+          "events": 166,
+          "games": 1792,
+          "score2": 2906,
+          "win": 1453
+        },
+        "metrics": {
+          "CPU_reduction": 0.5347010295914085,
+          "NN_reduction": 0.54290546398931,
+          "score": 0.8108258928571429
+        }
+      },
+      "REPLICATION|stop": {
+        "counts": {
+          "Bcpu": 312527277290,
+          "Bmoves": 7428,
+          "Bnn": 124773,
+          "Qcpu": 129074377405,
+          "Qmoves": 7987,
+          "Qnn": 50788,
+          "events": 1179,
+          "games": 1792,
+          "score2": 2910,
+          "win": 1455
+        },
+        "metrics": {
+          "CPU_reduction": 0.615903525356958,
+          "NN_reduction": 0.6214452462072777,
+          "score": 0.8119419642857143
+        }
+      }
+    },
+    "scope": "independent streaming read and gzip CRC, shard counter/identity check; not final lock or NI inference",
+    "source_sha256": "8fbc2872e8c59c93393f9c7dde1f0f8f528a9aeb44471c43611a1715851091d6"
+  }
+}

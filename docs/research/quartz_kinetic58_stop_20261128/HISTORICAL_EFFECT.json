@@ -1,0 +1,86 @@
+{
+  "counts": {
+    "earliest_matches_assigned": {
+      "changed": 7,
+      "delta2": 2,
+      "improved": 1,
+      "local_nn": -208,
+      "n": 26,
+      "worsened": 0
+    },
+    "not_stable_at_assigned": {
+      "changed": 133,
+      "delta2": 2,
+      "improved": 9,
+      "local_nn": -5369,
+      "n": 556,
+      "worsened": 8
+    },
+    "not_stable_at_assigned:12": {
+      "changed": 13,
+      "delta2": -2,
+      "improved": 1,
+      "local_nn": -937,
+      "n": 121,
+      "worsened": 2
+    },
+    "not_stable_at_assigned:16": {
+      "changed": 9,
+      "delta2": 0,
+      "improved": 0,
+      "local_nn": -424,
+      "n": 116,
+      "worsened": 0
+    },
+    "not_stable_at_assigned:4": {
+      "changed": 53,
+      "delta2": 0,
+      "improved": 4,
+      "local_nn": -1863,
+      "n": 125,
+      "worsened": 4
+    },
+    "not_stable_at_assigned:8": {
+      "changed": 58,
+      "delta2": 4,
+      "improved": 4,
+      "local_nn": -2145,
+      "n": 194,
+      "worsened": 2
+    },
+    "stable_at_assigned": {
+      "changed": 7,
+      "delta2": 2,
+      "improved": 1,
+      "local_nn": -224,
+      "n": 30,
+      "worsened": 0
+    },
+    "stable_at_assigned:12": {
+      "changed": 0,
+      "delta2": 0,
+      "improved": 0,
+      "local_nn": -80,
+      "n": 10,
+      "worsened": 0
+    },
+    "stable_at_assigned:16": {
+      "changed": 1,
+      "delta2": 0,
+      "improved": 0,
+      "local_nn": -48,
+      "n": 12,
+      "worsened": 0
+    },
+    "stable_at_assigned:8": {
+      "changed": 6,
+      "delta2": 2,
+      "improved": 1,
+      "local_nn": -96,
+      "n": 8,
+      "worsened": 0
+    }
+  },
+  "scope": "Retrospective actual matched STOP-Q20 only at assigned horizon; no unplayed counterfactuals, no tuning or test admission. Stability at h4 unavailable by rule; stratify rather than causal comparison.",
+  "source": "0a296bd464bd0f85f284a8e6f3a5eea257941ce738932f08ff776be1d8ac3ec9"
+}
