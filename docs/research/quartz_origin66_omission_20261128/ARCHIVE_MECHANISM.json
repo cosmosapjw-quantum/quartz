@@ -1,0 +1,46 @@
+{
+  "arms": {
+    "EXPAND": {
+      "better": 3,
+      "changed": 40,
+      "common_both_physical_delta": 70,
+      "common_extra": 70,
+      "common_noop": 4,
+      "common_operation": 74,
+      "common_q_physical_delta": 70,
+      "common_q_roots": 163,
+      "common_roots": 305,
+      "delta_both_physical": 97,
+      "delta_score2": 6,
+      "eligible": 108,
+      "episodes": 72,
+      "extra_physical": 102,
+      "first_divergence": 28,
+      "noop": 6,
+      "same_history": 44,
+      "worse": 0
+    },
+    "FOCUS": {
+      "better": 2,
+      "changed": 48,
+      "common_both_physical_delta": 72,
+      "common_extra": 72,
+      "common_noop": 0,
+      "common_operation": 72,
+      "common_q_physical_delta": 72,
+      "common_q_roots": 167,
+      "common_roots": 316,
+      "delta_both_physical": -569,
+      "delta_score2": 2,
+      "eligible": 95,
+      "episodes": 72,
+      "extra_physical": 95,
+      "first_divergence": 26,
+      "noop": 0,
+      "same_history": 46,
+      "worse": 1
+    }
+  },
+  "lock_sha256": "da47a2e8e9f63a4473ece72853ce4c11be1c6be25a0204ed62e20ef07d9c2209",
+  "mode": "ARCHIVE"
+}

@@ -1,0 +1,46 @@
+{
+  "arms": {
+    "EXPAND": {
+      "better": 2,
+      "changed": 252,
+      "common_both_physical_delta": 350,
+      "common_extra": 350,
+      "common_noop": 34,
+      "common_operation": 384,
+      "common_q_physical_delta": 350,
+      "common_q_roots": 881,
+      "common_roots": 1625,
+      "delta_both_physical": 750,
+      "delta_score2": -6,
+      "eligible": 537,
+      "episodes": 336,
+      "extra_physical": 490,
+      "first_divergence": 139,
+      "noop": 47,
+      "same_history": 197,
+      "worse": 5
+    },
+    "FOCUS": {
+      "better": 2,
+      "changed": 172,
+      "common_both_physical_delta": 419,
+      "common_extra": 419,
+      "common_noop": 0,
+      "common_operation": 419,
+      "common_q_physical_delta": 419,
+      "common_q_roots": 1070,
+      "common_roots": 2001,
+      "delta_both_physical": -364,
+      "delta_score2": -10,
+      "eligible": 503,
+      "episodes": 336,
+      "extra_physical": 503,
+      "first_divergence": 94,
+      "noop": 0,
+      "same_history": 242,
+      "worse": 7
+    }
+  },
+  "lock_sha256": "68e3afafd327334bf657ff22c0921174f93cd3db771fd0e28464b449f721f746",
+  "mode": "MAIN"
+}
